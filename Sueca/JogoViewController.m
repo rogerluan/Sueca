@@ -29,8 +29,7 @@
 }
 
 - (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+	[super didReceiveMemoryWarning];
 }
 
 - (void)viewDidLoad {
@@ -58,8 +57,7 @@
 	
 	[self preferredContentSize];
 	
-	
-	/* Inicialização das rules Padrões */
+	/* Inicialização das regras Padrões */
 	self.rulesPadrao = [[NSArray alloc] initWithObjects: @"Escolhe 1 pessoa para beber",@"Escolhe 2 pessoas para beber",@"Escolhe 3 pessoas para beber",@"Jogo do “Stop”",@"Jogo da Memória",@"Continência",@"Jogo do “Pi”",@"Regra Geral",@"Coringa",@"Vale-banheiro",@"Todos bebem 1 dose",@"Todas as damas bebem",@"Todos os cavalheiros bebem", nil];
 	
 	/* Inicialização do baralho */
@@ -68,7 +66,13 @@
 }
 
 - (IBAction)sortCard:(id)sender {
-    [self sortCard];
+	
+	[self performSelectorInBackground:@selector(sortCard) withObject:nil];
+//	
+//	NSOperationQueue *operationQueue = [[NSOperationQueue alloc] init];
+//	NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(sortCard) object:nil];
+//	
+//	[operationQueue addOperation:operation];
 }
 
 - (IBAction)reembaralhar:(id)sender {
@@ -78,7 +82,7 @@
     self.deck = [[Deck alloc] initWithRule: self.rulesPadrao];
 	
 	/* Alerta o usuário que o baralho foi reembaralhad (reinicializado) */
-    UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: @"Baralho reembaralhado" message: @"Todas as cards já tiradas foram inseridas novamente no baralho e reembaralhadas. " delegate: nil cancelButtonTitle: nil otherButtonTitles: @"Ok", nil];
+    UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: @"Baralho reembaralhado" message: @"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas. " delegate: nil cancelButtonTitle: nil otherButtonTitles: @"Ok", nil];
     [alertaParaReembaralhar show];
 }
 
@@ -122,7 +126,7 @@
     
 	/* Se não existe mais cards no baralho, ele declara um novo (reembaralha), e alerta o usuário do ocorrido */
     if(self.deck.cards.count==0) {
-        UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: @"Reembaralhe!" message: @"Não há mais cards para serem sorteadas. Reembaralhamos o baralho para você. " delegate: nil cancelButtonTitle: nil otherButtonTitles: @"Ok", nil];
+        UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: @"Reembaralhe!" message: @"Não há mais cartas para serem sorteadas. Reembaralhamos o baralho para você. " delegate: nil cancelButtonTitle: nil otherButtonTitles: @"Ok", nil];
         [alertaParaReembaralhar show];
 		[self limparMesa];
         self.deck = [[Deck alloc] initWithRule: self.rulesPadrao];

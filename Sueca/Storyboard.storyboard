@@ -20,12 +20,20 @@
                                 <rect key="frame" x="0.0" y="20" width="320" height="450"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="Dtp-H1-fyS">
+                                    <tableViewCell contentMode="scaleToFill" ambiguous="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="MqV-3X-wLN" style="IBUITableViewCellStyleDefault" id="Dtp-H1-fyS">
                                         <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dtp-H1-fyS" id="ux1-ch-kod">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="304" id="MqV-3X-wLN">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -127,7 +135,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" title="Beber" image="drink" id="tuM-HQ-LNS"/>
+                    <tabBarItem key="tabBarItem" title="Beber" image="Sueca-Tab-Bar-Icon" id="tuM-HQ-LNS"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="botaoSortear" destination="YYI-LG-EaA" id="Dbn-ZY-Qhu"/>
@@ -165,7 +173,7 @@
     </scenes>
     <resources>
         <image name="Sueca-Background-Logo" width="511" height="675"/>
-        <image name="drink" width="30" height="30"/>
+        <image name="Sueca-Tab-Bar-Icon" width="23" height="30"/>
         <image name="rules" width="30" height="23"/>
         <image name="shuffle-cards" width="130" height="44"/>
         <image name="shuffle-cards-pressed" width="130" height="34"/>
