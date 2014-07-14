@@ -66,13 +66,7 @@
 }
 
 - (IBAction)sortCard:(id)sender {
-	
-	[self performSelectorInBackground:@selector(sortCard) withObject:nil];
-//	
-//	NSOperationQueue *operationQueue = [[NSOperationQueue alloc] init];
-//	NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self selector:@selector(sortCard) object:nil];
-//	
-//	[operationQueue addOperation:operation];
+	[self sortCard];
 }
 
 - (IBAction)reembaralhar:(id)sender {
