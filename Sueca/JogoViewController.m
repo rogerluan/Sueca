@@ -58,7 +58,19 @@
 	[self preferredContentSize];
 	
 	/* Inicialização das regras Padrões */
-	self.rulesPadrao = [[NSArray alloc] initWithObjects: @"Escolhe 1 pessoa para beber",@"Escolhe 2 pessoas para beber",@"Escolhe 3 pessoas para beber",@"Jogo do “Stop”",@"Jogo da Memória",@"Continência",@"Jogo do “Pi”",@"Regra Geral",@"Coringa",@"Vale-banheiro",@"Todos bebem 1 dose",@"Todas as damas bebem",@"Todos os cavalheiros bebem", nil];
+	self.rulesPadrao = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolhe 1 pessoa para beber", nil),
+						NSLocalizedString(@"Escolhe 2 pessoas para beber", nil),
+						NSLocalizedString(@"Escolhe 3 pessoas para beber", nil),
+						NSLocalizedString(@"Jogo do “Stop”", nil),
+						NSLocalizedString(@"Jogo da Memória", nil),
+						NSLocalizedString(@"Continência", nil),
+						NSLocalizedString(@"Jogo do “Pi”", nil),
+						NSLocalizedString(@"Regra Geral", nil),
+						NSLocalizedString(@"Coringa", nil),
+						NSLocalizedString(@"Vale-banheiro", nil),
+						NSLocalizedString(@"Todos bebem 1 dose", nil),
+						NSLocalizedString(@"Todas as damas bebem", nil),
+						NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
 	
 	/* Inicialização do baralho */
     self.deck = [[Deck alloc] initWithRule: self.rulesPadrao];
@@ -76,7 +88,7 @@
     self.deck = [[Deck alloc] initWithRule: self.rulesPadrao];
 	
 	/* Alerta o usuário que o baralho foi reembaralhad (reinicializado) */
-    UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: @"Baralho reembaralhado" message: @"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas. " delegate: nil cancelButtonTitle: nil otherButtonTitles: @"Ok", nil];
+    UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Baralho reembaralhado", nil) message: NSLocalizedString(@"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas.", nil) delegate: nil cancelButtonTitle: nil otherButtonTitles: NSLocalizedString(@"OK", nil), nil];
     [alertaParaReembaralhar show];
 }
 
@@ -120,7 +132,7 @@
     
 	/* Se não existe mais cards no baralho, ele declara um novo (reembaralha), e alerta o usuário do ocorrido */
     if(self.deck.cards.count==0) {
-        UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: @"Reembaralhe!" message: @"Não há mais cartas para serem sorteadas. Reembaralhamos o baralho para você. " delegate: nil cancelButtonTitle: nil otherButtonTitles: @"Ok", nil];
+        UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Reembaralhe!", nil) message: NSLocalizedString(@"Não há mais cartas para serem sorteadas. Reembaralhamos o baralho para você.", nil) delegate: nil cancelButtonTitle: nil otherButtonTitles: NSLocalizedString(@"OK", nil), nil];
         [alertaParaReembaralhar show];
 		[self limparMesa];
         self.deck = [[Deck alloc] initWithRule: self.rulesPadrao];

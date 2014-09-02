@@ -1,0 +1,30 @@
+
+/* Class = "IBUILabel"; text = "Title"; ObjectID = "MqV-3X-wLN"; */
+"MqV-3X-wLN.text" = "Title";
+
+/* Class = "IBUIButton"; highlightedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
+"YYI-LG-EaA.highlightedTitle" = "Draw";
+
+/* Class = "IBUIButton"; normalTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
+"YYI-LG-EaA.normalTitle" = "Draw";
+
+/* Class = "IBUIButton"; selectedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
+"YYI-LG-EaA.selectedTitle" = "Draw";
+
+/* Class = "IBUITabBarItem"; title = "Rules"; ObjectID = "jl1-LR-dTa"; */
+"jl1-LR-dTa.title" = "Rules";
+
+/* Class = "IBUILabel"; text = "Long enough card description here"; ObjectID = "mY5-na-tGf"; */
+"mY5-na-tGf.text" = "Long enough card description here";
+
+/* Class = "IBUITabBarItem"; title = "Drink"; ObjectID = "tuM-HQ-LNS"; */
+"tuM-HQ-LNS.title" = "Drink";
+
+/* Class = "IBUIButton"; highlightedTitle = "Draw"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.highlightedTitle" = "Draw";
+
+/* Class = "IBUIButton"; normalTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.normalTitle" = "Shuffle Deck";
+
+/* Class = "IBUIButton"; selectedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.selectedTitle" = "Shuffle Deck";

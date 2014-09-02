@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8DE26FA6190842A200D28114 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8DE26FA5190842A200D28114 /* Storyboard.storyboard */; };
 		C54B6D5E1959BA5C003F77FA /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = C54B6D5D1959BA5C003F77FA /* Card.m */; };
 		C5615E67181E82430033FEB3 /* JogoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5615E61181E82430033FEB3 /* JogoViewController.m */; };
 		C5615F31181E948C0033FEB3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5615F30181E948C0033FEB3 /* CoreMotion.framework */; };
@@ -26,6 +25,10 @@
 		C5C5AAB918184814005A9625 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5C5AAB718184814005A9625 /* InfoPlist.strings */; };
 		C5C5AABB18184814005A9625 /* SuecaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AABA18184814005A9625 /* SuecaTests.m */; };
 		C5C5AACE18184899005A9625 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AACD18184899005A9625 /* Deck.m */; };
+		C5F3B51019B53F2C006D6257 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B50D19B53F2C006D6257 /* iRate.bundle */; };
+		C5F3B51119B53F2C006D6257 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F3B50F19B53F2C006D6257 /* iRate.m */; };
+		C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B51619B54481006D6257 /* Storyboard.storyboard */; };
+		C5F3B51D19B54603006D6257 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B51B19B54603006D6257 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,7 +49,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8DE26FA5190842A200D28114 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		C54B6D5C1959BA5C003F77FA /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
 		C54B6D5D1959BA5C003F77FA /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 		C5615E60181E82430033FEB3 /* JogoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = JogoViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -122,7 +124,6 @@
 		C5615EBD181E91F40033FEB3 /* SHKCustomShareMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHKCustomShareMenu.m; sourceTree = "<group>"; };
 		C5615EBE181E91F40033FEB3 /* SHKCustomShareMenuCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SHKCustomShareMenuCell.h; sourceTree = "<group>"; };
 		C5615EBF181E91F40033FEB3 /* SHKCustomShareMenuCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SHKCustomShareMenuCell.m; sourceTree = "<group>"; };
-		C5615EC2181E91F40033FEB3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C5615EC3181E91F40033FEB3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C5615EC5181E91F40033FEB3 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		C5615EC6181E91F40033FEB3 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
@@ -228,6 +229,16 @@
 		C5C5AABA18184814005A9625 /* SuecaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuecaTests.m; sourceTree = "<group>"; };
 		C5C5AACC18184899005A9625 /* Deck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Deck.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		C5C5AACD18184899005A9625 /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Deck.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		C5F3B50D19B53F2C006D6257 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
+		C5F3B50E19B53F2C006D6257 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
+		C5F3B50F19B53F2C006D6257 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
+		C5F3B51219B54409006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C5F3B51319B54409006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C5F3B51C19B54603006D6257 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C5F3B51E19B5460F006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C5F3B52019B551AF006D6257 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Storyboard.storyboard; sourceTree = "<group>"; };
+		C5F3B52219B551B6006D6257 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Storyboard.strings; sourceTree = "<group>"; };
+		C5F3B52319B551C4006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Storyboard.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -746,6 +757,10 @@
 		C5C5AA9C18184814005A9625 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C5F3B51B19B54603006D6257 /* Localizable.strings */,
+				C5F3B50D19B53F2C006D6257 /* iRate.bundle */,
+				C5F3B50E19B53F2C006D6257 /* iRate.h */,
+				C5F3B50F19B53F2C006D6257 /* iRate.m */,
 				C5C5AA9D18184814005A9625 /* Sueca-Info.plist */,
 				C5C5AA9E18184814005A9625 /* InfoPlist.strings */,
 				C5C5AAA118184814005A9625 /* main.m */,
@@ -775,7 +790,7 @@
 		C5C5AAC418184837005A9625 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				8DE26FA5190842A200D28114 /* Storyboard.storyboard */,
+				C5F3B51619B54481006D6257 /* Storyboard.storyboard */,
 				C5C5AAA718184814005A9625 /* Images.xcassets */,
 			);
 			name = View;
@@ -867,7 +882,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				de,
+				pt,
+				Base,
 			);
 			mainGroup = C5C5AA8918184813005A9625;
 			productRefGroup = C5C5AA9318184814005A9625 /* Products */;
@@ -901,9 +917,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5F3B51D19B54603006D6257 /* Localizable.strings in Resources */,
 				C5C5AAA018184814005A9625 /* InfoPlist.strings in Resources */,
+				C5F3B51019B53F2C006D6257 /* iRate.bundle in Resources */,
 				C5C5AAA818184814005A9625 /* Images.xcassets in Resources */,
-				8DE26FA6190842A200D28114 /* Storyboard.storyboard in Resources */,
+				C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -924,6 +942,7 @@
 			files = (
 				C5C5AACE18184899005A9625 /* Deck.m in Sources */,
 				C5B063D018240BD000A285F9 /* RegrasViewController.m in Sources */,
+				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5615E67181E82430033FEB3 /* JogoViewController.m in Sources */,
 				C54B6D5E1959BA5C003F77FA /* Card.m in Sources */,
@@ -953,7 +972,6 @@
 		C5615EC1181E91F40033FEB3 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				C5615EC2181E91F40033FEB3 /* de */,
 				C5615EC3181E91F40033FEB3 /* en */,
 			);
 			name = Localizable.strings;
@@ -963,6 +981,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				C5C5AA9F18184814005A9625 /* en */,
+				C5F3B51219B54409006D6257 /* pt */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -971,8 +990,28 @@
 			isa = PBXVariantGroup;
 			children = (
 				C5C5AAB818184814005A9625 /* en */,
+				C5F3B51319B54409006D6257 /* pt */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C5F3B51619B54481006D6257 /* Storyboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5F3B52019B551AF006D6257 /* Base */,
+				C5F3B52219B551B6006D6257 /* en */,
+				C5F3B52319B551C4006D6257 /* pt */,
+			);
+			name = Storyboard.storyboard;
+			sourceTree = "<group>";
+		};
+		C5F3B51B19B54603006D6257 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5F3B51C19B54603006D6257 /* en */,
+				C5F3B51E19B5460F006D6257 /* pt */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1010,7 +1049,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -1042,7 +1081,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1060,7 +1099,7 @@
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "631E8C67-5DB6-44C9-8D28-594CC628FB58";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1077,7 +1116,7 @@
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "631E8C67-5DB6-44C9-8D28-594CC628FB58";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

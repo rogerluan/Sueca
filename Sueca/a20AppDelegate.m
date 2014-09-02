@@ -7,8 +7,16 @@
 //
 
 #import "a20AppDelegate.h"
+#import "iRate.h"
 
 @implementation a20AppDelegate
+
++ (void)initialize
+{
+	//configure iRate
+	[iRate sharedInstance].daysUntilPrompt = 4;
+	[iRate sharedInstance].usesUntilPrompt = 5;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];

@@ -21,7 +21,20 @@
 	self.tableView.dataSource = self;
 	
 	/* Inicialização das regra na table view */
-	self.rules = [[NSArray alloc] initWithObjects: @"Escolhe 1 pessoa para beber",@"Escolhe 2 pessoas para beber",@"Escolhe 3 pessoas para beber",@"Jogo do “Stop”",@"Jogo da Memória",@"Continência",@"Jogo do “Pi”",@"Regra Geral",@"Coringa",@"Vale-banheiro",@"Todos bebem 1 dose",@"Todas as damas bebem",@"Todos os cavalheiros bebem", nil];
+	self.rules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolhe 1 pessoa para beber", nil),
+						NSLocalizedString(@"Escolhe 2 pessoas para beber", nil),
+						NSLocalizedString(@"Escolhe 3 pessoas para beber", nil),
+						NSLocalizedString(@"Jogo do “Stop”", nil),
+						NSLocalizedString(@"Jogo da Memória", nil),
+						NSLocalizedString(@"Continência", nil),
+						NSLocalizedString(@"Jogo do “Pi”", nil),
+						NSLocalizedString(@"Regra Geral", nil),
+						NSLocalizedString(@"Coringa", nil),
+						NSLocalizedString(@"Vale-banheiro", nil),
+						NSLocalizedString(@"Todos bebem 1 dose", nil),
+						NSLocalizedString(@"Todas as damas bebem", nil),
+						NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
+
 	self.imagemcards = [[NSArray alloc] initWithObjects: @"Um",@"Dois",@"Tres",@"Quatro",@"Cinco",@"Seis",@"Sete",@"Oito",@"Nove",@"Dez",@"Valete",@"Dama",@"Rei", nil];
 
 	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
