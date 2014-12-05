@@ -2,18 +2,28 @@
 //  Deck.h
 //  Sueca
 //
-//  Created by Roger Luan on 10/23/13.
-//  Copyright (c) 2013 Roger Luan. All rights reserved.
+//  Created by Roger Luan on 12/5/14.
+//  Copyright (c) 2014 Roger Luan. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "Card.h"
+#import <CoreData/CoreData.h>
 
-@interface Deck : NSObject
+@class Card;
 
-@property (nonatomic,strong) NSMutableArray* cards;
+@interface Deck : NSManagedObject
 
-- (id) initWithRule: (NSArray*)rules;
-- (Card*) sortCard;
+@property (nonatomic, retain) NSString * deckName;
+@property (nonatomic, retain) NSNumber * isBeingUsed;
+@property (nonatomic, retain) NSNumber * isEditable;
+@property (nonatomic, retain) NSSet *cards;
+@end
+
+@interface Deck (CoreDataGeneratedAccessors)
+
+- (void)addCardsObject:(Card *)value;
+- (void)removeCardsObject:(Card *)value;
+- (void)addCards:(NSSet *)values;
+- (void)removeCards:(NSSet *)values;
 
 @end

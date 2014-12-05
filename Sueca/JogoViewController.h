@@ -7,16 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Card.h"
 #import "Deck.h"
 #import "RegrasViewController.h"
+#import "a20AppDelegate.h"
 
 @interface JogoViewController : UIViewController
-
-@property (strong,nonatomic) Deck *deck;
-@property (strong,nonatomic) Card *cardDaVez;
-
-@property (strong,nonatomic) NSArray *rulesPadrao;
-
-
 
 @end

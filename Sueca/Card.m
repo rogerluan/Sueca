@@ -2,19 +2,19 @@
 //  Card.m
 //  Sueca
 //
-//  Created by Roger Oba on 6/24/14.
+//  Created by Roger Luan on 10/15/14.
 //  Copyright (c) 2014 Roger Luan. All rights reserved.
 //
 
 #import "Card.h"
+#import "Deck.h"
+
 
 @implementation Card
 
-- (id) initWithRule:(NSString*)newRule suit:(NSString*)newSuit {
-    self = [super init];
-    self.suit = newSuit;
-    self.rule = newRule;
-    return self;
-}
+@dynamic cardName;
+@dynamic cardRule;
+@dynamic cardDescription;
+@dynamic deck;
 
 @end

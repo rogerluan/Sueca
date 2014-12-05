@@ -7,11 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C54B6D5E1959BA5C003F77FA /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = C54B6D5D1959BA5C003F77FA /* Card.m */; };
 		C5615E67181E82430033FEB3 /* JogoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5615E61181E82430033FEB3 /* JogoViewController.m */; };
 		C5615F31181E948C0033FEB3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5615F30181E948C0033FEB3 /* CoreMotion.framework */; };
 		C57CDAEF18217D1A006920A6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C57CDAEE18217D1A006920A6 /* QuartzCore.framework */; };
+		C592196519D1ADE20021F937 /* a20CustomCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C592196419D1ADE20021F937 /* a20CustomCardCell.m */; };
+		C592196819D1AE4B0021F937 /* a20CustomDeckTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C592196719D1AE4B0021F937 /* a20CustomDeckTVC.m */; };
 		C5B063D018240BD000A285F9 /* RegrasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B063CF18240BD000A285F9 /* RegrasViewController.m */; };
+		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
+		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
+		C5B1FB5E19EEA57000088FB8 /* DecksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksTVC.m */; };
+		C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB6F19EEC2D200088FB8 /* Card.m */; };
+		C5B1FB7619EFFC1D00088FB8 /* editDeckTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7519EFFC1D00088FB8 /* editDeckTVC.m */; };
+		C5B1FB7919F0037000088FB8 /* CustomCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7819F0037000088FB8 /* CustomCardCell.m */; };
 		C5C5AA9618184814005A9625 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9518184814005A9625 /* Foundation.framework */; };
 		C5C5AA9818184814005A9625 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9718184814005A9625 /* CoreGraphics.framework */; };
 		C5C5AA9A18184814005A9625 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9918184814005A9625 /* UIKit.framework */; };
@@ -24,7 +31,7 @@
 		C5C5AAB118184814005A9625 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9918184814005A9625 /* UIKit.framework */; };
 		C5C5AAB918184814005A9625 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5C5AAB718184814005A9625 /* InfoPlist.strings */; };
 		C5C5AABB18184814005A9625 /* SuecaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AABA18184814005A9625 /* SuecaTests.m */; };
-		C5C5AACE18184899005A9625 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AACD18184899005A9625 /* Deck.m */; };
+		C5E9B67A1A3238A600D0171A /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = C5E9B6791A3238A600D0171A /* Deck.m */; };
 		C5F3B51019B53F2C006D6257 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B50D19B53F2C006D6257 /* iRate.bundle */; };
 		C5F3B51119B53F2C006D6257 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F3B50F19B53F2C006D6257 /* iRate.m */; };
 		C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B51619B54481006D6257 /* Storyboard.storyboard */; };
@@ -49,8 +56,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C54B6D5C1959BA5C003F77FA /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
-		C54B6D5D1959BA5C003F77FA /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 		C5615E60181E82430033FEB3 /* JogoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = JogoViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		C5615E61181E82430033FEB3 /* JogoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JogoViewController.m; sourceTree = "<group>"; };
 		C5615E6F181E91F40033FEB3 /* example.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = example.pdf; sourceTree = "<group>"; };
@@ -209,8 +214,22 @@
 		C5615F2C181E91F50033FEB3 /* New Web Service.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "New Web Service.m"; sourceTree = "<group>"; };
 		C5615F30181E948C0033FEB3 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		C57CDAEE18217D1A006920A6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C592196319D1ADE20021F937 /* a20CustomCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = a20CustomCardCell.h; sourceTree = "<group>"; };
+		C592196419D1ADE20021F937 /* a20CustomCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = a20CustomCardCell.m; sourceTree = "<group>"; };
+		C592196619D1AE4B0021F937 /* a20CustomDeckTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = a20CustomDeckTVC.h; sourceTree = "<group>"; };
+		C592196719D1AE4B0021F937 /* a20CustomDeckTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = a20CustomDeckTVC.m; sourceTree = "<group>"; };
 		C5B063CE18240BD000A285F9 /* RegrasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegrasViewController.h; sourceTree = "<group>"; };
 		C5B063CF18240BD000A285F9 /* RegrasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegrasViewController.m; sourceTree = "<group>"; };
+		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C5B1FB5A19EEA21B00088FB8 /* Sueca Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model.xcdatamodel"; sourceTree = "<group>"; };
+		C5B1FB5C19EEA57000088FB8 /* DecksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksTVC.h; sourceTree = "<group>"; };
+		C5B1FB5D19EEA57000088FB8 /* DecksTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecksTVC.m; sourceTree = "<group>"; };
+		C5B1FB6E19EEC2D200088FB8 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		C5B1FB6F19EEC2D200088FB8 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
+		C5B1FB7419EFFC1D00088FB8 /* editDeckTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = editDeckTVC.h; sourceTree = "<group>"; };
+		C5B1FB7519EFFC1D00088FB8 /* editDeckTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = editDeckTVC.m; sourceTree = "<group>"; };
+		C5B1FB7719F0037000088FB8 /* CustomCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCardCell.h; sourceTree = "<group>"; };
+		C5B1FB7819F0037000088FB8 /* CustomCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCardCell.m; sourceTree = "<group>"; };
 		C5C5AA9218184814005A9625 /* Sueca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sueca.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C5AA9518184814005A9625 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5C5AA9718184814005A9625 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -227,8 +246,9 @@
 		C5C5AAB618184814005A9625 /* SuecaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuecaTests-Info.plist"; sourceTree = "<group>"; };
 		C5C5AAB818184814005A9625 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5C5AABA18184814005A9625 /* SuecaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuecaTests.m; sourceTree = "<group>"; };
-		C5C5AACC18184899005A9625 /* Deck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Deck.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
-		C5C5AACD18184899005A9625 /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Deck.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		C5E9B6771A3237C100D0171A /* Sueca Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		C5E9B6781A3238A600D0171A /* Deck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Deck.h; sourceTree = "<group>"; };
+		C5E9B6791A3238A600D0171A /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
 		C5F3B50D19B53F2C006D6257 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		C5F3B50E19B53F2C006D6257 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		C5F3B50F19B53F2C006D6257 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
@@ -246,6 +266,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */,
 				C57CDAEF18217D1A006920A6 /* QuartzCore.framework in Frameworks */,
 				C5615F31181E948C0033FEB3 /* CoreMotion.framework in Frameworks */,
 				C5C5AA9818184814005A9625 /* CoreGraphics.framework in Frameworks */,
@@ -709,6 +730,16 @@
 			path = ShareKit;
 			sourceTree = "<group>";
 		};
+		C592196219D1AD190021F937 /* iRate */ = {
+			isa = PBXGroup;
+			children = (
+				C5F3B50D19B53F2C006D6257 /* iRate.bundle */,
+				C5F3B50E19B53F2C006D6257 /* iRate.h */,
+				C5F3B50F19B53F2C006D6257 /* iRate.m */,
+			);
+			name = iRate;
+			sourceTree = "<group>";
+		};
 		C5C5AA8918184813005A9625 = {
 			isa = PBXGroup;
 			children = (
@@ -732,6 +763,7 @@
 		C5C5AA9418184814005A9625 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */,
 				C57CDAEE18217D1A006920A6 /* QuartzCore.framework */,
 				C5615F30181E948C0033FEB3 /* CoreMotion.framework */,
 				C5615E6C181E91F40033FEB3 /* ShareKit */,
@@ -758,9 +790,7 @@
 			isa = PBXGroup;
 			children = (
 				C5F3B51B19B54603006D6257 /* Localizable.strings */,
-				C5F3B50D19B53F2C006D6257 /* iRate.bundle */,
-				C5F3B50E19B53F2C006D6257 /* iRate.h */,
-				C5F3B50F19B53F2C006D6257 /* iRate.m */,
+				C592196219D1AD190021F937 /* iRate */,
 				C5C5AA9D18184814005A9625 /* Sueca-Info.plist */,
 				C5C5AA9E18184814005A9625 /* InfoPlist.strings */,
 				C5C5AAA118184814005A9625 /* main.m */,
@@ -792,6 +822,10 @@
 			children = (
 				C5F3B51619B54481006D6257 /* Storyboard.storyboard */,
 				C5C5AAA718184814005A9625 /* Images.xcassets */,
+				C592196319D1ADE20021F937 /* a20CustomCardCell.h */,
+				C592196419D1ADE20021F937 /* a20CustomCardCell.m */,
+				C5B1FB7719F0037000088FB8 /* CustomCardCell.h */,
+				C5B1FB7819F0037000088FB8 /* CustomCardCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -803,6 +837,12 @@
 				C5615E61181E82430033FEB3 /* JogoViewController.m */,
 				C5B063CE18240BD000A285F9 /* RegrasViewController.h */,
 				C5B063CF18240BD000A285F9 /* RegrasViewController.m */,
+				C592196619D1AE4B0021F937 /* a20CustomDeckTVC.h */,
+				C592196719D1AE4B0021F937 /* a20CustomDeckTVC.m */,
+				C5B1FB5C19EEA57000088FB8 /* DecksTVC.h */,
+				C5B1FB5D19EEA57000088FB8 /* DecksTVC.m */,
+				C5B1FB7419EFFC1D00088FB8 /* editDeckTVC.h */,
+				C5B1FB7519EFFC1D00088FB8 /* editDeckTVC.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -812,10 +852,11 @@
 			children = (
 				C5C5AAA418184814005A9625 /* a20AppDelegate.h */,
 				C5C5AAA518184814005A9625 /* a20AppDelegate.m */,
-				C5C5AACC18184899005A9625 /* Deck.h */,
-				C5C5AACD18184899005A9625 /* Deck.m */,
-				C54B6D5C1959BA5C003F77FA /* Card.h */,
-				C54B6D5D1959BA5C003F77FA /* Card.m */,
+				C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */,
+				C5B1FB6E19EEC2D200088FB8 /* Card.h */,
+				C5B1FB6F19EEC2D200088FB8 /* Card.m */,
+				C5E9B6781A3238A600D0171A /* Deck.h */,
+				C5E9B6791A3238A600D0171A /* Deck.m */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -940,13 +981,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5C5AACE18184899005A9625 /* Deck.m in Sources */,
+				C5E9B67A1A3238A600D0171A /* Deck.m in Sources */,
+				C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */,
 				C5B063D018240BD000A285F9 /* RegrasViewController.m in Sources */,
+				C592196819D1AE4B0021F937 /* a20CustomDeckTVC.m in Sources */,
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
+				C5B1FB7919F0037000088FB8 /* CustomCardCell.m in Sources */,
 				C5615E67181E82430033FEB3 /* JogoViewController.m in Sources */,
-				C54B6D5E1959BA5C003F77FA /* Card.m in Sources */,
+				C5B1FB7619EFFC1D00088FB8 /* editDeckTVC.m in Sources */,
+				C592196519D1ADE20021F937 /* a20CustomCardCell.m in Sources */,
 				C5C5AAA218184814005A9625 /* main.m in Sources */,
+				C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */,
+				C5B1FB5E19EEA57000088FB8 /* DecksTVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1033,7 +1080,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1071,7 +1119,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1092,8 +1141,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sueca/Sueca-Prefix.pch";
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
@@ -1109,8 +1158,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Roger Silva Oba (52RX7TW9VK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sueca/Sueca-Prefix.pch";
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
@@ -1192,6 +1241,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C5E9B6771A3237C100D0171A /* Sueca Model 2.xcdatamodel */,
+				C5B1FB5A19EEA21B00088FB8 /* Sueca Model.xcdatamodel */,
+			);
+			currentVersion = C5E9B6771A3237C100D0171A /* Sueca Model 2.xcdatamodel */;
+			path = "Sueca Model.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C5C5AA8A18184813005A9625 /* Project object */;
 }
