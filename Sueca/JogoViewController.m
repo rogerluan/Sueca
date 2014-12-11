@@ -46,7 +46,7 @@
 	
 	[self setupViewsLayout];
 	
-	[self preferredContentSize];
+//	[self preferredContentSize];
 	
 	/* Creates default deck only once */
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
@@ -58,9 +58,10 @@
 	
 	
 	//TODO: load the deck being used
-	/* Inits the default deck */
-	self.deck = [self setDefaultDeck];
+	/* Inits the deck that should be used*/
+	self.deck = [self deckBeingUsed];
 	if (self.deck) {
+		[self.deckArray removeAllObjects];
 		for (Card *card in self.deck.cards) {
 			for (int i = 0; i < 8; i++) {
 				[self.deckArray addObject:card];
@@ -72,6 +73,24 @@
 		abort();
 	}
 	
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	self.deck = [self deckBeingUsed];
+	if (self.deck) {
+		[self.deckArray removeAllObjects];
+		for (Card *card in self.deck.cards) {
+			for (int i = 0; i < 8; i++) {
+				[self.deckArray addObject:card];
+			}
+		}
+	}
+	else {
+		NSLog(@"Deck is nil. Aborting.");
+		abort();
+	}
 }
 
 - (IBAction)sortCard:(id)sender {
@@ -152,10 +171,12 @@
 	/* Reinicialização do baralho (para voltar ao original) */
 	[self.deckArray removeAllObjects];
 	for (Card *card in self.deck.cards) {
-		[self.deckArray addObject:card];
+		for (int i = 0; i < 8; i++) {
+			[self.deckArray addObject:card];
+		}
 	}
 	
-	/* Alerta o usuário que o baralho foi reembaralhado (reinicializado) */
+	/* Warns the user that the deck was reshuffled */
 	UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Baralho reembaralhado", nil) message: NSLocalizedString(@"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas.", nil) delegate: nil cancelButtonTitle: nil otherButtonTitles: NSLocalizedString(@"OK", nil), nil];
 	[alertaParaReembaralhar show];
 }
@@ -178,17 +199,17 @@
 }
 
 /**
- *  Method to init the deck with the default rules.
- *  @return Deck containing the default cards and rules, or nil if some error occurs.
+ *  Method to select the deck being used.
+ *  @return Deck containing the cards that should be used, or nil if any error occurs.
  *  @author Roger Oba
  */
-- (Deck*) setDefaultDeck {
+- (Deck*) deckBeingUsed {
 	self.moc = [self managedObjectContext];
 	
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Deck" inManagedObjectContext:self.moc];
 	[fetchRequest setEntity:entity];
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"deckName == %@",NSLocalizedString(@"Default", nil)];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isBeingUsed == %@",[NSNumber numberWithBool:YES]];
 	[fetchRequest setPredicate:predicate];
 	
 	NSError *error = nil;
@@ -227,21 +248,36 @@
 						  NSLocalizedString(@"Todas as damas bebem", nil),
 						  NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
 	
-	NSArray *cardImages = [[NSArray alloc] initWithObjects: @"Um",@"Dois",@"Tres",@"Quatro",@"Cinco",@"Seis",@"Sete",@"Oito",@"Nove",@"Dez",@"Valete",@"Dama",@"Rei", nil];
+	NSArray *cardDescriptions = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Quem tirar essa carta escolhe 1 pessoa para beber.", nil),
+						  NSLocalizedString(@"Quem tirar essa carta escolhe 2 pessoas para beber.", nil),
+						  NSLocalizedString(@"Quem tirar essa carta escolhe 3 pessoas para beber.", nil),
+						  NSLocalizedString(@"Quem tirou essa carta deve escolher uma letra e um tema para o Stop. Então, na sequência da roda de amigos, cada um tem que falar uma palavra que comece com a letra escolhida, relacionada ao tema. Não vale repetir palavra! O primeiro que não souber, ou repetir palavra, bebe!", nil),
+						  NSLocalizedString(@"Quem tirou a carta fala uma palavra qualquer. O próximo tem que repetir a sequência de palavras anterior e adicionar uma. E assim por diante. Exemplo: Quem tirou a carta fala “mesa”. O próximo fala “mesa cachorro”. O próximo diz “mesa cachorro lápis”, e assim por diante. O primeiro que errar ou demorar, bebe.", nil),
+						  NSLocalizedString(@"Quem tirar essa carta, “guarda” ela mentalmente consigo. Discretamente no meio do jogo, essa pessoa deve colocar a mão na testa, fazendo continência e observar os outros jogadores. O último que perceber e fizer continência, bebe.", nil),
+						  NSLocalizedString(@"Começando pela pessoa que tirar a carta, esta deve escolher um número. Assim, todos devem seguir uma sequência começando em 1, e quando o número da sequência for múltiplo do número escolhido, a pessoa deve falar “Pi”. Por exemplo: foi escolhido o número 3, então: 1, 2, pi, 4, 5, pi, 7, 8, pi, etc. O primeiro que errar, bebe!", nil),
+						  NSLocalizedString(@"Quem tira essa carta determina uma regra para todos obedecerem. Pode ser algo do tipo “está proíbido falar a palavra ‘beber’ e seus derivados”, ou “antes de beber uma dose, a pessoa tem que rebolar”. Quem quebrar a regra, deve beber (às vezes, de novo). A Regra Geral pode ser substituída por outra Regra Geral, caso contrário, dura o jogo todo.", nil),
+						  NSLocalizedString(@"A pessoa que tirar essa carta pode transformá-la em qualquer outra!", nil),
+						  NSLocalizedString(@"Como teoricamente ninguém pode sair para ir ao banheiro enquanto estiver jogando, esta carta dá o direito à quem a tirou de ir ao banheiro. A carta só vale 1 vez. Ela pode guardar para ir mais tarde, ou “vender” à alguém, em troca de “favores” 😉", nil),
+						  NSLocalizedString(@"Todos que estiverem jogando bebem uma dose, inclusive quem tirou a carta!", nil),
+						  NSLocalizedString(@"Todas as damas bebem uma dose.", nil),
+						  NSLocalizedString(@"Todos os cavalheiros bebem uma dose.", nil), nil];
+	
+	NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-Um",@"02-Dois",@"03-Tres",@"04-Quatro",@"05-Cinco",@"06-Seis",@"07-Sete",@"08-Oito",@"09-Nove",@"10-Dez",@"11-Valete",@"12-Dama",@"13-Rei", nil];
 	
 	NSManagedObjectContext *moc = [self managedObjectContext];
 	
 	Deck *defaultDeck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
 	defaultDeck.deckName = NSLocalizedString(@"Default", nil);
 	defaultDeck.isEditable = [NSNumber numberWithBool:NO];
+	defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
 	
 	for (int i = 0 ; i<13 ; i++) {
-		Card *newCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
-		newCard.cardName = [cardImages objectAtIndex:i];
-		newCard.cardRule = [cardRules objectAtIndex:i];
-//		newCard.cardDescription = [cardDescriptions objectAtIndex:i];
+		Card *defaultDeckCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
+		defaultDeckCard.cardName = [cardImages objectAtIndex:i];
+		defaultDeckCard.cardRule = [cardRules objectAtIndex:i];
+		defaultDeckCard.cardDescription = [cardDescriptions objectAtIndex:i];
 		
-		[defaultDeck addCardsObject:newCard];
+		[defaultDeck addCardsObject:defaultDeckCard];
 	}
 	
 	NSError *coreDataError = nil;
@@ -261,17 +297,21 @@
 - (void) setupViewsLayout {
 	self.botaoSortear.layer.cornerRadius = 10;
 	self.botaoSortear.clipsToBounds = YES;
-	self.botaoSortear.layer.borderColor=[UIColor whiteColor].CGColor;
-	self.botaoSortear.layer.borderWidth=2.0f;
+	self.botaoSortear.layer.borderColor = [UIColor whiteColor].CGColor;
+	self.botaoSortear.layer.borderWidth = 1.0f;
 	
 	self.resetButton.layer.cornerRadius = 10;
 	self.resetButton.clipsToBounds = YES;
-	self.resetButton.layer.borderColor=[UIColor whiteColor].CGColor;
-	self.resetButton.layer.borderWidth=2.0f;
+	self.resetButton.layer.borderColor = [UIColor whiteColor].CGColor;
+	self.resetButton.layer.borderWidth = 1.0f;
 	
 	self.tabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
-	self.tabBarController.tabBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
+	self.tabBarController.tabBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
+	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]]];
+	
+//	UIImageView *tempImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
+//	[tempImageView setImage:[UIImage imageNamed:@"bg"]];
+//	self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:]]tempImageView;
 }
 
 #pragma mark - Core Data

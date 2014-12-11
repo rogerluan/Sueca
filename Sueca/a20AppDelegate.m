@@ -29,7 +29,8 @@
 	NSDictionary *textTitleOptions = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
 	[[UINavigationBar appearance] setTitleTextAttributes:textTitleOptions];
 	//TODO: mudar a cor da UINavigationBar (cor do app logo)
-	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.261 green:0.837 blue:0.319 alpha:1.000]];
+//	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.261 green:0.837 blue:0.319 alpha:1.000]];
+	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];
 	
     return YES;
 }

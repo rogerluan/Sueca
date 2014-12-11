@@ -12,6 +12,6 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *cardImageView;
 @property (strong, nonatomic) IBOutlet UITextField *cardRuleTextField;
-@property (strong, nonatomic) IBOutlet UITextField *cardDescriptionTextField;
+@property (strong, nonatomic) IBOutlet UITextView *cardDescriptionTextView;
 
 @end

@@ -10,9 +10,6 @@
 		C5615E67181E82430033FEB3 /* JogoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5615E61181E82430033FEB3 /* JogoViewController.m */; };
 		C5615F31181E948C0033FEB3 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5615F30181E948C0033FEB3 /* CoreMotion.framework */; };
 		C57CDAEF18217D1A006920A6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C57CDAEE18217D1A006920A6 /* QuartzCore.framework */; };
-		C592196519D1ADE20021F937 /* a20CustomCardCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C592196419D1ADE20021F937 /* a20CustomCardCell.m */; };
-		C592196819D1AE4B0021F937 /* a20CustomDeckTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C592196719D1AE4B0021F937 /* a20CustomDeckTVC.m */; };
-		C5B063D018240BD000A285F9 /* RegrasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B063CF18240BD000A285F9 /* RegrasViewController.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
 		C5B1FB5E19EEA57000088FB8 /* DecksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksTVC.m */; };
@@ -214,12 +211,6 @@
 		C5615F2C181E91F50033FEB3 /* New Web Service.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "New Web Service.m"; sourceTree = "<group>"; };
 		C5615F30181E948C0033FEB3 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		C57CDAEE18217D1A006920A6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		C592196319D1ADE20021F937 /* a20CustomCardCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = a20CustomCardCell.h; sourceTree = "<group>"; };
-		C592196419D1ADE20021F937 /* a20CustomCardCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = a20CustomCardCell.m; sourceTree = "<group>"; };
-		C592196619D1AE4B0021F937 /* a20CustomDeckTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = a20CustomDeckTVC.h; sourceTree = "<group>"; };
-		C592196719D1AE4B0021F937 /* a20CustomDeckTVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = a20CustomDeckTVC.m; sourceTree = "<group>"; };
-		C5B063CE18240BD000A285F9 /* RegrasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegrasViewController.h; sourceTree = "<group>"; };
-		C5B063CF18240BD000A285F9 /* RegrasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegrasViewController.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C5B1FB5A19EEA21B00088FB8 /* Sueca Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model.xcdatamodel"; sourceTree = "<group>"; };
 		C5B1FB5C19EEA57000088FB8 /* DecksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksTVC.h; sourceTree = "<group>"; };
@@ -822,8 +813,6 @@
 			children = (
 				C5F3B51619B54481006D6257 /* Storyboard.storyboard */,
 				C5C5AAA718184814005A9625 /* Images.xcassets */,
-				C592196319D1ADE20021F937 /* a20CustomCardCell.h */,
-				C592196419D1ADE20021F937 /* a20CustomCardCell.m */,
 				C5B1FB7719F0037000088FB8 /* CustomCardCell.h */,
 				C5B1FB7819F0037000088FB8 /* CustomCardCell.m */,
 			);
@@ -835,10 +824,6 @@
 			children = (
 				C5615E60181E82430033FEB3 /* JogoViewController.h */,
 				C5615E61181E82430033FEB3 /* JogoViewController.m */,
-				C5B063CE18240BD000A285F9 /* RegrasViewController.h */,
-				C5B063CF18240BD000A285F9 /* RegrasViewController.m */,
-				C592196619D1AE4B0021F937 /* a20CustomDeckTVC.h */,
-				C592196719D1AE4B0021F937 /* a20CustomDeckTVC.m */,
 				C5B1FB5C19EEA57000088FB8 /* DecksTVC.h */,
 				C5B1FB5D19EEA57000088FB8 /* DecksTVC.m */,
 				C5B1FB7419EFFC1D00088FB8 /* editDeckTVC.h */,
@@ -983,14 +968,11 @@
 			files = (
 				C5E9B67A1A3238A600D0171A /* Deck.m in Sources */,
 				C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */,
-				C5B063D018240BD000A285F9 /* RegrasViewController.m in Sources */,
-				C592196819D1AE4B0021F937 /* a20CustomDeckTVC.m in Sources */,
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5B1FB7919F0037000088FB8 /* CustomCardCell.m in Sources */,
 				C5615E67181E82430033FEB3 /* JogoViewController.m in Sources */,
 				C5B1FB7619EFFC1D00088FB8 /* editDeckTVC.m in Sources */,
-				C592196519D1ADE20021F937 /* a20CustomCardCell.m in Sources */,
 				C5C5AAA218184814005A9625 /* main.m in Sources */,
 				C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */,
 				C5B1FB5E19EEA57000088FB8 /* DecksTVC.m in Sources */,

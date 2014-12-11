@@ -12,6 +12,10 @@
 
 - (void)awakeFromNib {
     // Initialization code
+	self.cardRuleTextField.textColor = [UIColor whiteColor];
+	self.cardDescriptionTextView.textColor = [UIColor whiteColor];
+	self.cardDescriptionTextView.backgroundColor = [UIColor clearColor];
+	self.backgroundColor = [UIColor clearColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

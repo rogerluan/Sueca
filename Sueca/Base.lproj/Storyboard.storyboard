@@ -9,20 +9,18 @@
         <!--Decks-->
         <scene sceneID="vAi-am-QM7">
             <objects>
-                <tableViewController id="Ymb-wB-Rge" customClass="DecksTVC" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="Ymb-wB-Rge" customClass="DecksTVC" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xEj-NU-2st">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="deckCell" id="Z21-WE-FIo">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="deckCell" id="Z21-WE-FIo">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z21-WE-FIo" id="Scq-uN-jtP">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="Ayl-X3-1dY" kind="push" identifier="viewDeckSegue" id="U26-VT-3uJ"/>
-                                </connections>
+                                <color key="backgroundColor" red="0.29803921570000003" green="0.85098039219999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -42,68 +40,11 @@
             </objects>
             <point key="canvasLocation" x="1037" y="1127"/>
         </scene>
-        <!--Decks-->
-        <scene sceneID="lVf-lq-Jd6">
-            <objects>
-                <viewController id="6tS-7n-QjZ" customClass="RegrasViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5Xm-V3-Xo6"/>
-                        <viewControllerLayoutGuide type="bottom" id="rUe-Ep-ant"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="OqX-EP-em3">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" alpha="0.69999999999999973" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="koY-8F-uXh" userLabel="tabelaRegras">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="MqV-3X-wLN" style="IBUITableViewCellStyleDefault" id="Dtp-H1-fyS">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dtp-H1-fyS" id="ux1-ch-kod">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="290" id="MqV-3X-wLN">
-                                                    <rect key="frame" x="15" y="0.0" width="290" height="43"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="koY-8F-uXh" firstAttribute="top" secondItem="OqX-EP-em3" secondAttribute="top" constant="64" id="3af-Ve-rG8"/>
-                            <constraint firstItem="koY-8F-uXh" firstAttribute="leading" secondItem="OqX-EP-em3" secondAttribute="leading" id="7ad-od-NHY"/>
-                            <constraint firstItem="rUe-Ep-ant" firstAttribute="top" secondItem="koY-8F-uXh" secondAttribute="bottom" id="ucN-E9-pLb"/>
-                            <constraint firstAttribute="trailing" secondItem="koY-8F-uXh" secondAttribute="trailing" id="wVV-M2-V4H"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Decks" id="0Tk-vV-WJg">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="YLE-XH-VE0"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="L4x-9x-8LD"/>
-                    </navigationItem>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <connections>
-                        <outlet property="tableView" destination="koY-8F-uXh" id="t8f-uz-0b2"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xqq-gd-4NL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1453" y="1777"/>
-        </scene>
         <!--Edit DeckTVC-->
         <scene sceneID="9sa-w3-SHC">
             <objects>
-                <tableViewController id="Ayl-X3-1dY" customClass="editDeckTVC" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="140" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujM-WT-RMI">
+                <tableViewController storyboardIdentifier="editDeckTVC" id="Ayl-X3-1dY" customClass="editDeckTVC" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="140" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujM-WT-RMI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -119,43 +60,40 @@
                                                 <constraint firstAttribute="width" constant="91" id="MnP-84-vGE"/>
                                             </constraints>
                                         </imageView>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="editDeckTVC" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Tap to edit card description" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="afF-zT-taB">
+                                            <rect key="frame" x="106" y="44" width="206" height="88"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Card Rule" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="tP5-AK-7Cl">
-                                            <rect key="frame" x="106" y="8" width="206" height="58"/>
+                                            <rect key="frame" x="106" y="20" width="206" height="23"/>
                                             <color key="tintColor" red="0.29803921568627451" green="0.85098039215686272" blue="0.39215686274509803" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="58" id="DSg-jR-66T"/>
+                                                <constraint firstAttribute="height" constant="23" id="DSg-jR-66T"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="words" enablesReturnKeyAutomatically="YES"/>
                                             <connections>
                                                 <outlet property="delegate" destination="Ayl-X3-1dY" id="ViR-lL-ik1"/>
                                             </connections>
                                         </textField>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Card Description" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="AKK-My-8Vi">
-                                            <rect key="frame" x="106" y="74" width="206" height="58"/>
-                                            <color key="tintColor" red="0.20000000000000001" green="0.80000000000000004" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                            <connections>
-                                                <outlet property="delegate" destination="Ayl-X3-1dY" id="7Uq-lD-i5H"/>
-                                            </connections>
-                                        </textField>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="tP5-AK-7Cl" firstAttribute="leading" secondItem="AKK-My-8Vi" secondAttribute="leading" id="8pv-gj-DxS"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="AKK-My-8Vi" secondAttribute="bottom" constant="-0.5" id="DNO-83-MQO"/>
-                                        <constraint firstItem="tP5-AK-7Cl" firstAttribute="top" secondItem="7KE-p6-meN" secondAttribute="topMargin" id="JZh-KA-2Ox"/>
+                                        <constraint firstItem="tP5-AK-7Cl" firstAttribute="top" secondItem="7KE-p6-meN" secondAttribute="topMargin" constant="12" id="JZh-KA-2Ox"/>
                                         <constraint firstItem="ceC-aW-nx9" firstAttribute="leading" secondItem="7KE-p6-meN" secondAttribute="leadingMargin" id="Kym-XP-fXR"/>
                                         <constraint firstItem="tP5-AK-7Cl" firstAttribute="trailing" secondItem="7KE-p6-meN" secondAttribute="trailingMargin" id="M8u-ql-xcA"/>
+                                        <constraint firstItem="afF-zT-taB" firstAttribute="trailing" secondItem="7KE-p6-meN" secondAttribute="trailingMargin" id="W7c-x1-eau"/>
+                                        <constraint firstItem="afF-zT-taB" firstAttribute="top" secondItem="tP5-AK-7Cl" secondAttribute="bottom" constant="1" id="Xpz-5T-Chu"/>
                                         <constraint firstItem="tP5-AK-7Cl" firstAttribute="leading" secondItem="ceC-aW-nx9" secondAttribute="trailing" constant="7" id="bj5-Jc-ePq"/>
-                                        <constraint firstItem="AKK-My-8Vi" firstAttribute="top" secondItem="tP5-AK-7Cl" secondAttribute="bottom" constant="8" symbolic="YES" id="dXG-xu-6eM"/>
-                                        <constraint firstItem="tP5-AK-7Cl" firstAttribute="trailing" secondItem="AKK-My-8Vi" secondAttribute="trailing" id="hlp-o7-MQF"/>
+                                        <constraint firstItem="afF-zT-taB" firstAttribute="leading" secondItem="ceC-aW-nx9" secondAttribute="trailing" constant="7" id="iFZ-9j-bOk"/>
+                                        <constraint firstItem="afF-zT-taB" firstAttribute="bottom" secondItem="7KE-p6-meN" secondAttribute="bottomMargin" id="rjr-Bh-PFW"/>
                                         <constraint firstItem="ceC-aW-nx9" firstAttribute="top" secondItem="7KE-p6-meN" secondAttribute="topMargin" constant="-1" id="tX8-3l-tnC"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="ceC-aW-nx9" secondAttribute="bottom" constant="-1.5" id="uVe-CK-PKH"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="cardDescriptionTextField" destination="AKK-My-8Vi" id="rpm-YC-0CK"/>
+                                    <outlet property="cardDescriptionTextView" destination="afF-zT-taB" id="rhy-Pb-ns5"/>
                                     <outlet property="cardImageView" destination="ceC-aW-nx9" id="rDp-f9-cfh"/>
                                     <outlet property="cardRuleTextField" destination="tP5-AK-7Cl" id="APx-Wm-kkr"/>
                                 </connections>
@@ -193,9 +131,13 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYI-LG-EaA">
                                 <rect key="frame" x="170" y="465" width="130" height="34"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Draw" backgroundImage="sort-card">
-                                    <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="c3I-Ve-LsU"/>
+                                    <constraint firstAttribute="width" constant="130" id="x2d-CE-4F6"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="Draw">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" title="Draw" backgroundImage="sort-card-pressed">
                                     <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -209,10 +151,11 @@
                                 <rect key="frame" x="20" y="465" width="130" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="34" id="DAt-Z0-sYf"/>
+                                    <constraint firstAttribute="width" constant="130" id="aDe-rf-Tdd"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Shuffle Deck" backgroundImage="shuffle-cards">
-                                    <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="Shuffle Deck">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" title="Shuffle Deck" backgroundImage="shuffle-cards-pressed"/>
                                 <state key="highlighted" title="Draw" backgroundImage="shuffle-cards-pressed"/>
@@ -220,36 +163,36 @@
                                     <action selector="reembaralhar:" destination="e59-W6-SjI" eventType="touchUpInside" id="K6w-fK-ioT"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLJ-8K-8S2" userLabel="CardContainerView">
+                                <rect key="frame" x="10" y="34" width="300" height="355"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long enough card description here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="mY5-na-tGf" userLabel="regra">
                                 <rect key="frame" x="20" y="387" width="280" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="280" id="bD1-i9-Kgn"/>
                                     <constraint firstAttribute="height" constant="80" id="uIR-5g-O7b"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="25"/>
                                 <color key="textColor" red="0.99215692280000001" green="0.99215692280000001" blue="0.99607849120000003" alpha="1" colorSpace="deviceRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLJ-8K-8S2" userLabel="CardContainerView">
-                                <rect key="frame" x="10" y="34" width="300" height="355"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0016788328069288487" green="0.44867921270718231" blue="0.0026050026818604747" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="YYI-LG-EaA" firstAttribute="leading" secondItem="xCu-rm-9dN" secondAttribute="trailing" constant="20" id="1w0-AQ-kbI"/>
                             <constraint firstAttribute="centerY" secondItem="8im-dj-mjR" secondAttribute="centerY" constant="-0.5" id="2nb-Gq-o3i"/>
+                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="YYI-LG-EaA" secondAttribute="bottom" constant="20" id="DdC-cg-sq2"/>
                             <constraint firstItem="aLJ-8K-8S2" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leading" constant="10" id="ECX-l2-fbE"/>
-                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="xCu-rm-9dN" secondAttribute="bottom" constant="20" id="EgC-wo-pgl"/>
                             <constraint firstItem="mY5-na-tGf" firstAttribute="top" secondItem="aLJ-8K-8S2" secondAttribute="bottom" constant="-2" id="GGR-Zf-aBX"/>
-                            <constraint firstAttribute="trailing" secondItem="YYI-LG-EaA" secondAttribute="trailing" constant="20" symbolic="YES" id="GKA-r9-pR0"/>
-                            <constraint firstItem="YYI-LG-EaA" firstAttribute="height" secondItem="xCu-rm-9dN" secondAttribute="height" id="OGH-e0-y09"/>
+                            <constraint firstItem="mY5-na-tGf" firstAttribute="trailing" secondItem="YYI-LG-EaA" secondAttribute="trailing" id="OBY-xQ-3v3"/>
+                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="xCu-rm-9dN" secondAttribute="bottom" constant="20" id="QVd-ch-xEP"/>
+                            <constraint firstItem="mY5-na-tGf" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leadingMargin" constant="4" id="Qzh-Lx-RRp"/>
                             <constraint firstAttribute="centerX" secondItem="8im-dj-mjR" secondAttribute="centerX" constant="-0.5" id="Vn5-cb-CEn"/>
-                            <constraint firstItem="YYI-LG-EaA" firstAttribute="width" secondItem="xCu-rm-9dN" secondAttribute="width" id="ZWU-bn-Z2o"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="mY5-na-tGf" secondAttribute="trailing" constant="4" id="d9s-60-TfR"/>
+                            <constraint firstItem="xCu-rm-9dN" firstAttribute="top" secondItem="mY5-na-tGf" secondAttribute="bottom" constant="-2" id="fJV-sS-OfL"/>
                             <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="mY5-na-tGf" secondAttribute="bottom" constant="52" id="gcF-tV-isT"/>
                             <constraint firstAttribute="trailing" secondItem="mY5-na-tGf" secondAttribute="trailing" constant="20" id="iyb-1X-YGB"/>
-                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="YYI-LG-EaA" secondAttribute="bottom" constant="20" id="nNK-jm-XSn"/>
                             <constraint firstAttribute="trailing" secondItem="aLJ-8K-8S2" secondAttribute="trailing" constant="10" id="u8I-4a-5EP"/>
+                            <constraint firstItem="mY5-na-tGf" firstAttribute="leading" secondItem="xCu-rm-9dN" secondAttribute="leading" id="x7g-Cs-ToK"/>
                             <constraint firstItem="aLJ-8K-8S2" firstAttribute="top" secondItem="RHI-A2-7HN" secondAttribute="bottom" constant="14" id="yCk-dZ-OBy"/>
                         </constraints>
                     </view>
@@ -313,9 +256,7 @@
         <image name="Sueca-Background-Logo" width="511" height="675"/>
         <image name="Sueca-Tab-Bar-Icon" width="23" height="30"/>
         <image name="rules" width="30" height="23"/>
-        <image name="shuffle-cards" width="130" height="44"/>
         <image name="shuffle-cards-pressed" width="130" height="34"/>
-        <image name="sort-card" width="130" height="44"/>
         <image name="sort-card-pressed" width="130" height="34"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -323,8 +264,5 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="U26-VT-3uJ"/>
-    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
 </document>

@@ -10,7 +10,7 @@
 
 #define NUMBER_OF_CARDS 13
 
-@interface editDeckTVC () <NSFetchedResultsControllerDelegate,UITextFieldDelegate>
+@interface editDeckTVC () <NSFetchedResultsControllerDelegate,UITextFieldDelegate,UITextViewDelegate>
 
 @property (strong,nonatomic) NSManagedObjectContext *moc;
 @property (strong,nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -21,6 +21,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+	[tempImageView setFrame:self.tableView.frame];
+	self.tableView.backgroundView = tempImageView;
 	
 	if (self.thisDeck) { //editting deck
 		NSError *error;
@@ -47,7 +51,7 @@
 							  NSLocalizedString(@"Todas as damas bebem", nil),
 							  NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
 		
-		NSArray *cardImages = [[NSArray alloc] initWithObjects: @"AC",@"2C",@"3C",@"4C",@"5C",@"6C",@"7C",@"8C",@"9C",@"10C",@"JC",@"QC",@"KC", nil];
+		NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-C",@"02-C",@"03-C",@"04-C",@"05-C",@"06-C",@"07-C",@"08-C",@"09-C",@"10-C",@"11-C",@"12-C",@"13-C", nil];
 		
 		NSManagedObjectContext *moc = [self managedObjectContext];
 		
@@ -72,18 +76,22 @@
 	
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
-	
-	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveButton)];
+//	
+//	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveButton)];
 
 	if([self.thisDeck.isEditable isEqualToNumber:@1]) {
-		self.navigationItem.rightBarButtonItems = @[saveButton,self.editButtonItem];
+		self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	}
-
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+	[self saveButton];
 }
 
 #pragma mark - Table view data source
@@ -128,9 +136,25 @@
 	if (reusableCard) {
 		cell.cardImageView.image = [UIImage imageNamed:reusableCard.cardName];
 		cell.cardRuleTextField.text = reusableCard.cardRule;
-		cell.cardDescriptionTextField.text = reusableCard.cardDescription;
-		cell.cardRuleTextField.tag = [[NSString stringWithFormat:@"17079%ld",(long)indexPath.row] integerValue];
-		cell.cardDescriptionTextField.tag = [[NSString stringWithFormat:@"27079%ld",(long)indexPath.row] integerValue];
+		
+		if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription==nil) {
+			cell.cardDescriptionTextView.textColor = [UIColor lightGrayColor];
+			cell.cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
+		}
+		else {
+			cell.cardDescriptionTextView.text = reusableCard.cardDescription;
+		}
+		
+		cell.cardDescriptionTextView.delegate = self;
+		cell.cardRuleTextField.delegate = self;
+		
+		cell.cardRuleTextField.tag = indexPath.row;
+		cell.cardDescriptionTextView.tag = indexPath.row;
+	}
+	
+	if ([self.thisDeck.isEditable isEqualToNumber:@0]) {
+		cell.cardRuleTextField.userInteractionEnabled = NO;
+		[cell.cardDescriptionTextView setEditable:NO];
 	}
 }
 
@@ -138,7 +162,12 @@
 	if ([_fetchedResultsController.fetchedObjects count] < 1) {
 		return NO;
 	}
-    return YES;
+	else if([self.thisDeck.isEditable isEqualToNumber:@0]) { //is editting Default deck
+		return NO;
+	}
+	else {
+		return YES;
+	}
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -146,9 +175,6 @@
 		Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[self.moc deleteObject:cardToBeDeleted];
     }
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
 }
 
 #pragma mark - NSFetchedResultsController Delegate Methods
@@ -216,7 +242,6 @@
 		case NSFetchedResultsChangeInsert:
 			[self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
 			break;
-			
 		case NSFetchedResultsChangeDelete:
 			[self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
 			break;
@@ -266,12 +291,35 @@
 	return YES;
 }
 
+- (void) textViewDidBeginEditing:(UITextView *)textView	{
+	[textView setText: @""];
+	[textView setTextColor:[UIColor whiteColor]];
+}
+
+- (void) textViewDidEndEditing:(UITextView *)textView {
+	if([textView.text isEqualToString:@""] || textView.text == nil) {
+		textView.textColor = [UIColor lightGrayColor];
+		textView.text = NSLocalizedString(@"Tap to add a description", nil);
+	}
+	else {
+		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textView.tag inSection:0];
+		CustomCardCell *editedCell = (CustomCardCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+		Card *editedCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		editedCard.cardDescription = editedCell.cardDescriptionTextView.text;
+	}
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-	NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[[[[NSString stringWithFormat:@"%ld",textField.tag] componentsSeparatedByString:@"7079"] objectAtIndex: 1] integerValue] inSection:0];
-	CustomCardCell *editedCell = (CustomCardCell*)[self.tableView cellForRowAtIndexPath:indexPath];
-	Card *editedCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	editedCard.cardRule = editedCell.cardRuleTextField.text;
-	editedCard.cardDescription = editedCell.cardDescriptionTextField.text;
+	if([textField.text isEqualToString:@""] || textField.text == nil) {
+		textField.textColor = [UIColor lightGrayColor];
+		textField.text = NSLocalizedString(@"Tap to add a rule", nil);
+	}
+	else {
+		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textField.tag inSection:0];
+		CustomCardCell *editedCell = (CustomCardCell*)[self.tableView cellForRowAtIndexPath:indexPath];
+		Card *editedCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		editedCard.cardRule = editedCell.cardRuleTextField.text;
+	}
 }
 
 

@@ -13,6 +13,9 @@
 @property (strong,nonatomic) NSManagedObjectContext *moc;
 @property (strong,nonatomic) NSFetchedResultsController *fetchedResultsController;
 
+@property (strong,nonatomic) NSIndexPath *indexPathForSelectedDeck;
+@property (strong,nonatomic) Deck *deckToShowDetails;
+
 @end
 
 @implementation DecksTVC
@@ -22,14 +25,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
+	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+	[tempImageView setFrame:self.tableView.frame];
+	self.tableView.backgroundView = tempImageView;
+	
 	NSError *error;
 	if (![[self fetchedResultsController] performFetch:&error]) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);
 	}
 	
-     self.clearsSelectionOnViewWillAppear = YES;
-     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+//	self.clearsSelectionOnViewWillAppear = YES;
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,16 +51,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	NSInteger numberOfRows = [_fetchedResultsController.fetchedObjects count];
-
-	if (numberOfRows%2 == 0) {
-		[self.tableView setBackgroundColor: [UIColor colorWithRed:0.772 green:0.980 blue:0.794 alpha:1.000]];
-	}
-	else {
-		[self.tableView setBackgroundColor: [UIColor colorWithRed:0.941 green:1.000 blue:0.971 alpha:1.000]];
-	}
-	
-	return numberOfRows;
+	return [_fetchedResultsController.fetchedObjects count];
 }
 
 
@@ -80,20 +78,23 @@
 	}
 	if (reusableDeck) {
 		cell.textLabel.text = reusableDeck.deckName;
+		cell.textLabel.textColor = [UIColor whiteColor];
+		cell.backgroundColor = [UIColor clearColor];
+		cell.accessoryType = UITableViewCellAccessoryDetailButton;
 		
-		if (indexPath.row%2 == 0) {
-			[cell setBackgroundColor: [UIColor colorWithRed:0.772 green:0.980 blue:0.794 alpha:1.000]];
+		if ([reusableDeck.isBeingUsed isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+			self.indexPathForSelectedDeck = indexPath;
+			cell.imageView.image = [UIImage imageNamed:@"check"];
 		}
 		else {
-			[cell setBackgroundColor: [UIColor colorWithRed:0.941 green:1.000 blue:0.971 alpha:1.000]];
+			cell.imageView.image = [UIImage imageNamed:@"empty"];
 		}
 	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
 	Deck *deckBeingEdited = [self.fetchedResultsController objectAtIndexPath:indexPath];
-	NSLog(@"current deck: %@ isEditable: %@",deckBeingEdited.deckName,deckBeingEdited.isEditable);
-	if ([deckBeingEdited.isEditable isEqualToNumber:@1]) {
+	if ([deckBeingEdited.isEditable isEqualToNumber:@1] && [deckBeingEdited.isBeingUsed isEqualToNumber:@0]) {
 		return YES;
 	}
 	else {
@@ -101,10 +102,18 @@
 	}
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	[self.tableView reloadData];
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
 	if (editingStyle == UITableViewCellEditingStyleDelete) {
 		Deck *deckToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[self.moc deleteObject:deckToBeDeleted];
+		
+		self.indexPathForSelectedDeck = [self.fetchedResultsController indexPathForObject:[self playingDeck]];
 		
 		NSError *error = nil;
 		if(![self.moc save: &error]) {
@@ -112,10 +121,35 @@
 			abort();
 			//TODO: remove all abort(); before production
 		}
-		else {
-			[tableView reloadData];
-		}
     }
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle: nil];
+	editDeckTVC *editDeckTVC = [storyboard instantiateViewControllerWithIdentifier:@"editDeckTVC"];
+	editDeckTVC.thisDeck = [self.fetchedResultsController objectAtIndexPath:indexPath];
+	[self.navigationController pushViewController:editDeckTVC animated:YES];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	NSIndexPath *oldSelectedCellIndex = self.indexPathForSelectedDeck;
+	self.indexPathForSelectedDeck = indexPath;
+	
+	if (oldSelectedCellIndex != self.indexPathForSelectedDeck) {
+		Deck *selectedDeck = [self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedDeck];
+		selectedDeck.isBeingUsed = [NSNumber numberWithBool:YES];
+		Deck *deselectedDeck = [self.fetchedResultsController objectAtIndexPath:oldSelectedCellIndex];
+		deselectedDeck.isBeingUsed = [NSNumber numberWithBool:NO];
+		
+		NSError *coreDataError = nil;
+		if(![self.moc save: &coreDataError]) {
+			NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
+			abort();
+			//TODO: remove all abort(); before production
+		}
+		
+		[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
+	}
 }
 
 #pragma mark - NSFetchedResultsController Delegate Methods
@@ -206,18 +240,35 @@
 	return context;
 }
 
+- (Deck*) playingDeck {
+	self.moc = [self managedObjectContext];
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Deck" inManagedObjectContext:self.moc];
+	[fetchRequest setEntity:entity];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isBeingUsed == %@", [NSNumber numberWithBool:YES]];
+	[fetchRequest setPredicate:predicate];
+	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"isBeingUsed"
+																   ascending:YES];
+	[fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
+	
+	NSError *error = nil;
+	NSArray *fetchedObjects = [self.moc executeFetchRequest:fetchRequest error:&error];
+	if (fetchedObjects == nil) {
+		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		abort();
+		//TODO: remove all abort(); before production
+	}
+	else {
+		return [fetchedObjects firstObject];
+	}
+}
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	if([[segue identifier] isEqualToString:@"newDeck"]) {
 		editDeckTVC *tempTVC = [segue destinationViewController];
 		tempTVC.thisDeck = nil;
-	}
-	else if([[segue identifier] isEqualToString:@"viewDeckSegue"]) {
-		editDeckTVC *tempTVC = [segue destinationViewController];
-		Deck *selectedDeck = [self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
-		NSLog(@"selectedDeckName: %@",selectedDeck.deckName);
-		tempTVC.thisDeck = selectedDeck;
 	}
 }
 

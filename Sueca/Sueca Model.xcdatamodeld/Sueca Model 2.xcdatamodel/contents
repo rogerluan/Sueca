@@ -8,12 +8,12 @@
     </entity>
     <entity name="Deck" representedClassName="Deck" syncable="YES">
         <attribute name="deckName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="isBeingUsed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isBeingUsed" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="isEditable" optional="YES" attributeType="Boolean" defaultValueString="YES" syncable="YES"/>
         <relationship name="cards" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Card" inverseName="deck" inverseEntity="Card" syncable="YES"/>
     </entity>
     <elements>
         <element name="Card" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="Deck" positionX="-54" positionY="18" width="128" height="105"/>
+        <element name="Deck" positionX="-54" positionY="18" width="128" height="103"/>
     </elements>
 </model>

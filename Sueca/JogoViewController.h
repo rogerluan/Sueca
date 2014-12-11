@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Card.h"
 #import "Deck.h"
-#import "RegrasViewController.h"
 #import "a20AppDelegate.h"
 
 @interface JogoViewController : UIViewController
