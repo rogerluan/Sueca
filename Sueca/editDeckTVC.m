@@ -56,14 +56,17 @@
 		NSManagedObjectContext *moc = [self managedObjectContext];
 		
 		self.thisDeck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
-		self.thisDeck.deckName = NSLocalizedString(@"New Deck", nil);
+
+		NSInteger deckNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"DeckNumber"];
+		self.thisDeck.deckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %d", nil),deckNumber];
+		deckNumber++;
+		[[NSUserDefaults standardUserDefaults] setInteger:deckNumber forKey:@"DeckNumber"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
 		
 		for (int i = 0 ; i<NUMBER_OF_CARDS ; i++) {
 			Card *newCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 			newCard.cardName = [cardImages objectAtIndex:i];
 			newCard.cardRule = [cardRules objectAtIndex:i];
-			//TODO: newCard.cardDescription = [cardDescriptions objectAtIndex:i];
-			
 			[self.thisDeck addCardsObject:newCard];
 		}
 		

@@ -8,6 +8,20 @@
 
 #import "JogoViewController.h"
 
+//#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+//#define IS_RETINA ([[UIScreen mainScreen] scale] >= 2.0)
+
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
+#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+
+#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
+#define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
+#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
+#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
+
 @interface JogoViewController ()
 
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
@@ -52,6 +66,7 @@
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
 		NSLog(@"firsttime: %d",[[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]);
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
+		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"DeckNumber"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		[self createDefaultDeck];
 	}
@@ -81,11 +96,7 @@
 	self.deck = [self deckBeingUsed];
 	if (self.deck) {
 		[self.deckArray removeAllObjects];
-		for (Card *card in self.deck.cards) {
-			for (int i = 0; i < 8; i++) {
-				[self.deckArray addObject:card];
-			}
-		}
+		self.deckArray = [self fullDeck];
 	}
 	else {
 		NSLog(@"Deck is nil. Aborting.");
@@ -170,11 +181,7 @@
 	
 	/* Reinicialização do baralho (para voltar ao original) */
 	[self.deckArray removeAllObjects];
-	for (Card *card in self.deck.cards) {
-		for (int i = 0; i < 8; i++) {
-			[self.deckArray addObject:card];
-		}
-	}
+	self.deckArray = [self fullDeck];
 	
 	/* Warns the user that the deck was reshuffled */
 	UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Baralho reembaralhado", nil) message: NSLocalizedString(@"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas.", nil) delegate: nil cancelButtonTitle: nil otherButtonTitles: NSLocalizedString(@"OK", nil), nil];
@@ -288,6 +295,52 @@
 	}
 }
 
+/**
+ *  Creates a full deck with 104 cards
+ *  @return NSMutableArray containing the full deck
+ *  @author Roger Oba
+ */
+- (NSMutableArray*) fullDeck{
+	NSMutableArray *fullDeck = [[NSMutableArray alloc] init];
+	
+	/* If it's the default deck, simply create 13 * 8 = 104 cards */
+	if ([self.deck.isEditable isEqualToNumber:[NSNumber numberWithBool:NO]]) {
+		for (Card *card in self.deck.cards) {
+			for (int i = 0; i < 8; i++) {
+				[fullDeck addObject:card];
+			}
+		}
+	}
+	/* Else if it's a custom deck, create cards accordingly with the suit */
+	else {
+		for (Card *card in self.deck.cards) {
+			for (int i = 0; i < 2; i++) {
+				[fullDeck addObject:card];
+				
+				Card *d_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				d_tempCard.cardRule = card.cardRule;
+				d_tempCard.cardDescription = card.cardDescription;
+				d_tempCard.cardName = [NSString stringWithFormat:@"%@D",[card.cardName substringToIndex:3]];
+				[fullDeck addObject:d_tempCard];
+				
+				Card *h_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				h_tempCard.cardRule = card.cardRule;
+				h_tempCard.cardDescription = card.cardDescription;
+				h_tempCard.cardName = [NSString stringWithFormat:@"%@H",[card.cardName substringToIndex:3]];
+				[fullDeck addObject:h_tempCard];
+				
+				Card *s_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				s_tempCard.cardRule = card.cardRule;
+				s_tempCard.cardDescription = card.cardDescription;
+				s_tempCard.cardName = [NSString stringWithFormat:@"%@S",[card.cardName substringToIndex:3]];
+				[fullDeck addObject:s_tempCard];
+			}
+		}
+	}
+	
+	return fullDeck;
+}
+
 #pragma mark - Style
 
 /**
@@ -306,12 +359,14 @@
 	self.resetButton.layer.borderWidth = 1.0f;
 	
 	self.tabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
-	self.tabBarController.tabBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
-	[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]]];
+	self.tabBarController.tabBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
 	
-//	UIImageView *tempImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-//	[tempImageView setImage:[UIImage imageNamed:@"bg"]];
-//	self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:]]tempImageView;
+	if (IS_IPHONE_5 || IS_IPHONE_4_OR_LESS) {
+		[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
+	}
+	else {
+		[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]]];
+	}
 }
 
 #pragma mark - Core Data
