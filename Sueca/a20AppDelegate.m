@@ -19,8 +19,10 @@
 
 + (void)initialize {
 	//configure iRate
-	[iRate sharedInstance].daysUntilPrompt = 4;
-	[iRate sharedInstance].usesUntilPrompt = 5;
+	[iRate sharedInstance].daysUntilPrompt = 0;
+	[iRate sharedInstance].usesUntilPrompt = 0;
+	[iRate sharedInstance].promptAtLaunch = NO;
+	[iRate sharedInstance].eventsUntilPrompt = 150;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

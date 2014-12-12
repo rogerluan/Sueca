@@ -106,6 +106,7 @@
 }
 
 - (IBAction)sortCard:(id)sender {
+	[[iRate sharedInstance] logEvent:NO];
 	[self sortCard];
 }
 
