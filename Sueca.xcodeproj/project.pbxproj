@@ -240,6 +240,8 @@
 		C5E9B6771A3237C100D0171A /* Sueca Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		C5E9B6781A3238A600D0171A /* Deck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Deck.h; sourceTree = "<group>"; };
 		C5E9B6791A3238A600D0171A /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
+		C5E9B6851A3B2AD900D0171A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Storyboard.strings; sourceTree = "<group>"; };
+		C5E9B6871A3B2ADB00D0171A /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Storyboard.strings; sourceTree = "<group>"; };
 		C5F3B50D19B53F2C006D6257 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		C5F3B50E19B53F2C006D6257 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		C5F3B50F19B53F2C006D6257 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
@@ -248,8 +250,6 @@
 		C5F3B51C19B54603006D6257 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C5F3B51E19B5460F006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C5F3B52019B551AF006D6257 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Storyboard.storyboard; sourceTree = "<group>"; };
-		C5F3B52219B551B6006D6257 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Storyboard.strings; sourceTree = "<group>"; };
-		C5F3B52319B551C4006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Storyboard.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1028,8 +1028,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				C5F3B52019B551AF006D6257 /* Base */,
-				C5F3B52219B551B6006D6257 /* en */,
-				C5F3B52319B551C4006D6257 /* pt */,
+				C5E9B6851A3B2AD900D0171A /* en */,
+				C5E9B6871A3B2ADB00D0171A /* pt */,
 			);
 			name = Storyboard.storyboard;
 			sourceTree = "<group>";

@@ -1,38 +1,33 @@
 
-/* Class = "IBUIViewController"; title = "Regras"; ObjectID = "6tS-7n-QjZ"; */
-"6tS-7n-QjZ.title" = "Regras";
+/* Class = "IBUINavigationItem"; title = "Decks"; ObjectID = "FnG-FK-QSo"; */
+"FnG-FK-QSo.title" = "Baralhos";
 
-/* Class = "IBUILabel"; text = "Title"; ObjectID = "MqV-3X-wLN"; */
-"MqV-3X-wLN.text" = "Título";
+/* Class = "IBUITabBarItem"; title = "Rules"; ObjectID = "R9w-nP-c0V"; */
+"R9w-nP-c0V.title" = "Regras";
 
-/* Class = "IBUIButton"; highlightedTitle = "Puxar Carta"; ObjectID = "YYI-LG-EaA"; */
+/* Class = "IBUIButton"; highlightedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
 "YYI-LG-EaA.highlightedTitle" = "Puxar Carta";
 
-/* Class = "IBUIButton"; normalTitle = "Puxar Carta"; ObjectID = "YYI-LG-EaA"; */
+/* Class = "IBUIButton"; normalTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
 "YYI-LG-EaA.normalTitle" = "Puxar Carta";
 
-/* Class = "IBUIButton"; selectedTitle = "Puxar Carta"; ObjectID = "YYI-LG-EaA"; */
+/* Class = "IBUIButton"; selectedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
 "YYI-LG-EaA.selectedTitle" = "Puxar Carta";
 
-/* Class = "IBUIViewController"; title = "Beber"; ObjectID = "e59-W6-SjI"; */
-"e59-W6-SjI.title" = "Beber";
+/* Class = "IBUITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
+"afF-zT-taB.text" = "Clique para editar a descrição";
 
-/* Class = "IBUITabBarItem"; title = "Regras"; ObjectID = "jl1-LR-dTa"; */
-"jl1-LR-dTa.title" = "Regras";
+/* Class = "IBUITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
+"tP5-AK-7Cl.placeholder" = "Regra da Carta";
 
-/* Class = "IBUILabel"; text = "Descrição da carta longa o suficiente"; ObjectID = "mY5-na-tGf"; */
-"mY5-na-tGf.text" = "Descrição da carta longa o suficiente";
+/* Class = "IBUITabBarItem"; title = "Sueca"; ObjectID = "tuM-HQ-LNS"; */
+"tuM-HQ-LNS.title" = "Sueca";
 
-/* Class = "IBUITabBarItem"; title = "Beber"; ObjectID = "tuM-HQ-LNS"; */
-"tuM-HQ-LNS.title" = "Beber";
+/* Class = "IBUIButton"; highlightedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.highlightedTitle" = "Shuffle Deck";
 
-/* Class = "IBUIButton"; highlightedTitle = "Reembaralhar"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.highlightedTitle" = "Reembaralhar";
+/* Class = "IBUIButton"; normalTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.normalTitle" = "Shuffle Deck";
 
-/* Class = "IBUIButton"; normalTitle = "Reembaralhar"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.normalTitle" = "Reembaralhar";
-
-/* Class = "IBUIButton"; selectedTitle = "Reembaralhar"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.selectedTitle" = "Reembaralhar";
-
-//TODO: update storyboard localized strings
+/* Class = "IBUIButton"; selectedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.selectedTitle" = "Shuffle Deck";

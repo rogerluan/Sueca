@@ -1,6 +1,9 @@
 
-/* Class = "IBUILabel"; text = "Title"; ObjectID = "MqV-3X-wLN"; */
-"MqV-3X-wLN.text" = "Title";
+/* Class = "IBUINavigationItem"; title = "Decks"; ObjectID = "FnG-FK-QSo"; */
+"FnG-FK-QSo.title" = "Decks";
+
+/* Class = "IBUITabBarItem"; title = "Rules"; ObjectID = "R9w-nP-c0V"; */
+"R9w-nP-c0V.title" = "Rules";
 
 /* Class = "IBUIButton"; highlightedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
 "YYI-LG-EaA.highlightedTitle" = "Draw";
@@ -11,17 +14,17 @@
 /* Class = "IBUIButton"; selectedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
 "YYI-LG-EaA.selectedTitle" = "Draw";
 
-/* Class = "IBUITabBarItem"; title = "Rules"; ObjectID = "jl1-LR-dTa"; */
-"jl1-LR-dTa.title" = "Rules";
+/* Class = "IBUITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
+"afF-zT-taB.text" = "Tap to edit card description";
 
-/* Class = "IBUILabel"; text = "Long enough card description here"; ObjectID = "mY5-na-tGf"; */
-"mY5-na-tGf.text" = "Long enough card description here";
+/* Class = "IBUITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
+"tP5-AK-7Cl.placeholder" = "Card Rule";
 
-/* Class = "IBUITabBarItem"; title = "Drink"; ObjectID = "tuM-HQ-LNS"; */
-"tuM-HQ-LNS.title" = "Drink";
+/* Class = "IBUITabBarItem"; title = "Sueca"; ObjectID = "tuM-HQ-LNS"; */
+"tuM-HQ-LNS.title" = "Sueca";
 
-/* Class = "IBUIButton"; highlightedTitle = "Draw"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.highlightedTitle" = "Draw";
+/* Class = "IBUIButton"; highlightedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.highlightedTitle" = "Shuffle Deck";
 
 /* Class = "IBUIButton"; normalTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
 "xCu-rm-9dN.normalTitle" = "Shuffle Deck";

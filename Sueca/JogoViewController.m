@@ -22,7 +22,7 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-@interface JogoViewController ()
+@interface JogoViewController () <UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
 @property (weak, nonatomic) IBOutlet UIButton *botaoSortear;
@@ -67,6 +67,7 @@
 		NSLog(@"firsttime: %d",[[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]);
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
 		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"DeckNumber"];
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showAlert"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 		[self createDefaultDeck];
 	}
@@ -108,14 +109,22 @@
 	[self sortCard];
 }
 
-- (IBAction)reembaralhar:(id)sender {
+- (IBAction)shuffleButton:(id)sender {
     [self shuffle];
 }
 
 - (void) sortCard {
 	/* If there're no more cards in the deck, it reshuffles and warns the user */
 	if([self.deckArray count] == 0) {
-		[self shuffle];
+		/* Warns the user that the deck was reshuffled */
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"showAlert"]) {
+			UIAlertView *shuffleAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Baralho reembaralhado", nil) message: NSLocalizedString(@"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas.", nil) delegate: nil cancelButtonTitle: nil otherButtonTitles: NSLocalizedString(@"Never Show Again",nil),NSLocalizedString(@"OK", nil), nil];
+			shuffleAlert.delegate = self;
+			[shuffleAlert show];
+		}
+		else {
+			[self shuffle];
+		}
 		return;
 	}
 	
@@ -163,7 +172,7 @@
  *  Remove all cards on the screen.
  *  @author Roger Oba
  */
-- (void) limparMesa {
+- (void) clearTable {
     for (UIImageView *view in [self.cardContainerView subviews]) {
         if (![view isEqual:self.gameLogo] ) {
             [view removeFromSuperview];
@@ -177,15 +186,11 @@
  *  @author Roger Oba
  */
 - (void) shuffle {
-	[self limparMesa];
+	[self clearTable];
 	
 	/* Reinicialização do baralho (para voltar ao original) */
 	[self.deckArray removeAllObjects];
 	self.deckArray = [self fullDeck];
-	
-	/* Warns the user that the deck was reshuffled */
-	UIAlertView *alertaParaReembaralhar = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Baralho reembaralhado", nil) message: NSLocalizedString(@"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas.", nil) delegate: nil cancelButtonTitle: nil otherButtonTitles: NSLocalizedString(@"OK", nil), nil];
-	[alertaParaReembaralhar show];
 }
 
 /**
@@ -255,19 +260,19 @@
 						  NSLocalizedString(@"Todas as damas bebem", nil),
 						  NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
 	
-	NSArray *cardDescriptions = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Quem tirar essa carta escolhe 1 pessoa para beber.", nil),
-						  NSLocalizedString(@"Quem tirar essa carta escolhe 2 pessoas para beber.", nil),
-						  NSLocalizedString(@"Quem tirar essa carta escolhe 3 pessoas para beber.", nil),
-						  NSLocalizedString(@"Quem tirou essa carta deve escolher uma letra e um tema para o Stop. Então, na sequência da roda de amigos, cada um tem que falar uma palavra que comece com a letra escolhida, relacionada ao tema. Não vale repetir palavra! O primeiro que não souber, ou repetir palavra, bebe!", nil),
-						  NSLocalizedString(@"Quem tirou a carta fala uma palavra qualquer. O próximo tem que repetir a sequência de palavras anterior e adicionar uma. E assim por diante. Exemplo: Quem tirou a carta fala “mesa”. O próximo fala “mesa cachorro”. O próximo diz “mesa cachorro lápis”, e assim por diante. O primeiro que errar ou demorar, bebe.", nil),
-						  NSLocalizedString(@"Quem tirar essa carta, “guarda” ela mentalmente consigo. Discretamente no meio do jogo, essa pessoa deve colocar a mão na testa, fazendo continência e observar os outros jogadores. O último que perceber e fizer continência, bebe.", nil),
-						  NSLocalizedString(@"Começando pela pessoa que tirar a carta, esta deve escolher um número. Assim, todos devem seguir uma sequência começando em 1, e quando o número da sequência for múltiplo do número escolhido, a pessoa deve falar “Pi”. Por exemplo: foi escolhido o número 3, então: 1, 2, pi, 4, 5, pi, 7, 8, pi, etc. O primeiro que errar, bebe!", nil),
-						  NSLocalizedString(@"Quem tira essa carta determina uma regra para todos obedecerem. Pode ser algo do tipo “está proíbido falar a palavra ‘beber’ e seus derivados”, ou “antes de beber uma dose, a pessoa tem que rebolar”. Quem quebrar a regra, deve beber (às vezes, de novo). A Regra Geral pode ser substituída por outra Regra Geral, caso contrário, dura o jogo todo.", nil),
-						  NSLocalizedString(@"A pessoa que tirar essa carta pode transformá-la em qualquer outra!", nil),
-						  NSLocalizedString(@"Como teoricamente ninguém pode sair para ir ao banheiro enquanto estiver jogando, esta carta dá o direito à quem a tirou de ir ao banheiro. A carta só vale 1 vez. Ela pode guardar para ir mais tarde, ou “vender” à alguém, em troca de “favores” 😉", nil),
-						  NSLocalizedString(@"Todos que estiverem jogando bebem uma dose, inclusive quem tirou a carta!", nil),
-						  NSLocalizedString(@"Todas as damas bebem uma dose.", nil),
-						  NSLocalizedString(@"Todos os cavalheiros bebem uma dose.", nil), nil];
+	NSArray *cardDescriptions = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Quem tirar essa carta escolhe 1 pessoa para beber.", @"Description Card 1"),
+						  NSLocalizedString(@"Quem tirar essa carta escolhe 2 pessoas para beber.", @"Description Card 2"),
+						  NSLocalizedString(@"Quem tirar essa carta escolhe 3 pessoas para beber.", @"Description Card 3"),
+						  NSLocalizedString(@"Quem tirou essa carta deve escolher uma letra e um tema para o Stop. Então, na sequência da roda de amigos, cada um tem que falar uma palavra que comece com a letra escolhida, relacionada ao tema. Não vale repetir palavra! O primeiro que não souber, ou repetir palavra, bebe!", @"Description Card 4"),
+						  NSLocalizedString(@"Quem tirou a carta fala uma palavra qualquer. O próximo tem que repetir a sequência de palavras anterior e adicionar uma. E assim por diante. Exemplo: Quem tirou a carta fala “mesa”. O próximo fala “mesa cachorro”. O próximo diz “mesa cachorro lápis”, e assim por diante. O primeiro que errar ou demorar, bebe.", @"Description Card 5"),
+						  NSLocalizedString(@"Quem tirar essa carta, “guarda” ela mentalmente consigo. Discretamente no meio do jogo, essa pessoa deve colocar a mão na testa, fazendo continência e observar os outros jogadores. O último que perceber e fizer continência, bebe.", @"Description Card 6"),
+						  NSLocalizedString(@"Começando pela pessoa que tirar a carta, esta deve escolher um número. Assim, todos devem seguir uma sequência começando em 1, e quando o número da sequência for múltiplo do número escolhido, a pessoa deve falar “Pi”. Por exemplo: foi escolhido o número 3, então: 1, 2, pi, 4, 5, pi, 7, 8, pi, etc. O primeiro que errar, bebe!", @"Description Card 7"),
+						  NSLocalizedString(@"Quem tira essa carta determina uma regra para todos obedecerem. Pode ser algo do tipo “está proíbido falar a palavra ‘beber’ e seus derivados”, ou “antes de beber uma dose, a pessoa tem que rebolar”. Quem quebrar a regra, deve beber (às vezes, de novo). A Regra Geral pode ser substituída por outra Regra Geral, caso contrário, dura o jogo todo.", @"Description Card 8"),
+						  NSLocalizedString(@"A pessoa que tirar essa carta pode transformá-la em qualquer outra!", @"Description Card 9"),
+						  NSLocalizedString(@"Como teoricamente ninguém pode sair para ir ao banheiro enquanto estiver jogando, esta carta dá o direito à quem a tirou de ir ao banheiro. A carta só vale 1 vez. Ela pode guardar para ir mais tarde, ou “vender” à alguém, em troca de “favores” 😉", @"Description Card 10"),
+						  NSLocalizedString(@"Todos que estiverem jogando bebem uma dose, inclusive quem tirou a carta!", @"Description Card 11"),
+						  NSLocalizedString(@"Todas as damas bebem uma dose.", @"Description Card 12"),
+						  NSLocalizedString(@"Todos os cavalheiros bebem uma dose.", @"Description Card 13"), nil];
 	
 	NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-Um",@"02-Dois",@"03-Tres",@"04-Quatro",@"05-Cinco",@"06-Seis",@"07-Sete",@"08-Oito",@"09-Nove",@"10-Dez",@"11-Valete",@"12-Dama",@"13-Rei", nil];
 	
@@ -369,8 +374,28 @@
 	}
 }
 
+#pragma mark - UIAlertViewDelegate
+
+/**
+ *  This method will be called when the user presses the OK button on AlertView.
+ */
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == 0) {
+		[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"showAlert"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		[self shuffle];
+	}
+	else {
+		[self shuffle];
+	}
+}
+
 #pragma mark - Core Data
 
+
+/**
+ *  Default method to init self.moc
+ */
 - (NSManagedObjectContext *) managedObjectContext {
 	NSManagedObjectContext *context = nil;
 	id delegate = [[UIApplication sharedApplication] delegate];

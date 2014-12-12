@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Szt-cu-6vb">
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -110,7 +109,7 @@
             </objects>
             <point key="canvasLocation" x="1453" y="1127"/>
         </scene>
-        <!--Drink-->
+        <!--Sueca-->
         <scene sceneID="vy6-Ae-quP">
             <objects>
                 <viewController id="e59-W6-SjI" customClass="JogoViewController" sceneMemberID="viewController">
@@ -158,9 +157,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" title="Shuffle Deck" backgroundImage="shuffle-cards-pressed"/>
-                                <state key="highlighted" title="Draw" backgroundImage="shuffle-cards-pressed"/>
+                                <state key="highlighted" title="Shuffle Deck" backgroundImage="shuffle-cards-pressed"/>
                                 <connections>
-                                    <action selector="reembaralhar:" destination="e59-W6-SjI" eventType="touchUpInside" id="K6w-fK-ioT"/>
+                                    <action selector="shuffleButton:" destination="e59-W6-SjI" eventType="touchUpInside" id="zih-19-zdv"/>
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLJ-8K-8S2" userLabel="CardContainerView">
@@ -196,7 +195,7 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
-                    <tabBarItem key="tabBarItem" title="Drink" image="Sueca-Tab-Bar-Icon" id="tuM-HQ-LNS"/>
+                    <tabBarItem key="tabBarItem" title="Sueca" image="Sueca-Tab-Bar-Icon" id="tuM-HQ-LNS"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
                         <outlet property="botaoSortear" destination="YYI-LG-EaA" id="Dbn-ZY-Qhu"/>

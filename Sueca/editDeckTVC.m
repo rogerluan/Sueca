@@ -162,7 +162,7 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ([_fetchedResultsController.fetchedObjects count] < 1) {
+	if ([_fetchedResultsController.fetchedObjects count] <= 1) {
 		return NO;
 	}
 	else if([self.thisDeck.isEditable isEqualToNumber:@0]) { //is editting Default deck
