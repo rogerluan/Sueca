@@ -58,6 +58,12 @@
 		self.thisDeck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
 
 		NSInteger deckNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"DeckNumber"];
+		
+		//failproof
+		if (deckNumber == 0) {
+			deckNumber = 1;
+		}
+		
 		self.thisDeck.deckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %d", nil),deckNumber];
 		deckNumber++;
 		[[NSUserDefaults standardUserDefaults] setInteger:deckNumber forKey:@"DeckNumber"];
@@ -324,16 +330,5 @@
 		editedCard.cardRule = editedCell.cardRuleTextField.text;
 	}
 }
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

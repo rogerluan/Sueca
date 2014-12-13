@@ -29,6 +29,15 @@
 		C5C5AAB918184814005A9625 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5C5AAB718184814005A9625 /* InfoPlist.strings */; };
 		C5C5AABB18184814005A9625 /* SuecaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AABA18184814005A9625 /* SuecaTests.m */; };
 		C5E9B67A1A3238A600D0171A /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = C5E9B6791A3238A600D0171A /* Deck.m */; };
+		C5E9B6921A3C86E300D0171A /* cardShuffle.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B6891A3C86E300D0171A /* cardShuffle.wav */; };
+		C5E9B6931A3C86E300D0171A /* cardSlide1.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B68A1A3C86E300D0171A /* cardSlide1.wav */; };
+		C5E9B6941A3C86E300D0171A /* cardSlide2.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B68B1A3C86E300D0171A /* cardSlide2.wav */; };
+		C5E9B6951A3C86E300D0171A /* cardSlide3.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B68C1A3C86E300D0171A /* cardSlide3.wav */; };
+		C5E9B6961A3C86E300D0171A /* cardSlide4.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B68D1A3C86E300D0171A /* cardSlide4.wav */; };
+		C5E9B6971A3C86E300D0171A /* cardSlide5.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B68E1A3C86E300D0171A /* cardSlide5.wav */; };
+		C5E9B6981A3C86E300D0171A /* cardSlide6.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B68F1A3C86E300D0171A /* cardSlide6.wav */; };
+		C5E9B6991A3C86E300D0171A /* cardSlide7.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B6901A3C86E300D0171A /* cardSlide7.wav */; };
+		C5E9B69A1A3C86E300D0171A /* cardSlide0.wav in Resources */ = {isa = PBXBuildFile; fileRef = C5E9B6911A3C86E300D0171A /* cardSlide0.wav */; };
 		C5F3B51019B53F2C006D6257 /* iRate.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B50D19B53F2C006D6257 /* iRate.bundle */; };
 		C5F3B51119B53F2C006D6257 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F3B50F19B53F2C006D6257 /* iRate.m */; };
 		C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B51619B54481006D6257 /* Storyboard.storyboard */; };
@@ -242,6 +251,15 @@
 		C5E9B6791A3238A600D0171A /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
 		C5E9B6851A3B2AD900D0171A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Storyboard.strings; sourceTree = "<group>"; };
 		C5E9B6871A3B2ADB00D0171A /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Storyboard.strings; sourceTree = "<group>"; };
+		C5E9B6891A3C86E300D0171A /* cardShuffle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardShuffle.wav; sourceTree = "<group>"; };
+		C5E9B68A1A3C86E300D0171A /* cardSlide1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide1.wav; sourceTree = "<group>"; };
+		C5E9B68B1A3C86E300D0171A /* cardSlide2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide2.wav; sourceTree = "<group>"; };
+		C5E9B68C1A3C86E300D0171A /* cardSlide3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide3.wav; sourceTree = "<group>"; };
+		C5E9B68D1A3C86E300D0171A /* cardSlide4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide4.wav; sourceTree = "<group>"; };
+		C5E9B68E1A3C86E300D0171A /* cardSlide5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide5.wav; sourceTree = "<group>"; };
+		C5E9B68F1A3C86E300D0171A /* cardSlide6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide6.wav; sourceTree = "<group>"; };
+		C5E9B6901A3C86E300D0171A /* cardSlide7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide7.wav; sourceTree = "<group>"; };
+		C5E9B6911A3C86E300D0171A /* cardSlide0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide0.wav; sourceTree = "<group>"; };
 		C5F3B50D19B53F2C006D6257 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		C5F3B50E19B53F2C006D6257 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		C5F3B50F19B53F2C006D6257 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
@@ -780,6 +798,7 @@
 		C5C5AA9C18184814005A9625 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C5E9B6881A3C86C200D0171A /* Sound FX */,
 				C5F3B51B19B54603006D6257 /* Localizable.strings */,
 				C592196219D1AD190021F937 /* iRate */,
 				C5C5AA9D18184814005A9625 /* Sueca-Info.plist */,
@@ -844,6 +863,22 @@
 				C5E9B6791A3238A600D0171A /* Deck.m */,
 			);
 			name = Modal;
+			sourceTree = "<group>";
+		};
+		C5E9B6881A3C86C200D0171A /* Sound FX */ = {
+			isa = PBXGroup;
+			children = (
+				C5E9B6891A3C86E300D0171A /* cardShuffle.wav */,
+				C5E9B6911A3C86E300D0171A /* cardSlide0.wav */,
+				C5E9B68A1A3C86E300D0171A /* cardSlide1.wav */,
+				C5E9B68B1A3C86E300D0171A /* cardSlide2.wav */,
+				C5E9B68C1A3C86E300D0171A /* cardSlide3.wav */,
+				C5E9B68D1A3C86E300D0171A /* cardSlide4.wav */,
+				C5E9B68E1A3C86E300D0171A /* cardSlide5.wav */,
+				C5E9B68F1A3C86E300D0171A /* cardSlide6.wav */,
+				C5E9B6901A3C86E300D0171A /* cardSlide7.wav */,
+			);
+			name = "Sound FX";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -943,11 +978,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5E9B6931A3C86E300D0171A /* cardSlide1.wav in Resources */,
+				C5E9B6971A3C86E300D0171A /* cardSlide5.wav in Resources */,
 				C5F3B51D19B54603006D6257 /* Localizable.strings in Resources */,
+				C5E9B6981A3C86E300D0171A /* cardSlide6.wav in Resources */,
 				C5C5AAA018184814005A9625 /* InfoPlist.strings in Resources */,
+				C5E9B6961A3C86E300D0171A /* cardSlide4.wav in Resources */,
+				C5E9B6951A3C86E300D0171A /* cardSlide3.wav in Resources */,
+				C5E9B69A1A3C86E300D0171A /* cardSlide0.wav in Resources */,
+				C5E9B6991A3C86E300D0171A /* cardSlide7.wav in Resources */,
 				C5F3B51019B53F2C006D6257 /* iRate.bundle in Resources */,
 				C5C5AAA818184814005A9625 /* Images.xcassets in Resources */,
+				C5E9B6921A3C86E300D0171A /* cardShuffle.wav in Resources */,
 				C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */,
+				C5E9B6941A3C86E300D0171A /* cardSlide2.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

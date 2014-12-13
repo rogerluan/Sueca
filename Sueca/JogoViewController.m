@@ -7,6 +7,7 @@
 //
 
 #import "JogoViewController.h"
+@import AVFoundation;
 
 //#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -35,6 +36,9 @@
 @property (strong,nonatomic) NSMutableArray *deckArray;
 @property (strong,nonatomic) Deck *deck;
 @property (strong,nonatomic) Card *displayCard;
+
+@property (assign) SystemSoundID cardShuffle;
+@property (assign) SystemSoundID cardSlide;
 
 @end
 
@@ -111,16 +115,25 @@
 }
 
 - (IBAction)shuffleButton:(id)sender {
+	[self playShuffleSoundFX];
     [self shuffle];
 }
 
+/**
+ *  Method called to draw a random card. It checks if there are cards available, sorts a card and animates it.
+ *  @author Roger Oba
+ */
 - (void) sortCard {
+	
+	[self playRandomCardSlideSoundFX];
+	
 	/* If there're no more cards in the deck, it reshuffles and warns the user */
 	if([self.deckArray count] == 0) {
 		/* Warns the user that the deck was reshuffled */
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"showAlert"]) {
 			UIAlertView *shuffleAlert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Baralho reembaralhado", nil) message: NSLocalizedString(@"Todas as cartas já tiradas foram inseridas novamente no baralho e reembaralhadas.", nil) delegate: nil cancelButtonTitle: nil otherButtonTitles: NSLocalizedString(@"Never Show Again",nil),NSLocalizedString(@"OK", nil), nil];
 			shuffleAlert.delegate = self;
+			[self playShuffleSoundFX];
 			[shuffleAlert show];
 		}
 		else {
@@ -240,7 +253,6 @@
 /**
  *  Method to initialize the default deck on the app first run.
  *  This will only be runned once.
- *  @return nothing
  *  @author Roger Oba
  */
 - (void) createDefaultDeck {
@@ -391,8 +403,46 @@
 	}
 }
 
-#pragma mark - Core Data
+#pragma mark - Sound FX
 
+/**
+ *  Sorts a random card slide sound effect and plays it.
+ *  @author Roger Oba
+ */
+- (void) playRandomCardSlideSoundFX {
+	
+	/* Stops whatever sound that might be playing */
+	AudioServicesDisposeSystemSoundID(self.cardShuffle);
+	AudioServicesDisposeSystemSoundID(self.cardSlide);
+	
+	/* Randomly sorts a cardSlide sound */
+	NSUInteger randomIndex = arc4random() % 8;
+	
+	/* Plays Card Slide Sound FX */
+	NSString *cardSlidePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"cardSlide%ld",(unsigned long)randomIndex] ofType:@"wav"];
+	NSURL *cardSlideURL = [NSURL fileURLWithPath:cardSlidePath];
+	AudioServicesCreateSystemSoundID((__bridge CFURLRef)cardSlideURL, &_cardSlide);
+	AudioServicesPlaySystemSound(self.cardSlide);
+}
+
+/**
+ *  Plays the card shuffle sound effect.
+ *  @author Roger Oba
+ */
+- (void) playShuffleSoundFX {
+	
+	/* Stops whatever sound that might be playing */
+	AudioServicesDisposeSystemSoundID(self.cardShuffle);
+	AudioServicesDisposeSystemSoundID(self.cardSlide);
+	
+	/* Plays Card Shuffle Sound FX */
+	NSString *cardShufflePath = [[NSBundle mainBundle] pathForResource:@"cardShuffle" ofType:@"wav"];
+	NSURL *cardShuffleURL = [NSURL fileURLWithPath:cardShufflePath];
+	AudioServicesCreateSystemSoundID((__bridge CFURLRef)cardShuffleURL, &_cardShuffle);
+	AudioServicesPlaySystemSound(self.cardShuffle);
+}
+
+#pragma mark - Core Data
 
 /**
  *  Default method to init self.moc
