@@ -505,7 +505,19 @@ static NSString *const iRateMacAppStoreURLFormat = @"macappstore://itunes.apple.
         }
         return NO;
     }
-    
+	
+	//check if reached enough number of significant events
+	/**
+	 *  @author Roger Oba
+	 */
+	else if (self.eventCount < self.eventsUntilPrompt) {
+		if (self.verboseLogging)
+		{
+			NSLog(@"iRate did not prompt for rating because only %@ events have been logged", @(self.eventCount));
+		}
+		return NO;
+	}
+	
     //lets prompt!
     return YES;
 }

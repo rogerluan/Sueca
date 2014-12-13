@@ -23,6 +23,7 @@
 	[iRate sharedInstance].usesUntilPrompt = 0;
 	[iRate sharedInstance].promptAtLaunch = NO;
 	[iRate sharedInstance].eventsUntilPrompt = 150;
+	[iRate sharedInstance].promptForNewVersionIfUserRated = YES;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
