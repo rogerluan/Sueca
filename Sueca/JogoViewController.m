@@ -115,6 +115,7 @@
 }
 
 - (IBAction)shuffleButton:(id)sender {
+	[[iRate sharedInstance] logEvent:NO];
 	[self playShuffleSoundFX];
     [self shuffle];
 }
@@ -220,8 +221,10 @@
  *  Sorts a new card when it detecs a motion (shake)
  */
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake)
+	if (motion == UIEventSubtypeMotionShake) {
+		[[iRate sharedInstance] logEvent:NO];
         [self sortCard];
+	}
 }
 
 /**
