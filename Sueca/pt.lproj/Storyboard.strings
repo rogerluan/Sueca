@@ -24,10 +24,10 @@
 "tuM-HQ-LNS.title" = "Sueca";
 
 /* Class = "IBUIButton"; highlightedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.highlightedTitle" = "Shuffle Deck";
+"xCu-rm-9dN.highlightedTitle" = "Reembaralhar";
 
 /* Class = "IBUIButton"; normalTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.normalTitle" = "Shuffle Deck";
+"xCu-rm-9dN.normalTitle" = "Reembaralhar";
 
 /* Class = "IBUIButton"; selectedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.selectedTitle" = "Shuffle Deck";
+"xCu-rm-9dN.selectedTitle" = "Reembaralhar";

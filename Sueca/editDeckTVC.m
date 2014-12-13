@@ -320,8 +320,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 	if([textField.text isEqualToString:@""] || textField.text == nil) {
-		textField.textColor = [UIColor lightGrayColor];
-		textField.text = NSLocalizedString(@"Tap to add a rule", nil);
+		textField.placeholder = NSLocalizedString(@"Tap to add a rule", nil);
 	}
 	else {
 		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textField.tag inSection:0];
