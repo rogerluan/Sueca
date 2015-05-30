@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "Sueca Drinking Game": {
+            "applicationId": "tfea6juIRlSfNmdNDczjhvJ8HkDLBGudLnfBWnBr", 
+            "masterKey": "kWo73SSDOFYHmFOurpoA2aFGLqLpjTi9i2DRT8VR"
+        }, 
+        "_default": {
+            "link": "Sueca Drinking Game"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.5"
+    }
+}

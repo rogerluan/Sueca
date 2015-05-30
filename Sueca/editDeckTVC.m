@@ -37,9 +37,9 @@
 	}
 	else {
 		self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
-		NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolhe 1 pessoa para beber", nil),
-							  NSLocalizedString(@"Escolhe 2 pessoas para beber", nil),
-							  NSLocalizedString(@"Escolhe 3 pessoas para beber", nil),
+		NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolha 1 pessoa para beber", nil),
+							  NSLocalizedString(@"Escolha 2 pessoas para beber", nil),
+							  NSLocalizedString(@"Escolha 3 pessoas para beber", nil),
 							  NSLocalizedString(@"Jogo do “Stop”", nil),
 							  NSLocalizedString(@"Jogo da Memória", nil),
 							  NSLocalizedString(@"Continência", nil),
@@ -159,6 +159,7 @@
 		
 		cell.cardRuleTextField.tag = indexPath.row;
 		cell.cardDescriptionTextView.tag = indexPath.row;
+		NSLog(@"cell description tag: %ld",cell.cardDescriptionTextView.tag);
 	}
 	
 	if ([self.thisDeck.isEditable isEqualToNumber:@0]) {
@@ -183,6 +184,13 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 		Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[self.moc deleteObject:cardToBeDeleted];
+		NSLog(@"number of rows in section: %ld",[tableView numberOfRowsInSection:0]);
+		
+		for (NSInteger i = indexPath.row ; i < ([tableView numberOfRowsInSection:0]-1) ; i++) {
+			NSLog(@"logging row %ld",i);
+			[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+		}
+		
     }
 }
 
@@ -305,25 +313,27 @@
 	[textView setTextColor:[UIColor whiteColor]];
 }
 
-- (void) textViewDidEndEditing:(UITextView *)textView {
-	if([textView.text isEqualToString:@""] || textView.text == nil) {
-		textView.textColor = [UIColor lightGrayColor];
-		textView.text = NSLocalizedString(@"Tap to add a description", nil);
+- (void) textViewDidEndEditing:(UITextView *)descriptionTextView {
+	if([descriptionTextView.text isEqualToString:@""] || descriptionTextView.text == nil) {
+		descriptionTextView.textColor = [UIColor lightGrayColor];
+		descriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
 	}
 	else {
-		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textView.tag inSection:0];
+		NSLog(@"indexPath tag: %ld",descriptionTextView.tag);
+		
+		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:descriptionTextView.tag inSection:0];
 		CustomCardCell *editedCell = (CustomCardCell*)[self.tableView cellForRowAtIndexPath:indexPath];
 		Card *editedCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		editedCard.cardDescription = editedCell.cardDescriptionTextView.text;
 	}
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-	if([textField.text isEqualToString:@""] || textField.text == nil) {
-		textField.placeholder = NSLocalizedString(@"Tap to add a rule", nil);
+- (void)textFieldDidEndEditing:(UITextField *)cardNameTextField {
+	if([cardNameTextField.text isEqualToString:@""] || cardNameTextField.text == nil) {
+		cardNameTextField.placeholder = NSLocalizedString(@"Tap to add a rule", nil);
 	}
 	else {
-		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:textField.tag inSection:0];
+		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:cardNameTextField.tag inSection:0];
 		CustomCardCell *editedCell = (CustomCardCell*)[self.tableView cellForRowAtIndexPath:indexPath];
 		Card *editedCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		editedCard.cardRule = editedCell.cardRuleTextField.text;

@@ -10,6 +10,8 @@
 #import "iRate.h"
 #import "Card.h"
 #import "Deck.h"
+#import <Parse/Parse.h>
+#import <ParseCrashReporting/ParseCrashReporting.h>
 
 @implementation a20AppDelegate
 
@@ -31,9 +33,12 @@
 	
 	NSDictionary *textTitleOptions = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
 	[[UINavigationBar appearance] setTitleTextAttributes:textTitleOptions];
-	//TODO: mudar a cor da UINavigationBar (cor do app logo)
-//	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.261 green:0.837 blue:0.319 alpha:1.000]];
 	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];
+	
+	//Parse Analytics
+	[Parse setApplicationId:@"tfea6juIRlSfNmdNDczjhvJ8HkDLBGudLnfBWnBr"
+				  clientKey:@"SmnuevW7amI36UrOHxOWzdY2zeVo74qO7YgI8S1m"];
+	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 	
     return YES;
 }

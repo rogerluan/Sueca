@@ -8,6 +8,7 @@
 
 #import "JogoViewController.h"
 @import AVFoundation;
+#import <Parse/Parse.h>
 
 //#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -23,7 +24,7 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-@interface JogoViewController () <UIAlertViewDelegate>
+@interface JogoViewController () <UIAlertViewDelegate,UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
 @property (weak, nonatomic) IBOutlet UIButton *botaoSortear;
@@ -36,6 +37,7 @@
 @property (strong,nonatomic) NSMutableArray *deckArray;
 @property (strong,nonatomic) Deck *deck;
 @property (strong,nonatomic) Card *displayCard;
+@property (strong,nonatomic) UIImageView *previousCard;
 
 @property (assign) SystemSoundID cardShuffle;
 @property (assign) SystemSoundID cardSlide;
@@ -76,8 +78,6 @@
 		[self createDefaultDeck];
 	}
 	
-	
-	//TODO: load the deck being used
 	/* Inits the deck that should be used*/
 	self.deck = [self deckBeingUsed];
 	if (self.deck) {
@@ -92,7 +92,53 @@
 		NSLog(@"Deck is nil. Aborting.");
 		abort();
 	}
-	
+}
+
+- (void) handleCardFlick: (UIGestureRecognizer *)recognizer {
+	if ([recognizer state] == UIGestureRecognizerStateBegan) {
+		NSLog(@"Flick Gesture detected: %@",recognizer.description);
+		
+//		self.previousCard.layer.shadowColor = [UIColor blackColor].CGColor;
+//		self.previousCard.layer.shadowOpacity = 0.75;
+//		self.previousCard.layer.shadowRadius = 15.0;
+//		self.previousCard.layer.shadowOffset = (CGSize){0.0,20.0};
+		
+		float previousY = self.previousCard.transform.d;
+		
+		[UIView animateWithDuration:0.5
+							  delay:0.0
+							options:UIViewAnimationOptionCurveEaseIn
+						 animations:^(void) {
+//							 self.previousCard.transform = CGAffineTransformMakeScale(1, -self.previousCard.transform.d);
+							 self.previousCard.transform = CGAffineTransformMakeScale(1, 0.0000000001);
+						 }
+						 completion:^(BOOL completion) {
+							 
+							 //create custom view here with the card description, and flip it over, bigger.
+							 self.previousCard.image = [UIImage imageNamed:@"descriptionCardBackground"];
+							 
+								[UIView animateWithDuration:0.5
+													  delay:0.0
+													options:UIViewAnimationOptionCurveEaseIn
+												 animations:^(void) {
+													 self.previousCard.transform = CGAffineTransformMakeScale(1, -previousY);
+												 }
+												 completion:^(BOOL completion) {
+													 
+												 }
+								 ];
+//							 self.previousCard.layer.shadowColor = [UIColor clearColor].CGColor;
+//							 self.previousCard.layer.shadowOpacity = 0.0;
+//							 self.previousCard.layer.shadowRadius = 0.0;
+//							 self.previousCard.layer.shadowOffset = (CGSize){0.0, 0.0};
+						 }];
+	}
+}
+
+- (void) handleCardTap: (UITapGestureRecognizer*) recognizer {
+	if ([recognizer state] == UIGestureRecognizerStateRecognized) {
+		NSLog(@"Tap Gesture detected: %@",recognizer.description);
+	}
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -116,6 +162,19 @@
 
 - (IBAction)shuffleButton:(id)sender {
 	[[iRate sharedInstance] logEvent:NO];
+	
+	
+	NSDictionary *dimensions = @{@"ShuffleDeckButtonPress": @"shuffled"};
+	
+	[PFAnalytics trackEventInBackground:@"ShuffleDeckButtonPress" dimensions:dimensions block:^(BOOL succeeded, NSError *error) {
+		if (!error) {
+			NSLog(@"Successfully sent the screenView Log");
+		}
+		else {
+			[[[UIAlertView alloc] initWithTitle:@"Error" message:[[error userInfo] objectForKey:@"error"] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
+		}
+	}];
+	
 	[self playShuffleSoundFX];
     [self shuffle];
 }
@@ -149,26 +208,41 @@
 	[self.deckArray removeObjectAtIndex: randomIndex];
 	
 	
-	/* Declaração, inicialização e execução das animações */
+	/* Animation initialization and execution */
     int containerWidth = self.cardContainerView.frame.size.width;
     int containerHeight = self.cardContainerView.frame.size.height;
     int indexX = arc4random()%(containerWidth-119);
     int indexY = arc4random()%(containerHeight-177);
 	
     CGRect newFrame = CGRectMake(indexX,indexY,119,177);
-    UIImageView *imagemcard = [[UIImageView alloc]initWithImage:[UIImage imageNamed: [NSString stringWithFormat: @"%@",self.displayCard.cardName]]];
-    imagemcard.layer.anchorPoint = CGPointMake(0.5,0.5);
+    UIImageView *cardImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed: [NSString stringWithFormat: @"%@",self.displayCard.cardName]]];
+    cardImage.layer.anchorPoint = CGPointMake(0.5,0.5);
 //    CGAffineTransform newTransform;
 //    CGAffineTransformRotate(newTransform, 2*M_PI);
     CGAffineTransform transform = CGAffineTransformMakeRotation(2*M_PI);
-    
+	
+	//Setting the previousCard
+	if (self.previousCard) {
+		for (UIGestureRecognizer *recognizer in self.previousCard.gestureRecognizers) {
+			[self.previousCard removeGestureRecognizer:recognizer];
+		}
+	}
+	self.previousCard = cardImage;
+	
+	UITapGestureRecognizer *cardTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCardTap:)];
+	UIPanGestureRecognizer *cardFlick = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleCardFlick:)];
+	
+	[cardImage addGestureRecognizer:cardFlick];
+	[cardImage addGestureRecognizer:cardTap];
+	cardImage.userInteractionEnabled = YES;
+	
     [UIView animateWithDuration:0.5
                           delay:0
                         options:UIViewAnimationOptionCurveEaseOut
                      animations:^{
-//						 imagemcard.transform = newTransform;
-						 imagemcard.transform = transform;
-                         imagemcard.frame = newFrame;
+//						 cardImage.transform = newTransform;
+						 cardImage.transform = transform;
+                         cardImage.frame = newFrame;
                      }
                      completion: nil];
 	
@@ -177,7 +251,8 @@
 			view.alpha/=1.2;
 		}
 	}
-    [self.cardContainerView addSubview:imagemcard];
+	
+    [self.cardContainerView addSubview:cardImage];
 	
 	/* Shows the rule on screen */
     self.rule.text = self.displayCard.cardRule;
@@ -262,9 +337,9 @@
 	
 	self.moc = [self managedObjectContext];
 	
-	NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolhe 1 pessoa para beber", nil),
-						  NSLocalizedString(@"Escolhe 2 pessoas para beber", nil),
-						  NSLocalizedString(@"Escolhe 3 pessoas para beber", nil),
+	NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolha 1 pessoa para beber", nil),
+						  NSLocalizedString(@"Escolha 2 pessoas para beber", nil),
+						  NSLocalizedString(@"Escolha 3 pessoas para beber", nil),
 						  NSLocalizedString(@"Jogo do “Stop”", nil),
 						  NSLocalizedString(@"Jogo da Memória", nil),
 						  NSLocalizedString(@"Continência", nil),
