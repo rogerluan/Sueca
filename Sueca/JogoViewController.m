@@ -63,7 +63,11 @@
     [super viewDidLoad];
 	
 	self.deckArray = [[NSMutableArray alloc] init];
-	self.ruleButton.titleLabel.text = @"";
+//	self.ruleButton.titleLabel.text = @"";
+	
+	[self.ruleButton setTitle:@"" forState:UIControlStateNormal];
+	[self.ruleButton setTitle:@"" forState:UIControlStateSelected];
+	[self.ruleButton setTitle:@"" forState:UIControlStateHighlighted];
 	[self.ruleButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
 	
 	[self setupViewsLayout];
@@ -268,7 +272,10 @@
     [self.cardContainerView addSubview:cardImage];
 	
 	/* Shows the rule on screen */
-    self.ruleButton.titleLabel.text = self.displayCard.cardRule;
+//    self.ruleButton.titleLabel.text = self.displayCard.cardRule;
+	[self.ruleButton setTitle:self.displayCard.cardRule forState:UIControlStateNormal];
+	[self.ruleButton setTitle:self.displayCard.cardRule forState:UIControlStateSelected];
+	[self.ruleButton setTitle:self.displayCard.cardRule forState:UIControlStateHighlighted];
 }
 
 /**
@@ -281,7 +288,11 @@
             [view removeFromSuperview];
 		}
 	}
-    self.ruleButton.titleLabel.text = @"";
+//    self.ruleButton.titleLabel.text = @"";
+	
+	[self.ruleButton setTitle:@"" forState:UIControlStateNormal];
+	[self.ruleButton setTitle:@"" forState:UIControlStateSelected];
+	[self.ruleButton setTitle:@"" forState:UIControlStateHighlighted];
 }
 
 /**
@@ -556,8 +567,9 @@
 	
 	UIActivityViewController *activityViewController =
 	[[UIActivityViewController alloc] initWithActivityItems:@[sharingString,sharingImage,sharingURL]
-									  applicationActivities:@[UIActivityTypePostToFacebook, UIActivityTypePostToTwitter,UIActivityTypeMessage]];
-	[self.navigationController presentViewController:activityViewController
+//									  applicationActivities:@[UIActivityTypePostToFacebook, UIActivityTypePostToTwitter,UIActivityTypeMessage]];
+	[alertView close];
+	[self presentViewController:activityViewController
 											animated:YES
 										  completion:^{
 											  //                                              [self.achievementAlert close];
