@@ -118,8 +118,7 @@
 		NSError *error = nil;
 		if(![self.moc save: &error]) {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-			abort();
-			//TODO: remove all abort(); before production
+			//abort();
 		}
     }
 }
@@ -144,8 +143,7 @@
 		NSError *coreDataError = nil;
 		if(![self.moc save: &coreDataError]) {
 			NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
-			abort();
-			//TODO: remove all abort(); before production
+			//abort();
 		}
 		
 		[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
@@ -257,7 +255,6 @@
 	if (fetchedObjects == nil) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		abort();
-		//TODO: remove all abort(); before production
 	}
 	else {
 		return [fetchedObjects firstObject];

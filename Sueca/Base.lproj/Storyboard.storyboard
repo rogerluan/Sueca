@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A388a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Szt-cu-6vb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14E17e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Szt-cu-6vb">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -167,31 +167,35 @@
                                 <rect key="frame" x="10" y="34" width="300" height="355"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Long enough card description here" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="mY5-na-tGf" userLabel="regra">
+                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ulm-zI-B6S">
                                 <rect key="frame" x="16" y="387" width="288" height="80"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="uIR-5g-O7b"/>
+                                    <constraint firstAttribute="height" constant="80" id="wFS-cg-cFT"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="25"/>
-                                <color key="textColor" red="0.99215692280000001" green="0.99215692280000001" blue="0.99607849120000003" alpha="1" colorSpace="deviceRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="Long enough card description here">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="displayCardDescription:" destination="e59-W6-SjI" eventType="touchUpInside" id="EJy-NB-1XS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0016788328069288487" green="0.44867921270718231" blue="0.0026050026818604747" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="8im-dj-mjR" secondAttribute="centerY" constant="-0.5" id="2nb-Gq-o3i"/>
                             <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="YYI-LG-EaA" secondAttribute="bottom" constant="20" id="DdC-cg-sq2"/>
                             <constraint firstItem="aLJ-8K-8S2" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leading" constant="10" id="ECX-l2-fbE"/>
-                            <constraint firstItem="mY5-na-tGf" firstAttribute="top" secondItem="aLJ-8K-8S2" secondAttribute="bottom" constant="-2" id="GGR-Zf-aBX"/>
-                            <constraint firstItem="mY5-na-tGf" firstAttribute="trailing" secondItem="YYI-LG-EaA" secondAttribute="trailing" id="OBY-xQ-3v3"/>
+                            <constraint firstItem="ulm-zI-B6S" firstAttribute="trailing" secondItem="30Y-IR-idc" secondAttribute="trailingMargin" id="F8u-Xs-uRl"/>
                             <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="xCu-rm-9dN" secondAttribute="bottom" constant="20" id="QVd-ch-xEP"/>
-                            <constraint firstItem="mY5-na-tGf" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leadingMargin" id="Qzh-Lx-RRp"/>
+                            <constraint firstItem="YYI-LG-EaA" firstAttribute="trailing" secondItem="ulm-zI-B6S" secondAttribute="trailing" id="Ux4-tx-gYb"/>
                             <constraint firstAttribute="centerX" secondItem="8im-dj-mjR" secondAttribute="centerX" constant="-0.5" id="Vn5-cb-CEn"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="mY5-na-tGf" secondAttribute="trailing" id="d9s-60-TfR"/>
-                            <constraint firstItem="xCu-rm-9dN" firstAttribute="top" secondItem="mY5-na-tGf" secondAttribute="bottom" constant="-2" id="fJV-sS-OfL"/>
-                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="mY5-na-tGf" secondAttribute="bottom" constant="52" id="gcF-tV-isT"/>
+                            <constraint firstItem="ulm-zI-B6S" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leadingMargin" id="bhA-a5-Uw5"/>
+                            <constraint firstItem="ulm-zI-B6S" firstAttribute="top" secondItem="aLJ-8K-8S2" secondAttribute="bottom" constant="-2" id="h2e-dz-Ain"/>
+                            <constraint firstItem="xCu-rm-9dN" firstAttribute="leading" secondItem="ulm-zI-B6S" secondAttribute="leading" id="hpL-Y6-qRq"/>
                             <constraint firstAttribute="trailing" secondItem="aLJ-8K-8S2" secondAttribute="trailing" constant="10" id="u8I-4a-5EP"/>
-                            <constraint firstItem="mY5-na-tGf" firstAttribute="leading" secondItem="xCu-rm-9dN" secondAttribute="leading" id="x7g-Cs-ToK"/>
+                            <constraint firstItem="xCu-rm-9dN" firstAttribute="top" secondItem="ulm-zI-B6S" secondAttribute="bottom" constant="-2" id="upN-aL-Hhy"/>
+                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="ulm-zI-B6S" secondAttribute="bottom" constant="52" id="xnI-ME-TTb"/>
                             <constraint firstItem="aLJ-8K-8S2" firstAttribute="top" secondItem="RHI-A2-7HN" secondAttribute="bottom" constant="14" id="yCk-dZ-OBy"/>
                         </constraints>
                     </view>
@@ -199,11 +203,11 @@
                     <tabBarItem key="tabBarItem" title="Sueca" image="Sueca-Tab-Bar-Icon" id="tuM-HQ-LNS"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
-                        <outlet property="botaoSortear" destination="YYI-LG-EaA" id="Dbn-ZY-Qhu"/>
                         <outlet property="cardContainerView" destination="aLJ-8K-8S2" id="FPs-uf-34D"/>
+                        <outlet property="drawCardButton" destination="YYI-LG-EaA" id="skg-Kf-qzb"/>
                         <outlet property="gameLogo" destination="8im-dj-mjR" id="3uZ-rl-lPW"/>
-                        <outlet property="resetButton" destination="xCu-rm-9dN" id="iht-A3-Zbn"/>
-                        <outlet property="rule" destination="mY5-na-tGf" id="imE-mt-lCW"/>
+                        <outlet property="ruleButton" destination="ulm-zI-B6S" id="wuS-Xl-GN5"/>
+                        <outlet property="shuffleDeckButton" destination="xCu-rm-9dN" id="IF9-HC-fgq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8UZ-iM-SUk" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -1,0 +1,15 @@
+devices([
+	"iPhone 6",
+	"iPhone 6 Plus",
+	"iPhone 5",
+	"iPhone 4s"
+]) 
+
+languages([
+  "en-AU",
+  "en-US",
+  "en-CA",
+  "en-GB",
+  "pt-BR",
+  "pt-PT"
+]) 

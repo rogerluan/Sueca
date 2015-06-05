@@ -9,6 +9,7 @@
 #import "JogoViewController.h"
 @import AVFoundation;
 #import <Parse/Parse.h>
+#import "CardDescriptionView.h"
 
 //#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -24,11 +25,11 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-@interface JogoViewController () <UIAlertViewDelegate,UIGestureRecognizerDelegate>
+@interface JogoViewController () <UIAlertViewDelegate,UIGestureRecognizerDelegate,CustomIOS7AlertViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *resetButton;
-@property (weak, nonatomic) IBOutlet UIButton *botaoSortear;
-@property (weak, nonatomic) IBOutlet UILabel *rule;
+@property (weak, nonatomic) IBOutlet UIButton *shuffleDeckButton;
+@property (weak, nonatomic) IBOutlet UIButton *drawCardButton;
+@property (weak, nonatomic) IBOutlet UIButton *ruleButton;
 @property (strong, nonatomic) IBOutlet UIView *cardContainerView;
 @property (strong, nonatomic) IBOutlet UIImageView *gameLogo;
 
@@ -62,15 +63,19 @@
     [super viewDidLoad];
 	
 	self.deckArray = [[NSMutableArray alloc] init];
-	self.rule.text = nil;
+	self.ruleButton.titleLabel.text = @"";
+	[self.ruleButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
 	
 	[self setupViewsLayout];
+	
+//	UITapGestureRecognizer *descriptionTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDescriptionTap:)];
+//	[self.ruleButton addGestureRecognizer:descriptionTap];
+//	[self.ruleButton setUserInteractionEnabled:YES];
 	
 //	[self preferredContentSize];
 	
 	/* Creates default deck only once */
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
-		NSLog(@"firsttime: %d",[[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]);
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
 		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"DeckNumber"];
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showAlert"];
@@ -93,7 +98,7 @@
 		abort();
 	}
 }
-
+/*
 - (void) handleCardFlick: (UIGestureRecognizer *)recognizer {
 	if ([recognizer state] == UIGestureRecognizerStateBegan) {
 		NSLog(@"Flick Gesture detected: %@",recognizer.description);
@@ -134,11 +139,15 @@
 						 }];
 	}
 }
+*/
 
-- (void) handleCardTap: (UITapGestureRecognizer*) recognizer {
-	if ([recognizer state] == UIGestureRecognizerStateRecognized) {
-		NSLog(@"Tap Gesture detected: %@",recognizer.description);
-	}
+//- (void) handleDescriptionTap: (UITapGestureRecognizer*) recognizer {
+//	if ([recognizer state] == UIGestureRecognizerStateRecognized) {
+
+- (IBAction)displayCardDescription:(id)sender {
+    CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
+    [descriptionView showAlertWithHeader:NSLocalizedString(@"Description", @"Card description popover header") image:[UIImage imageNamed:self.displayCard.cardName] title:self.displayCard.cardRule description:self.displayCard.cardDescription];
+    descriptionView.delegate = self;
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -171,7 +180,7 @@
 			NSLog(@"Successfully sent the screenView Log");
 		}
 		else {
-			[[[UIAlertView alloc] initWithTitle:@"Error" message:[[error userInfo] objectForKey:@"error"] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
+//			[[[UIAlertView alloc] initWithTitle:@"Error" message:[[error userInfo] objectForKey:@"error"] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil] show];
 		}
 	}];
 	
@@ -215,7 +224,7 @@
     int indexY = arc4random()%(containerHeight-177);
 	
     CGRect newFrame = CGRectMake(indexX,indexY,119,177);
-    UIImageView *cardImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed: [NSString stringWithFormat: @"%@",self.displayCard.cardName]]];
+	UIImageView *cardImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:self.displayCard.cardName]];
     cardImage.layer.anchorPoint = CGPointMake(0.5,0.5);
 //    CGAffineTransform newTransform;
 //    CGAffineTransformRotate(newTransform, 2*M_PI);
@@ -228,13 +237,17 @@
 		}
 	}
 	self.previousCard = cardImage;
-	
+
+	/**
+	 TODO: Future implementation
+	 
 	UITapGestureRecognizer *cardTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCardTap:)];
 	UIPanGestureRecognizer *cardFlick = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleCardFlick:)];
 	
 	[cardImage addGestureRecognizer:cardFlick];
 	[cardImage addGestureRecognizer:cardTap];
 	cardImage.userInteractionEnabled = YES;
+	 */
 	
     [UIView animateWithDuration:0.5
                           delay:0
@@ -255,7 +268,7 @@
     [self.cardContainerView addSubview:cardImage];
 	
 	/* Shows the rule on screen */
-    self.rule.text = self.displayCard.cardRule;
+    self.ruleButton.titleLabel.text = self.displayCard.cardRule;
 }
 
 /**
@@ -268,7 +281,7 @@
             [view removeFromSuperview];
 		}
 	}
-    self.rule.text = @"";
+    self.ruleButton.titleLabel.text = @"";
 }
 
 /**
@@ -281,25 +294,6 @@
 	/* Reinicialização do baralho (para voltar ao original) */
 	[self.deckArray removeAllObjects];
 	self.deckArray = [self fullDeck];
-}
-
-/**
- *  This delegate call enables device motion delegate.
- */
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
-
-#pragma mark - Motion Delegate Methods
-
-/**
- *  Sorts a new card when it detecs a motion (shake)
- */
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-	if (motion == UIEventSubtypeMotionShake) {
-		[[iRate sharedInstance] logEvent:NO];
-        [self sortCard];
-	}
 }
 
 /**
@@ -320,7 +314,6 @@
 	NSArray *fetchedObjects = [self.moc executeFetchRequest:fetchRequest error:&error];
 	if (fetchedObjects == nil || ([fetchedObjects count] == 0)) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		//TODO: remove all aborts();
 		abort();
 	}
 	else {
@@ -386,8 +379,7 @@
 	NSError *coreDataError = nil;
 	if(![moc save: &coreDataError]) {
 		NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
-		//TODO: remove all aborts();
-		abort();
+//		abort();
 	}
 }
 
@@ -434,6 +426,8 @@
 		}
 	}
 	
+	NSLog(@"Full deck count: %ld",(long)[fullDeck count]);
+	
 	return fullDeck;
 }
 
@@ -444,18 +438,22 @@
  *  @author Roger Oba
  */
 - (void) setupViewsLayout {
-	self.botaoSortear.layer.cornerRadius = 10;
-	self.botaoSortear.clipsToBounds = YES;
-	self.botaoSortear.layer.borderColor = [UIColor whiteColor].CGColor;
-	self.botaoSortear.layer.borderWidth = 1.0f;
+	self.drawCardButton.layer.cornerRadius = 10;
+	self.drawCardButton.clipsToBounds = YES;
+	self.drawCardButton.layer.borderColor = [UIColor whiteColor].CGColor;
+	self.drawCardButton.layer.borderWidth = 1.0f;
 	
-	self.resetButton.layer.cornerRadius = 10;
-	self.resetButton.clipsToBounds = YES;
-	self.resetButton.layer.borderColor = [UIColor whiteColor].CGColor;
-	self.resetButton.layer.borderWidth = 1.0f;
+	self.shuffleDeckButton.layer.cornerRadius = 10;
+	self.shuffleDeckButton.clipsToBounds = YES;
+	self.shuffleDeckButton.layer.borderColor = [UIColor whiteColor].CGColor;
+	self.shuffleDeckButton.layer.borderWidth = 1.0f;
 	
 	self.tabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
 	self.tabBarController.tabBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
+	
+	self.ruleButton.titleLabel.numberOfLines = 2;
+	
+	[self addShadowToLayer:self.ruleButton.layer];
 	
 	if (IS_IPHONE_5 || IS_IPHONE_4_OR_LESS) {
 		[self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
@@ -518,6 +516,52 @@
 	NSURL *cardShuffleURL = [NSURL fileURLWithPath:cardShufflePath];
 	AudioServicesCreateSystemSoundID((__bridge CFURLRef)cardShuffleURL, &_cardShuffle);
 	AudioServicesPlaySystemSound(self.cardShuffle);
+}
+
+#pragma mark - Shadowing Method
+
+/**
+ *  Adds a shadow to the given layer.
+ *
+ *  Shadow is black, with 90% of opacity and radius of 4.0f.
+ *
+ *  @param layer that will have the shadow added on.
+ *  @author Roger Oba
+ *
+ */
+
+- (void) addShadowToLayer: (CALayer*) layer {
+	layer.shadowColor = [UIColor blackColor].CGColor;
+	layer.shadowOpacity = 0.9f;
+	layer.shadowRadius = 10.0f;
+	layer.shadowOffset = CGSizeZero;
+	layer.masksToBounds = NO;
+}
+
+#pragma mark - CustomIOS7dialogButton Delegate Method
+
+- (void) customIOS7dialogButtonTouchUpInside:(id)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	NSString *sharingString = [NSString stringWithFormat: NSLocalizedString(@"I just pulled a card \"%@\" on Sueca Drinking Game. Come over to have some fun! #sueca", @"Acitivity View Sharing String"),self.displayCard.cardRule];
+	
+	UIImage *sharingImage = nil;
+	
+	if ([self.displayCard.deck.isEditable isEqualToNumber:@NO]) {
+		sharingImage = [UIImage imageNamed:self.displayCard.cardName];
+	}
+	else {
+		sharingImage = [UIImage imageNamed:@"sharingSuecaLogoImage"];
+	}
+
+	NSURL *sharingURL = [NSURL URLWithString: @"https://itunes.apple.com/app/apple-store/id895894992?pt=50003800&ct=ActivityViewShareLink&mt=8"];
+	
+	UIActivityViewController *activityViewController =
+	[[UIActivityViewController alloc] initWithActivityItems:@[sharingString,sharingImage,sharingURL]
+									  applicationActivities:@[UIActivityTypePostToFacebook, UIActivityTypePostToTwitter,UIActivityTypeMessage]];
+	[self.navigationController presentViewController:activityViewController
+											animated:YES
+										  completion:^{
+											  //                                              [self.achievementAlert close];
+										  }];
 }
 
 #pragma mark - Core Data

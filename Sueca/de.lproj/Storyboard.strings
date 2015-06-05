@@ -1,0 +1,36 @@
+
+/* Class = "UINavigationItem"; title = "Decks"; ObjectID = "FnG-FK-QSo"; */
+"FnG-FK-QSo.title" = "Decks";
+
+/* Class = "UITabBarItem"; title = "Rules"; ObjectID = "R9w-nP-c0V"; */
+"R9w-nP-c0V.title" = "Regeln";
+
+/* Class = "UIButton"; highlightedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
+"YYI-LG-EaA.highlightedTitle" = "Ziehen";
+
+/* Class = "UIButton"; normalTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
+"YYI-LG-EaA.normalTitle" = "Ziehen";
+
+/* Class = "UIButton"; selectedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
+"YYI-LG-EaA.selectedTitle" = "Ziehen";
+
+/* Class = "UITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
+"afF-zT-taB.text" = "Berühren um die Kartenbeschreibung zu ändern";
+
+/* Class = "UILabel"; text = "Long enough card description here"; ObjectID = "mY5-na-tGf"; */
+"mY5-na-tGf.text" = "Long enough card description here";
+
+/* Class = "UITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
+"tP5-AK-7Cl.placeholder" = "Kartenregel";
+
+/* Class = "UITabBarItem"; title = "Sueca"; ObjectID = "tuM-HQ-LNS"; */
+"tuM-HQ-LNS.title" = "Sueca";
+
+/* Class = "UIButton"; highlightedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.highlightedTitle" = "Deck Mischen";
+
+/* Class = "UIButton"; normalTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.normalTitle" = "Deck Mischen";
+
+/* Class = "UIButton"; selectedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
+"xCu-rm-9dN.selectedTitle" = "Deck Mischen";

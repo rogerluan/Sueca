@@ -64,7 +64,7 @@
 			deckNumber = 1;
 		}
 		
-		self.thisDeck.deckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %d", nil),deckNumber];
+		self.thisDeck.deckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		deckNumber++;
 		[[NSUserDefaults standardUserDefaults] setInteger:deckNumber forKey:@"DeckNumber"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
@@ -159,7 +159,7 @@
 		
 		cell.cardRuleTextField.tag = indexPath.row;
 		cell.cardDescriptionTextView.tag = indexPath.row;
-		NSLog(@"cell description tag: %ld",cell.cardDescriptionTextView.tag);
+		NSLog(@"cell description tag: %ld",(long)cell.cardDescriptionTextView.tag);
 	}
 	
 	if ([self.thisDeck.isEditable isEqualToNumber:@0]) {
@@ -184,10 +184,10 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
 		Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
 		[self.moc deleteObject:cardToBeDeleted];
-		NSLog(@"number of rows in section: %ld",[tableView numberOfRowsInSection:0]);
+		NSLog(@"number of rows in section: %ld",(long)[tableView numberOfRowsInSection:0]);
 		
 		for (NSInteger i = indexPath.row ; i < ([tableView numberOfRowsInSection:0]-1) ; i++) {
-			NSLog(@"logging row %ld",i);
+			NSLog(@"logging row %ld",(long)i);
 			[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 		}
 		
@@ -289,8 +289,7 @@
 	NSError *error = nil;
 	if(![self.moc save: &error]) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
-		//TODO: remove all abort(); before production
+//		abort();
 	}
 	else {
 		[self.navigationController popViewControllerAnimated:YES];
@@ -319,7 +318,7 @@
 		descriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
 	}
 	else {
-		NSLog(@"indexPath tag: %ld",descriptionTextView.tag);
+		NSLog(@"indexPath tag: %ld",(long)descriptionTextView.tag);
 		
 		NSIndexPath *indexPath = [NSIndexPath indexPathForItem:descriptionTextView.tag inSection:0];
 		CustomCardCell *editedCell = (CustomCardCell*)[self.tableView cellForRowAtIndexPath:indexPath];
