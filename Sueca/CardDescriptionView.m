@@ -26,7 +26,7 @@
         
         //HEADER
         UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, ALERT_WIDTH, HEADER_HEIGHT)];
-        header.backgroundColor = [UIColor colorWithRed:0.207 green:0.646 blue:0.411 alpha:1.000];
+		header.backgroundColor = [UIColor colorWithRed:0.207 green:0.646 blue:0.411 alpha:1.000];
         
         
         
@@ -47,6 +47,8 @@
         
         self.cardTitle.textAlignment = NSTextAlignmentCenter;
         self.cardDescription.textAlignment = NSTextAlignmentCenter;
+		
+		[self.cardTitle setFont:[UIFont boldSystemFontOfSize:18]];
         
         //CLOSE BUTTON
         UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 44.0, 44.0)];
@@ -177,7 +179,7 @@
         [self show];
     }
     else {
-        //do nothing
+		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Missing Description", @"No card   description alert") message:NSLocalizedString(@"There's no detailed description for this card. Please edit your custom deck and add some description to the cards.", @"No card description alert") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
         NSLog(@"Called method with invalid values: header: %@ image: %@ title: %@ description: %@",header,image,title,description);
     }
 }

@@ -10,6 +10,7 @@
 @import AVFoundation;
 #import <Parse/Parse.h>
 #import "CardDescriptionView.h"
+#import "JBWhatsAppActivity.h"
 
 //#define IS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
@@ -552,7 +553,7 @@
 #pragma mark - CustomIOS7dialogButton Delegate Method
 
 - (void) customIOS7dialogButtonTouchUpInside:(id)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	NSString *sharingString = [NSString stringWithFormat: NSLocalizedString(@"I just pulled a card \"%@\" on Sueca Drinking Game. Come over to have some fun! #sueca", @"Acitivity View Sharing String"),self.displayCard.cardRule];
+	NSString *sharingString = [NSString stringWithFormat: NSLocalizedString(@"Everyone's drinking shots on Sueca Drinking Game. Come over to have some fun! #sueca", @"Acitivity View Sharing String")];
 	
 	UIImage *sharingImage = nil;
 	
@@ -565,15 +566,24 @@
 
 	NSURL *sharingURL = [NSURL URLWithString: @"https://itunes.apple.com/app/apple-store/id895894992?pt=50003800&ct=ActivityViewShareLink&mt=8"];
 	
+	WhatsAppMessage *whatsappMsg = [[WhatsAppMessage alloc] initWithMessage:[NSString stringWithFormat:@"%@ %@",sharingString,sharingURL] forABID:nil];
+	
 	UIActivityViewController *activityViewController =
-	[[UIActivityViewController alloc] initWithActivityItems:@[sharingString,sharingImage,sharingURL]
-//									  applicationActivities:@[UIActivityTypePostToFacebook, UIActivityTypePostToTwitter,UIActivityTypeMessage]];
+	[[UIActivityViewController alloc] initWithActivityItems:@[sharingString,sharingImage,sharingURL,whatsappMsg]
+									  applicationActivities:@[[[JBWhatsAppActivity alloc] init]]];
+	
+	activityViewController.excludedActivityTypes = @[UIActivityTypePostToWeibo,
+													 UIActivityTypePrint,
+													 UIActivityTypeCopyToPasteboard,
+													 UIActivityTypeAssignToContact,
+													 UIActivityTypeSaveToCameraRoll,
+													 UIActivityTypeAddToReadingList,
+													 UIActivityTypePostToFlickr,
+													 UIActivityTypePostToVimeo,
+													 UIActivityTypePostToTencentWeibo,
+													 UIActivityTypeAirDrop];
 	[alertView close];
-	[self presentViewController:activityViewController
-											animated:YES
-										  completion:^{
-											  //                                              [self.achievementAlert close];
-										  }];
+	[self presentViewController:activityViewController animated:YES completion:^{}];
 }
 
 #pragma mark - Core Data

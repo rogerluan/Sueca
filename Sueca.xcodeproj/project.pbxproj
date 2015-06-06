@@ -25,6 +25,7 @@
 		C57CDAEF18217D1A006920A6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C57CDAEE18217D1A006920A6 /* QuartzCore.framework */; };
 		C57F9FAB1B216EE200C50D0C /* CardDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FA81B216EE200C50D0C /* CardDescriptionView.m */; };
 		C57F9FAC1B216EE200C50D0C /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */; };
+		C57F9FB21B23220D00C50D0C /* JBWhatsAppActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FB01B23220D00C50D0C /* JBWhatsAppActivity.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
 		C5B1FB5E19EEA57000088FB8 /* DecksTVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksTVC.m */; };
@@ -252,6 +253,8 @@
 		C57F9FA81B216EE200C50D0C /* CardDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDescriptionView.m; sourceTree = "<group>"; };
 		C57F9FA91B216EE200C50D0C /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
 		C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
+		C57F9FAF1B23220D00C50D0C /* JBWhatsAppActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBWhatsAppActivity.h; sourceTree = "<group>"; };
+		C57F9FB01B23220D00C50D0C /* JBWhatsAppActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBWhatsAppActivity.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C5B1FB5A19EEA21B00088FB8 /* Sueca Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model.xcdatamodel"; sourceTree = "<group>"; };
 		C5B1FB5C19EEA57000088FB8 /* DecksTVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksTVC.h; sourceTree = "<group>"; };
@@ -943,6 +946,8 @@
 				C5B1FB6F19EEC2D200088FB8 /* Card.m */,
 				C5E9B6781A3238A600D0171A /* Deck.h */,
 				C5E9B6791A3238A600D0171A /* Deck.m */,
+				C57F9FAF1B23220D00C50D0C /* JBWhatsAppActivity.h */,
+				C57F9FB01B23220D00C50D0C /* JBWhatsAppActivity.m */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -1117,6 +1122,7 @@
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5B1FB7919F0037000088FB8 /* CustomCardCell.m in Sources */,
 				C57F9FAB1B216EE200C50D0C /* CardDescriptionView.m in Sources */,
+				C57F9FB21B23220D00C50D0C /* JBWhatsAppActivity.m in Sources */,
 				C5615E67181E82430033FEB3 /* JogoViewController.m in Sources */,
 				C5B1FB7619EFFC1D00088FB8 /* editDeckTVC.m in Sources */,
 				C5C5AAA218184814005A9625 /* main.m in Sources */,

@@ -73,7 +73,7 @@ CGFloat buttonSpacerHeight = 0;
 
     dialogView.layer.opacity = 0.5f;
     dialogView.layer.transform = CATransform3DMakeScale(1.3f, 1.3f, 1.0);
-	dialogView.layer.cornerRadius = 10;
+	dialogView.layer.cornerRadius = 8;
 	dialogView.clipsToBounds = YES;
 
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
@@ -238,7 +238,7 @@ CGFloat buttonSpacerHeight = 0;
         [closeButton addTarget:self action:@selector(customIOS7dialogButtonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
         [closeButton setTag:i];
         [closeButton setTitle:[buttonTitles objectAtIndex:i] forState:UIControlStateNormal];
-        [closeButton setTitleColor:[UIColor colorWithRed:0.207 green:0.646 blue:0.411 alpha:1.000] forState:UIControlStateNormal];
+        [closeButton setTitleColor:[UIColor colorWithRed:0.227 green:0.820 blue:0.426 alpha:1.000] forState:UIControlStateNormal];
         [closeButton setTitleColor:[UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.5f] forState:UIControlStateHighlighted];
         [closeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
         [closeButton setBackgroundColor: [UIColor darkGrayColor]];
