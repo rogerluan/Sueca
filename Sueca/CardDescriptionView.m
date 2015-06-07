@@ -58,7 +58,7 @@
         [closeButton setBackgroundImage:[UIImage imageNamed:@"closeButton"] forState:UIControlStateSelected];
         //Add action to the close button
         [closeButton addTarget:self action:@selector(closeAlert:) forControlEvents:UIControlEventTouchUpInside];
-        
+			
         
         
         //CARD HEADER

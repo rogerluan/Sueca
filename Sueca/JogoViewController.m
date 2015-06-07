@@ -413,9 +413,14 @@
 	}
 	/* Else if it's a custom deck, create cards accordingly with the suit */
 	else {
+		NSLog(@"self.deck.cards.count: %ld",[self.deck.cards count]);
 		for (Card *card in self.deck.cards) {
 			for (int i = 0; i < 2; i++) {
-				[fullDeck addObject:card];
+				Card *c_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				c_tempCard.cardRule = card.cardRule;
+				c_tempCard.cardDescription = card.cardDescription;
+				c_tempCard.cardName = [NSString stringWithFormat:@"%@C",[card.cardName substringToIndex:3]];
+				[fullDeck addObject:c_tempCard];
 				
 				Card *d_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
 				d_tempCard.cardRule = card.cardRule;
@@ -564,7 +569,7 @@
 		sharingImage = [UIImage imageNamed:@"sharingSuecaLogoImage"];
 	}
 
-	NSURL *sharingURL = [NSURL URLWithString: @"https://itunes.apple.com/app/apple-store/id895894992?pt=50003800&ct=ActivityViewShareLink&mt=8"];
+	NSURL *sharingURL = [NSURL URLWithString:@"bit.ly/1JwDmry"];
 	
 	WhatsAppMessage *whatsappMsg = [[WhatsAppMessage alloc] initWithMessage:[NSString stringWithFormat:@"%@ %@",sharingString,sharingURL] forABID:nil];
 	
