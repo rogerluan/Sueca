@@ -12,6 +12,8 @@
 #import "Deck.h"
 #import <Parse/Parse.h>
 #import <ParseCrashReporting/ParseCrashReporting.h>
+#import "TSMessage.h"
+#import "iVersion.h"
 
 @implementation a20AppDelegate
 
@@ -24,8 +26,9 @@
 	[iRate sharedInstance].daysUntilPrompt = 0;
 	[iRate sharedInstance].usesUntilPrompt = 0;
 	[iRate sharedInstance].promptAtLaunch = NO;
-	[iRate sharedInstance].eventsUntilPrompt = 150;
+	[iRate sharedInstance].eventsUntilPrompt = 80;
 	[iRate sharedInstance].promptForNewVersionIfUserRated = YES;
+	[iVersion sharedInstance].checkAtLaunch = NO;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -33,13 +36,18 @@
 	
 	NSDictionary *textTitleOptions = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
 	[[UINavigationBar appearance] setTitleTextAttributes:textTitleOptions];
-	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];
+	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];	
+	[[UITabBar appearance] setBackgroundColor:[UIColor greenColor]];
 	
 	//Parse Analytics
+	[ParseCrashReporting enable];
 	[Parse setApplicationId:@"tfea6juIRlSfNmdNDczjhvJ8HkDLBGudLnfBWnBr"
 				  clientKey:@"SmnuevW7amI36UrOHxOWzdY2zeVo74qO7YgI8S1m"];
 	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 	
+	//iRate
+	[iRate sharedInstance].eventCount = 0;
+
     return YES;
 }
 

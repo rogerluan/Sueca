@@ -9,8 +9,8 @@
         <!--Decks-->
         <scene sceneID="vAi-am-QM7">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="Ymb-wB-Rge" customClass="DecksTVC" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xEj-NU-2st">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="Ymb-wB-Rge" customClass="DecksTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xEj-NU-2st">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -31,25 +31,28 @@
                     <navigationItem key="navigationItem" title="Decks" id="FnG-FK-QSo">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Do-Hz-Oht">
                             <connections>
-                                <segue destination="Ayl-X3-1dY" kind="push" identifier="newDeck" id="Qdi-OL-VsX"/>
+                                <action selector="newDeck:" destination="Ymb-wB-Rge" id="FbR-vz-aqr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Ayl-X3-1dY" kind="push" identifier="newDeck" id="Xo1-g4-6lH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zgb-gi-8D3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1037" y="1127"/>
         </scene>
-        <!--Edit DeckTVC-->
+        <!--Edit Deck Table View Controller-->
         <scene sceneID="9sa-w3-SHC">
             <objects>
-                <tableViewController storyboardIdentifier="editDeckTVC" id="Ayl-X3-1dY" customClass="editDeckTVC" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="editDeckTVC" id="Ayl-X3-1dY" customClass="EditDeckTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="140" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujM-WT-RMI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" rowHeight="140" id="ZOU-2D-E7w" customClass="CustomCardCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" rowHeight="140" id="ZOU-2D-E7w" customClass="CardRulesCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZOU-2D-E7w" id="7KE-p6-meN">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -113,7 +116,7 @@
         <!--Sueca-->
         <scene sceneID="vy6-Ae-quP">
             <objects>
-                <viewController id="e59-W6-SjI" customClass="JogoViewController" sceneMemberID="viewController">
+                <viewController id="e59-W6-SjI" customClass="GameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RHI-A2-7HN"/>
                         <viewControllerLayoutGuide type="bottom" id="cAJ-Xo-c3e"/>
@@ -235,11 +238,11 @@
             </objects>
             <point key="canvasLocation" x="196" y="744"/>
         </scene>
-        <!--Rules-->
+        <!--Decks-->
         <scene sceneID="cSD-iy-3bP">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fNX-ih-5hQ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Rules" image="rules" id="R9w-nP-c0V"/>
+                    <tabBarItem key="tabBarItem" title="Decks" image="decks" id="R9w-nP-c0V"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ItR-bA-6O1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -258,7 +261,7 @@
     <resources>
         <image name="Sueca-Background-Logo" width="511" height="675"/>
         <image name="Sueca-Tab-Bar-Icon" width="23" height="30"/>
-        <image name="rules" width="30" height="23"/>
+        <image name="decks" width="30" height="30"/>
         <image name="shuffle-cards-pressed" width="130" height="34"/>
         <image name="sort-card-pressed" width="130" height="34"/>
     </resources>

@@ -2,8 +2,8 @@
 /* Class = "UINavigationItem"; title = "Decks"; ObjectID = "FnG-FK-QSo"; */
 "FnG-FK-QSo.title" = "Decks";
 
-/* Class = "UITabBarItem"; title = "Rules"; ObjectID = "R9w-nP-c0V"; */
-"R9w-nP-c0V.title" = "Regeln";
+/* Class = "UITabBarItem"; title = "Decks"; ObjectID = "R9w-nP-c0V"; */
+"R9w-nP-c0V.title" = "Decks";
 
 /* Class = "UIButton"; highlightedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
 "YYI-LG-EaA.highlightedTitle" = "Ziehen";
@@ -16,9 +16,6 @@
 
 /* Class = "UITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
 "afF-zT-taB.text" = "Berühren um die Kartenbeschreibung zu ändern";
-
-/* Class = "UILabel"; text = "Long enough card description here"; ObjectID = "mY5-na-tGf"; */
-"mY5-na-tGf.text" = "Long enough card description here";
 
 /* Class = "UITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
 "tP5-AK-7Cl.placeholder" = "Kartenregel";

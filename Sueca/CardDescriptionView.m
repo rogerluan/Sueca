@@ -7,6 +7,8 @@
 //
 
 #import "CardDescriptionView.h"
+#import "TSMessage.h"
+#import "Parse.h"
 
 #define ALERT_WIDTH 290.0
 #define HEADER_HEIGHT 44.0
@@ -26,7 +28,7 @@
         
         //HEADER
         UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, ALERT_WIDTH, HEADER_HEIGHT)];
-		header.backgroundColor = [UIColor colorWithRed:0.207 green:0.646 blue:0.411 alpha:1.000];
+		header.backgroundColor = [UIColor colorWithRed:0.178 green:0.594 blue:0.337 alpha:1.000];
         
         
         
@@ -64,7 +66,7 @@
         //CARD HEADER
         CGSize labelSize = CGSizeMake(ALERT_WIDTH*0.60, 28.0);
         self.cardHeader = [[UILabel alloc] initWithFrame:CGRectMake(header.bounds.size.width/2-labelSize.width/2, 10.0, labelSize.width, labelSize.height)];
-        self.cardHeader.text = NSLocalizedString(@"Congratulations!", nil); //default header
+        self.cardHeader.text = NSLocalizedString(@"#Sueca", nil); //default header
         self.cardHeader.textColor = [UIColor whiteColor];
         self.cardHeader.textAlignment = NSTextAlignmentCenter;
         self.cardHeader.numberOfLines = 1;
@@ -114,7 +116,7 @@
  *  @author Roger Oba
  *
  */
-- (void) showAlertWithHeader:(NSString*) header image:(UIImage*)image title:(NSString*)title description:(NSString*)description {
+- (void) showAlertWithHeader:(NSString*) header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
     if (image && title && description) {
         if (header) {
             self.cardHeader.text = header;
@@ -179,8 +181,40 @@
         [self show];
     }
     else {
-		[[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Missing Description", @"No card   description alert") message:NSLocalizedString(@"There's no detailed description for this card. Please edit your custom deck and add some description to the cards.", @"No card description alert") delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
         NSLog(@"Called method with invalid values: header: %@ image: %@ title: %@ description: %@",header,image,title,description);
+
+		NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noDescriptionWarningCount"];
+		
+		warningCount++;
+		[[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noDescriptionWarningCount"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		
+		if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 1) {
+			UIViewController *senderViewController = sender;
+			[TSMessage showNotificationInViewController:senderViewController.tabBarController
+												  title:NSLocalizedString(@"Missing Description", @"No card description alert")
+											   subtitle:NSLocalizedString(@"There's no detailed description for this card. Edit your custom deck to add some description to the cards.", @"No card description alert")
+												  image:nil
+												   type:TSMessageNotificationTypeWarning
+											   duration:TSMessageNotificationDurationAutomatic
+											   callback:nil
+											buttonTitle:NSLocalizedString(@"Never Show Again",nil)
+										 buttonCallback:^{
+											 [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"showNoDescriptionWarning"];
+											 [[NSUserDefaults standardUserDefaults] synchronize];
+											 
+											 [PFAnalytics trackEventInBackground:@"showNoDescriptionWarning" dimensions:@{ @"warningCount": [NSString stringWithFormat:@"%ld",(long)warningCount]} block:^(BOOL succeeded, NSError *error) {
+												 if (!error) {
+													 NSLog(@"Successfully logged the 'showNoDescriptionWarning' event");
+												 }
+											 }];
+										 }
+											 atPosition:TSMessageNotificationPositionTop
+								   canBeDismissedByUser:YES];
+		}
+		else {
+			NSLog(@"showNoDescriptionWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"]);
+		}
     }
 }
 
