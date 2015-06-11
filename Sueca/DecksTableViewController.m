@@ -1,9 +1,9 @@
 //
-//  DecksTVC.m
+//  DecksTableViewController.m
 //  Sueca
 //
-//  Created by Roger Luan on 10/15/14.
-//  Copyright (c) 2014 Roger Luan. All rights reserved.
+//  Created by Roger Oba on 10/15/14.
+//  Copyright (c) 2014 Roger Oba. All rights reserved.
 //
 
 #import "DecksTableViewController.h"
@@ -38,10 +38,9 @@
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 		exit(-1);
 	}
-	
-//	self.clearsSelectionOnViewWillAppear = YES;
+
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
-	
+		
 	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showNewFeatureNotification"]) {
 		[TSMessage showNotificationInViewController:self
 											  title:NSLocalizedString(@"Customizable!", @"TSMessage Customizable Notification Title")
@@ -92,6 +91,15 @@
     return cell;
 }
 
+
+/**
+ *  @author Roger Oba
+ *
+ *  Method used to configure UITableViewCells
+ *
+ *  @param cell      the cell that is being configured
+ *  @param indexPath the indexPath of the given cell
+ */
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
 	Deck *reusableDeck  = nil;
 	if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
@@ -282,6 +290,13 @@
 	return context;
 }
 
+/**
+ *  @author Roger Oba
+ *
+ *  Method that returns the deck that is currently being used in the game.
+ *
+ *  @return Deck that is currently being used in the game.
+ */
 - (Deck*) playingDeck {
 	self.moc = [self managedObjectContext];
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

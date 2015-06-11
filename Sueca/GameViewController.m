@@ -1,9 +1,9 @@
 //
-//  JogoViewController.m
+//  GameViewController.m
 //  Sueca
 //
-//  Created by Bruno Pedroso on 25/10/13.
-//  Copyright (c) 2013 Roger Luan. All rights reserved.
+//  Created by Roger Oba on 25/10/13.
+//  Copyright (c) 2013 Roger Oba. All rights reserved.
 //
 
 #import "GameViewController.h"
@@ -512,7 +512,7 @@
 /**
  *  Adds a shadow to the given layer.
  *
- *  Shadow is black, with 90% of opacity and radius of 4.0f.
+ *  Shadow is black, with 90% of opacity and radius of 10.0f.
  *
  *  @param layer that will have the shadow added on.
  *  @author Roger Oba

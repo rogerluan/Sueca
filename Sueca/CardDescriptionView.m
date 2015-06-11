@@ -2,7 +2,7 @@
 //  AchievementAlertView.m
 //  Project Epsilon
 //
-//  Created by Roger Luan on 9/12/14.
+//  Created by Roger Oba on 9/12/14.
 //  Copyright (c) 2014 Cupula Mobile. All rights reserved.
 //
 

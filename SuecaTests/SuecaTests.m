@@ -2,8 +2,8 @@
 //  SuecaTests.m
 //  SuecaTests
 //
-//  Created by Roger Luan on 10/23/13.
-//  Copyright (c) 2013 Roger Luan. All rights reserved.
+//  Created by Roger Oba on 10/23/13.
+//  Copyright (c) 2013 Roger Oba. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

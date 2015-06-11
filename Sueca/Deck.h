@@ -2,8 +2,8 @@
 //  Deck.h
 //  Sueca
 //
-//  Created by Roger Luan on 12/5/14.
-//  Copyright (c) 2014 Roger Luan. All rights reserved.
+//  Created by Roger Oba on 12/5/14.
+//  Copyright (c) 2014 Roger Oba. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

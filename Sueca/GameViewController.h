@@ -1,9 +1,9 @@
 //
-//  JogoViewController.h
+//  GameViewController.h
 //  Sueca
 //
-//  Created by Bruno Pedroso on 25/10/13.
-//  Copyright (c) 2013 Roger Luan. All rights reserved.
+//  Created by Roger Oba on 25/10/13.
+//  Copyright (c) 2013 Roger Oba. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
