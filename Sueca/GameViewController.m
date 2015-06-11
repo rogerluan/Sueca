@@ -68,11 +68,6 @@
 	self.deckArray = [[NSMutableArray alloc] init];
 	[self setupViewsLayout];
 	
-	if ([[NSUserDefaults standardUserDefaults] integerForKey:@"DeckNumber"] == 0) {
-		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"DeckNumber"];
-		[[NSUserDefaults standardUserDefaults] synchronize];
-	}
-	
 	//0: never decided
 	//1: displays warning
 	//2: opted out
@@ -107,7 +102,6 @@
 							   canBeDismissedByUser:YES];
 	}
 
-//	[[iVersion sharedInstance] checkIfNewVersion];
 	[[iVersion sharedInstance] checkForNewVersion];
 	[[iVersion sharedInstance] setDelegate:self];
 	
@@ -125,33 +119,6 @@
 		NSLog(@"Deck is nil. Aborting.");
 		abort();
 	}
-}
-
-- (void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails {
-	NSLog(@"New version detected!");
-	[TSMessage showNotificationInViewController:self.tabBarController
-										  title:NSLocalizedString(@"Update Available",@"Update available warning title")
-									   subtitle:NSLocalizedString(@"You're using an outdated version of Sueca. Update to have the most awesome new features!", @"Update available warning subtitle")
-										  image:nil
-										   type:TSMessageNotificationTypeWarning
-									   duration:TSMessageNotificationDurationEndless
-									   callback:nil
-									buttonTitle:NSLocalizedString(@"Update", @"Update app button")
-								 buttonCallback:^{
-									 [PFAnalytics trackEventInBackground:@"updatedViaNotificationButton" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-										 if (!error) {
-											 NSLog(@"Successfully logged the 'updatedViaNotificationButton' event");
-										 }
-									 }];
-									 
-									 [[iVersion sharedInstance] openAppPageInAppStore];
-								 }
-									 atPosition:TSMessageNotificationPositionTop
-						   canBeDismissedByUser:YES];
-}
-
-- (void)iVersionDidNotDetectNewVersion {
-	NSLog(@"No new version. Your app is up to date.");
 }
 
 - (IBAction)displayCardDescription:(id)sender {
@@ -311,7 +278,6 @@
             [view removeFromSuperview];
 		}
 	}
-//    self.ruleButton.titleLabel.text = @"";
 	
 	[self.ruleButton setTitle:@"" forState:UIControlStateNormal];
 	[self.ruleButton setTitle:@"" forState:UIControlStateSelected];
@@ -577,24 +543,54 @@
 
 	NSURL *sharingURL = [NSURL URLWithString:@"bit.ly/1JwDmry"];
 	
-	WhatsAppMessage *whatsappMsg = [[WhatsAppMessage alloc] initWithMessage:[NSString stringWithFormat:@"%@ %@",sharingString,sharingURL] forABID:nil];
+	NSString *fullSharingString = [NSString stringWithFormat:@"%@ %@",sharingString,sharingURL];
+	
+	WhatsAppMessage *whatsappMsg = [[WhatsAppMessage alloc] initWithMessage:fullSharingString forABID:nil];
 	
 	UIActivityViewController *activityViewController =
-	[[UIActivityViewController alloc] initWithActivityItems:@[sharingString,sharingImage,sharingURL,whatsappMsg]
+	[[UIActivityViewController alloc] initWithActivityItems:@[fullSharingString,sharingImage,sharingURL,whatsappMsg]
 									  applicationActivities:@[[[JBWhatsAppActivity alloc] init]]];
 	
-	activityViewController.excludedActivityTypes = @[UIActivityTypePostToWeibo,
-													 UIActivityTypePrint,
+	activityViewController.excludedActivityTypes = @[UIActivityTypePrint,
 													 UIActivityTypeCopyToPasteboard,
 													 UIActivityTypeAssignToContact,
 													 UIActivityTypeSaveToCameraRoll,
 													 UIActivityTypeAddToReadingList,
 													 UIActivityTypePostToFlickr,
 													 UIActivityTypePostToVimeo,
-													 UIActivityTypePostToTencentWeibo,
 													 UIActivityTypeAirDrop];
 	[alertView close];
 	[self presentViewController:activityViewController animated:YES completion:^{}];
+}
+
+
+#pragma mark - iVersion Delegate Methods
+
+- (void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails {
+	NSLog(@"New version detected!");
+	[TSMessage showNotificationInViewController:self.tabBarController
+										  title:NSLocalizedString(@"Update Available",@"Update available warning title")
+									   subtitle:NSLocalizedString(@"You're using an outdated version of Sueca. Update to have the most awesome new features!", @"Update available warning subtitle")
+										  image:nil
+										   type:TSMessageNotificationTypeWarning
+									   duration:TSMessageNotificationDurationEndless
+									   callback:nil
+									buttonTitle:NSLocalizedString(@"Update", @"Update app button")
+								 buttonCallback:^{
+									 [PFAnalytics trackEventInBackground:@"updatedViaNotificationButton" dimensions:nil block:^(BOOL succeeded, NSError *error) {
+										 if (!error) {
+											 NSLog(@"Successfully logged the 'updatedViaNotificationButton' event");
+										 }
+									 }];
+									 
+									 [[iVersion sharedInstance] openAppPageInAppStore];
+								 }
+									 atPosition:TSMessageNotificationPositionTop
+						   canBeDismissedByUser:YES];
+}
+
+- (void)iVersionDidNotDetectNewVersion {
+	NSLog(@"No new version. Your app is up to date.");
 }
 
 #pragma mark - Core Data
