@@ -182,8 +182,6 @@
 	
 	[[iRate sharedInstance] logEvent:NO];
 	
-	[self showWelcomeBackMessage];
-	
 	NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalShuffleCount"];
 	globalSortCount++;
 	[[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:@"globalShuffleCount"];
@@ -306,7 +304,15 @@
 - (void) clearTable {
     for (UIImageView *view in [self.cardContainerView subviews]) {
         if (![view isEqual:self.gameLogo] ) {
-            [view removeFromSuperview];
+			[UIView animateWithDuration:0.5
+								  delay:0
+								options:UIViewAnimationOptionCurveEaseOut
+							 animations:^{
+								 view.alpha = 0;
+							 }
+							 completion: ^(BOOL finished){
+								 [view removeFromSuperview];
+							 }];
 		}
 	}
 	
@@ -714,6 +720,14 @@
 
 #pragma mark - Randomizing Methods
 
+
+/**
+ *  @author Roger Oba
+ *
+ *  Randomizes a Welcome Back message.
+ *
+ *  @return returns the string of the message
+ */
 - (NSString*) randomWelcomeBackMessage {
 	
 	NSArray *welcomeBackMessages = @[NSLocalizedString(@"Enjoy!", @"Welcome Back Message 1"),
@@ -730,17 +744,6 @@
 	
 	return [welcomeBackMessages objectAtIndex:arc4random() % [welcomeBackMessages count]];
 }
-
-- (BOOL) doesString:(NSString *)string containCharacter:(char)character {
-	if ([string rangeOfString:[NSString stringWithFormat:@"%c",character]].location != NSNotFound) {
-		return YES;
-	}
-	return NO;
-}
-
-
-
-
 
 #pragma mark - Core Data
 
