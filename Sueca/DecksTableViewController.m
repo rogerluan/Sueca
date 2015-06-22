@@ -109,7 +109,7 @@
 		}
 	}
 	if (reusableDeck) {
-		cell.textLabel.text = reusableDeck.deckName;
+		cell.textLabel.text = NSLocalizedString(reusableDeck.deckName, nil);
 		cell.textLabel.textColor = [UIColor whiteColor];
 		cell.backgroundColor = [UIColor clearColor];
 		cell.accessoryType = UITableViewCellAccessoryDetailButton;

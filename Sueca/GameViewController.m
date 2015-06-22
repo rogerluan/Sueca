@@ -28,7 +28,7 @@
 #define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 #define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
-@interface GameViewController () <UIGestureRecognizerDelegate,CustomIOS7AlertViewDelegate,TSMessageViewProtocol,iVersionDelegate>
+@interface GameViewController () <UIGestureRecognizerDelegate,CustomIOS7AlertViewDelegate,TSMessageViewProtocol,iVersionDelegate,iRateDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *shuffleDeckButton;
 @property (weak, nonatomic) IBOutlet UIButton *drawCardButton;
@@ -79,31 +79,12 @@
 		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"showNoDescriptionWarning"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 	}
+		[self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
 	
-	/* Creates default deck only once */
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
-		[[NSUserDefaults standardUserDefaults] synchronize];
-		[self createDefaultDeck];
-	}
-	else {
-		[TSMessage showNotificationInViewController:self.tabBarController
-											  title:NSLocalizedString(@"Welcome Back! 😎", @"TSMessage Welcome Back Title")
-										   subtitle:NSLocalizedString(@"Enjoy!🍸", @"TSMessage Welcome Back Subtitle")
-											  image:[UIImage imageNamed:@"notification-beer"]
-											   type:TSMessageNotificationTypeDarkMessage
-										   duration:TSMessageNotificationDurationAutomatic
-										   callback:nil
-										buttonTitle:nil
-									 buttonCallback:^{
-										 NSLog(@"User tapped the button");
-									 }
-										 atPosition:TSMessageNotificationPositionTop
-							   canBeDismissedByUser:YES];
-	}
 
 	[[iVersion sharedInstance] checkForNewVersion];
 	[[iVersion sharedInstance] setDelegate:self];
+	[[iRate sharedInstance] setDelegate:self];
 	
 	/* Inits the deck that should be used*/
 	self.deck = [self deckBeingUsed];
@@ -117,7 +98,7 @@
 	}
 	else {
 		NSLog(@"Deck is nil. Aborting.");
-		abort();
+//		abort();
 	}
 }
 
@@ -139,7 +120,37 @@
 	}
 	else {
 		NSLog(@"Deck is nil. Aborting.");
-		abort();
+	}
+}
+
+- (void) showWelcomeBackMessage {
+	
+	/* Creates default deck only once */
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		[self createDefaultDeck];
+	}
+	else {
+	[TSMessage showNotificationInViewController:self.tabBarController
+										  title:NSLocalizedString(@"Welcome Back! 😎", @"TSMessage Welcome Back Title")
+									   subtitle:NSLocalizedString(@"Enjoy!", @"TSMessage Welcome Back Subtitle")
+										  image:[UIImage imageNamed:@"notification-beer"]
+										   type:TSMessageNotificationTypeDarkMessage
+									   duration:TSMessageNotificationDurationAutomatic
+									   callback:^{
+										   [PFAnalytics trackEventInBackground:@"interactionWithWelcomeBack" dimensions:nil block:^(BOOL succeeded, NSError *error) {
+											   if (!error) {
+												   NSLog(@"Successfully logged the 'interactionWithWelcomeBack' event");
+											   }
+										   }];
+									   }
+									buttonTitle:nil
+								 buttonCallback:^{
+									 NSLog(@"User tapped the button");
+								 }
+									 atPosition:TSMessageNotificationPositionTop
+						   canBeDismissedByUser:YES];
 	}
 }
 
@@ -253,6 +264,9 @@
 		if (![view isEqual:self.gameLogo] ) {
 			view.alpha/=1.2;
 		}
+		if (view.alpha <= 0.012579) { //removes invisible images
+			[view removeFromSuperview];
+		}
 	}
 	
 	[self.cardContainerView addSubview:cardImage];
@@ -311,14 +325,69 @@
 	[fetchRequest setPredicate:predicate];
 	
 	NSError *error = nil;
-	NSArray *fetchedObjects = [self.moc executeFetchRequest:fetchRequest error:&error];
-	if (fetchedObjects == nil || ([fetchedObjects count] == 0)) {
+	NSArray *deckBeingUsedFetchedObjects = [self.moc executeFetchRequest:fetchRequest error:&error];
+	if (deckBeingUsedFetchedObjects == nil || ([deckBeingUsedFetchedObjects count] == 0)) {
 		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		abort();
+		
+		@try {
+			if ([self defaultDeckExist]) {
+				Deck *defaultDeck = [self defaultDeckExist];
+				defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
+				
+				NSError *coreDataError = nil;
+				if(![self.moc save: &coreDataError]) {
+					NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
+				}
+				else {
+					NSLog(@"Successfully solved a potential crash! Identifier: There was no deck being used, so it selected default deck to be used.");
+				}
+			}
+			else {
+				@throw [NSException exceptionWithName:@"noDefaultDeck" reason:@"For some reason, the default deck wasn't instantiated." userInfo:nil];
+			}
+		}
+		@catch (NSException *exception) {
+			NSLog(@"Exception %@ caught. %@ Trying to solve it now.",exception.name,exception.reason);
+			if (![self defaultDeckExist]) {
+				[self createDefaultDeck];
+			}
+			else {
+				NSLog(@"Everything was tried. No solution found. Aborting.");
+				abort();
+			}
+		}
+		@finally {
+			NSLog(@"Successfully solved a potential crash! Hell yeah!");
+			return [self deckBeingUsed];
+		}
 	}
 	else {
-		return [fetchedObjects firstObject];
+		return [deckBeingUsedFetchedObjects firstObject];
 	}
+}
+
+/**
+ *  @author Roger Oba
+ *
+ *  Verifies if the default deck already exists.
+ *
+ *  @return Returns the default deck if it exists, else nil.
+ */
+- (Deck*) defaultDeckExist {
+	self.moc = [self managedObjectContext];
+	
+	//Double checks if the default deck doesn't already exist.
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Deck" inManagedObjectContext:self.moc];
+	[fetchRequest setEntity:entity];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isEditable == %@",[NSNumber numberWithBool:NO]];
+	[fetchRequest setPredicate:predicate];
+	
+	NSError *error = nil;
+	NSArray *defaultDeckFetchedObjects = [self.moc executeFetchRequest:fetchRequest error:&error];
+	
+	NSLog(@"defaultDeckExist response: %ld",(long)defaultDeckFetchedObjects.count);
+	return defaultDeckFetchedObjects.count ? [defaultDeckFetchedObjects objectAtIndex:0] : nil;
 }
 
 /**
@@ -327,59 +396,58 @@
  *  @author Roger Oba
  */
 - (void) createDefaultDeck {
-	
-	self.moc = [self managedObjectContext];
-	
-	NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolha 1 pessoa para beber", nil),
-						  NSLocalizedString(@"Escolha 2 pessoas para beber", nil),
-						  NSLocalizedString(@"Escolha 3 pessoas para beber", nil),
-						  NSLocalizedString(@"Jogo do “Stop”", nil),
-						  NSLocalizedString(@"Jogo da Memória", nil),
-						  NSLocalizedString(@"Continência", nil),
-						  NSLocalizedString(@"Jogo do “Pi”", nil),
-						  NSLocalizedString(@"Regra Geral", nil),
-						  NSLocalizedString(@"Coringa", nil),
-						  NSLocalizedString(@"Vale-banheiro", nil),
-						  NSLocalizedString(@"Todos bebem 1 dose", nil),
-						  NSLocalizedString(@"Todas as damas bebem", nil),
-						  NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
-	
-	NSArray *cardDescriptions = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Quem tirar essa carta escolhe 1 pessoa para beber.", @"Description Card 1"),
-						  NSLocalizedString(@"Quem tirar essa carta escolhe 2 pessoas para beber.", @"Description Card 2"),
-						  NSLocalizedString(@"Quem tirar essa carta escolhe 3 pessoas para beber.", @"Description Card 3"),
-						  NSLocalizedString(@"Quem tirou essa carta deve escolher uma letra e um tema para o Stop. Então, na sequência da roda de amigos, cada um tem que falar uma palavra que comece com a letra escolhida, relacionada ao tema. Não vale repetir palavra! O primeiro que não souber, ou repetir palavra, bebe!", @"Description Card 4"),
-						  NSLocalizedString(@"Quem tirou a carta fala uma palavra qualquer. O próximo tem que repetir a sequência de palavras anterior e adicionar uma. E assim por diante. Exemplo: Quem tirou a carta fala “mesa”. O próximo fala “mesa cachorro”. O próximo diz “mesa cachorro lápis”, e assim por diante. O primeiro que errar ou demorar, bebe.", @"Description Card 5"),
-						  NSLocalizedString(@"Quem tirar essa carta, “guarda” ela mentalmente consigo. Discretamente no meio do jogo, essa pessoa deve colocar a mão na testa, fazendo continência e observar os outros jogadores. O último que perceber e fizer continência, bebe.", @"Description Card 6"),
-						  NSLocalizedString(@"Começando pela pessoa que tirar a carta, esta deve escolher um número. Assim, todos devem seguir uma sequência começando em 1, e quando o número da sequência for múltiplo do número escolhido, a pessoa deve falar “Pi”. Por exemplo: foi escolhido o número 3, então: 1, 2, pi, 4, 5, pi, 7, 8, pi, etc. O primeiro que errar, bebe!", @"Description Card 7"),
-						  NSLocalizedString(@"Quem tira essa carta determina uma regra para todos obedecerem. Pode ser algo do tipo “está proíbido falar a palavra ‘beber’ e seus derivados”, ou “antes de beber uma dose, a pessoa tem que rebolar”. Quem quebrar a regra, deve beber (às vezes, de novo). A Regra Geral pode ser substituída por outra Regra Geral, caso contrário, dura o jogo todo.", @"Description Card 8"),
-						  NSLocalizedString(@"A pessoa que tirar essa carta pode transformá-la em qualquer outra!", @"Description Card 9"),
-						  NSLocalizedString(@"Como teoricamente ninguém pode sair para ir ao banheiro enquanto estiver jogando, esta carta dá o direito à quem a tirou de ir ao banheiro. A carta só vale 1 vez. Ela pode guardar para ir mais tarde, ou “vender” à alguém, em troca de “favores” 😉", @"Description Card 10"),
-						  NSLocalizedString(@"Todos que estiverem jogando bebem uma dose, inclusive quem tirou a carta!", @"Description Card 11"),
-						  NSLocalizedString(@"Todas as damas bebem uma dose.", @"Description Card 12"),
-						  NSLocalizedString(@"Todos os cavalheiros bebem uma dose.", @"Description Card 13"), nil];
-	
-	NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-Um",@"02-Dois",@"03-Tres",@"04-Quatro",@"05-Cinco",@"06-Seis",@"07-Sete",@"08-Oito",@"09-Nove",@"10-Dez",@"11-Valete",@"12-Dama",@"13-Rei", nil];
-	
-	NSManagedObjectContext *moc = [self managedObjectContext];
-	
-	Deck *defaultDeck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
-	defaultDeck.deckName = NSLocalizedString(@"Default", nil);
-	defaultDeck.isEditable = [NSNumber numberWithBool:NO];
-	defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
-	
-	for (int i = 0 ; i<13 ; i++) {
-		Card *defaultDeckCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
-		defaultDeckCard.cardName = [cardImages objectAtIndex:i];
-		defaultDeckCard.cardRule = [cardRules objectAtIndex:i];
-		defaultDeckCard.cardDescription = [cardDescriptions objectAtIndex:i];
+	if(![self defaultDeckExist]) {
+		NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolha 1 pessoa para beber", nil),
+							  NSLocalizedString(@"Escolha 2 pessoas para beber", nil),
+							  NSLocalizedString(@"Escolha 3 pessoas para beber", nil),
+							  NSLocalizedString(@"Jogo do “Stop”", nil),
+							  NSLocalizedString(@"Jogo da Memória", nil),
+							  NSLocalizedString(@"Continência", nil),
+							  NSLocalizedString(@"Jogo do “Pi”", nil),
+							  NSLocalizedString(@"Regra Geral", nil),
+							  NSLocalizedString(@"Coringa", nil),
+							  NSLocalizedString(@"Vale-banheiro", nil),
+							  NSLocalizedString(@"Todos bebem 1 dose", nil),
+							  NSLocalizedString(@"Todas as damas bebem", nil),
+							  NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
 		
-		[defaultDeck addCardsObject:defaultDeckCard];
-	}
-	
-	NSError *coreDataError = nil;
-	if(![moc save: &coreDataError]) {
-		NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
-//		abort();
+		NSArray *cardDescriptions = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Quem tirar essa carta escolhe 1 pessoa para beber.", @"Description Card 1"),
+									 NSLocalizedString(@"Quem tirar essa carta escolhe 2 pessoas para beber.", @"Description Card 2"),
+									 NSLocalizedString(@"Quem tirar essa carta escolhe 3 pessoas para beber.", @"Description Card 3"),
+									 NSLocalizedString(@"Quem tirou essa carta deve escolher uma letra e um tema para o Stop. Então, na sequência da roda de amigos, cada um tem que falar uma palavra que comece com a letra escolhida, relacionada ao tema. Não vale repetir palavra! O primeiro que não souber, ou repetir palavra, bebe!", @"Description Card 4"),
+									 NSLocalizedString(@"Quem tirou a carta fala uma palavra qualquer. O próximo tem que repetir a sequência de palavras anterior e adicionar uma. E assim por diante. Exemplo: Quem tirou a carta fala “mesa”. O próximo fala “mesa cachorro”. O próximo diz “mesa cachorro lápis”, e assim por diante. O primeiro que errar ou demorar, bebe.", @"Description Card 5"),
+									 NSLocalizedString(@"Quem tirar essa carta, “guarda” ela mentalmente consigo. Discretamente no meio do jogo, essa pessoa deve colocar a mão na testa, fazendo continência e observar os outros jogadores. O último que perceber e fizer continência, bebe.", @"Description Card 6"),
+									 NSLocalizedString(@"Começando pela pessoa que tirar a carta, esta deve escolher um número. Assim, todos devem seguir uma sequência começando em 1, e quando o número da sequência for múltiplo do número escolhido, a pessoa deve falar “Pi”. Por exemplo: foi escolhido o número 3, então: 1, 2, pi, 4, 5, pi, 7, 8, pi, etc. O primeiro que errar, bebe!", @"Description Card 7"),
+									 NSLocalizedString(@"Quem tira essa carta determina uma regra para todos obedecerem. Pode ser algo do tipo “está proíbido falar a palavra ‘beber’ e seus derivados”, ou “antes de beber uma dose, a pessoa tem que rebolar”. Quem quebrar a regra, deve beber (às vezes, de novo). A Regra Geral pode ser substituída por outra Regra Geral, caso contrário, dura o jogo todo.", @"Description Card 8"),
+									 NSLocalizedString(@"A pessoa que tirar essa carta pode transformá-la em qualquer outra!", @"Description Card 9"),
+									 NSLocalizedString(@"Como teoricamente ninguém pode sair para ir ao banheiro enquanto estiver jogando, esta carta dá o direito à quem a tirou de ir ao banheiro. A carta só vale 1 vez. Ela pode guardar para ir mais tarde, ou “vender” à alguém, em troca de “favores” 😉", @"Description Card 10"),
+									 NSLocalizedString(@"Todos que estiverem jogando bebem uma dose, inclusive quem tirou a carta!", @"Description Card 11"),
+									 NSLocalizedString(@"Todas as damas bebem uma dose.", @"Description Card 12"),
+									 NSLocalizedString(@"Todos os cavalheiros bebem uma dose.", @"Description Card 13"), nil];
+		
+		NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-Um",@"02-Dois",@"03-Tres",@"04-Quatro",@"05-Cinco",@"06-Seis",@"07-Sete",@"08-Oito",@"09-Nove",@"10-Dez",@"11-Valete",@"12-Dama",@"13-Rei", nil];
+		
+		NSManagedObjectContext *moc = [self managedObjectContext];
+		
+		Deck *defaultDeck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
+		defaultDeck.deckName = NSLocalizedString(@"Default", nil);
+		defaultDeck.isEditable = [NSNumber numberWithBool:NO];
+		defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
+		
+		for (int i = 0 ; i<13 ; i++) {
+			Card *defaultDeckCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
+			defaultDeckCard.cardName = [cardImages objectAtIndex:i];
+			defaultDeckCard.cardRule = [cardRules objectAtIndex:i];
+			defaultDeckCard.cardDescription = [cardDescriptions objectAtIndex:i];
+			
+			[defaultDeck addCardsObject:defaultDeckCard];
+		}
+		
+		NSError *coreDataError = nil;
+		if(![moc save: &coreDataError]) {
+			NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
+			//		abort();
+		}
 	}
 }
 
@@ -592,6 +660,41 @@
 - (void)iVersionDidNotDetectNewVersion {
 	NSLog(@"No new version. Your app is up to date.");
 }
+
+#pragma mark - iRate Delegate
+
+- (void) iRateUserDidAttemptToRateApp {
+	[PFAnalytics trackEventInBackground:@"iRateUserDidAttemptToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
+		if (!error) {
+			NSLog(@"Successfully logged the 'iRateUserDidAttemptToRateApp' event");
+		}
+	}];
+}
+
+- (void) iRateUserDidDeclineToRateApp {
+	[PFAnalytics trackEventInBackground:@"iRateUserDidDeclineToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
+		if (!error) {
+			NSLog(@"Successfully logged the 'iRateUserDidDeclineToRateApp' event");
+		}
+	}];
+}
+
+- (void) iRateUserDidRequestReminderToRateApp {
+	[PFAnalytics trackEventInBackground:@"iRateUserDidRequestReminderToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
+		if (!error) {
+			NSLog(@"Successfully logged the 'iRateUserDidRequestReminderToRateApp' event");
+		}
+	}];
+}
+
+- (void)iRateDidOpenAppStore {
+	[PFAnalytics trackEventInBackground:@"iRateDidOpenAppStore" dimensions:nil block:^(BOOL succeeded, NSError *error) {
+		if (!error) {
+			NSLog(@"Successfully logged the 'iRateDidOpenAppStore' event");
+		}
+	}];
+}
+
 
 #pragma mark - Core Data
 
