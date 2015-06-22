@@ -79,7 +79,15 @@
 		[[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"showNoDescriptionWarning"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 	}
+	/* Creates default deck only once */
+	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+		[self createDefaultDeck];
+	}
+	else {
 		[self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
+	}
 	
 
 	[[iVersion sharedInstance] checkForNewVersion];
@@ -105,7 +113,7 @@
 - (IBAction)displayCardDescription:(id)sender {
 	if ([self.cardContainerView.subviews count]) {
 		CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
-		[descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:self.displayCard.cardName] title:self.displayCard.cardRule description:self.displayCard.cardDescription sender:self];
+		[descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:self.displayCard.cardName] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
 		descriptionView.delegate = self;
 	}
 }
@@ -125,16 +133,15 @@
 
 - (void) showWelcomeBackMessage {
 	
-	/* Creates default deck only once */
-	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
-		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
-		[[NSUserDefaults standardUserDefaults] synchronize];
-		[self createDefaultDeck];
+	NSString *welcomeBackMessage = [self randomWelcomeBackMessage];
+	NSString *buttonTitle = nil;
+	if ([welcomeBackMessage rangeOfString:@"😇"].location != NSNotFound) {
+		buttonTitle = NSLocalizedString(@"Review", @"Welcome Back Message Button Title");
 	}
-	else {
+	
 	[TSMessage showNotificationInViewController:self.tabBarController
 										  title:NSLocalizedString(@"Welcome Back! 😎", @"TSMessage Welcome Back Title")
-									   subtitle:NSLocalizedString(@"Enjoy!", @"TSMessage Welcome Back Subtitle")
+									   subtitle:welcomeBackMessage
 										  image:[UIImage imageNamed:@"notification-beer"]
 										   type:TSMessageNotificationTypeDarkMessage
 									   duration:TSMessageNotificationDurationAutomatic
@@ -145,17 +152,29 @@
 											   }
 										   }];
 									   }
-									buttonTitle:nil
+									buttonTitle:buttonTitle
 								 buttonCallback:^{
-									 NSLog(@"User tapped the button");
+									 [PFAnalytics trackEventInBackground:@"updatedViaWelcomeBackButton" dimensions:nil block:^(BOOL succeeded, NSError *error) {
+										 if (!error) {
+											 NSLog(@"Successfully logged the 'updatedViaWelcomeBackButton' event");
+										 }
+									 }];
+									 
+									 [[iVersion sharedInstance] openAppPageInAppStore];
 								 }
 									 atPosition:TSMessageNotificationPositionTop
 						   canBeDismissedByUser:YES];
-	}
+	
 }
 
 - (IBAction)sortCard:(id)sender {
 	[[iRate sharedInstance] logEvent:NO];
+	
+	NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"];
+	globalSortCount++;
+	[[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:@"globalSortCount"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+
 	[self sortCard];
 }
 
@@ -163,13 +182,13 @@
 	
 	[[iRate sharedInstance] logEvent:NO];
 	
-	[PFAnalytics trackEventInBackground:@"ShuffleDeckButtonPress" dimensions:@{@"ShuffleDeckButtonPress": @"shuffled"} block:^(BOOL succeeded, NSError *error) {
-		if (!error) {
-			NSLog(@"Successfully logged the 'ShuffleDeckButtonPress' event");
-		}
-	}];
+	[self showWelcomeBackMessage];
 	
-	[self playShuffleSoundFX];
+	NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalShuffleCount"];
+	globalSortCount++;
+	[[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:@"globalShuffleCount"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+	
     [self shuffle];
 }
 
@@ -213,8 +232,6 @@
 										 }
 											 atPosition:TSMessageNotificationPositionTop
 								   canBeDismissedByUser:YES];
-			
-			[self playShuffleSoundFX];
 			[self shuffle];
 		}
 		else {
@@ -272,9 +289,9 @@
 	[self.cardContainerView addSubview:cardImage];
 	
 	/* Shows the rule on screen */
-	[self.ruleButton setTitle:self.displayCard.cardRule forState:UIControlStateNormal];
-	[self.ruleButton setTitle:self.displayCard.cardRule forState:UIControlStateSelected];
-	[self.ruleButton setTitle:self.displayCard.cardRule forState:UIControlStateHighlighted];
+	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateNormal];
+	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateSelected];
+	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateHighlighted];
 	
 	if (!self.displayCard.cardDescription && [[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 2) {
 		//user opted-out warning message, so we disable the button
@@ -303,6 +320,8 @@
  *  @author Roger Oba
  */
 - (void) shuffle {
+	
+	[self playShuffleSoundFX];
 	[self clearTable];
 	
 	/* Reinicialização do baralho (para voltar ao original) */
@@ -470,31 +489,29 @@
 	/* Else if it's a custom deck, create cards accordingly with the suit */
 	else {
 		for (Card *card in self.deck.cards) {
-			for (int i = 0; i < 1; i++) {
-				Card *c_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-				c_tempCard.cardRule = card.cardRule;
-				c_tempCard.cardDescription = card.cardDescription;
-				c_tempCard.cardName = [NSString stringWithFormat:@"%@C",[card.cardName substringToIndex:3]];
-				[fullDeck addObject:c_tempCard];
-				
-				Card *d_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-				d_tempCard.cardRule = card.cardRule;
-				d_tempCard.cardDescription = card.cardDescription;
-				d_tempCard.cardName = [NSString stringWithFormat:@"%@D",[card.cardName substringToIndex:3]];
-				[fullDeck addObject:d_tempCard];
-				
-				Card *h_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-				h_tempCard.cardRule = card.cardRule;
-				h_tempCard.cardDescription = card.cardDescription;
-				h_tempCard.cardName = [NSString stringWithFormat:@"%@H",[card.cardName substringToIndex:3]];
-				[fullDeck addObject:h_tempCard];
-				
-				Card *s_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-				s_tempCard.cardRule = card.cardRule;
-				s_tempCard.cardDescription = card.cardDescription;
-				s_tempCard.cardName = [NSString stringWithFormat:@"%@S",[card.cardName substringToIndex:3]];
-				[fullDeck addObject:s_tempCard];
-			}
+			Card *c_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+			c_tempCard.cardRule = card.cardRule;
+			c_tempCard.cardDescription = card.cardDescription;
+			c_tempCard.cardName = [NSString stringWithFormat:@"%@C",[card.cardName substringToIndex:3]];
+			[fullDeck addObject:c_tempCard];
+			
+			Card *d_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+			d_tempCard.cardRule = card.cardRule;
+			d_tempCard.cardDescription = card.cardDescription;
+			d_tempCard.cardName = [NSString stringWithFormat:@"%@D",[card.cardName substringToIndex:3]];
+			[fullDeck addObject:d_tempCard];
+			
+			Card *h_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+			h_tempCard.cardRule = card.cardRule;
+			h_tempCard.cardDescription = card.cardDescription;
+			h_tempCard.cardName = [NSString stringWithFormat:@"%@H",[card.cardName substringToIndex:3]];
+			[fullDeck addObject:h_tempCard];
+			
+			Card *s_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+			s_tempCard.cardRule = card.cardRule;
+			s_tempCard.cardDescription = card.cardDescription;
+			s_tempCard.cardName = [NSString stringWithFormat:@"%@S",[card.cardName substringToIndex:3]];
+			[fullDeck addObject:s_tempCard];
 		}
 	}
 	return fullDeck;
@@ -694,6 +711,35 @@
 		}
 	}];
 }
+
+#pragma mark - Randomizing Methods
+
+- (NSString*) randomWelcomeBackMessage {
+	
+	NSArray *welcomeBackMessages = @[NSLocalizedString(@"Enjoy!", @"Welcome Back Message 1"),
+									 NSLocalizedString(@"If you were expecting a signal to do something, this is it. Do it!", @"Welcome Back Message 2"),
+									 NSLocalizedString(@"Do not drink if you're going to drive! #ConsciousDrinking", @"Welcome Back Message 3"),
+									 NSLocalizedString(@"The more people, the better! Call everyone around to join the game!", @"Welcome Back Message 4"),
+									 NSLocalizedString(@"If you like these messages, express yourself in an App Store review! 😇", @"Welcome Back Message 5"),
+									 NSLocalizedString(@"Something missing in the app? Share your thoughts! 😇", @"Welcome Back Message 6"),
+									 NSLocalizedString(@"Did you know the app has cool sound effects around?", @"Welcome Back Message 7"),
+									 NSLocalizedString(@"Because an epic story doesn't start with 'Certain day I was eating a salad and…' ;)", @"Welcome Back Message 8"),
+									 NSLocalizedString(@"Beer, vodka, tequilla, whiskey… It doesn't matter, just enjoy the game!", @"Welcome Back Message 9"),
+									 NSLocalizedString(@"I wonder if anyone even read these texts…", @"Welcome Back Message 10")];
+	
+	
+	return [welcomeBackMessages objectAtIndex:arc4random() % [welcomeBackMessages count]];
+}
+
+- (BOOL) doesString:(NSString *)string containCharacter:(char)character {
+	if ([string rangeOfString:[NSString stringWithFormat:@"%c",character]].location != NSNotFound) {
+		return YES;
+	}
+	return NO;
+}
+
+
+
 
 
 #pragma mark - Core Data

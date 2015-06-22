@@ -44,7 +44,7 @@
 	if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showNewFeatureNotification"]) {
 		[TSMessage showNotificationInViewController:self
 											  title:NSLocalizedString(@"Customizable!", @"TSMessage Customizable Notification Title")
-										   subtitle:NSLocalizedString(@"You can now edit the name of your decks, by tapping 'Edit' and selecting the deck! Enjoy! 🍻", @"TSMessage Customizable Notification Subtitle")
+										   subtitle:NSLocalizedString(@"You can now edit the name of your decks by tapping Edit and selecting the deck. Enjoy! 🍻", @"TSMessage Customizable Notification Subtitle")
 											  image:[UIImage imageNamed:@"notification-arrow"]
 											   type:TSMessageNotificationTypeDarkMessage
 										   duration:TSMessageNotificationDurationEndless

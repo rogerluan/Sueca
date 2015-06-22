@@ -33,7 +33,7 @@
 			exit(-1);
 		}
 		
-		self.title = self.thisDeck.deckName;
+		self.title = NSLocalizedString(self.thisDeck.deckName, nil);
 	}
 	else {
 		self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
@@ -142,14 +142,14 @@
 	}
 	if (reusableCard) {
 		cell.cardImageView.image = [UIImage imageNamed:reusableCard.cardName];
-		cell.cardRuleTextField.text = reusableCard.cardRule;
+		cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule,nil);
 		
 		if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription==nil) {
 			cell.cardDescriptionTextView.textColor = [UIColor lightGrayColor];
 			cell.cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
 		}
 		else {
-			cell.cardDescriptionTextView.text = reusableCard.cardDescription;
+			cell.cardDescriptionTextView.text = NSLocalizedString(reusableCard.cardDescription,nil);
 		}
 		
 		cell.cardDescriptionTextView.delegate = self;

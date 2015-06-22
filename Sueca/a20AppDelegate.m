@@ -59,6 +59,18 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+	NSLog(@"Global Sort Count: %ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"]);
+	NSLog(@"Global Shuffle Count: %ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalShuffleCount"]);
+	NSDictionary *dimensions = @{@"globalSortCount":[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"]],
+								 @"globalShuffleCount":[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalShuffleCount"]]};
+	
+	[PFAnalytics trackEventInBackground:@"globalSortCount"
+							 dimensions:dimensions
+								  block:^(BOOL succeeded, NSError *error) {
+									  if (!error) {
+										  NSLog(@"Successfully logged the 'globalSortCount' event");
+									  }
+								  }];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
