@@ -57,8 +57,11 @@
       buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
-      allowLocationSimulation = "YES">
-      <BuildableProductRunnable>
+      allowLocationSimulation = "YES"
+      showNonLocalizedStrings = "YES"
+      language = "pt">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C5C5AA9118184814005A9625"
@@ -76,7 +79,8 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "C5C5AA9118184814005A9625"

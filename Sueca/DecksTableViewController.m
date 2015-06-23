@@ -109,7 +109,13 @@
 		}
 	}
 	if (reusableDeck) {
-		cell.textLabel.text = NSLocalizedString(reusableDeck.deckName, nil);
+		NSLog(@"reusableDeck.deckName = %@",reusableDeck.deckName);
+		if ([reusableDeck.isEditable isEqualToNumber:[NSNumber numberWithBool:NO]]) {
+			cell.textLabel.text = NSLocalizedString(reusableDeck.deckName, nil);
+		}
+		else {
+			cell.textLabel.text = reusableDeck.deckName;
+		}
 		cell.textLabel.textColor = [UIColor whiteColor];
 		cell.backgroundColor = [UIColor clearColor];
 		cell.accessoryType = UITableViewCellAccessoryDetailButton;

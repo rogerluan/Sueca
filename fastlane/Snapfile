@@ -6,10 +6,7 @@ devices([
 ]) 
 
 languages([
-  "en-AU",
-  "en-US",
-  "en-CA",
-  "en-GB",
-  "pt-BR",
-  "pt-PT"
+  "de-DE"
 ]) 
+
+scheme "Sueca"

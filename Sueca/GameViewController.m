@@ -422,40 +422,43 @@
  */
 - (void) createDefaultDeck {
 	if(![self defaultDeckExist]) {
-		NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolha 1 pessoa para beber", nil),
-							  NSLocalizedString(@"Escolha 2 pessoas para beber", nil),
-							  NSLocalizedString(@"Escolha 3 pessoas para beber", nil),
-							  NSLocalizedString(@"Jogo do “Stop”", nil),
-							  NSLocalizedString(@"Jogo da Memória", nil),
-							  NSLocalizedString(@"Continência", nil),
-							  NSLocalizedString(@"Jogo do “Pi”", nil),
-							  NSLocalizedString(@"Regra Geral", nil),
-							  NSLocalizedString(@"Coringa", nil),
-							  NSLocalizedString(@"Vale-banheiro", nil),
-							  NSLocalizedString(@"Todos bebem 1 dose", nil),
-							  NSLocalizedString(@"Todas as damas bebem", nil),
-							  NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
 		
-		NSArray *cardDescriptions = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Quem tirar essa carta escolhe 1 pessoa para beber.", @"Description Card 1"),
-									 NSLocalizedString(@"Quem tirar essa carta escolhe 2 pessoas para beber.", @"Description Card 2"),
-									 NSLocalizedString(@"Quem tirar essa carta escolhe 3 pessoas para beber.", @"Description Card 3"),
-									 NSLocalizedString(@"Quem tirou essa carta deve escolher uma letra e um tema para o Stop. Então, na sequência da roda de amigos, cada um tem que falar uma palavra que comece com a letra escolhida, relacionada ao tema. Não vale repetir palavra! O primeiro que não souber, ou repetir palavra, bebe!", @"Description Card 4"),
-									 NSLocalizedString(@"Quem tirou a carta fala uma palavra qualquer. O próximo tem que repetir a sequência de palavras anterior e adicionar uma. E assim por diante. Exemplo: Quem tirou a carta fala “mesa”. O próximo fala “mesa cachorro”. O próximo diz “mesa cachorro lápis”, e assim por diante. O primeiro que errar ou demorar, bebe.", @"Description Card 5"),
-									 NSLocalizedString(@"Quem tirar essa carta, “guarda” ela mentalmente consigo. Discretamente no meio do jogo, essa pessoa deve colocar a mão na testa, fazendo continência e observar os outros jogadores. O último que perceber e fizer continência, bebe.", @"Description Card 6"),
-									 NSLocalizedString(@"Começando pela pessoa que tirar a carta, esta deve escolher um número. Assim, todos devem seguir uma sequência começando em 1, e quando o número da sequência for múltiplo do número escolhido, a pessoa deve falar “Pi”. Por exemplo: foi escolhido o número 3, então: 1, 2, pi, 4, 5, pi, 7, 8, pi, etc. O primeiro que errar, bebe!", @"Description Card 7"),
-									 NSLocalizedString(@"Quem tira essa carta determina uma regra para todos obedecerem. Pode ser algo do tipo “está proíbido falar a palavra ‘beber’ e seus derivados”, ou “antes de beber uma dose, a pessoa tem que rebolar”. Quem quebrar a regra, deve beber (às vezes, de novo). A Regra Geral pode ser substituída por outra Regra Geral, caso contrário, dura o jogo todo.", @"Description Card 8"),
-									 NSLocalizedString(@"A pessoa que tirar essa carta pode transformá-la em qualquer outra!", @"Description Card 9"),
-									 NSLocalizedString(@"Como teoricamente ninguém pode sair para ir ao banheiro enquanto estiver jogando, esta carta dá o direito à quem a tirou de ir ao banheiro. A carta só vale 1 vez. Ela pode guardar para ir mais tarde, ou “vender” à alguém, em troca de “favores” 😉", @"Description Card 10"),
-									 NSLocalizedString(@"Todos que estiverem jogando bebem uma dose, inclusive quem tirou a carta!", @"Description Card 11"),
-									 NSLocalizedString(@"Todas as damas bebem uma dose.", @"Description Card 12"),
-									 NSLocalizedString(@"Todos os cavalheiros bebem uma dose.", @"Description Card 13"), nil];
+		//Self note: Core Data and localization best practice: DO NOT save Localized strings into core data. Instead, save identifiers, and only localize when READING them.
+		
+		NSArray *cardRules = [[NSArray alloc] initWithObjects:@"Card Rule 1",
+							  @"Card Rule 2",
+							  @"Card Rule 3",
+							  @"Card Rule 4",
+							  @"Card Rule 5",
+							  @"Card Rule 6",
+							  @"Card Rule 7",
+							  @"Card Rule 8",
+							  @"Card Rule 9",
+							  @"Card Rule 10",
+							  @"Card Rule 11",
+							  @"Card Rule 12",
+							  @"Card Rule 13", nil];
+		
+		NSArray *cardDescriptions = [[NSArray alloc] initWithObjects:@"Description Card 1",
+									 @"Description Card 2",
+									 @"Description Card 3",
+									 @"Description Card 4",
+									 @"Description Card 5",
+									 @"Description Card 6",
+									 @"Description Card 7",
+									 @"Description Card 8",
+									 @"Description Card 9",
+									 @"Description Card 10",
+									 @"Description Card 11",
+									 @"Description Card 12",
+									 @"Description Card 13", nil];
 		
 		NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-Um",@"02-Dois",@"03-Tres",@"04-Quatro",@"05-Cinco",@"06-Seis",@"07-Sete",@"08-Oito",@"09-Nove",@"10-Dez",@"11-Valete",@"12-Dama",@"13-Rei", nil];
 		
 		NSManagedObjectContext *moc = [self managedObjectContext];
 		
 		Deck *defaultDeck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
-		defaultDeck.deckName = NSLocalizedString(@"Default", nil);
+		defaultDeck.deckName = @"Default";
 		defaultDeck.isEditable = [NSNumber numberWithBool:NO];
 		defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
 		

@@ -37,19 +37,19 @@
 	}
 	else {
 		self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
-		NSArray *cardRules = [[NSArray alloc] initWithObjects:NSLocalizedString(@"Escolha 1 pessoa para beber", nil),
-							  NSLocalizedString(@"Escolha 2 pessoas para beber", nil),
-							  NSLocalizedString(@"Escolha 3 pessoas para beber", nil),
-							  NSLocalizedString(@"Jogo do “Stop”", nil),
-							  NSLocalizedString(@"Jogo da Memória", nil),
-							  NSLocalizedString(@"Continência", nil),
-							  NSLocalizedString(@"Jogo do “Pi”", nil),
-							  NSLocalizedString(@"Regra Geral", nil),
-							  NSLocalizedString(@"Coringa", nil),
-							  NSLocalizedString(@"Vale-banheiro", nil),
-							  NSLocalizedString(@"Todos bebem 1 dose", nil),
-							  NSLocalizedString(@"Todas as damas bebem", nil),
-							  NSLocalizedString(@"Todos os cavalheiros bebem", nil), nil];
+		NSArray *cardRules = [[NSArray alloc] initWithObjects:@"Card Rule 1",
+							  @"Card Rule 2",
+							  @"Card Rule 3",
+							  @"Card Rule 4",
+							  @"Card Rule 5",
+							  @"Card Rule 6",
+							  @"Card Rule 7",
+							  @"Card Rule 8",
+							  @"Card Rule 9",
+							  @"Card Rule 10",
+							  @"Card Rule 11",
+							  @"Card Rule 12",
+							  @"Card Rule 13", nil];
 		
 		NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-C",@"02-C",@"03-C",@"04-C",@"05-C",@"06-C",@"07-C",@"08-C",@"09-C",@"10-C",@"11-C",@"12-C",@"13-C", nil];
 		
@@ -72,11 +72,6 @@
 			exit(-1);
 		}
 	}
-	
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-//	
-//	UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(saveButton)];
 
 	if([self.thisDeck.isEditable isEqualToNumber:@1]) {
 		self.navigationItem.rightBarButtonItem = self.editButtonItem;
