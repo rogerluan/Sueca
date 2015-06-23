@@ -109,7 +109,6 @@
 		}
 	}
 	if (reusableDeck) {
-		NSLog(@"reusableDeck.deckName = %@",reusableDeck.deckName);
 		if ([reusableDeck.isEditable isEqualToNumber:[NSNumber numberWithBool:NO]]) {
 			cell.textLabel.text = NSLocalizedString(reusableDeck.deckName, nil);
 		}
