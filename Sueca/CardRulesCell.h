@@ -8,7 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CardRulesCell : UITableViewCell
+@protocol CardRuleCellDelegate <NSObject>
+
+- (void) cardRuleCell:(UITableViewCell*)cell didPressReturnKeyFromTextField:(UITextField*)cardRuleTextField;
+- (void) cardRuleCell:(UITableViewCell*)cell didPressReturnKeyFromTextView:(UITextView*)cardDescriptionTextView;
+
+- (void) cardRuleCell:(UITableViewCell*)cell textFieldDidEndEditingWithContent:(UITextField *)cardRuleTextField;
+- (void) cardRuleCell:(UITableViewCell*)cell textViewDidEndEditingWithContent:(UITextView *)cardDescriptionTextView;
+
+@end
+
+@interface CardRulesCell : UITableViewCell <UITextViewDelegate,UITextFieldDelegate>
+
+@property (assign, nonatomic) id<CardRuleCellDelegate> delegate;
 
 @property (strong, nonatomic) IBOutlet UIImageView *cardImageView;
 @property (strong, nonatomic) IBOutlet UITextField *cardRuleTextField;

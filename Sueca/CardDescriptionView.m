@@ -28,7 +28,7 @@
         
         //HEADER
         UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, ALERT_WIDTH, HEADER_HEIGHT)];
-		header.backgroundColor = [UIColor colorWithRed:0.178 green:0.594 blue:0.337 alpha:1.000];
+        header.backgroundColor = [UIColor colorWithRed:0.178 green:0.594 blue:0.337 alpha:1.000];
         
         
         
@@ -49,8 +49,8 @@
         
         self.cardTitle.textAlignment = NSTextAlignmentCenter;
         self.cardDescription.textAlignment = NSTextAlignmentCenter;
-		
-		[self.cardTitle setFont:[UIFont boldSystemFontOfSize:18]];
+        
+        [self.cardTitle setFont:[UIFont boldSystemFontOfSize:18]];
         
         //CLOSE BUTTON
         UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 44.0, 44.0)];
@@ -60,7 +60,7 @@
         [closeButton setBackgroundImage:[UIImage imageNamed:@"closeButton"] forState:UIControlStateSelected];
         //Add action to the close button
         [closeButton addTarget:self action:@selector(closeAlert:) forControlEvents:UIControlEventTouchUpInside];
-			
+            
         
         
         //CARD HEADER
@@ -85,10 +85,10 @@
         [self.scrollView addSubview:self.cardTitle];
         [self.scrollView addSubview:self.cardDescription];
         [containerView addSubview:self.scrollView];
-		
-		self.containerView.layer.cornerRadius = 10;
-		self.containerView.clipsToBounds = YES;
-		
+        
+        self.containerView.layer.cornerRadius = 10;
+        self.containerView.clipsToBounds = YES;
+        
         
         //Adding the container view to the alert view
         [self setContainerView:containerView];
@@ -116,14 +116,24 @@
  *  @author Roger Oba
  *
  */
-- (void) showAlertWithHeader:(NSString*) header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
-    if (image && title && description) {
+- (void) showAlertWithHeader:(NSString*)header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
+    
+    NSLog(@"image: %@, title: %@, description: >%@<",image,title,description);
+    
+    if (image && title) {
         if (header) {
             self.cardHeader.text = header;
         }
         self.cardImage.image = image;
         self.cardTitle.text = title;
-        self.cardDescription.text = description;
+        
+        if ([description isEqualToString:@""] || !description) {
+            self.cardDescription.text = NSLocalizedString(@"You haven't described your card. Please go to your deck and add a description to your cards!", @"cardDescription on CardDescriptionView Popup");
+        }
+        else {
+            self.cardDescription.text = description;
+        }
+        
         
         [self.cardTitle sizeToFit];
         [self.cardDescription sizeToFit];
@@ -181,52 +191,44 @@
         [self show];
     }
     else {
+        NSLog(@"Error with invalid image: %@ and title: %@",image,title);
+        /*
         NSLog(@"Called method with invalid values: header: %@ image: %@ title: %@ description: %@",header,image,title,description);
 
-		NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noDescriptionWarningCount"];
-		
-		warningCount++;
-		[[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noDescriptionWarningCount"];
-		[[NSUserDefaults standardUserDefaults] synchronize];
-		
-		if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 1) {
-			UIViewController *senderViewController = sender;
-			[TSMessage showNotificationInViewController:senderViewController.tabBarController
-												  title:NSLocalizedString(@"Missing Description", @"No card description alert")
-											   subtitle:NSLocalizedString(@"There's no detailed description for this card. Edit your custom deck to add some description to the cards.", @"No card description alert")
-												  image:nil
-												   type:TSMessageNotificationTypeWarning
-											   duration:TSMessageNotificationDurationAutomatic
-											   callback:nil
-											buttonTitle:NSLocalizedString(@"Never Show Again",nil)
-										 buttonCallback:^{
-											 [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"showNoDescriptionWarning"];
-											 [[NSUserDefaults standardUserDefaults] synchronize];
-											 
-											 [PFAnalytics trackEventInBackground:@"showNoDescriptionWarning" dimensions:@{ @"warningCount": [NSString stringWithFormat:@"%ld",(long)warningCount]} block:^(BOOL succeeded, NSError *error) {
-												 if (!error) {
-													 NSLog(@"Successfully logged the 'showNoDescriptionWarning' event");
-												 }
-											 }];
-										 }
-											 atPosition:TSMessageNotificationPositionTop
-								   canBeDismissedByUser:YES];
-		}
-		else {
-			NSLog(@"showNoDescriptionWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"]);
-		}
+        NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noDescriptionWarningCount"];
+        
+        warningCount++;
+        [[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noDescriptionWarningCount"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 1) {
+            UIViewController *senderViewController = sender;
+            [TSMessage showNotificationInViewController:senderViewController.tabBarController
+                                                  title:NSLocalizedString(@"Missing Description", @"No card description alert")
+                                               subtitle:NSLocalizedString(@"There's no detailed description for this card. Edit your custom deck to add some description to the cards.", @"No card description alert")
+                                                  image:nil
+                                                   type:TSMessageNotificationTypeWarning
+                                               duration:TSMessageNotificationDurationAutomatic
+                                               callback:nil
+                                            buttonTitle:NSLocalizedString(@"Never Show Again",nil)
+                                         buttonCallback:^{
+                                             [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"showNoDescriptionWarning"];
+                                             [[NSUserDefaults standardUserDefaults] synchronize];
+                                             
+                                             [PFAnalytics trackEventInBackground:@"showNoDescriptionWarning" dimensions:@{ @"warningCount": [NSString stringWithFormat:@"%ld",(long)warningCount]} block:^(BOOL succeeded, NSError *error) {
+                                                 if (!error) {
+                                                     NSLog(@"Successfully logged the 'showNoDescriptionWarning' event");
+                                                 }
+                                             }];
+                                         }
+                                             atPosition:TSMessageNotificationPositionTop
+                                   canBeDismissedByUser:YES];
+        }
+        else {
+            NSLog(@"showNoDescriptionWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"]);
+        }
+         */
     }
 }
-
-
-/* //Acabei não utilizando, mas deixa aqui que pode vir a ser útil
-- (int) numberOfLinesOfLabel:(UILabel *)label {
-    CGSize maxSize = CGSizeMake(label.frame.size.width, MAXFLOAT);
-    
-    CGRect labelRect = [label.text boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:label.font} context:nil];
-    
-    NSLog(@"%f",ceil(labelRect.size.height / label.font.lineHeight));
-    return ceil(labelRect.size.height / label.font.lineHeight);
-}*/
 
 @end

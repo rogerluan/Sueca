@@ -13,9 +13,9 @@
 
 @interface Card : NSManagedObject
 
-@property (nonatomic, retain) NSString * cardName;
-@property (nonatomic, retain) NSString * cardRule;
-@property (nonatomic, retain) NSString * cardDescription;
+@property (nonatomic, retain) NSString *cardName;
+@property (nonatomic, retain) NSString *cardRule;
+@property (nonatomic, retain) NSString *cardDescription;
 @property (nonatomic, retain) Deck *deck;
 
 @end

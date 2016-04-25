@@ -13,10 +13,11 @@
 
 @interface Deck : NSManagedObject
 
-@property (nonatomic, retain) NSString * deckName;
-@property (nonatomic, retain) NSNumber * isBeingUsed;
-@property (nonatomic, retain) NSNumber * isEditable;
+@property (nonatomic, retain) NSString *deckName;
+@property (nonatomic, retain) NSNumber *isBeingUsed;
+@property (nonatomic, retain) NSNumber *isEditable;
 @property (nonatomic, retain) NSSet *cards;
+
 @end
 
 @interface Deck (CoreDataGeneratedAccessors)
@@ -25,5 +26,9 @@
 - (void)removeCardsObject:(Card *)value;
 - (void)addCards:(NSSet *)values;
 - (void)removeCards:(NSSet *)values;
+
++ (Deck *)newDeckWithLabel:(NSString *)deckLabel;
++ (void)createDefaultDeck;
++ (Deck *)defaultDeckExist;
 
 @end

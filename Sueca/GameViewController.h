@@ -10,7 +10,6 @@
 #import "Card.h"
 #import "Deck.h"
 #import "a20AppDelegate.h"
-#import "iRate.h"
 
 @interface GameViewController : UIViewController
 

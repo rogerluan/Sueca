@@ -250,12 +250,12 @@ static NSString *const iRateMacAppStoreURLFormat = @"macappstore://itunes.apple.
     NSString *message = _message;
     if (!message)
     {
-		//default
+        //default
 //        message = (self.appStoreGenreID == iRateAppStoreGameGenreID)? [self localizedStringForKey:iRateGameMessageKey withDefault:@"If you enjoy playing %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!"]: [self localizedStringForKey:iRateAppMessageKey withDefault:@"If you enjoy using %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!"];
-		
-		//custom (always show Game message)
-		message = [self localizedStringForKey:iRateGameMessageKey withDefault:@"If you enjoy playing %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!"];
-		
+        
+        //custom (always show Game message)
+        message = [self localizedStringForKey:iRateGameMessageKey withDefault:@"If you enjoy playing %@, would you mind taking a moment to rate it? It won’t take more than a minute. Thanks for your support!"];
+        
     }
     return [message stringByReplacingOccurrencesOfString:@"%@" withString:self.applicationName];
 }
@@ -505,19 +505,19 @@ static NSString *const iRateMacAppStoreURLFormat = @"macappstore://itunes.apple.
         }
         return NO;
     }
-	
-	//check if reached enough number of significant events
-	/**
-	 *  @author Roger Oba
-	 */
-	else if (self.eventCount < self.eventsUntilPrompt) {
-		if (self.verboseLogging)
-		{
-			NSLog(@"iRate did not prompt for rating because only %@ events have been logged", @(self.eventCount));
-		}
-		return NO;
-	}
-	
+    
+    //check if reached enough number of significant events
+    /**
+     *  @author Roger Oba
+     */
+    else if (self.eventCount < self.eventsUntilPrompt) {
+        if (self.verboseLogging)
+        {
+            NSLog(@"iRate did not prompt for rating because only %@ events have been logged", @(self.eventCount));
+        }
+        return NO;
+    }
+    
     //lets prompt!
     return YES;
 }

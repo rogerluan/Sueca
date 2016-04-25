@@ -7,21 +7,70 @@
 //
 
 #import "CardRulesCell.h"
+#import "AppearanceManager.h"
 
 @implementation CardRulesCell
 
+@synthesize delegate;
+
 - (void)awakeFromNib {
-    // Initialization code
-	self.cardRuleTextField.textColor = [UIColor whiteColor];
-	self.cardDescriptionTextView.textColor = [UIColor whiteColor];
-	self.cardDescriptionTextView.backgroundColor = [UIColor clearColor];
-	self.backgroundColor = [UIColor clearColor];
+    [AppearanceManager addShadowToLayer:self.cardImageView.layer opacity:0.5 radius:3.0];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+//}
 
-    // Configure the view for the selected state
+#pragma mark - UITextFieldDelegate Methods
+
+-(BOOL)textFieldShouldReturn:(nonnull UITextField *)textField {
+    [self.delegate cardRuleCell:self didPressReturnKeyFromTextField:textField];
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(nonnull UITextField *)cardRuleTextField {
+    if ([cardRuleTextField.text isEqualToString:@""] || cardRuleTextField.text == nil) {
+        cardRuleTextField.placeholder = NSLocalizedString(@"Tap to add a rule", nil);
+        cardRuleTextField.textColor = [UIColor grayColor];
+    } else {
+        NSLog(@"Text field has content: %@",cardRuleTextField.text);
+        cardRuleTextField.textColor = [UIColor whiteColor];
+        [self.delegate cardRuleCell:self textFieldDidEndEditingWithContent:cardRuleTextField];
+    }
+}
+
+#pragma mark - UITextViewDelegate Methods
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if ([textView.text isEqualToString:NSLocalizedString(@"Tap to add a description", nil)]) {
+        [textView setText: nil];
+    }
+    [textView setTextColor:[UIColor whiteColor]];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)cardDescriptionTextView {
+    
+    NSString *trimmedTextViewContent = [cardDescriptionTextView.text stringByTrimmingCharactersInSet:
+    [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([trimmedTextViewContent isEqualToString:@""] || trimmedTextViewContent == nil) {
+        cardDescriptionTextView.textColor = [UIColor lightGrayColor];
+        cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
+    } else {
+        NSLog(@"Text view has content: %@",trimmedTextViewContent);
+        cardDescriptionTextView.text = trimmedTextViewContent;
+        [self.delegate cardRuleCell:self textViewDidEndEditingWithContent:cardDescriptionTextView];
+    }
+}
+
+- (BOOL)textView:(nonnull UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(nonnull NSString *)text {
+    
+    if ([text isEqualToString:@"\n"]) {
+        [self.delegate cardRuleCell:self didPressReturnKeyFromTextView:textView];
+        return NO;
+    } else {
+        return YES;
+    }
 }
 
 @end
