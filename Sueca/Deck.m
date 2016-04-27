@@ -39,8 +39,9 @@
 	NSManagedObjectContext *moc = [self managedObjectContext];
 	Deck *deck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
 	deck.deckName = deckLabel;
+	deck.isEditable = [NSNumber numberWithBool:YES];
 	
-	for (int i = 0 ; i<NUMBER_OF_CARDS ; i++) {
+	for (int i = 0 ; i < NUMBER_OF_CARDS ; i++) {
 		Card *newCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 		newCard.cardName = [cardImages objectAtIndex:i];
 		newCard.cardRule = [cardRules objectAtIndex:i];

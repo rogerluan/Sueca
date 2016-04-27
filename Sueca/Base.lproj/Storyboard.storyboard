@@ -181,7 +181,6 @@
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLJ-8K-8S2" userLabel="CardContainerView">
                                 <rect key="frame" x="10" y="34" width="300" height="355"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ulm-zI-B6S">
                                 <rect key="frame" x="16" y="387" width="288" height="80"/>

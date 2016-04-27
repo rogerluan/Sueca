@@ -67,6 +67,8 @@
 		C5F3B51119B53F2C006D6257 /* iRate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F3B50F19B53F2C006D6257 /* iRate.m */; };
 		C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B51619B54481006D6257 /* Storyboard.storyboard */; };
 		C5F3B51D19B54603006D6257 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5F3B51B19B54603006D6257 /* Localizable.strings */; };
+		C5F5E7431CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F5E7421CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m */; };
+		C5F5E7461CCF2B1A00BE8C8F /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5F5E7451CCF2B1A00BE8C8F /* CardView.m */; };
 		C5FCFE671B88EC740034892D /* SuecaNotificationDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = C5FCFE661B88EC740034892D /* SuecaNotificationDesign.json */; };
 /* End PBXBuildFile section */
 
@@ -338,6 +340,10 @@
 		C5F3B51C19B54603006D6257 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C5F3B51E19B5460F006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C5F3B52019B551AF006D6257 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Storyboard.storyboard; sourceTree = "<group>"; };
+		C5F5E7411CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuecaSwipeDeterminator.h; sourceTree = "<group>"; };
+		C5F5E7421CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuecaSwipeDeterminator.m; sourceTree = "<group>"; };
+		C5F5E7441CCF2B1A00BE8C8F /* CardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardView.h; sourceTree = "<group>"; };
+		C5F5E7451CCF2B1A00BE8C8F /* CardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardView.m; sourceTree = "<group>"; };
 		C5FCFE661B88EC740034892D /* SuecaNotificationDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SuecaNotificationDesign.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -933,6 +939,8 @@
 			isa = PBXGroup;
 			children = (
 				C5C5AAC418184837005A9625 /* View */,
+				C5F5E7441CCF2B1A00BE8C8F /* CardView.h */,
+				C5F5E7451CCF2B1A00BE8C8F /* CardView.m */,
 				C5C5AAC51818483F005A9625 /* Controller */,
 				C5C5AAC61818484C005A9625 /* Modal */,
 				C5C5AA9C18184814005A9625 /* Supporting Files */,
@@ -1002,6 +1010,8 @@
 		C5C5AAC61818484C005A9625 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
+				C5F5E7411CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.h */,
+				C5F5E7421CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m */,
 				C5BA12301C719475004BFF52 /* Setup */,
 				C5C5AAA418184814005A9625 /* a20AppDelegate.h */,
 				C5C5AAA518184814005A9625 /* a20AppDelegate.m */,
@@ -1274,6 +1284,7 @@
 				C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */,
+				C5F5E7431CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m in Sources */,
 				C57F9FAB1B216EE200C50D0C /* CardDescriptionView.m in Sources */,
 				C57F9FB21B23220D00C50D0C /* JBWhatsAppActivity.m in Sources */,
 				C5615E67181E82430033FEB3 /* GameViewController.m in Sources */,
@@ -1282,6 +1293,7 @@
 				C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */,
 				C5C5AAA218184814005A9625 /* main.m in Sources */,
 				C5BA122C1C719463004BFF52 /* iRateSetup.m in Sources */,
+				C5F5E7461CCF2B1A00BE8C8F /* CardView.m in Sources */,
 				C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */,
 				C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */,
 				C5D5295B1B29CFAE003542CD /* iVersion.m in Sources */,

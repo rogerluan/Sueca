@@ -10,5 +10,6 @@ pod 'Parse'
 pod 'ParseCrashReporting'
 pod 'Fabric'
 pod 'Crashlytics'
+pod 'ZLSwipeableView'
 
 end

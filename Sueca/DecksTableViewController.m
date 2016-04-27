@@ -359,7 +359,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([[segue identifier] isEqualToString:@"newDeck"]) {
+    if ([[segue identifier] isEqualToString:@"newDeck"]) {
         EditDeckTableViewController *tempTVC = [segue destinationViewController];
         tempTVC.thisDeck = nil;
         tempTVC.deckLabel = self.creatingDeckName;
