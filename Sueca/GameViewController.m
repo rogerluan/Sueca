@@ -66,7 +66,6 @@
 	[self.cardContainerView updateConstraintsIfNeeded];
 	ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:self.cardContainerView.frame];
 	self.swipeableView = swipeableView;
-	self.swipeableView.backgroundColor = [UIColor colorWithRed:1.000 green:0.000 blue:0.000 alpha:0.204];
 	self.swipeableView.numberOfActiveViews = 10;
 	self.swipeableView.numberOfHistoryItem = 1;
 	[self.cardContainerView addSubview:self.swipeableView];
@@ -220,8 +219,10 @@
  */
 - (void)shuffle {
     [self.soundManager playShuffleSoundFX];
-    [self clearTable];
+//    [self clearTable];
     [self.gameManager refreshDeckArray];
+	[self.swipeableView discardAllViews];
+	[self.swipeableView loadViewsIfNeeded];
 }
 
 #pragma mark - Appearance -
@@ -313,6 +314,7 @@
 	return view;
 }
 
+/*
 #pragma mark - ZLSwipeableViewDelegate
 
 - (void)swipeableView:(ZLSwipeableView *)swipeableView
@@ -323,11 +325,7 @@
 
 - (void)swipeableView:(ZLSwipeableView *)swipeableView didCancelSwipe:(UIView *)view {
 	NSLog(@"did cancel swipe");
-}
-//
-//- (void)swipeableView:(ZLSwipeableView *)swipeableView didStartSwipingView:(UIView *)view atLocation:(CGPoint)location {
-//	[[ViewManager new] setStateSnapping:CGPointMake(200, 200)];
-//}
+}*/
 
 #pragma mark - ZLSwipeableView Animator
 
