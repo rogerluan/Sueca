@@ -12,7 +12,9 @@
 
 - (void)setCard:(Card *)card {
 	_card = card;
-	[self addSubview:[[UIImageView alloc] initWithImage:[UIImage imageNamed:card.cardName]]];
+	UIImageView *cardImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+	cardImage.image = [UIImage imageNamed:card.cardName];
+	[self addSubview:cardImage];
 }
 
 @end

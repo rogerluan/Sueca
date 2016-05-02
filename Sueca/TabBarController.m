@@ -48,7 +48,7 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         [Deck createDefaultDeck];
     } else {
-        [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
+//        [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
     }
     
     [[iVersion sharedInstance] checkForNewVersion];
