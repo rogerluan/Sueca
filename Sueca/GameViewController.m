@@ -89,6 +89,8 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.gameManager refreshDeckArray];
+	self.displayCard = [(CardView*)self.swipeableView.topView card];
+	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateNormal];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -101,10 +103,12 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.subtype == UIEventSubtypeMotionShake) {
+		Card *previousCard = [(CardView*)[self.swipeableView.history lastObject] card];
+		NSLog(@"history: %@, card: %@",self.swipeableView.history,previousCard);
 		[self.swipeableView rewind];
-		Card *card = [(CardView*)[self.swipeableView.history lastObject] card];
-		NSLog(@"history: %@, card: %@",self.swipeableView.history,card);
-		[self.ruleButton setTitle:NSLocalizedString(card.cardRule,nil) forState:UIControlStateNormal];
+		Card *actualCard = [(CardView*)[self.swipeableView topView] card];
+		NSLog(@"actual card: %@",actualCard);
+		[self.ruleButton setTitle:NSLocalizedString(actualCard.cardRule,nil) forState:UIControlStateNormal];
 	}
 	if ([super respondsToSelector:@selector(motionEnded:withEvent:)])
 		[super motionEnded:motion withEvent:event];
@@ -271,8 +275,6 @@
 
 - (UIView *)nextViewForSwipeableView:(ZLSwipeableView *)swipeableView {
 	//updates the display card to reflect the actual top card, and update the rule button
-	self.displayCard = [(CardView*)swipeableView.topView card];
-	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateNormal];
 	CardView *view = [[CardView alloc] initWithFrame:self.swipeableView.frame];
 	view.card = [self.gameManager newCard];
 	return view;
@@ -285,6 +287,8 @@
 		  inDirection:(ZLSwipeableViewDirection)direction {
 	[AnalyticsManager increaseGlobalSortCount];
 	NSLog(@"did swipe in direction: %zd", direction);
+	self.displayCard = [(CardView*)swipeableView.topView card];
+	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateNormal];
 }
 
 - (void)swipeableView:(ZLSwipeableView *)swipeableView didCancelSwipe:(UIView *)view {
