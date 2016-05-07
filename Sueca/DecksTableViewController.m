@@ -19,9 +19,6 @@
 @property (strong, nonatomic) GameManager *gameManager;
 
 @property (strong, nonatomic) NSIndexPath *indexPathForSelectedDeck;
-@property (strong, nonatomic) Deck *deckToShowDetails;
-@property (strong, nonatomic) Deck *deckToEditLabel;
-
 @property (strong, nonatomic) NSString *creatingDeckName; //can't use "newDeckName"
 
 @end
@@ -29,6 +26,8 @@
 @implementation DecksTableViewController
 
 @synthesize fetchedResultsController = _fetchedResultsController;
+
+#pragma mark - Lifecycle -
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -38,8 +37,7 @@
     UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
     [tempImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView = tempImageView;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;        
-    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
@@ -48,7 +46,7 @@
 
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
         
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"showNewFeatureNotification"]) {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"showNewFeatureNotification"]) {
         [TSMessage setDelegate:self];
         [TSMessage showNotificationInViewController:self
                                               title:NSLocalizedString(@"Customizable!", @"TSMessage Customizable Notification Title")
@@ -66,24 +64,9 @@
     }
 }
 
-
-- (void)customizeMessageView:(TSMessageView *)messageView {
-    for (UIView *view in messageView.subviews) {
-        if ([view isKindOfClass:[TSBlurView class]]) {
-            if (NSClassFromString(@"UIVisualEffectView") != nil) {
-                //UIViewVisualEffectView is available, so add it.
-                
-                UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-                UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-                effectView.frame = view.frame;
-                effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-                [messageView insertSubview:effectView aboveSubview:view];
-                [view removeFromSuperview];
-            } else { // UIViewVisualEffectView is available, so don't do anything.
-                view.alpha = 0.85;
-            }
-        }
-    }
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,7 +83,6 @@
     return [_fetchedResultsController.fetchedObjects count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *deckCellIdentifier = @"deckCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:deckCellIdentifier forIndexPath:indexPath];
@@ -113,7 +95,6 @@
     
     return cell;
 }
-
 
 /**
  *  @author Roger Oba
@@ -159,11 +140,6 @@
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.tableView reloadData];
-}
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Deck *deckToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -177,8 +153,12 @@
     }
 }
 
+#pragma mark - UITableView Delegate Methods -
+
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle: nil];
+	
+	//to-do: replace these with a factory instantiation call
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
     EditDeckTableViewController *editDeckTVC = [storyboard instantiateViewControllerWithIdentifier:@"editDeckTVC"];
     editDeckTVC.thisDeck = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.navigationController pushViewController:editDeckTVC animated:YES];
@@ -197,35 +177,38 @@
             deselectedDeck.isBeingUsed = [NSNumber numberWithBool:NO];
             
             NSError *coreDataError = nil;
-            if(![self.moc save: &coreDataError]) {
+            if (![self.moc save:&coreDataError]) { //error
                 NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
-            }
-            
-            [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
+			} else { //everything went fine
+				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
+			}
         }
     } else {
-        Deck *deckToEditLabel = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        if ([deckToEditLabel.isEditable isEqualToNumber:@YES]) {
+        Deck *deckToEditName = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        if ([deckToEditName.isEditable isEqualToNumber:@YES]) {
 			
 			UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Change Deck Label", @"editDeckLabelAlert Title") message:NSLocalizedString(@"Type the new label for your deck.", @"editDeckLabelAlert Message") preferredStyle:UIAlertControllerStyleAlert];
 			UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Ok", @"editDeckLabelAlert OK Button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 				
-				NSString *alertViewText = [[[[[alert textFields ] firstObject] text] capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+				NSString *alertViewText = [[[[[alert textFields] firstObject] text] capitalizedString] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 				
 				NSLog(@"alertViewtext: %@",alertViewText);
 				if (!alertViewText || !(alertViewText.length>0)) {
 					return;
-				} else if (self.deckToEditLabel) {
-					self.deckToEditLabel.deckName = alertViewText;
+				} else if (deckToEditName) {
+					deckToEditName.deckName = alertViewText;
 					NSError *error = nil;
 					if(![self.moc save: &error]) {
 						NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 					}
+				} else {
+					NSLog(@"Handle error: invalid deckToEditName");
 				}
 			}];
 			
 			[alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-				textField.placeholder = deckToEditLabel.deckName;
+				textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
+				textField.placeholder = deckToEditName.deckName;
 			}];
 			
 			UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", @"editDeckLabelAlert Cancel Button") style:UIAlertActionStyleCancel handler:nil];
@@ -314,6 +297,27 @@
     [self.tableView endUpdates];
 }
 
+#pragma mark - TSMessage -
+
+- (void)customizeMessageView:(TSMessageView *)messageView {
+	for (UIView *view in messageView.subviews) {
+		if ([view isKindOfClass:[TSBlurView class]]) {
+			if (NSClassFromString(@"UIVisualEffectView") != nil) {
+				//UIViewVisualEffectView is available, so add it.
+				
+				UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+				UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+				effectView.frame = view.frame;
+				effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+				[messageView insertSubview:effectView aboveSubview:view];
+				[view removeFromSuperview];
+			} else { // UIViewVisualEffectView is available, so don't do anything.
+				view.alpha = 0.85;
+			}
+		}
+	}
+}
+
 #pragma mark - Core Data Method
 
 - (NSManagedObjectContext *)managedObjectContext {
@@ -345,10 +349,13 @@
 			self.creatingDeckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		}
 		[[[alert textFields] firstObject] resignFirstResponder];
+		
+		//to-do: call factory instance method here
 		[self performSegueWithIdentifier:@"newDeck" sender:nil];
 	}];
 	
 	[alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+		textField.autocapitalizationType = UITextAutocapitalizationTypeWords;
 		textField.placeholder = NSLocalizedString(@"Custom Deck", @"New Deck Default Label");
 	}];
 	

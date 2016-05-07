@@ -24,6 +24,7 @@
 		C57F9FAB1B216EE200C50D0C /* CardDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FA81B216EE200C50D0C /* CardDescriptionView.m */; };
 		C57F9FAC1B216EE200C50D0C /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */; };
 		C57F9FB21B23220D00C50D0C /* JBWhatsAppActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FB01B23220D00C50D0C /* JBWhatsAppActivity.m */; };
+		C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
 		C5B1FB5E19EEA57000088FB8 /* DecksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */; };
@@ -267,6 +268,8 @@
 		C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
 		C57F9FAF1B23220D00C50D0C /* JBWhatsAppActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBWhatsAppActivity.h; sourceTree = "<group>"; };
 		C57F9FB01B23220D00C50D0C /* JBWhatsAppActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBWhatsAppActivity.m; sourceTree = "<group>"; };
+		C58A6C6E1CDE44A40054613C /* SuecaViewAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuecaViewAnimator.h; sourceTree = "<group>"; };
+		C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuecaViewAnimator.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C5B1FB5A19EEA21B00088FB8 /* Sueca Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model.xcdatamodel"; sourceTree = "<group>"; };
 		C5B1FB5C19EEA57000088FB8 /* DecksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksTableViewController.h; sourceTree = "<group>"; };
@@ -857,6 +860,17 @@
 			name = "Custom Card Cell";
 			sourceTree = "<group>";
 		};
+		C58A6C711CDE45580054613C /* SwipeableCard */ = {
+			isa = PBXGroup;
+			children = (
+				C5F5E7411CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.h */,
+				C5F5E7421CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m */,
+				C58A6C6E1CDE44A40054613C /* SuecaViewAnimator.h */,
+				C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */,
+			);
+			name = SwipeableCard;
+			sourceTree = "<group>";
+		};
 		C592196219D1AD190021F937 /* iRate */ = {
 			isa = PBXGroup;
 			children = (
@@ -983,10 +997,11 @@
 		C5C5AAC418184837005A9625 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA8F781CCE57B50027F2B1 /* Utils */,
 				C5F3B51619B54481006D6257 /* Storyboard.storyboard */,
 				C5C5AAA718184814005A9625 /* Images.xcassets */,
+				C5BA8F781CCE57B50027F2B1 /* Utils */,
 				C57F9FAE1B216F3E00C50D0C /* Custom Card Cell */,
+				C58A6C711CDE45580054613C /* SwipeableCard */,
 				C57F9FAD1B216EF100C50D0C /* Card Description View */,
 			);
 			name = View;
@@ -1010,8 +1025,6 @@
 		C5C5AAC61818484C005A9625 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
-				C5F5E7411CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.h */,
-				C5F5E7421CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m */,
 				C5BA12301C719475004BFF52 /* Setup */,
 				C5C5AAA418184814005A9625 /* a20AppDelegate.h */,
 				C5C5AAA518184814005A9625 /* a20AppDelegate.m */,
@@ -1276,6 +1289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C57F9FAC1B216EE200C50D0C /* CustomIOS7AlertView.m in Sources */,
+				C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */,
 				C5E9B67A1A3238A600D0171A /* Deck.m in Sources */,
 				C5BA122F1C71946D004BFF52 /* FabricSetup.m in Sources */,
 				C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */,

@@ -10,11 +10,11 @@
 
 @protocol CardRuleCellDelegate <NSObject>
 
-- (void) cardRuleCell:(UITableViewCell*)cell didPressReturnKeyFromTextField:(UITextField*)cardRuleTextField;
-- (void) cardRuleCell:(UITableViewCell*)cell didPressReturnKeyFromTextView:(UITextView*)cardDescriptionTextView;
+- (void)cardRuleCell:(UITableViewCell*)cell didPressReturnKeyFromTextField:(UITextField*)cardRuleTextField;
+- (void)cardRuleCell:(UITableViewCell*)cell didPressReturnKeyFromTextView:(UITextView*)cardDescriptionTextView;
 
-- (void) cardRuleCell:(UITableViewCell*)cell textFieldDidEndEditingWithContent:(UITextField *)cardRuleTextField;
-- (void) cardRuleCell:(UITableViewCell*)cell textViewDidEndEditingWithContent:(UITextView *)cardDescriptionTextView;
+- (void)cardRuleCell:(UITableViewCell*)cell textFieldDidEndEditingWithContent:(UITextField *)cardRuleTextField;
+- (void)cardRuleCell:(UITableViewCell*)cell textViewDidEndEditingWithContent:(UITextView *)cardDescriptionTextView;
 
 @end
 

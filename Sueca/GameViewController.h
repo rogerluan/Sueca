@@ -12,6 +12,6 @@
 #import "a20AppDelegate.h"
 #import "ZLSwipeableView.h"
 
-@interface GameViewController : UIViewController <ZLSwipeableViewDataSource,ZLSwipeableViewDelegate,ZLSwipeableViewAnimator>
+@interface GameViewController : UIViewController <ZLSwipeableViewDataSource,ZLSwipeableViewDelegate>
 
 @end

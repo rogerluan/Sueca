@@ -17,7 +17,7 @@
 @property (strong,nonatomic) UIScrollView *scrollView;
 
 - (id)init;
-- (void) showAlertWithHeader:(NSString*) header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender;
-- (void) closeAlert:(id)sender;
+- (void)showAlertWithHeader:(NSString*) header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender;
+- (void)closeAlert:(id)sender;
 
 @end
