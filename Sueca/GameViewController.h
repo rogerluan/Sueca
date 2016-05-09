@@ -10,7 +10,8 @@
 #import "Card.h"
 #import "Deck.h"
 #import "a20AppDelegate.h"
+#import "ZLSwipeableView.h"
 
-@interface GameViewController : UIViewController
+@interface GameViewController : UIViewController <ZLSwipeableViewDataSource,ZLSwipeableViewDelegate>
 
 @end

@@ -12,8 +12,8 @@
 
 @interface EditDeckTableViewController () <NSFetchedResultsControllerDelegate,CardRuleCellDelegate>
 
-@property (strong,nonatomic) NSManagedObjectContext *moc;
-@property (strong,nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSManagedObjectContext *moc;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -21,11 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //register a gesture to dismiss keyboard when tapping away
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)]];
-    
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+	
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
     [tempImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView = tempImageView;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -87,14 +84,6 @@
     return cell;
 }
 
-/**
- *  @author Roger Oba
- *
- *  Method used to configure UITableViewCells
- *
- *  @param cell      the cell that is being configured
- *  @param indexPath the indexPath of the given cell
- */
 - (void)configureCell:(CardRulesCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     Card *reusableCard  = nil;
     //Validate fetchedResultsController
@@ -239,7 +228,7 @@
 
 #pragma mark - CardRuleCellDelegate Methods
 
-- (void) cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextField:(UITextField *)cardRuleTextField {
+- (void)cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextField:(UITextField *)cardRuleTextField {
     NSLog(@"Pressed return from text field.");
     [[(CardRulesCell*)cell cardDescriptionTextView] becomeFirstResponder];
 }

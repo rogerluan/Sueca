@@ -11,7 +11,7 @@
 
 @interface GameManager ()
 
-@property (strong,nonatomic) NSManagedObjectContext *moc;
+@property (strong, nonatomic) NSManagedObjectContext *moc;
 
 @end
 
@@ -33,11 +33,10 @@
         //to-do: treat error
         NSLog(@"Error: Couldn't initialize self.deck.");
     }
-    
     return self;
 }
 
-- (Card *)newCard { //previously called `sortCard`
+- (Card *)newCard {
     if ([self isCardAvailable]) {
         Card *displayCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
         
@@ -108,8 +107,8 @@
 
 - (BOOL)isCardAvailable {
     /* If there're no more cards in the deck, it reshuffles and warns the user */
-    NSLog(@"card count: %ld",(long)[self.deckArray count]);
-    if([self.deckArray count] == 0) {
+    NSLog(@"card count: %ld",(long)self.deckArray.count);
+    if (self.deckArray.count == 0) {
         /* Warns the user that the deck was reshuffled */
         if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == 1) {
             NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noShuffleDeckWarningCount"];

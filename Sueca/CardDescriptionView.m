@@ -116,7 +116,7 @@
  *  @author Roger Oba
  *
  */
-- (void) showAlertWithHeader:(NSString*)header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
+- (void)showAlertWithHeader:(NSString*)header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
     
     NSLog(@"image: %@, title: %@, description: >%@<",image,title,description);
     
@@ -129,8 +129,7 @@
         
         if ([description isEqualToString:@""] || !description) {
             self.cardDescription.text = NSLocalizedString(@"You haven't described your card. Please go to your deck and add a description to your cards!", @"cardDescription on CardDescriptionView Popup");
-        }
-        else {
+        } else {
             self.cardDescription.text = description;
         }
         
@@ -169,9 +168,7 @@
             //Determines the scrollable area (without extra bottom space)
             [self.scrollView setContentSize:CGSizeMake(ALERT_WIDTH,
                                                        self.cardDescription.frame.origin.y+self.cardDescription.frame.size.height+DEFAULT_SPACING)];
-        }
-        //else messages are too big
-        else {
+        } else { //else messages are too big
             //Updates the scrollView Frame
             self.scrollView.frame = CGRectMake(self.scrollView.frame.origin.x,
                                                self.scrollView.frame.origin.y,
@@ -189,8 +186,7 @@
             
         }
         [self show];
-    }
-    else {
+    } else {
         NSLog(@"Error with invalid image: %@ and title: %@",image,title);
         /*
         NSLog(@"Called method with invalid values: header: %@ image: %@ title: %@ description: %@",header,image,title,description);
