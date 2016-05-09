@@ -34,7 +34,7 @@
 	
 	self.gameManager = [GameManager new];
     
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
+    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
     [tempImageView setFrame:self.tableView.frame];
     self.tableView.backgroundView = tempImageView;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

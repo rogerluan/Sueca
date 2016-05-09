@@ -29,9 +29,9 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
+      "filename" : "bgiphone4s.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "bgiphone4s.png",
       "scale" : "2x"
     },
     {
