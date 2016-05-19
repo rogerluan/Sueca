@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9915484FB8492B38CE26F532 /* libPods-Sueca.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7EEF652BBDB2D5836158F2 /* libPods-Sueca.a */; };
+		2DA8E25F4D529BF9B5005788 /* libPods-Sueca.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 375883D03AD0486903E2F7E4 /* libPods-Sueca.a */; };
 		C50829E71A92902F00081C5D /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829E61A92902F00081C5D /* AudioToolbox.framework */; };
 		C50829E91A92903700081C5D /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829E81A92903700081C5D /* CFNetwork.framework */; };
 		C50829EB1A92904800081C5D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829EA1A92904800081C5D /* CoreLocation.framework */; };
@@ -92,9 +92,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		43DF8AE8B480F54B48D0F8C9 /* Pods-Sueca.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sueca.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sueca/Pods-Sueca.debug.xcconfig"; sourceTree = "<group>"; };
-		54441B48985309F831E3AB10 /* Pods-Sueca.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sueca.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sueca/Pods-Sueca.release.xcconfig"; sourceTree = "<group>"; };
-		7B7EEF652BBDB2D5836158F2 /* libPods-Sueca.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sueca.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13D3B169B1A142417981D457 /* Pods-Sueca.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sueca.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Sueca/Pods-Sueca.debug.xcconfig"; sourceTree = "<group>"; };
+		375883D03AD0486903E2F7E4 /* libPods-Sueca.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Sueca.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		484B399077EAB67D51198CD5 /* Pods-Sueca.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Sueca.release.xcconfig"; path = "Pods/Target Support Files/Pods-Sueca/Pods-Sueca.release.xcconfig"; sourceTree = "<group>"; };
 		C50829E61A92902F00081C5D /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		C50829E81A92903700081C5D /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		C50829EA1A92904800081C5D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -375,7 +375,7 @@
 				C5615F31181E948C0033FEB3 /* CoreMotion.framework in Frameworks */,
 				C5C5AA9A18184814005A9625 /* UIKit.framework in Frameworks */,
 				C5C5AA9618184814005A9625 /* Foundation.framework in Frameworks */,
-				9915484FB8492B38CE26F532 /* libPods-Sueca.a in Frameworks */,
+				2DA8E25F4D529BF9B5005788 /* libPods-Sueca.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,11 +391,11 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		756432F1332BB21F53C71B24 /* Pods */ = {
+		58D0556F022E2E416841634F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				43DF8AE8B480F54B48D0F8C9 /* Pods-Sueca.debug.xcconfig */,
-				54441B48985309F831E3AB10 /* Pods-Sueca.release.xcconfig */,
+				13D3B169B1A142417981D457 /* Pods-Sueca.debug.xcconfig */,
+				484B399077EAB67D51198CD5 /* Pods-Sueca.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -910,7 +910,7 @@
 				C5C5AAB418184814005A9625 /* SuecaTests */,
 				C5C5AA9418184814005A9625 /* Frameworks */,
 				C5C5AA9318184814005A9625 /* Products */,
-				756432F1332BB21F53C71B24 /* Pods */,
+				58D0556F022E2E416841634F /* Pods */,
 			);
 			sourceTree = "<group>";
 			usesTabs = 1;
@@ -946,7 +946,7 @@
 				C5C5AA9518184814005A9625 /* Foundation.framework */,
 				C5C5AA9718184814005A9625 /* CoreGraphics.framework */,
 				C5C5AA9918184814005A9625 /* UIKit.framework */,
-				7B7EEF652BBDB2D5836158F2 /* libPods-Sueca.a */,
+				375883D03AD0486903E2F7E4 /* libPods-Sueca.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1101,13 +1101,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C5C5AABE18184814005A9625 /* Build configuration list for PBXNativeTarget "Sueca" */;
 			buildPhases = (
-				116CB1FB8E7398E009F977CE /* Check Pods Manifest.lock */,
+				E0518D0F910671C6BEA042C2 /* 📦 Check Pods Manifest.lock */,
 				C5C5AA8E18184814005A9625 /* Sources */,
 				C5C5AA8F18184814005A9625 /* Frameworks */,
 				C5C5AA9018184814005A9625 /* Resources */,
-				94FD5C7AF64A0BAC5965C18E /* Copy Pods Resources */,
 				C584634A1B5E57A600595B1D /* ShellScript */,
-				C37DF8E0F048341D548B59A5 /* Embed Pods Frameworks */,
+				6AB8911673DC6058E54400B5 /* 📦 Embed Pods Frameworks */,
+				2927F0ABE522B178D9C199DC /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1227,29 +1227,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		116CB1FB8E7398E009F977CE /* Check Pods Manifest.lock */ = {
+		2927F0ABE522B178D9C199DC /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		94FD5C7AF64A0BAC5965C18E /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1257,14 +1242,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sueca/Pods-Sueca-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C37DF8E0F048341D548B59A5 /* Embed Pods Frameworks */ = {
+		6AB8911673DC6058E54400B5 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1284,6 +1269,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 1793337d0c666150a5665cf6d98164fa79f2bf60 deb01a809f9dce38a8a999de56f4a86bdec4751a2f0c4d324dab74dc9a4ae9af";
+		};
+		E0518D0F910671C6BEA042C2 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1469,7 +1469,7 @@
 		};
 		C5C5AABF18184814005A9625 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 43DF8AE8B480F54B48D0F8C9 /* Pods-Sueca.debug.xcconfig */;
+			baseConfigurationReference = 13D3B169B1A142417981D457 /* Pods-Sueca.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1493,7 +1493,7 @@
 		};
 		C5C5AAC018184814005A9625 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 54441B48985309F831E3AB10 /* Pods-Sueca.release.xcconfig */;
+			baseConfigurationReference = 484B399077EAB67D51198CD5 /* Pods-Sueca.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;

@@ -8,7 +8,19 @@
 
 #import "AnalyticsManager.h"
 #import "iRate.h"
-#import <Parse/Parse.h>
+
+/**
+ *
+ *  Places to add analytics
+ */
+
+//card description alert view
+//card label edition
+//direction of the card swipe/flip
+//interaction with TSMessages
+//interaction with iRate
+//detect most engaging card(s) by calculating time of exposure
+
 
 @implementation AnalyticsManager
 

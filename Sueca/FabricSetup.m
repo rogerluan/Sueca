@@ -8,8 +8,6 @@
 //
 
 #import "FabricSetup.h"
-#import <Parse/Parse.h>
-#import <ParseCrashReporting/ParseCrashReporting.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
