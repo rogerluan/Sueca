@@ -8,12 +8,13 @@
 
 #import "a20AppDelegate.h"
 #import "iRateSetup.h"
-#import "FabricSetup.h"
 #import "AnalyticsManager.h"
 #import "AppearanceManager.h"
 
 #import "TSMessage.h"
 #import <TSMessages/TSMessageView.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation a20AppDelegate
 
@@ -27,9 +28,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [AppearanceManager setup];
-    [FabricSetup setupWithLaunchOptions:launchOptions];
     [iRateSetup resetEventCount];
-    
+	[Fabric with:@[CrashlyticsKit]];
+	
     //TSMessages
     [TSMessageView addNotificationDesignFromFile:@"SuecaNotificationDesign.json"];
 
