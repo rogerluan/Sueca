@@ -33,7 +33,6 @@
 		C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7819F0037000088FB8 /* CardRulesCell.m */; };
 		C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12281C7191CC004BFF52 /* SoundManager.m */; };
 		C5BA122C1C719463004BFF52 /* iRateSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA122B1C719463004BFF52 /* iRateSetup.m */; };
-		C5BA122F1C71946D004BFF52 /* FabricSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA122E1C71946D004BFF52 /* FabricSetup.m */; };
 		C5BA12331C7195B5004BFF52 /* AppearanceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12321C7195B5004BFF52 /* AppearanceManager.m */; };
 		C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12351C72A4CD004BFF52 /* GameManager.m */; };
 		C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12381C72A581004BFF52 /* AnalyticsManager.m */; };
@@ -285,8 +284,6 @@
 		C5BA12281C7191CC004BFF52 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
 		C5BA122A1C719463004BFF52 /* iRateSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRateSetup.h; sourceTree = "<group>"; };
 		C5BA122B1C719463004BFF52 /* iRateSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRateSetup.m; sourceTree = "<group>"; };
-		C5BA122D1C71946D004BFF52 /* FabricSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FabricSetup.h; sourceTree = "<group>"; };
-		C5BA122E1C71946D004BFF52 /* FabricSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FabricSetup.m; sourceTree = "<group>"; };
 		C5BA12311C7195B5004BFF52 /* AppearanceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppearanceManager.h; sourceTree = "<group>"; };
 		C5BA12321C7195B5004BFF52 /* AppearanceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppearanceManager.m; sourceTree = "<group>"; };
 		C5BA12341C72A4CD004BFF52 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
@@ -876,22 +873,13 @@
 		C592196219D1AD190021F937 /* iRate */ = {
 			isa = PBXGroup;
 			children = (
+				C5BA122A1C719463004BFF52 /* iRateSetup.h */,
+				C5BA122B1C719463004BFF52 /* iRateSetup.m */,
 				C5F3B50D19B53F2C006D6257 /* iRate.bundle */,
 				C5F3B50E19B53F2C006D6257 /* iRate.h */,
 				C5F3B50F19B53F2C006D6257 /* iRate.m */,
 			);
 			name = iRate;
-			sourceTree = "<group>";
-		};
-		C5BA12301C719475004BFF52 /* Setup */ = {
-			isa = PBXGroup;
-			children = (
-				C5BA122A1C719463004BFF52 /* iRateSetup.h */,
-				C5BA122B1C719463004BFF52 /* iRateSetup.m */,
-				C5BA122D1C71946D004BFF52 /* FabricSetup.h */,
-				C5BA122E1C71946D004BFF52 /* FabricSetup.m */,
-			);
-			name = Setup;
 			sourceTree = "<group>";
 		};
 		C5BA8F781CCE57B50027F2B1 /* Utils */ = {
@@ -1028,7 +1016,6 @@
 		C5C5AAC61818484C005A9625 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA12301C719475004BFF52 /* Setup */,
 				C5C5AAA418184814005A9625 /* a20AppDelegate.h */,
 				C5C5AAA518184814005A9625 /* a20AppDelegate.m */,
 				C5BA12311C7195B5004BFF52 /* AppearanceManager.h */,
@@ -1295,7 +1282,6 @@
 				C57F9FAC1B216EE200C50D0C /* CustomIOS7AlertView.m in Sources */,
 				C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */,
 				C5E9B67A1A3238A600D0171A /* Deck.m in Sources */,
-				C5BA122F1C71946D004BFF52 /* FabricSetup.m in Sources */,
 				C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */,
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */,

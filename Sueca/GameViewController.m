@@ -47,6 +47,7 @@
     
     [self setupViewsLayout];
 	
+	
 //	ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectZero];
 //	self.swipeableView = swipeableView;
 //	[self.view addSubview:self.swipeableView];
@@ -55,7 +56,9 @@
 	self.swipeableView.numberOfHistoryItem = 1;
 	self.swipeableView.viewAnimator = [SuecaViewAnimator new];
 	self.swipeableView.swipingDeterminator = [SuecaSwipeDeterminator new];
-	
+//	UITapGestureRecognizer *tapGesture = [UITapGestureRecognizer alloc] initWithTarget:AnalyticsManager action:<#(nullable SEL)#>
+//	self.swipeableView addGestureRecognizer:
+
 	NSLog(@"swipeableView frame: %@",NSStringFromCGRect(self.swipeableView.frame));
 	
 	//The code below changes the area where the next card will spawn from.
@@ -112,13 +115,6 @@
     }
 }
 
-- (void)sortCard {
-    if (!self.displayCard.cardDescription && [[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 2) {
-        //user opted-out warning message, so we disable the button
-        [self.ruleButton setUserInteractionEnabled:NO];
-    }
-}
-
 - (void)changeDeck {
 	self.localDeck = self.gameManager.deck;
 	[self.soundManager playShuffleSoundFX];
@@ -130,10 +126,6 @@
 
 #pragma mark - Appearance -
 
-/**
- *  Layouts the buttons accordingly, setting corners and borders.
- *  @author Roger Oba
- */
 - (void)setupViewsLayout {
     [self.ruleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.ruleButton.titleLabel setNumberOfLines:2];
@@ -193,6 +185,13 @@
 	[self.soundManager playRandomCardSlideSoundFX];
 	[AnalyticsManager increaseGlobalSortCount];
 	[self updateRuleLabel];
+}
+
+#pragma mark - Analytics
+
+- (void)tappedSwipeableView {
+	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
+	[AnalyticsManager logEvent:AnalyticsGestureEventTapCard withAttributes:attributes];
 }
 
 @end

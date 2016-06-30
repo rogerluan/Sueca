@@ -12,9 +12,9 @@
 #import "GameManager.h"
 #import "iVersion.h"
 #import "iRate.h"
-#import <Parse/Parse.h>
+#import "AnalyticsManager.h"
 
-@interface TabBarController ()<TSMessageViewProtocol,iVersionDelegate,iRateDelegate>
+@interface TabBarController () <TSMessageViewProtocol,iVersionDelegate,iRateDelegate>
 
 @property (strong, nonatomic) GameManager *gameManager;
 
@@ -37,10 +37,6 @@
     //2: opted out
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == 0) {
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"showShuffledDeckWarning"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 0) {
-        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"showNoDescriptionWarning"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
@@ -78,20 +74,11 @@
                                            type:TSMessageNotificationTypeMessage
                                        duration:TSMessageNotificationDurationAutomatic
                                        callback:^{
-                                           [PFAnalytics trackEventInBackground:@"interactionWithWelcomeBack" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-                                               if (!error) {
-                                                   NSLog(@"Successfully logged the 'interactionWithWelcomeBack' event");
-                                               }
-                                           }];
+										   [AnalyticsManager logEvent:AnalyticsEventWelcomeBack];
                                        }
                                     buttonTitle:buttonTitle
                                  buttonCallback:^{
-                                     [PFAnalytics trackEventInBackground:@"updatedViaWelcomeBackButton" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-                                         if (!error) {
-                                             NSLog(@"Successfully logged the 'updatedViaWelcomeBackButton' event");
-                                         }
-                                     }];
-                                     
+									 [AnalyticsManager logEvent:AnalyticsEventReviewedViaButton];
                                      [[iVersion sharedInstance] openAppPageInAppStore];
                                  }
                                      atPosition:TSMessageNotificationPositionTop
@@ -124,6 +111,8 @@
 
 #pragma mark - iVersion Delegate Methods -
 
+//Todo: remove this from here (delegate class)
+
 - (void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails {
     NSLog(@"New version detected!");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"newVersionAvailable" object:nil];
@@ -135,36 +124,22 @@
 
 #pragma mark - iRate Delegate Methods -
 
+//todo: remove this from here (delegate class)
+
 - (void)iRateUserDidAttemptToRateApp {
-    [PFAnalytics trackEventInBackground:@"iRateUserDidAttemptToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateUserDidAttemptToRateApp' event");
-        }
-    }];
+	[AnalyticsManager logEvent:AnalyticsEventiRateUserDidAttemptToRateApp];
 }
 
 - (void)iRateUserDidDeclineToRateApp {
-    [PFAnalytics trackEventInBackground:@"iRateUserDidDeclineToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateUserDidDeclineToRateApp' event");
-        }
-    }];
+	[AnalyticsManager logEvent:AnalyticsEventiRateUserDidDeclineToRateApp];
 }
 
 - (void)iRateUserDidRequestReminderToRateApp {
-    [PFAnalytics trackEventInBackground:@"iRateUserDidRequestReminderToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateUserDidRequestReminderToRateApp' event");
-        }
-    }];
+	[AnalyticsManager logEvent:AnalyticsEventiRateUserDidRequestReminderToRateApp];
 }
 
 - (void)iRateDidOpenAppStore {
-    [PFAnalytics trackEventInBackground:@"iRateDidOpenAppStore" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateDidOpenAppStore' event");
-        }
-    }];
+	[AnalyticsManager logEvent:AnalyticsEventiRateDidOpenAppStore];
 }
 
 #pragma mark - Notification Center -
@@ -191,12 +166,9 @@
                                      buttonCallback:^{
                                          [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"showShuffledDeckWarning"];
                                          [[NSUserDefaults standardUserDefaults] synchronize];
-                                         NSInteger warningCount = [[notification.userInfo objectForKey:@"warningCount"] intValue];
-                                         [PFAnalytics trackEventInBackground:@"showShuffledDeckWarning" dimensions:@{ @"warningCount": [NSString stringWithFormat:@"%ld",(long)warningCount]} block:^(BOOL succeeded, NSError *error) {
-                                             if (!error) {
-                                                 NSLog(@"Successfully logged the 'showShuffledDeckWarning' event");
-                                             }
-                                         }];
+                                         NSNumber *warningCount = [NSNumber numberWithInteger:[[notification.userInfo objectForKey:@"warningCount"] integerValue]];
+										 NSDictionary *attributes = @{@"shuffleWarningCount":warningCount};
+										 [AnalyticsManager logEvent:AnalyticsEventOptedOutShuffleWarning withAttributes:attributes];
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
@@ -210,13 +182,8 @@
                                            callback:nil
                                         buttonTitle:NSLocalizedString(@"Update", @"Update app button")
                                      buttonCallback:^{
-                                         [PFAnalytics trackEventInBackground:@"updatedViaNotificationButton" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-                                             if (!error) {
-                                                 NSLog(@"Successfully logged the 'updatedViaNotificationButton' event");
-                                             }
-                                         }];
-                                         
-                                         [[iVersion sharedInstance] openAppPageInAppStore];
+										 [AnalyticsManager logEvent:AnalyticsEventUpdatedViaButton];
+										 [[iVersion sharedInstance] openAppPageInAppStore];
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
