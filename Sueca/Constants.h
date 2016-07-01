@@ -9,7 +9,6 @@
 #ifndef Constants_h
 #define Constants_h
 
-
 #define NUMBER_OF_CARDS 13
 
 static NSString * const MainStoryboard = @"Storyboard";

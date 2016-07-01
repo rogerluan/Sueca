@@ -74,11 +74,13 @@
                                            type:TSMessageNotificationTypeMessage
                                        duration:TSMessageNotificationDurationAutomatic
                                        callback:^{
-										   [AnalyticsManager logEvent:AnalyticsEventWelcomeBack];
+										   NSDictionary *attributes = @{@"Notification Message":welcomeBackMessage};
+										   [AnalyticsManager logEvent:AnalyticsEventWelcomeBackInteraction withAttributes:attributes];
                                        }
                                     buttonTitle:buttonTitle
                                  buttonCallback:^{
-									 [AnalyticsManager logEvent:AnalyticsEventReviewedViaButton];
+									 NSDictionary *attributes = @{@"Notification Message":welcomeBackMessage};
+									 [AnalyticsManager logEvent:AnalyticsEventReviewedViaButton withAttributes:attributes];
                                      [self.versioningCoordinator openAppPageInAppStore];
                                  }
                                      atPosition:TSMessageNotificationPositionTop
@@ -140,7 +142,8 @@
                                            callback:nil
                                         buttonTitle:NSLocalizedString(@"Update", @"Update app button")
                                      buttonCallback:^{
-										 [AnalyticsManager logEvent:AnalyticsEventUpdatedViaButton];
+										 NSDictionary *attributes = @{@"Notification Title Key":@"Update Available", @"Notification Message Key":@"You're using an outdated version of Sueca. Update to have the most awesome new features!"};
+										 [AnalyticsManager logEvent:AnalyticsEventUpdatedViaButton withAttributes:attributes];
 										 [self.versioningCoordinator openAppPageInAppStore];
                                      }
                                          atPosition:TSMessageNotificationPositionTop

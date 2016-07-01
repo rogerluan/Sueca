@@ -8,9 +8,7 @@
 
 #import "Deck.h"
 #import "Card.h"
-#import "GameManager.h"
-
-#define NUMBER_OF_CARDS 13
+#import "Constants.h"
 
 @implementation Deck
 
@@ -65,7 +63,6 @@
 /**
  *  Method to initialize the default deck on the app first run.
  *  This will only be runned once.
- *  @author Roger Oba
  */
 + (void)createDefaultDeck {
 	if (![self defaultDeckExist]) {
@@ -126,8 +123,6 @@
 
 
 /**
- *  @author Roger Oba
- *
  *  Verifies if the default deck already exists.
  *
  *  @return Returns the default deck if it exists, else nil.

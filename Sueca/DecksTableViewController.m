@@ -7,8 +7,8 @@
 //
 
 #import "DecksTableViewController.h"
-#import "TSBlurView.h"
 #import "GameManager.h"
+#import "AnalyticsManager.h"
 
 #import <TSMessages/TSMessageView.h>
 
@@ -60,6 +60,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.tableView reloadData];
+	[AnalyticsManager logContentViewEvent:AnalyticsEventViewDecksVC contentType:@"UIViewController"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,10 +77,6 @@
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [_fetchedResultsController.fetchedObjects count];
@@ -99,8 +96,6 @@
 }
 
 /**
- *  @author Roger Oba
- *
  *  Method used to configure UITableViewCells
  *
  *  @param cell      the cell that is being configured
@@ -152,6 +147,8 @@
         if(![self.moc save: &error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         }
+		NSDictionary *attributes = @{@"Deck Name":deckToBeDeleted.deckName};
+		[AnalyticsManager logEvent:AnalyticsEventDidDeleteDeck withAttributes:attributes];
     }
 }
 
@@ -179,6 +176,8 @@
 			} else { //everything went fine
 				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
 			}
+			NSDictionary *attributes = @{@"From deck":deselectedDeck.deckName,@"To deck":selectedDeck.deckName};
+			[AnalyticsManager logEvent:AnalyticsEventDidSelectDeck withAttributes:attributes];
         }
     } else {
         Deck *deckToEditName = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -198,6 +197,8 @@
 					if(![self.moc save: &error]) {
 						NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 					}
+					NSDictionary *attributes = @{@"Deck Name":deckToEditName.deckName};
+					[AnalyticsManager logEvent:AnalyticsEventDidRenameDeck withAttributes:attributes];
 				} else {
 					NSLog(@"Handle error: invalid deckToEditName");
 				}
@@ -213,6 +214,9 @@
 			[alert addAction:cancelAction];
 			
 			[self presentViewController:alert animated:YES completion:nil];
+			
+			NSDictionary *attributes = @{@"Deck Name":deckToEditName.deckName};
+			[AnalyticsManager logContentViewEvent:AnalyticsEventDeckEditView contentType:@"UIAlertController" customAttributes:attributes];
         }
     }
 }
@@ -323,6 +327,7 @@
 			
 			self.creatingDeckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		}
+		
 		[[[alert textFields] firstObject] resignFirstResponder];
 		[self performSegueWithIdentifier:@"newDeck" sender:nil];
 	}];
@@ -336,6 +341,7 @@
 	[alert addAction:action];
 	[alert addAction:cancelAction];
 	[self presentViewController:alert animated:YES completion:nil];
+	[AnalyticsManager logContentViewEvent:AnalyticsEventDeckCreationView contentType:@"UIAlertController"];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -343,6 +349,7 @@
         EditDeckTableViewController *tempTVC = [segue destinationViewController];
         tempTVC.thisDeck = nil;
         tempTVC.deckLabel = self.creatingDeckName;
+		[AnalyticsManager logEvent:AnalyticsEventDidCreateDeck withAttributes:@{@"Deck Name":self.creatingDeckName}];
     }
 }
 

@@ -7,14 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Crashlytics/Crashlytics.h>
 
 #pragma mark - Interactions & Gestures
-static NSString * const AnalyticsEventWelcomeBack = @"Interacted With Welcome Back";
-static NSString * const AnalyticsGestureEventTapCard = @"SwipeableView Tap Gesture";
+static NSString * const AnalyticsEventWelcomeBackInteraction = @"WelcomeBackInteraction";
+static NSString * const AnalyticsEventTapCardGesture = @"TapCardGesture";
+static NSString * const AnalyticsEventDidSwipeCard = @"DidSwipeCard";
+static NSString * const AnalyticsEventDidShakeDevice = @"DidShakeDevice";
 
 #pragma mark - Buttons
-static NSString * const AnalyticsEventReviewedViaButton = @"Reviewed Via WelcomeBack Button";
-static NSString * const AnalyticsEventUpdatedViaButton = @"Updated Via Notification Button";
+static NSString * const AnalyticsEventReviewedViaButton = @"ReviewedViaButton";
+static NSString * const AnalyticsEventUpdatedViaButton = @"UpdatedViaButton";
 
 #pragma mark - iRate
 static NSString * const AnalyticsEventiRateUserDidAttemptToRateApp = @"iRate UserDidAttemptToRateApp";
@@ -23,8 +26,36 @@ static NSString * const AnalyticsEventiRateUserDidRequestReminderToRateApp = @"i
 static NSString * const AnalyticsEventiRateDidOpenAppStore = @"iRate DidOpenAppStore";
 
 #pragma mark - Opt Out
-static NSString * const AnalyticsEventOptedOutShuffleWarning = @"Opted Out Shuffle Warning";
+static NSString * const AnalyticsEventOptedOutShuffleWarning = @"OptedOutShuffleWarning";
 
+#pragma mark - Card Rule Cell
+static NSString * const AnalyticsEventDidPressReturnKeyFromTextField = @"ReturnKey on UITextField";
+static NSString * const AnalyticsEventDidPressReturnKeyFromTextView = @"ReturnKey on UITextView";
+
+#pragma mark - Card Manipulation
+static NSString * const AnalyticsEventDidDeleteCard = @"Deleted Card";
+static NSString * const AnalyticsEventDidEditCardRule = @"Edited Card Rule";
+static NSString * const AnalyticsEventDidEditCardDescription = @"Edited Card Description";
+
+#pragma mark - Deck Manipulation
+static NSString * const AnalyticsEventDidCreateDeck = @"Created Deck";
+static NSString * const AnalyticsEventDidDeleteDeck = @"Deleted Deck";
+static NSString * const AnalyticsEventDidRenameDeck = @"Renamed Deck";
+static NSString * const AnalyticsEventDidSelectDeck = @"Selected Deck";
+
+#pragma mark - Content View
+static NSString * const AnalyticsEventViewGameVC = @"ViewGameVC";
+static NSString * const AnalyticsEventViewDecksVC = @"ViewDecksVC";
+static NSString * const AnalyticsEventViewEditDeckVC = @"ViewEditDeckVC";
+
+static NSString * const AnalyticsEventDeckCreationView = @"DeckCreationView";
+static NSString * const AnalyticsEventDeckEditView = @"DeckEditView";
+static NSString * const AnalyticsEventCardDescriptionView = @"CardDescriptionView";
+
+static NSString * const AnalyticsEventShareActivityView = @"ShareActivityView";
+
+#pragma mark - Share
+static NSString * const AnalyticsEventDidShareCard = @"DidShareCard";
 
 @interface AnalyticsManager : NSObject
 
@@ -32,5 +63,6 @@ static NSString * const AnalyticsEventOptedOutShuffleWarning = @"Opted Out Shuff
 + (void)increaseGlobalSortCount;
 + (void)logEvent:(NSString *)eventName;
 + (void)logEvent:(NSString *)eventName withAttributes:(NSDictionary *)attributes;
-
++ (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType;
++ (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType customAttributes:(NSDictionary *)attributes;
 @end

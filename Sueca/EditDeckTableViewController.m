@@ -8,6 +8,7 @@
 
 #import "EditDeckTableViewController.h"
 #import "Constants.h"
+#import "AnalyticsManager.h"
 
 @interface EditDeckTableViewController () <NSFetchedResultsControllerDelegate,CardRuleCellDelegate>
 
@@ -29,30 +30,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
-    [tempImageView setFrame:self.tableView.frame];
-    self.tableView.backgroundView = tempImageView;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    if (self.thisDeck) { //editting deck
-        NSError *error;
-        if (![[self fetchedResultsController] performFetch:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
-        self.title = NSLocalizedString(self.thisDeck.deckName, nil);
-    } else { //it's a new deck
-        self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
-		self.thisDeck = [Deck newDeckWithLabel:self.deckLabel];
-        NSError *error;
-        if (![[self fetchedResultsController] performFetch:&error]) {
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
-    }
+	[self setupLayout];
+}
 
-    if ([self.thisDeck.isEditable isEqualToNumber:@YES]) {
-        self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    }
+- (void)setupLayout {
+	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+	[tempImageView setFrame:self.tableView.frame];
+	self.tableView.backgroundView = tempImageView;
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	
+	if (self.thisDeck) { //editting deck
+		NSError *error;
+		if (![[self fetchedResultsController] performFetch:&error]) {
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		}
+		self.title = NSLocalizedString(self.thisDeck.deckName, nil);
+	} else { //it's a new deck
+		self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
+		self.thisDeck = [Deck newDeckWithLabel:self.deckLabel];
+		NSError *error;
+		if (![[self fetchedResultsController] performFetch:&error]) {
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		}
+	}
+	
+	if ([self.thisDeck.isEditable isEqualToNumber:@YES]) {
+		self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	}
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	
+	NSDictionary *attributes;
+	if (![self.thisDeck.deckName isEqualToString:@""]) {
+		attributes = @{@"Deck Name":self.thisDeck.deckName};
+	} else if (![self.deckLabel isEqualToString:@""]){
+		attributes = @{@"Deck Name":self.deckLabel};
+	}
+	[AnalyticsManager logContentViewEvent:AnalyticsEventViewEditDeckVC contentType:@"UIViewController" customAttributes:attributes];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -68,10 +84,6 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.thisDeck) {
         return NUMBER_OF_CARDS;
@@ -81,7 +93,6 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
     static NSString *cardCellIdentifier = @"cardCell";
     CardRulesCell *cell = [tableView dequeueReusableCellWithIdentifier:cardCellIdentifier forIndexPath:indexPath];
     if (!cell) {
@@ -142,7 +153,12 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self.moc deleteObject:cardToBeDeleted];
-        
+		
+		NSDictionary *attributes = @{@"Card Name":cardToBeDeleted.cardName,
+									 @"Card Rule":cardToBeDeleted.cardRule,
+									 @"Card Description":cardToBeDeleted.cardDescription};
+		[AnalyticsManager logEvent:AnalyticsEventDidDeleteCard withAttributes:attributes];
+		
         for (NSInteger i = indexPath.row ; i < ([tableView numberOfRowsInSection:0]-1) ; i++) {
             [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }
@@ -244,10 +260,12 @@
 
 - (void)cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextField:(UITextField *)cardRuleTextField {
     NSLog(@"Pressed return from text field.");
+	[AnalyticsManager logEvent:AnalyticsEventDidPressReturnKeyFromTextField];
     [[(CardRulesCell*)cell cardDescriptionTextView] becomeFirstResponder];
 }
 
-- (void)cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextView:(UITextView *)cardDescriptionTextView    {
+- (void)cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextView:(UITextView *)cardDescriptionTextView {
+	[AnalyticsManager logEvent:AnalyticsEventDidPressReturnKeyFromTextView];
     NSLog(@"Pressed return from text view.");
     
     NSIndexPath *currentIndexPath = [self.tableView indexPathForCell:cell];
@@ -274,6 +292,11 @@
     if(![self.moc save: &error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+	
+	NSDictionary *attributes = @{@"Card Name":editedCard.cardName,
+								 @"Card Rule":editedCard.cardRule,
+								 @"Card Description":editedCard.cardDescription};
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardRule withAttributes:attributes];
 }
 
 - (void)cardRuleCell:(UITableViewCell *)cell textViewDidEndEditingWithContent:(UITextView *)cardDescriptionTextView {
@@ -285,6 +308,11 @@
     if(![self.moc save: &error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+	
+	NSDictionary *attributes = @{@"Card Name":editedCard.cardName,
+								 @"Card Rule":editedCard.cardRule,
+								 @"Card Description":editedCard.cardDescription};
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardDescription withAttributes:attributes];
 }
 
 @end

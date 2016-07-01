@@ -9,7 +9,6 @@
 #import "GameViewController.h"
 
 #import "CardDescriptionView.h"
-#import "JBWhatsAppActivity.h"
 #import "AppearanceManager.h"
 #import "AnalyticsManager.h"
 #import "SuecaSwipeDeterminator.h"
@@ -25,7 +24,6 @@
 
 @property (strong, nonatomic) Deck *localDeck; //only used to check if the deck has changed.
 @property (strong, nonatomic) Card *displayCard;
-@property (strong, nonatomic) UIImageView *previousCard;
 
 @property (strong, nonatomic) SoundManager *soundManager;
 @property (strong, nonatomic) GameManager *gameManager;
@@ -61,6 +59,8 @@
 	if (![self.localDeck isEqual:self.gameManager.deck]) {
 		[self changeDeck];
 	}
+	
+	[AnalyticsManager logContentViewEvent:AnalyticsEventViewGameVC contentType:@"UIViewController"];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -75,6 +75,8 @@
 	if (event.subtype == UIEventSubtypeMotionShake) {
 		[self.swipeableView rewind];
 		[self updateRuleLabel];
+		NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
+		[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:attributes];
 	}
 	if ([super respondsToSelector:@selector(motionEnded:withEvent:)]) {
 		[super motionEnded:motion withEvent:event];
@@ -88,6 +90,8 @@
         CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
         [descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:self.displayCard.cardName] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
         descriptionView.delegate = self;
+		NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
+		[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:attributes];
     }
 }
 
@@ -98,6 +102,25 @@
 	[self.swipeableView discardAllViews];
 	[self.swipeableView loadViewsIfNeeded];
 	[self updateRuleLabel];
+}
+
+- (void)tappedSwipeableView:(UITapGestureRecognizer *)tap {
+	NSInteger random = arc4random_uniform(4);
+	NSLog(@"random: %ld", (long)random);
+	switch (random) {
+		case 0: [self.swipeableView swipeTopViewToLeft];
+			break;
+		case 1: [self.swipeableView swipeTopViewToUp];
+			break;
+		case 2: [self.swipeableView swipeTopViewToRight];
+			break;
+		case 3: [self.swipeableView swipeTopViewToDown];
+			break;
+		default: [self.swipeableView swipeTopViewToRight];
+	}
+	
+	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
+	[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:attributes];
 }
 
 #pragma mark - Appearance -
@@ -114,7 +137,7 @@
 
 - (void)updateRuleLabel {
 	self.displayCard = [(CardView *)[self.swipeableView topView] card];
-	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateNormal];
+	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule, nil) forState:UIControlStateNormal];
 }
 
 #pragma mark - CustomIOS7dialogButton Delegate Method
@@ -130,15 +153,32 @@
     }
 
     NSURL *sharingURL = [NSURL URLWithString:@"bit.ly/1JwDmry"];
-    NSString *fullSharingString = [NSString stringWithFormat:@"%@ %@",sharingString,sharingURL];
-    WhatsAppMessage *whatsappMsg = [[WhatsAppMessage alloc] initWithMessage:fullSharingString forABID:nil];
+    NSString *fullSharingString = [NSString stringWithFormat:@"%@ %@", sharingString, sharingURL];
     
     UIActivityViewController *activityViewController =
-    [[UIActivityViewController alloc] initWithActivityItems:@[fullSharingString,sharingImage,sharingURL,whatsappMsg]
-                                      applicationActivities:@[[[JBWhatsAppActivity alloc] init]]];
+    [[UIActivityViewController alloc] initWithActivityItems:@[fullSharingString, sharingImage, sharingURL]
+                                      applicationActivities:nil];
     activityViewController.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll, UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr, UIActivityTypePostToVimeo, UIActivityTypeAirDrop];
+	
+	if ([activityViewController respondsToSelector:@selector(setCompletionWithItemsHandler:)]) {
+		[activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+			NSDictionary *attributes = @{@"activityType":activityType, @"completed":[NSNumber numberWithBool:completed], @"error":activityError.localizedDescription, @"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
+			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:attributes];
+		}];
+	} else {
+		[activityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
+			NSDictionary *attributes = @{@"activityType":activityType, @"completed":[NSNumber numberWithBool:completed], @"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
+			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:attributes];
+		}];
+	}
+	
     [alertView close];
     [self presentViewController:activityViewController animated:YES completion:nil];
+	
+	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName,
+								 @"Card Rule":self.displayCard.cardRule,
+								 @"Card Description":self.displayCard.cardDescription};
+	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:attributes];
 }
 
 #pragma mark - ZLSwipeableView Methods
@@ -158,27 +198,8 @@
 	[self.soundManager playRandomCardSlideSoundFX];
 	[AnalyticsManager increaseGlobalSortCount];
 	[self updateRuleLabel];
-}
-
-#pragma mark - Analytics
-
-- (void)tappedSwipeableView:(UITapGestureRecognizer *)tap {
-	NSInteger random = arc4random_uniform(4);
-	NSLog(@"random: %ld", (long)random);
-	switch (random) {
-		case 0: [self.swipeableView swipeTopViewToLeft];
-			break;
-		case 1: [self.swipeableView swipeTopViewToUp];
-			break;
-		case 2: [self.swipeableView swipeTopViewToRight];
-			break;
-		case 3: [self.swipeableView swipeTopViewToDown];
-			break;
-		default: [self.swipeableView swipeTopViewToRight];
-	}
-	
-//	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
-//	[AnalyticsManager logEvent:AnalyticsGestureEventTapCard withAttributes:attributes];
+	NSDictionary *attributes = @{@"Direction":[NSNumber numberWithInteger:direction]};
+	[AnalyticsManager logEvent:AnalyticsEventDidSwipeCard withAttributes:attributes];
 }
 
 @end

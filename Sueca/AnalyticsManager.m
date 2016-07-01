@@ -7,7 +7,6 @@
 //
 
 #import "AnalyticsManager.h"
-#import <Crashlytics/Crashlytics.h>
 #import "iRate.h"
 
 /**
@@ -50,6 +49,14 @@
 
 + (void)logEvent:(NSString *)eventName withAttributes:(NSDictionary *)attributes {
 	[Answers logCustomEventWithName:eventName customAttributes:attributes];
+}
+
++ (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType {
+	[self logContentViewEvent:eventName contentType:contentType customAttributes:nil];
+}
+
++ (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType customAttributes:(NSDictionary *)attributes {
+	[Answers logContentViewWithName:eventName contentType:contentType contentId:nil customAttributes:attributes];
 }
 
 @end

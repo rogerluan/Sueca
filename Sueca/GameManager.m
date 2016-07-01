@@ -30,9 +30,6 @@
                 [self.deckArray addObject:card];
             }
         }
-    } else {
-        //to-do: treat error
-        NSLog(@"Error: Couldn't initialize self.deck.");
     }
     return self;
 }
@@ -55,7 +52,6 @@
 /**
  *  Getter method for the current deck.
  *  @return Deck containing the cards that should be used, or nil if any error occurs.
- *  @author Roger Oba
  */
 - (Deck *)deck {
     self.moc = [self managedObjectContext];
@@ -129,7 +125,6 @@
 /**
  *  Creates a full deck with 52 cards
  *  @return NSMutableArray containing the full deck
- *  @author Roger Oba
  */
 - (NSMutableArray *)fullDeck {
     NSMutableArray *fullDeck = [NSMutableArray new];
@@ -185,9 +180,6 @@
 
 #pragma mark - Core Data -
 
-/**
- *  Default method to init self.moc
- */
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
     id delegate = [[UIApplication sharedApplication] delegate];
