@@ -11,17 +11,16 @@
 #import "CardDescriptionView.h"
 #import "JBWhatsAppActivity.h"
 #import "AppearanceManager.h"
-#import "SoundManager.h"
 #import "AnalyticsManager.h"
-#import "GameManager.h"
-
 #import "SuecaSwipeDeterminator.h"
 #import "SuecaViewAnimator.h"
 #import "CardView.h"
+#import "SoundManager.h"
+#import "GameManager.h"
 
-@interface GameViewController () <UIGestureRecognizerDelegate,CustomIOS7AlertViewDelegate>
+@interface GameViewController () <UIGestureRecognizerDelegate, CustomIOS7AlertViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *ruleButton;
+@property (strong, nonatomic) IBOutlet UIButton *ruleButton;
 @property (strong, nonatomic) IBOutlet ZLSwipeableView *swipeableView;
 
 @property (strong, nonatomic) Deck *localDeck; //only used to check if the deck has changed.
@@ -35,47 +34,24 @@
 
 @implementation GameViewController
 
-#pragma mark - Lifecycle -
+#pragma mark - Lifecycle - 
 
 - (void)viewDidLoad {
+	[self setup];
     [super viewDidLoad];
-    
-    //to-do: update GameVC to use factoryVC
-    self.soundManager = [SoundManager new];
-    self.gameManager = [GameManager new];
+    [self setupViewsLayout];	
+}
+
+- (void)setup {
+	self.soundManager = [SoundManager new];
+	self.gameManager = [GameManager new];
 	self.localDeck = self.gameManager.deck;
-    
-    [self setupViewsLayout];
-	
-	
-//	ZLSwipeableView *swipeableView = [[ZLSwipeableView alloc] initWithFrame:CGRectZero];
-//	self.swipeableView = swipeableView;
-//	[self.view addSubview:self.swipeableView];
-	
 	self.swipeableView.numberOfActiveViews = 10;
 	self.swipeableView.numberOfHistoryItem = 1;
 	self.swipeableView.viewAnimator = [SuecaViewAnimator new];
 	self.swipeableView.swipingDeterminator = [SuecaSwipeDeterminator new];
-//	UITapGestureRecognizer *tapGesture = [UITapGestureRecognizer alloc] initWithTarget:AnalyticsManager action:<#(nullable SEL)#>
-//	self.swipeableView addGestureRecognizer:
-
-	NSLog(@"swipeableView frame: %@",NSStringFromCGRect(self.swipeableView.frame));
-	
-	//The code below changes the area where the next card will spawn from.
+	[self.swipeableView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedSwipeableView:)]];
 	self.swipeableView.translatesAutoresizingMaskIntoConstraints = NO;
-//	NSDictionary *metrics = @{};
-//	ZLSwipeableView *swipeableView = self.swipeableView;
-//	[self.view addConstraints:[NSLayoutConstraint
-//							   constraintsWithVisualFormat:@"|-80-[swipeableView]-80-|"
-//							   options:0
-//							   metrics:metrics
-//							   views:NSDictionaryOfVariableBindings(self.swipeableView)]];
-//	
-//	[self.view addConstraints:[NSLayoutConstraint
-//							   constraintsWithVisualFormat:@"V:|-30-[swipeableView]-80-|"
-//							   options:0
-//							   metrics:metrics
-//							   views:NSDictionaryOfVariableBindings(self.swipeableView)]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -137,7 +113,7 @@
 }
 
 - (void)updateRuleLabel {
-	self.displayCard = [(CardView*)[self.swipeableView topView] card];
+	self.displayCard = [(CardView *)[self.swipeableView topView] card];
 	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateNormal];
 }
 
@@ -147,7 +123,7 @@
     NSString *sharingString = [NSString stringWithFormat: NSLocalizedString(@"Everyone's drinking shots on Sueca Drinking Game. Come over to have some fun! #sueca", @"Activity View Sharing String")];
     UIImage *sharingImage = nil;
     
-    if ([self.displayCard.deck.isEditable isEqualToNumber:@NO]) {
+    if (self.displayCard.deck.isDefault) {
         sharingImage = [UIImage imageNamed:self.displayCard.cardName];
     } else {
         sharingImage = [UIImage imageNamed:@"sharingSuecaLogoImage"];
@@ -165,23 +141,20 @@
     [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
-#pragma mark - ZLSwipeableView Methods - 
+#pragma mark - ZLSwipeableView Methods
 
 #pragma mark - ZLSwipeableViewDataSource
 
 - (UIView *)nextViewForSwipeableView:(ZLSwipeableView *)swipeableView {
 	//updates the display card to reflect the actual top card, and update the rule button
-	CardView *view = [[CardView alloc] initWithFrame:self.swipeableView.frame];
+	CardView *view = [[CardView alloc] initWithFrame:self.swipeableView.bounds];
 	view.card = [self.gameManager newCard];
 	return view;
 }
 
 #pragma mark - ZLSwipeableViewDelegate
 
-- (void)swipeableView:(ZLSwipeableView *)swipeableView
-		 didSwipeView:(UIView *)view
-		  inDirection:(ZLSwipeableViewDirection)direction {
-	
+- (void)swipeableView:(ZLSwipeableView *)swipeableView didSwipeView:(UIView *)view inDirection:(ZLSwipeableViewDirection)direction {
 	[self.soundManager playRandomCardSlideSoundFX];
 	[AnalyticsManager increaseGlobalSortCount];
 	[self updateRuleLabel];
@@ -189,9 +162,23 @@
 
 #pragma mark - Analytics
 
-- (void)tappedSwipeableView {
-	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
-	[AnalyticsManager logEvent:AnalyticsGestureEventTapCard withAttributes:attributes];
+- (void)tappedSwipeableView:(UITapGestureRecognizer *)tap {
+	NSInteger random = arc4random_uniform(4);
+	NSLog(@"random: %ld", (long)random);
+	switch (random) {
+		case 0: [self.swipeableView swipeTopViewToLeft];
+			break;
+		case 1: [self.swipeableView swipeTopViewToUp];
+			break;
+		case 2: [self.swipeableView swipeTopViewToRight];
+			break;
+		case 3: [self.swipeableView swipeTopViewToDown];
+			break;
+		default: [self.swipeableView swipeTopViewToRight];
+	}
+	
+//	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
+//	[AnalyticsManager logEvent:AnalyticsGestureEventTapCard withAttributes:attributes];
 }
 
 @end
