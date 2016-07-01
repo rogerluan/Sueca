@@ -9,11 +9,14 @@
 #ifndef Constants_h
 #define Constants_h
 
+
+#define NUMBER_OF_CARDS 13
+
 static NSString * const MainStoryboard = @"Storyboard";
 static NSString * const TabBarControllerIdentifier = @"TabBarController";
 static NSString * const DecksNavigationControllerIdentifier = @"DecksNavigationController";
 static NSString * const GameViewControllerIdentifier = @"GameViewController";
-
+static NSString * const EditDeckTableViewControllerIdentifier = @"EditDeckTableViewController";
 
 typedef NS_ENUM(NSUInteger, ShuffleDeckWarning) {
 	ShuffleDeckWarningNeverDecided = 0,
