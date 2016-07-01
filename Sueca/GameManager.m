@@ -8,6 +8,7 @@
 
 #import "GameManager.h"
 #import "Deck.h"
+#import "Constants.h"
 
 @interface GameManager ()
 
@@ -110,13 +111,13 @@
     NSLog(@"card count: %ld",(long)self.deckArray.count);
     if (self.deckArray.count == 0) {
         /* Warns the user that the deck was reshuffled */
-        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == 1) {
+        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningDisplay) {
             NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noShuffleDeckWarningCount"];
             warningCount++;
             [[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noShuffleDeckWarningCount"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"deckShuffled" object:nil userInfo:@{@"warningCount":[NSNumber numberWithInteger:warningCount]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"deckShuffled" object:nil userInfo:@{@"noShuffleDeckWarningCount":[NSNumber numberWithInteger:warningCount]}];
         } else {
             NSLog(@"showShuffledDeckWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"]);
         }
@@ -134,7 +135,7 @@
     NSMutableArray *fullDeck = [NSMutableArray new];
     
     /* If it's the default deck, simply create 13 * 4 = 52 cards */
-    if ([self.deck.isEditable isEqualToNumber:[NSNumber numberWithBool:NO]]) {
+    if (self.deck.isDefault) {
         for (Card *card in self.deck.cards) {
             for (int i = 0; i < 4; i++) {
                 [fullDeck addObject:card];
