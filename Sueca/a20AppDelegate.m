@@ -7,11 +7,10 @@
 //
 
 #import "a20AppDelegate.h"
-#import "iRateSetup.h"
+#import "iRateCoordinator.h"
 #import "AnalyticsManager.h"
 #import "AppearanceManager.h"
 
-#import "TSMessage.h"
 #import <TSMessages/TSMessageView.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
@@ -23,17 +22,16 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 + (void)initialize {
-    [iRateSetup setup];
+    [iRateCoordinator setup];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [AppearanceManager setup];
-    [iRateSetup resetEventCount];
+    [iRateCoordinator resetEventCount];
 	[Fabric with:@[CrashlyticsKit]];
 	
-    //TSMessages
     [TSMessageView addNotificationDesignFromFile:@"SuecaNotificationDesign.json"];
-
+	
     return YES;
 }
 
