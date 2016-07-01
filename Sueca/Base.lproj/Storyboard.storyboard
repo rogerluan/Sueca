@@ -57,7 +57,7 @@
         <!--Edit Deck Table View Controller-->
         <scene sceneID="9sa-w3-SHC">
             <objects>
-                <tableViewController storyboardIdentifier="editDeckTVC" hidesBottomBarWhenPushed="YES" id="Ayl-X3-1dY" customClass="EditDeckTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="EditDeckTableViewController" hidesBottomBarWhenPushed="YES" id="Ayl-X3-1dY" customClass="EditDeckTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="140" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujM-WT-RMI">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
