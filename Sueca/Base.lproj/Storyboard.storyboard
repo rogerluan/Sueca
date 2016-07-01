@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Szt-cu-6vb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Szt-cu-6vb">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -135,7 +135,7 @@
         <!--Data Source-->
         <scene sceneID="vy6-Ae-quP">
             <objects>
-                <viewController id="e59-W6-SjI" customClass="GameViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameViewController" id="e59-W6-SjI" customClass="GameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RHI-A2-7HN"/>
                         <viewControllerLayoutGuide type="bottom" id="cAJ-Xo-c3e"/>
@@ -204,7 +204,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="a6M-u7-A44">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Szt-cu-6vb" customClass="TabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="Szt-cu-6vb" customClass="TabBarController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -214,18 +214,22 @@
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="ratingCoordinator" destination="rZS-Yq-INU" id="8Xf-VA-129"/>
+                        <outlet property="versioningCoordinator" destination="GXx-4b-BsG" id="vmZ-cm-OHh"/>
                         <segue destination="e59-W6-SjI" kind="relationship" relationship="viewControllers" id="IY8-zn-9c7"/>
                         <segue destination="fNX-ih-5hQ" kind="relationship" relationship="viewControllers" id="QAp-0W-Qzw"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NFB-M2-4Zn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="GXx-4b-BsG" customClass="iVersionCoordinator"/>
+                <customObject id="rZS-Yq-INU" customClass="iRateCoordinator"/>
             </objects>
             <point key="canvasLocation" x="367.5" y="785.91549295774644"/>
         </scene>
         <!--Decks-->
         <scene sceneID="cSD-iy-3bP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fNX-ih-5hQ" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DecksNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="fNX-ih-5hQ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Decks" image="decks" id="R9w-nP-c0V"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ItR-bA-6O1">
@@ -233,7 +237,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lCl-qO-7ow">
+                    <toolbar key="toolbar" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lCl-qO-7ow">
                         <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>

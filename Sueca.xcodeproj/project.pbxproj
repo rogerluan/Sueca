@@ -32,7 +32,7 @@
 		C5B1FB7619EFFC1D00088FB8 /* EditDeckTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */; };
 		C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7819F0037000088FB8 /* CardRulesCell.m */; };
 		C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12281C7191CC004BFF52 /* SoundManager.m */; };
-		C5BA122C1C719463004BFF52 /* iRateSetup.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA122B1C719463004BFF52 /* iRateSetup.m */; };
+		C5BA122C1C719463004BFF52 /* iRateCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA122B1C719463004BFF52 /* iRateCoordinator.m */; };
 		C5BA12331C7195B5004BFF52 /* AppearanceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12321C7195B5004BFF52 /* AppearanceManager.m */; };
 		C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12351C72A4CD004BFF52 /* GameManager.m */; };
 		C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12381C72A581004BFF52 /* AnalyticsManager.m */; };
@@ -49,6 +49,7 @@
 		C5C5AAB118184814005A9625 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9918184814005A9625 /* UIKit.framework */; };
 		C5C5AAB918184814005A9625 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5C5AAB718184814005A9625 /* InfoPlist.strings */; };
 		C5C5AABB18184814005A9625 /* SuecaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AABA18184814005A9625 /* SuecaTests.m */; };
+		C5CC40991D26053D00F6DCC6 /* iVersionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC40981D26053D00F6DCC6 /* iVersionCoordinator.m */; };
 		C5D5294C1B2916C6003542CD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D5294B1B2916C6003542CD /* Social.framework */; };
 		C5D5294E1B2916CD003542CD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D5294D1B2916CD003542CD /* Accounts.framework */; };
 		C5D5295A1B29CFAE003542CD /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C5D529571B29CFAE003542CD /* iVersion.bundle */; };
@@ -282,8 +283,8 @@
 		C5B1FB7819F0037000088FB8 /* CardRulesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardRulesCell.m; sourceTree = "<group>"; };
 		C5BA12271C7191CC004BFF52 /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		C5BA12281C7191CC004BFF52 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
-		C5BA122A1C719463004BFF52 /* iRateSetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRateSetup.h; sourceTree = "<group>"; };
-		C5BA122B1C719463004BFF52 /* iRateSetup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRateSetup.m; sourceTree = "<group>"; };
+		C5BA122A1C719463004BFF52 /* iRateCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRateCoordinator.h; sourceTree = "<group>"; };
+		C5BA122B1C719463004BFF52 /* iRateCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRateCoordinator.m; sourceTree = "<group>"; };
 		C5BA12311C7195B5004BFF52 /* AppearanceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppearanceManager.h; sourceTree = "<group>"; };
 		C5BA12321C7195B5004BFF52 /* AppearanceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppearanceManager.m; sourceTree = "<group>"; };
 		C5BA12341C72A4CD004BFF52 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
@@ -309,6 +310,9 @@
 		C5C5AAB618184814005A9625 /* SuecaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuecaTests-Info.plist"; sourceTree = "<group>"; };
 		C5C5AAB818184814005A9625 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5C5AABA18184814005A9625 /* SuecaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SuecaTests.m; sourceTree = "<group>"; };
+		C5CC40961D25D4AB00F6DCC6 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		C5CC40971D26053D00F6DCC6 /* iVersionCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersionCoordinator.h; sourceTree = "<group>"; };
+		C5CC40981D26053D00F6DCC6 /* iVersionCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersionCoordinator.m; sourceTree = "<group>"; };
 		C5D5294B1B2916C6003542CD /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C5D5294D1B2916CD003542CD /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C5D529571B29CFAE003542CD /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
@@ -873,8 +877,8 @@
 		C592196219D1AD190021F937 /* iRate */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA122A1C719463004BFF52 /* iRateSetup.h */,
-				C5BA122B1C719463004BFF52 /* iRateSetup.m */,
+				C5BA122A1C719463004BFF52 /* iRateCoordinator.h */,
+				C5BA122B1C719463004BFF52 /* iRateCoordinator.m */,
 				C5F3B50D19B53F2C006D6257 /* iRate.bundle */,
 				C5F3B50E19B53F2C006D6257 /* iRate.h */,
 				C5F3B50F19B53F2C006D6257 /* iRate.m */,
@@ -946,7 +950,7 @@
 				C5F5E7441CCF2B1A00BE8C8F /* CardView.h */,
 				C5F5E7451CCF2B1A00BE8C8F /* CardView.m */,
 				C5C5AAC51818483F005A9625 /* Controller */,
-				C5C5AAC61818484C005A9625 /* Modal */,
+				C5C5AAC61818484C005A9625 /* Model */,
 				C5C5AA9C18184814005A9625 /* Supporting Files */,
 			);
 			path = Sueca;
@@ -1013,7 +1017,7 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		C5C5AAC61818484C005A9625 /* Modal */ = {
+		C5C5AAC61818484C005A9625 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				C5C5AAA418184814005A9625 /* a20AppDelegate.h */,
@@ -1026,12 +1030,13 @@
 				C5BA12351C72A4CD004BFF52 /* GameManager.m */,
 				C5BA12371C72A581004BFF52 /* AnalyticsManager.h */,
 				C5BA12381C72A581004BFF52 /* AnalyticsManager.m */,
+				C5CC40961D25D4AB00F6DCC6 /* Constants.h */,
 				C5D529511B29ADDA003542CD /* Core Data */,
 				C5D529521B29ADE3003542CD /* JBWhatsAppActivity */,
 				C5D5295C1B29CFB5003542CD /* iVersion */,
 				C592196219D1AD190021F937 /* iRate */,
 			);
-			name = Modal;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		C5D529511B29ADDA003542CD /* Core Data */ = {
@@ -1061,6 +1066,8 @@
 				C5D529571B29CFAE003542CD /* iVersion.bundle */,
 				C5D529581B29CFAE003542CD /* iVersion.h */,
 				C5D529591B29CFAE003542CD /* iVersion.m */,
+				C5CC40971D26053D00F6DCC6 /* iVersionCoordinator.h */,
+				C5CC40981D26053D00F6DCC6 /* iVersionCoordinator.m */,
 			);
 			name = iVersion;
 			sourceTree = "<group>";
@@ -1088,13 +1095,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C5C5AABE18184814005A9625 /* Build configuration list for PBXNativeTarget "Sueca" */;
 			buildPhases = (
-				E0518D0F910671C6BEA042C2 /* 📦 Check Pods Manifest.lock */,
+				E0518D0F910671C6BEA042C2 /* [CP] Check Pods Manifest.lock */,
 				C5C5AA8E18184814005A9625 /* Sources */,
 				C5C5AA8F18184814005A9625 /* Frameworks */,
 				C5C5AA9018184814005A9625 /* Resources */,
 				C584634A1B5E57A600595B1D /* ShellScript */,
-				6AB8911673DC6058E54400B5 /* 📦 Embed Pods Frameworks */,
-				2927F0ABE522B178D9C199DC /* 📦 Copy Pods Resources */,
+				6AB8911673DC6058E54400B5 /* [CP] Embed Pods Frameworks */,
+				2927F0ABE522B178D9C199DC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1214,14 +1221,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2927F0ABE522B178D9C199DC /* 📦 Copy Pods Resources */ = {
+		2927F0ABE522B178D9C199DC /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1229,14 +1236,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Sueca/Pods-Sueca-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6AB8911673DC6058E54400B5 /* 📦 Embed Pods Frameworks */ = {
+		6AB8911673DC6058E54400B5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1257,14 +1264,14 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 1793337d0c666150a5665cf6d98164fa79f2bf60 deb01a809f9dce38a8a999de56f4a86bdec4751a2f0c4d324dab74dc9a4ae9af";
 		};
-		E0518D0F910671C6BEA042C2 /* 📦 Check Pods Manifest.lock */ = {
+		E0518D0F910671C6BEA042C2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1288,6 +1295,7 @@
 				C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */,
+				C5CC40991D26053D00F6DCC6 /* iVersionCoordinator.m in Sources */,
 				C5F5E7431CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m in Sources */,
 				C57F9FAB1B216EE200C50D0C /* CardDescriptionView.m in Sources */,
 				C57F9FB21B23220D00C50D0C /* JBWhatsAppActivity.m in Sources */,
@@ -1296,7 +1304,7 @@
 				C5BA8F771CCE579B0027F2B1 /* UIView+Rounded.m in Sources */,
 				C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */,
 				C5C5AAA218184814005A9625 /* main.m in Sources */,
-				C5BA122C1C719463004BFF52 /* iRateSetup.m in Sources */,
+				C5BA122C1C719463004BFF52 /* iRateCoordinator.m in Sources */,
 				C5F5E7461CCF2B1A00BE8C8F /* CardView.m in Sources */,
 				C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */,
 				C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */,
