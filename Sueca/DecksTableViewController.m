@@ -7,12 +7,12 @@
 //
 
 #import "DecksTableViewController.h"
-#import "TSMessage.h"
-#import "TSMessageView.h"
 #import "TSBlurView.h"
 #import "GameManager.h"
 
-@interface DecksTableViewController () <NSFetchedResultsControllerDelegate,TSMessageViewProtocol>
+#import <TSMessages/TSMessageView.h>
+
+@interface DecksTableViewController () <NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *moc;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -33,21 +33,14 @@
     [super viewDidLoad];
 	
 	self.gameManager = [GameManager new];
-    
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
-    [tempImageView setFrame:self.tableView.frame];
-    self.tableView.backgroundView = tempImageView;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    NSError *error;
+	[self setupLayout];
+	
+	NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-        
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"showNewFeatureNotification"]) {
-        [TSMessage setDelegate:self];
         [TSMessage showNotificationInViewController:self
                                               title:NSLocalizedString(@"Customizable!", @"TSMessage Customizable Notification Title")
                                            subtitle:NSLocalizedString(@"You can now edit the name of your decks by tapping Edit and selecting the deck. Enjoy!", @"TSMessage Customizable Notification Subtitle")
@@ -71,6 +64,15 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)setupLayout {
+	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+	[tempImageView setFrame:self.tableView.frame];
+	self.tableView.backgroundView = tempImageView;
+	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+	
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
 #pragma mark - Table view data source
@@ -113,7 +115,7 @@
         }
     }
     if (reusableDeck) {
-        if ([reusableDeck.isEditable isEqualToNumber:[NSNumber numberWithBool:NO]]) {
+        if (reusableDeck.isDefault) {
             cell.textLabel.text = NSLocalizedString(reusableDeck.deckName, nil);
         } else {
             cell.textLabel.text = reusableDeck.deckName;
@@ -156,12 +158,7 @@
 #pragma mark - UITableView Delegate Methods -
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-	
-	//to-do: replace these with a factory instantiation call
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Storyboard" bundle:nil];
-    EditDeckTableViewController *editDeckTVC = [storyboard instantiateViewControllerWithIdentifier:@"editDeckTVC"];
-    editDeckTVC.thisDeck = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    [self.navigationController pushViewController:editDeckTVC animated:YES];
+    [self.navigationController pushViewController:[EditDeckTableViewController viewControllerWithDeck:[self.fetchedResultsController objectAtIndexPath:indexPath]] animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -281,7 +278,6 @@
         case NSFetchedResultsChangeInsert:
             [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
-            
         case NSFetchedResultsChangeDelete:
             [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -295,27 +291,6 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
     [self.tableView endUpdates];
-}
-
-#pragma mark - TSMessage -
-
-- (void)customizeMessageView:(TSMessageView *)messageView {
-	for (UIView *view in messageView.subviews) {
-		if ([view isKindOfClass:[TSBlurView class]]) {
-			if (NSClassFromString(@"UIVisualEffectView") != nil) {
-				//UIViewVisualEffectView is available, so add it.
-				
-				UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-				UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-				effectView.frame = view.frame;
-				effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-				[messageView insertSubview:effectView aboveSubview:view];
-				[view removeFromSuperview];
-			} else { // UIViewVisualEffectView is available, so don't do anything.
-				view.alpha = 0.85;
-			}
-		}
-	}
 }
 
 #pragma mark - Core Data Method
@@ -349,8 +324,6 @@
 			self.creatingDeckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		}
 		[[[alert textFields] firstObject] resignFirstResponder];
-		
-		//to-do: call factory instance method here
 		[self performSegueWithIdentifier:@"newDeck" sender:nil];
 	}];
 	
