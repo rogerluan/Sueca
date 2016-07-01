@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSNumber *isBeingUsed;
 @property (nonatomic, retain) NSNumber *isEditable;
 @property (nonatomic, retain) NSSet *cards;
+@property (assign, readonly, getter=isDefault) BOOL defaultDeck;
 
 @end
 
@@ -26,6 +27,7 @@
 - (void)removeCardsObject:(Card *)value;
 - (void)addCards:(NSSet *)values;
 - (void)removeCards:(NSSet *)values;
+- (BOOL)isDefault;
 
 + (Deck *)newDeckWithLabel:(NSString *)deckLabel;
 + (void)createDefaultDeck;

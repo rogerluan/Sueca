@@ -8,6 +8,7 @@
 
 #import "GameManager.h"
 #import "Deck.h"
+#import "Constants.h"
 
 @interface GameManager ()
 
@@ -29,9 +30,6 @@
                 [self.deckArray addObject:card];
             }
         }
-    } else {
-        //to-do: treat error
-        NSLog(@"Error: Couldn't initialize self.deck.");
     }
     return self;
 }
@@ -54,7 +52,6 @@
 /**
  *  Getter method for the current deck.
  *  @return Deck containing the cards that should be used, or nil if any error occurs.
- *  @author Roger Oba
  */
 - (Deck *)deck {
     self.moc = [self managedObjectContext];
@@ -110,13 +107,13 @@
     NSLog(@"card count: %ld",(long)self.deckArray.count);
     if (self.deckArray.count == 0) {
         /* Warns the user that the deck was reshuffled */
-        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == 1) {
+        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningDisplay) {
             NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noShuffleDeckWarningCount"];
             warningCount++;
             [[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noShuffleDeckWarningCount"];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"deckShuffled" object:nil userInfo:@{@"warningCount":[NSNumber numberWithInteger:warningCount]}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"deckShuffled" object:nil userInfo:@{@"noShuffleDeckWarningCount":[NSNumber numberWithInteger:warningCount]}];
         } else {
             NSLog(@"showShuffledDeckWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"]);
         }
@@ -128,13 +125,12 @@
 /**
  *  Creates a full deck with 52 cards
  *  @return NSMutableArray containing the full deck
- *  @author Roger Oba
  */
 - (NSMutableArray *)fullDeck {
     NSMutableArray *fullDeck = [NSMutableArray new];
     
     /* If it's the default deck, simply create 13 * 4 = 52 cards */
-    if ([self.deck.isEditable isEqualToNumber:[NSNumber numberWithBool:NO]]) {
+    if (self.deck.isDefault) {
         for (Card *card in self.deck.cards) {
             for (int i = 0; i < 4; i++) {
                 [fullDeck addObject:card];
@@ -184,9 +180,6 @@
 
 #pragma mark - Core Data -
 
-/**
- *  Default method to init self.moc
- */
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
     id delegate = [[UIApplication sharedApplication] delegate];

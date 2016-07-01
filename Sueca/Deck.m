@@ -8,9 +8,7 @@
 
 #import "Deck.h"
 #import "Card.h"
-#import "GameManager.h"
-
-#define NUMBER_OF_CARDS 13
+#import "Constants.h"
 
 @implementation Deck
 
@@ -18,6 +16,18 @@
 @dynamic isBeingUsed;
 @dynamic isEditable;
 @dynamic cards;
+@dynamic defaultDeck;
+
+- (BOOL)isDefault {
+	if ([self.isEditable isEqualToNumber:@0] && ([self.deckName isEqualToString:@"Default"] || [self.deckName isEqualToString:@"Padrão"] || [self.deckName isEqualToString:@"Standard"])) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)isDefaultDeck {
+	return [self isDefault];
+}
 
 + (Deck *)newDeckWithLabel:(NSString *)deckLabel {
 	NSArray *cardRules = [[NSArray alloc] initWithObjects:@"Card Rule 1",
@@ -53,7 +63,6 @@
 /**
  *  Method to initialize the default deck on the app first run.
  *  This will only be runned once.
- *  @author Roger Oba
  */
 + (void)createDefaultDeck {
 	if (![self defaultDeckExist]) {
@@ -114,8 +123,6 @@
 
 
 /**
- *  @author Roger Oba
- *
  *  Verifies if the default deck already exists.
  *
  *  @return Returns the default deck if it exists, else nil.

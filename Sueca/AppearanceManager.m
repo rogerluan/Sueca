@@ -12,7 +12,7 @@
 
 + (void)setup {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
-    NSDictionary *textTitleOptions = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
+    NSDictionary *textTitleOptions = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
     [[UINavigationBar appearance] setTitleTextAttributes:textTitleOptions];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];
     [[UITabBar appearance] setBackgroundColor:[UIColor greenColor]];

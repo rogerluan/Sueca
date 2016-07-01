@@ -7,16 +7,21 @@
 //
 
 #import "TabBarController.h"
-#import "TSMessage.h"
-#import "TSMessageView.h"
+#import "iRateCoordinator.h"
+#import "iVersionCoordinator.h"
+#import "AnalyticsManager.h"
+#import "GameViewController.h"
+#import "Constants.h"
 #import "GameManager.h"
-#import "iVersion.h"
-#import "iRate.h"
-#import <Parse/Parse.h>
+#import "TSBlurView.h"
 
-@interface TabBarController ()<TSMessageViewProtocol,iVersionDelegate,iRateDelegate>
+#import <TSMessages/TSMessageView.h>
+
+@interface TabBarController () <TSMessageViewProtocol>
 
 @property (strong, nonatomic) GameManager *gameManager;
+@property (strong, nonatomic) IBOutlet iRateCoordinator *ratingCoordinator;
+@property (strong, nonatomic) IBOutlet iVersionCoordinator *versioningCoordinator;
 
 @end
 
@@ -29,18 +34,9 @@
     
     self.gameManager = [GameManager new];
     [self registerForNotification];
-    
-    /* Creates default deck only once */
-    
-    //0: never decided
-    //1: displays warning
-    //2: opted out
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == 0) {
-        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"showShuffledDeckWarning"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 0) {
-        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"showNoDescriptionWarning"];
+	
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningNeverDecided) {
+        [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningDisplay forKey:@"showShuffledDeckWarning"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
@@ -48,16 +44,16 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         [Deck createDefaultDeck];
     } else {
-//        [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
+        [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
     }
-    
-    [[iVersion sharedInstance] checkForNewVersion];
-    [[iVersion sharedInstance] setDelegate:self];
-    [[iRate sharedInstance] setDelegate:self];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc {
+	[self unregisterForNotification];
 }
 
 #pragma mark - Welcome Back Message -
@@ -78,35 +74,21 @@
                                            type:TSMessageNotificationTypeMessage
                                        duration:TSMessageNotificationDurationAutomatic
                                        callback:^{
-                                           [PFAnalytics trackEventInBackground:@"interactionWithWelcomeBack" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-                                               if (!error) {
-                                                   NSLog(@"Successfully logged the 'interactionWithWelcomeBack' event");
-                                               }
-                                           }];
+										   NSDictionary *attributes = @{@"Notification Message":welcomeBackMessage};
+										   [AnalyticsManager logEvent:AnalyticsEventWelcomeBackInteraction withAttributes:attributes];
                                        }
                                     buttonTitle:buttonTitle
                                  buttonCallback:^{
-                                     [PFAnalytics trackEventInBackground:@"updatedViaWelcomeBackButton" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-                                         if (!error) {
-                                             NSLog(@"Successfully logged the 'updatedViaWelcomeBackButton' event");
-                                         }
-                                     }];
-                                     
-                                     [[iVersion sharedInstance] openAppPageInAppStore];
+									 NSDictionary *attributes = @{@"Notification Message":welcomeBackMessage};
+									 [AnalyticsManager logEvent:AnalyticsEventReviewedViaButton withAttributes:attributes];
+                                     [self.versioningCoordinator openAppPageInAppStore];
                                  }
                                      atPosition:TSMessageNotificationPositionTop
                            canBeDismissedByUser:YES];
     
 }
 
-/**
- *  @author Roger Oba
- *
- *  Randomizes a Welcome Back message.
- *
- *  @return returns the string of the message
- */
-- (NSString*)randomWelcomeBackMessage {
+- (NSString *)randomWelcomeBackMessage {
     
     NSArray *welcomeBackMessages = @[NSLocalizedString(@"Enjoy!", @"Welcome Back Message 1"),
                                      NSLocalizedString(@"If you were expecting a signal to do something, this is it. Do it!", @"Welcome Back Message 2"),
@@ -122,51 +104,6 @@
     return [welcomeBackMessages objectAtIndex:arc4random() % [welcomeBackMessages count]];
 }
 
-#pragma mark - iVersion Delegate Methods -
-
-- (void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails {
-    NSLog(@"New version detected!");
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"newVersionAvailable" object:nil];
-}
-
-- (void)iVersionDidNotDetectNewVersion {
-    NSLog(@"No new version. Your app is up to date.");
-}
-
-#pragma mark - iRate Delegate Methods -
-
-- (void)iRateUserDidAttemptToRateApp {
-    [PFAnalytics trackEventInBackground:@"iRateUserDidAttemptToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateUserDidAttemptToRateApp' event");
-        }
-    }];
-}
-
-- (void)iRateUserDidDeclineToRateApp {
-    [PFAnalytics trackEventInBackground:@"iRateUserDidDeclineToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateUserDidDeclineToRateApp' event");
-        }
-    }];
-}
-
-- (void)iRateUserDidRequestReminderToRateApp {
-    [PFAnalytics trackEventInBackground:@"iRateUserDidRequestReminderToRateApp" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateUserDidRequestReminderToRateApp' event");
-        }
-    }];
-}
-
-- (void)iRateDidOpenAppStore {
-    [PFAnalytics trackEventInBackground:@"iRateDidOpenAppStore" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            NSLog(@"Successfully logged the 'iRateDidOpenAppStore' event");
-        }
-    }];
-}
-
 #pragma mark - Notification Center -
 
 - (void)registerForNotification {
@@ -178,7 +115,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)didReceiveNotification:(NSNotification*)notification {
+- (void)didReceiveNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:@"deckShuffled"]) {
         [TSMessage showNotificationInViewController:self
                                               title:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")
@@ -189,14 +126,9 @@
                                            callback:nil
                                         buttonTitle:NSLocalizedString(@"Got It",nil)
                                      buttonCallback:^{
-                                         [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"showShuffledDeckWarning"];
-                                         [[NSUserDefaults standardUserDefaults] synchronize];
-                                         NSInteger warningCount = [[notification.userInfo objectForKey:@"warningCount"] intValue];
-                                         [PFAnalytics trackEventInBackground:@"showShuffledDeckWarning" dimensions:@{ @"warningCount": [NSString stringWithFormat:@"%ld",(long)warningCount]} block:^(BOOL succeeded, NSError *error) {
-                                             if (!error) {
-                                                 NSLog(@"Successfully logged the 'showShuffledDeckWarning' event");
-                                             }
-                                         }];
+                                         [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningSilence forKey:@"showShuffledDeckWarning"];
+										 [[NSUserDefaults standardUserDefaults] synchronize];
+										 [AnalyticsManager logEvent:AnalyticsEventOptedOutShuffleWarning withAttributes:notification.userInfo];
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
@@ -210,13 +142,9 @@
                                            callback:nil
                                         buttonTitle:NSLocalizedString(@"Update", @"Update app button")
                                      buttonCallback:^{
-                                         [PFAnalytics trackEventInBackground:@"updatedViaNotificationButton" dimensions:nil block:^(BOOL succeeded, NSError *error) {
-                                             if (!error) {
-                                                 NSLog(@"Successfully logged the 'updatedViaNotificationButton' event");
-                                             }
-                                         }];
-                                         
-                                         [[iVersion sharedInstance] openAppPageInAppStore];
+										 NSDictionary *attributes = @{@"Notification Title Key":@"Update Available", @"Notification Message Key":@"You're using an outdated version of Sueca. Update to have the most awesome new features!"};
+										 [AnalyticsManager logEvent:AnalyticsEventUpdatedViaButton withAttributes:attributes];
+										 [self.versioningCoordinator openAppPageInAppStore];
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
@@ -226,11 +154,7 @@
 }
 
 #pragma mark - Customize TSMessage View
-/*
- *  Future Implementation
- *
- *
- 
+
 - (void)customizeMessageView:(TSMessageView *)messageView {
 	if (![messageView.title isEqualToString:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")] &&
 		![messageView.title isEqualToString:NSLocalizedString(@"Update Available", @"Update available warning title")]) {
@@ -253,6 +177,5 @@
 		}
 	}
 }
-*/
 
 @end
