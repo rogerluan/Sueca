@@ -7,8 +7,7 @@
 //
 
 #import "EditDeckTableViewController.h"
-
-#define NUMBER_OF_CARDS 13
+#import "Constants.h"
 
 @interface EditDeckTableViewController () <NSFetchedResultsControllerDelegate,CardRuleCellDelegate>
 
@@ -18,6 +17,15 @@
 @end
 
 @implementation EditDeckTableViewController
+
+#pragma mark - Lifecycle -
+
++ (instancetype)viewControllerWithDeck:(Deck *)deck {
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MainStoryboard bundle:nil];
+	EditDeckTableViewController *instance = [storyboard instantiateViewControllerWithIdentifier:EditDeckTableViewControllerIdentifier];
+	instance.thisDeck = deck;
+	return instance;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,7 +50,7 @@
         }
     }
 
-    if ([self.thisDeck.isEditable isEqualToNumber:@1]) {
+    if ([self.thisDeck.isEditable isEqualToNumber:@YES]) {
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
     }
 }
@@ -85,7 +93,7 @@
 }
 
 - (void)configureCell:(CardRulesCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    Card *reusableCard  = nil;
+    Card *reusableCard = nil;
     //Validate fetchedResultsController
     if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
         id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:[indexPath section]];
@@ -94,7 +102,13 @@
         }
     }
     if (reusableCard) {
-        cell.cardImageView.image = [UIImage imageNamed:reusableCard.cardName];
+		if (self.thisDeck.isDefault) {
+			NSString *tableOptimizedImagePath = [reusableCard.cardName stringByAppendingString:@"-TableOptimized"];
+			cell.cardImageView.image = [UIImage imageNamed:tableOptimizedImagePath];
+		} else {
+			cell.cardImageView.image = [UIImage imageNamed:reusableCard.cardName];
+		}
+
         cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule,nil);
         
         if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription==nil) {
