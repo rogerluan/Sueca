@@ -7,7 +7,6 @@
 //
 
 #import "CardDescriptionView.h"
-#import "TSMessage.h"
 
 #define ALERT_WIDTH 290.0
 #define HEADER_HEIGHT 44.0
