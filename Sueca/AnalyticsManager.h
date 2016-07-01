@@ -9,21 +9,21 @@
 #import <Foundation/Foundation.h>
 
 #pragma mark - Interactions & Gestures
-#define AnalyticsEventWelcomeBack @"Interacted With Welcome Back"
-#define AnalyticsGestureEventTapCard @"SwipeableView Tap Gesture"
+static NSString * const AnalyticsEventWelcomeBack = @"Interacted With Welcome Back";
+static NSString * const AnalyticsGestureEventTapCard = @"SwipeableView Tap Gesture";
 
 #pragma mark - Buttons
-#define AnalyticsEventReviewedViaButton @"Reviewed Via WelcomeBack Button"
-#define AnalyticsEventUpdatedViaButton @"Updated Via Notification Button"
+static NSString * const AnalyticsEventReviewedViaButton = @"Reviewed Via WelcomeBack Button";
+static NSString * const AnalyticsEventUpdatedViaButton = @"Updated Via Notification Button";
 
 #pragma mark - iRate
-#define AnalyticsEventiRateUserDidAttemptToRateApp @"iRate UserDidAttemptToRateApp"
-#define AnalyticsEventiRateUserDidDeclineToRateApp @"iRate UserDidDeclineToRateApp"
-#define AnalyticsEventiRateUserDidRequestReminderToRateApp @"iRate UserDidRequestReminderToRateApp"
-#define AnalyticsEventiRateDidOpenAppStore @"iRate DidOpenAppStore"
+static NSString * const AnalyticsEventiRateUserDidAttemptToRateApp = @"iRate UserDidAttemptToRateApp";
+static NSString * const AnalyticsEventiRateUserDidDeclineToRateApp = @"iRate UserDidDeclineToRateApp";
+static NSString * const AnalyticsEventiRateUserDidRequestReminderToRateApp = @"iRate UserDidRequestReminderToRateApp";
+static NSString * const AnalyticsEventiRateDidOpenAppStore = @"iRate DidOpenAppStore";
 
 #pragma mark - Opt Out
-#define AnalyticsEventOptedOutShuffleWarning @"Opted Out Shuffle Warning"
+static NSString * const AnalyticsEventOptedOutShuffleWarning = @"Opted Out Shuffle Warning";
 
 
 @interface AnalyticsManager : NSObject
