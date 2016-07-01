@@ -18,6 +18,18 @@
 @dynamic isBeingUsed;
 @dynamic isEditable;
 @dynamic cards;
+@dynamic defaultDeck;
+
+- (BOOL)isDefault {
+	if ([self.isEditable isEqualToNumber:@0] && ([self.deckName isEqualToString:@"Default"] || [self.deckName isEqualToString:@"Padrão"] || [self.deckName isEqualToString:@"Standard"])) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)isDefaultDeck {
+	return [self isDefault];
+}
 
 + (Deck *)newDeckWithLabel:(NSString *)deckLabel {
 	NSArray *cardRules = [[NSArray alloc] initWithObjects:@"Card Rule 1",
