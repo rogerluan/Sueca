@@ -22,15 +22,9 @@
 
 - (instancetype)init {
     if(!(self = [super init])) return nil;
-    
-    if (self.deck) {
-        self.deckArray = [NSMutableArray new];
-        for (Card *card in self.deck.cards) {
-            for (int i = 0; i < 8; i++) {
-                [self.deckArray addObject:card];
-            }
-        }
-    }
+	
+	self.deck = [self deck];
+	[self refreshDeckArray];
     return self;
 }
 
@@ -59,12 +53,13 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Deck" inManagedObjectContext:self.moc];
     [fetchRequest setEntity:entity];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isBeingUsed == %@",[NSNumber numberWithBool:YES]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isBeingUsed == %@", [NSNumber numberWithBool:YES]];
     [fetchRequest setPredicate:predicate];
     
     NSError *error = nil;
     NSArray *deckBeingUsedFetchedObjects = [self.moc executeFetchRequest:fetchRequest error:&error];
-    if (deckBeingUsedFetchedObjects == nil || ([deckBeingUsedFetchedObjects count] == 0)) {
+	Deck *deckBeingUsed = [deckBeingUsedFetchedObjects firstObject];
+    if (deckBeingUsed == nil || ([deckBeingUsedFetchedObjects count] == 0)) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         
         @try {
@@ -83,7 +78,7 @@
             }
         }
         @catch (NSException *exception) {
-            NSLog(@"Exception %@ caught. Exception reason: %@. Trying to solve it now.",exception.name,exception.reason);
+            NSLog(@"Exception %@ caught. Exception reason: %@. Trying to solve it now.", exception.name, exception.reason);
             if (![Deck defaultDeckExist]) {
                 [Deck createDefaultDeck];
             } else {
@@ -173,8 +168,8 @@
         [self.deckArray removeAllObjects];
         self.deckArray = [self fullDeck];
     } else {
-        //to-do: treat error
-        NSLog(@"Error: Couldn't initialize self.deck.");
+		self.deck = [self deck];
+		//here we should call refreshDeckArray again, but could enter cycle.
     }
 }
 

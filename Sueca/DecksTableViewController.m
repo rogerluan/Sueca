@@ -69,7 +69,7 @@
 
 - (void)setupLayout {
 	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
-	[tempImageView setFrame:self.tableView.frame];
+	tempImageView.frame = self.view.frame;
 	self.tableView.backgroundView = tempImageView;
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	
@@ -147,8 +147,12 @@
         if(![self.moc save: &error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         }
-		NSDictionary *attributes = @{@"Deck Name":deckToBeDeleted.deckName};
-		[AnalyticsManager logEvent:AnalyticsEventDidDeleteDeck withAttributes:attributes];
+		
+		NSMutableDictionary *attributes;
+		if (deckToBeDeleted.deckName) {
+			[attributes addEntriesFromDictionary:@{@"Deck Name":deckToBeDeleted.deckName}];
+		}
+		[AnalyticsManager logEvent:AnalyticsEventDidDeleteDeck withAttributes:[attributes copy]];
     }
 }
 
@@ -175,9 +179,17 @@
                 NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
 			} else { //everything went fine
 				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
+				[[NSNotificationCenter defaultCenter] postNotificationName:@"updateDeck" object:self userInfo:nil];
+				
+				NSMutableDictionary *attributes;
+				if (deselectedDeck.deckName) {
+					[attributes addEntriesFromDictionary:@{@"From Deck":deselectedDeck.deckName}];
+				}
+				if (selectedDeck.deckName) {
+					[attributes addEntriesFromDictionary:@{@"To Deck":selectedDeck.deckName}];
+				}
+				[AnalyticsManager logEvent:AnalyticsEventDidSelectDeck withAttributes:[attributes copy]];
 			}
-			NSDictionary *attributes = @{@"From deck":deselectedDeck.deckName,@"To deck":selectedDeck.deckName};
-			[AnalyticsManager logEvent:AnalyticsEventDidSelectDeck withAttributes:attributes];
         }
     } else {
         Deck *deckToEditName = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -197,8 +209,12 @@
 					if(![self.moc save: &error]) {
 						NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 					}
-					NSDictionary *attributes = @{@"Deck Name":deckToEditName.deckName};
-					[AnalyticsManager logEvent:AnalyticsEventDidRenameDeck withAttributes:attributes];
+					
+					NSMutableDictionary *attributes;
+					if (deckToEditName.deckName) {
+						[attributes addEntriesFromDictionary:@{@"Deck Name":deckToEditName.deckName}];
+					}
+					[AnalyticsManager logEvent:AnalyticsEventDidRenameDeck withAttributes:[attributes copy]];
 				} else {
 					NSLog(@"Handle error: invalid deckToEditName");
 				}
@@ -215,8 +231,12 @@
 			
 			[self presentViewController:alert animated:YES completion:nil];
 			
-			NSDictionary *attributes = @{@"Deck Name":deckToEditName.deckName};
-			[AnalyticsManager logContentViewEvent:AnalyticsEventDeckEditView contentType:@"UIAlertController" customAttributes:attributes];
+			
+			NSMutableDictionary *attributes;
+			if (deckToEditName.deckName) {
+				[attributes addEntriesFromDictionary:@{@"Deck Name":deckToEditName.deckName}];
+			}
+			[AnalyticsManager logContentViewEvent:AnalyticsEventDeckEditView contentType:@"UIAlertController" customAttributes:[attributes copy]];
         }
     }
 }
@@ -318,7 +338,7 @@
 		
 		if (alertViewText && alertViewText.length>0) { //with custom deck name
 			self.creatingDeckName = alertViewText;
-		} else {//deck name left blank
+		} else { //deck name left blank
 			NSInteger deckNumber = [[NSUserDefaults standardUserDefaults] integerForKey:@"DeckNumber"];
 			
 			deckNumber++;
@@ -327,8 +347,7 @@
 			
 			self.creatingDeckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		}
-		
-		[[[alert textFields] firstObject] resignFirstResponder];
+	
 		[self performSegueWithIdentifier:@"newDeck" sender:nil];
 	}];
 	
@@ -349,7 +368,12 @@
         EditDeckTableViewController *tempTVC = [segue destinationViewController];
         tempTVC.thisDeck = nil;
         tempTVC.deckLabel = self.creatingDeckName;
-		[AnalyticsManager logEvent:AnalyticsEventDidCreateDeck withAttributes:@{@"Deck Name":self.creatingDeckName}];
+		
+		NSMutableDictionary *attributes;
+		if (self.creatingDeckName) {
+			[attributes addEntriesFromDictionary:@{@"Deck Name":self.creatingDeckName}];
+		}
+		[AnalyticsManager logEvent:AnalyticsEventDidCreateDeck withAttributes:[attributes copy]];
     }
 }
 
