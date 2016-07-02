@@ -14,19 +14,20 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     NSDictionary *textTitleOptions = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, [UIColor whiteColor], NSForegroundColorAttributeName, nil];
     [[UINavigationBar appearance] setTitleTextAttributes:textTitleOptions];
+	[[UITabBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];
-    [[UITabBar appearance] setBackgroundColor:[UIColor greenColor]];
+	[[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.035 green:0.224 blue:0.129 alpha:1.000]];
+	[[UITabBar appearance] setTintColor:[UIColor whiteColor]];
+	
 }
 
 #pragma mark - Shadowing Method
 
 /**
  *  Adds a shadow to the given layer.
- *
  *  Shadow is black, with 90% of opacity and radius of 10.0f.
  *
  *  @param layer that will have the shadow added on.
- *  @author Roger Oba
  *
  */
 + (void)addShadowToLayer:(CALayer*)layer opacity:(CGFloat)opacity radius:(CGFloat)radius {
