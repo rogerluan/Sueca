@@ -61,7 +61,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	
+#warning test this
 	NSDictionary *attributes;
 	if (![self.thisDeck.deckName isEqualToString:@""]) {
 		attributes = @{@"Deck Name":self.thisDeck.deckName};
@@ -79,6 +79,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     } else {
         [self.navigationController popViewControllerAnimated:YES];
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"updateDeck" object:self userInfo:nil];
     }
 }
 
@@ -113,21 +114,16 @@
         }
     }
     if (reusableCard) {
-		if (self.thisDeck.isDefault) {
-			NSString *tableOptimizedImagePath = [reusableCard.cardName stringByAppendingString:@"-TableOptimized"];
-			cell.cardImageView.image = [UIImage imageNamed:tableOptimizedImagePath];
-		} else {
-			cell.cardImageView.image = [UIImage imageNamed:reusableCard.cardName];
-		}
-
-        cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule,nil);
+		NSString *tableOptimizedImagePath = [reusableCard.cardName stringByAppendingString:@"-TableOptimized"];
+		cell.cardImageView.image = [UIImage imageNamed:tableOptimizedImagePath];
+        cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule, nil);
         
-        if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription==nil) {
+        if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription == nil) {
             cell.cardDescriptionTextView.textColor = [UIColor lightGrayColor];
             cell.cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
         } else {
             cell.cardDescriptionTextView.textColor = [UIColor whiteColor];
-            cell.cardDescriptionTextView.text = NSLocalizedString(reusableCard.cardDescription,nil);
+            cell.cardDescriptionTextView.text = NSLocalizedString(reusableCard.cardDescription, nil);
         }
         cell.delegate = self;
         cell.cardRuleTextField.tag = indexPath.row;
@@ -154,10 +150,18 @@
         Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self.moc deleteObject:cardToBeDeleted];
 		
-		NSDictionary *attributes = @{@"Card Name":cardToBeDeleted.cardName,
-									 @"Card Rule":cardToBeDeleted.cardRule,
-									 @"Card Description":cardToBeDeleted.cardDescription};
-		[AnalyticsManager logEvent:AnalyticsEventDidDeleteCard withAttributes:attributes];
+		
+		NSMutableDictionary *attributes;
+		if (cardToBeDeleted.cardName) {
+			[attributes addEntriesFromDictionary:@{@"Card Name":cardToBeDeleted.cardName}];
+		}
+		if (cardToBeDeleted.cardRule) {
+			[attributes addEntriesFromDictionary:@{@"Card Rule":cardToBeDeleted.cardRule}];
+		}
+		if (cardToBeDeleted.cardDescription) {
+			[attributes addEntriesFromDictionary:@{@"Card Description":cardToBeDeleted.cardDescription}];
+		}
+		[AnalyticsManager logEvent:AnalyticsEventDidDeleteCard withAttributes:[attributes copy]];
 		
         for (NSInteger i = indexPath.row ; i < ([tableView numberOfRowsInSection:0]-1) ; i++) {
             [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -293,10 +297,17 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 	
-	NSDictionary *attributes = @{@"Card Name":editedCard.cardName,
-								 @"Card Rule":editedCard.cardRule,
-								 @"Card Description":editedCard.cardDescription};
-	[AnalyticsManager logEvent:AnalyticsEventDidEditCardRule withAttributes:attributes];
+	NSMutableDictionary *attributes;
+	if (editedCard.cardName) {
+		[attributes addEntriesFromDictionary:@{@"Card Name":editedCard.cardName}];
+	}
+	if (editedCard.cardRule) {
+		[attributes addEntriesFromDictionary:@{@"Card Rule":editedCard.cardRule}];
+	}
+	if (editedCard.cardDescription) {
+		[attributes addEntriesFromDictionary:@{@"Card Description":editedCard.cardDescription}];
+	}
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardRule withAttributes:[attributes copy]];
 }
 
 - (void)cardRuleCell:(UITableViewCell *)cell textViewDidEndEditingWithContent:(UITextView *)cardDescriptionTextView {
@@ -309,10 +320,17 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 	
-	NSDictionary *attributes = @{@"Card Name":editedCard.cardName,
-								 @"Card Rule":editedCard.cardRule,
-								 @"Card Description":editedCard.cardDescription};
-	[AnalyticsManager logEvent:AnalyticsEventDidEditCardDescription withAttributes:attributes];
+	NSMutableDictionary *attributes;
+	if (editedCard.cardName) {
+		[attributes addEntriesFromDictionary:@{@"Card Name":editedCard.cardName}];
+	}
+	if (editedCard.cardRule) {
+		[attributes addEntriesFromDictionary:@{@"Card Rule":editedCard.cardRule}];
+	}
+	if (editedCard.cardDescription) {
+		[attributes addEntriesFromDictionary:@{@"Card Description":editedCard.cardDescription}];
+	}
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardDescription withAttributes:[attributes copy]];
 }
 
 @end

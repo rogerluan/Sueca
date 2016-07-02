@@ -73,14 +73,20 @@
                                           image:nil
                                            type:TSMessageNotificationTypeMessage
                                        duration:TSMessageNotificationDurationAutomatic
-                                       callback:^{
-										   NSDictionary *attributes = @{@"Notification Message":welcomeBackMessage};
-										   [AnalyticsManager logEvent:AnalyticsEventWelcomeBackInteraction withAttributes:attributes];
+									   callback:^{
+										   NSMutableDictionary *attributes = [NSMutableDictionary new];
+										   if (welcomeBackMessage) {
+											   [attributes addEntriesFromDictionary:@{@"Notification Message":welcomeBackMessage}];
+										   }
+										   [AnalyticsManager logEvent:AnalyticsEventWelcomeBackInteraction withAttributes:[attributes copy]];
                                        }
                                     buttonTitle:buttonTitle
                                  buttonCallback:^{
-									 NSDictionary *attributes = @{@"Notification Message":welcomeBackMessage};
-									 [AnalyticsManager logEvent:AnalyticsEventReviewedViaButton withAttributes:attributes];
+									 NSMutableDictionary *attributes = [NSMutableDictionary new];
+									 if (welcomeBackMessage) {
+										 [attributes addEntriesFromDictionary:@{@"Notification Message":welcomeBackMessage}];
+									 }
+									 [AnalyticsManager logEvent:AnalyticsEventReviewedViaButton withAttributes:[attributes copy]];
                                      [self.versioningCoordinator openAppPageInAppStore];
                                  }
                                      atPosition:TSMessageNotificationPositionTop

@@ -22,7 +22,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *ruleButton;
 @property (strong, nonatomic) IBOutlet ZLSwipeableView *swipeableView;
 
-@property (strong, nonatomic) Deck *localDeck; //only used to check if the deck has changed.
+@property (assign) BOOL shouldUpdateDeck;
 @property (strong, nonatomic) Card *displayCard;
 
 @property (strong, nonatomic) SoundManager *soundManager;
@@ -43,21 +43,26 @@
 - (void)setup {
 	self.soundManager = [SoundManager new];
 	self.gameManager = [GameManager new];
-	self.localDeck = self.gameManager.deck;
 	self.swipeableView.numberOfActiveViews = 10;
 	self.swipeableView.numberOfHistoryItem = 1;
 	self.swipeableView.viewAnimator = [SuecaViewAnimator new];
 	self.swipeableView.swipingDeterminator = [SuecaSwipeDeterminator new];
 	[self.swipeableView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedSwipeableView:)]];
 	self.swipeableView.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	[self registerForNotification];
+}
+
+- (void)dealloc {
+	[self unregisterForNotification];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self updateRuleLabel];
-	
-	if (![self.localDeck isEqual:self.gameManager.deck]) {
-		[self changeDeck];
+
+	if (self.shouldUpdateDeck) {
+		[self updateDeck];
 	}
 	
 	[AnalyticsManager logContentViewEvent:AnalyticsEventViewGameVC contentType:@"UIViewController"];
@@ -71,32 +76,31 @@
 	return YES;
 }
 
+#pragma mark - IBActions -
+
+- (IBAction)displayCardDescription:(id)sender {
+    if (self.swipeableView.topView) {
+        CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
+		NSString *imagePath = [NSString stringWithFormat:@"%@-TableOptimized", self.displayCard.cardName];
+        [descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:imagePath] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
+        descriptionView.delegate = self;
+		[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:[self currentCardAttributes]];
+    }
+}
+
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.subtype == UIEventSubtypeMotionShake) {
 		[self.swipeableView rewind];
 		[self updateRuleLabel];
-		NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
-		[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:attributes];
+		[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:[self currentCardAttributes]];
 	}
 	if ([super respondsToSelector:@selector(motionEnded:withEvent:)]) {
 		[super motionEnded:motion withEvent:event];
 	}
 }
 
-#pragma mark - IBActions -
-
-- (IBAction)displayCardDescription:(id)sender {
-    if (self.swipeableView.topView) {
-        CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
-        [descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:self.displayCard.cardName] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
-        descriptionView.delegate = self;
-		NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
-		[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:attributes];
-    }
-}
-
-- (void)changeDeck {
-	self.localDeck = self.gameManager.deck;
+- (void)updateDeck {
+	self.shouldUpdateDeck = NO;
 	[self.soundManager playShuffleSoundFX];
 	[self.gameManager refreshDeckArray];
 	[self.swipeableView discardAllViews];
@@ -119,8 +123,7 @@
 		default: [self.swipeableView swipeTopViewToRight];
 	}
 	
-	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
-	[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:attributes];
+	[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:[self currentCardAttributes]];
 }
 
 #pragma mark - Appearance -
@@ -128,15 +131,12 @@
 - (void)setupViewsLayout {
     [self.ruleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     [self.ruleButton.titleLabel setNumberOfLines:2];
-    
-    self.tabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
-    self.tabBarController.tabBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]];
-	
     [AppearanceManager addShadowToLayer:self.ruleButton.layer opacity:0.9 radius:10.0];
 }
 
 - (void)updateRuleLabel {
 	self.displayCard = [(CardView *)[self.swipeableView topView] card];
+	//to-do: the line below may cause unexpected strings if the user set a text that represents localized string accidentally.
 	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule, nil) forState:UIControlStateNormal];
 }
 
@@ -162,23 +162,34 @@
 	
 	if ([activityViewController respondsToSelector:@selector(setCompletionWithItemsHandler:)]) {
 		[activityViewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-			NSDictionary *attributes = @{@"activityType":activityType, @"completed":[NSNumber numberWithBool:completed], @"error":activityError.localizedDescription, @"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
-			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:attributes];
+			
+			NSMutableDictionary *attributes;
+			if (activityType) {
+				[attributes addEntriesFromDictionary:@{@"Activity Type":activityType}];
+			}
+			[attributes addEntriesFromDictionary:@{@"Completed":[NSNumber numberWithBool:completed]}];
+			if (activityError.description) {
+				[attributes addEntriesFromDictionary:@{@"Error":activityError.description}];
+			}
+			[attributes addEntriesFromDictionary:[self currentCardAttributes]];
+			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:[attributes copy]];
 		}];
 	} else {
 		[activityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
-			NSDictionary *attributes = @{@"activityType":activityType, @"completed":[NSNumber numberWithBool:completed], @"Card Name":self.displayCard.cardName, @"Card Rule":self.displayCard.cardRule, @"Card Description":self.displayCard.cardDescription};
-			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:attributes];
+			
+			NSMutableDictionary *attributes;
+			if (activityType) {
+				[attributes addEntriesFromDictionary:@{@"Activity Type":activityType}];
+			}
+			[attributes addEntriesFromDictionary:@{@"Completed":[NSNumber numberWithBool:completed]}];
+			[attributes addEntriesFromDictionary:[self currentCardAttributes]];
+			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:[attributes copy]];
 		}];
 	}
 	
     [alertView close];
     [self presentViewController:activityViewController animated:YES completion:nil];
-	
-	NSDictionary *attributes = @{@"Card Name":self.displayCard.cardName,
-								 @"Card Rule":self.displayCard.cardRule,
-								 @"Card Description":self.displayCard.cardDescription};
-	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:attributes];
+	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:[self currentCardAttributes]];
 }
 
 #pragma mark - ZLSwipeableView Methods
@@ -200,6 +211,38 @@
 	[self updateRuleLabel];
 	NSDictionary *attributes = @{@"Direction":[NSNumber numberWithInteger:direction]};
 	[AnalyticsManager logEvent:AnalyticsEventDidSwipeCard withAttributes:attributes];
+}
+
+#pragma mark - Helpers -
+
+- (NSDictionary *)currentCardAttributes {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (self.displayCard.cardName) {
+		[attributes addEntriesFromDictionary:@{@"Card Name":self.displayCard.cardName}];
+	}
+	if (self.displayCard.cardRule) {
+		[attributes addEntriesFromDictionary:@{@"Card Rule":self.displayCard.cardRule}];
+	}
+	if (self.displayCard.cardDescription) {
+		[attributes addEntriesFromDictionary:@{@"Card Description":self.displayCard.cardDescription}];
+	}
+	return [attributes copy];
+}
+
+#pragma mark - Notification Center -
+
+- (void)registerForNotification {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:@"updateDeck" object:nil];
+}
+
+- (void)unregisterForNotification {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didReceiveNotification:(NSNotification *)notification {
+	if ([notification.name isEqualToString:@"updateDeck"]) {
+		self.shouldUpdateDeck = YES;
+	}
 }
 
 @end
