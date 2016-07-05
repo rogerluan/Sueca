@@ -10,6 +10,7 @@
 #import "iRateCoordinator.h"
 #import "AnalyticsManager.h"
 #import "AppearanceManager.h"
+#import "NotificationManager.h"
 
 #import <TSMessages/TSMessageView.h>
 #import <Fabric/Fabric.h>
@@ -29,6 +30,7 @@
     [AppearanceManager setup];
     [iRateCoordinator resetEventCount];
 	[Fabric with:@[CrashlyticsKit]];
+	[NotificationManager registerForRemoteNotifications];
 	
     [TSMessageView addNotificationDesignFromFile:@"SuecaNotificationDesign.json"];
 	
