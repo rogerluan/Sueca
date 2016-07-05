@@ -112,9 +112,6 @@
  *  @param image image that will be displayed on the center of the alert
  *  @param title title of the achievement, displayed below the image
  *  @param description description of the achievement, displayed below the title. May scroll if too long.
- *
- *  @author Roger Oba
- *
  */
 - (void)showAlertWithHeader:(NSString*)header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
     

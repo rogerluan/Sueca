@@ -79,7 +79,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     } else {
         [self.navigationController popViewControllerAnimated:YES];
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"updateDeck" object:self userInfo:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateDeck object:self userInfo:nil];
     }
 }
 

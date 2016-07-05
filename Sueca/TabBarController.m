@@ -113,8 +113,9 @@
 #pragma mark - Notification Center -
 
 - (void)registerForNotification {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:@"deckShuffled" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:@"newVersionAvailable" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDeckShuffled object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationNewVersionAvailable object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUserDidDeclineAppRating object:nil];
 }
 
 - (void)unregisterForNotification {
@@ -122,7 +123,7 @@
 }
 
 - (void)didReceiveNotification:(NSNotification *)notification {
-    if ([notification.name isEqualToString:@"deckShuffled"]) {
+    if ([notification.name isEqualToString:SuecaNotificationDeckShuffled]) {
         [TSMessage showNotificationInViewController:self
                                               title:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")
                                            subtitle:NSLocalizedString(@"There're no more cards to be drawn. We shuffled the deck for you.", @"Deck shuffled warning message")
@@ -138,7 +139,7 @@
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
-    } else if ([notification.name isEqualToString:@"newVersionAvailable"]) {
+    } else if ([notification.name isEqualToString:SuecaNotificationNewVersionAvailable]) {
         [TSMessage showNotificationInViewController:self
                                               title:NSLocalizedString(@"Update Available", @"Update available warning title")
                                            subtitle:NSLocalizedString(@"You're using an outdated version of Sueca. Update to have the most awesome new features!", @"Update available warning subtitle")
@@ -154,7 +155,9 @@
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
-    } else {
+	} else if ([notification.name isEqualToString:SuecaNotificationUserDidDeclineAppRating]) {
+#warning to-do: implement and handle mail composing here.
+	} else {
         NSLog(@"Unexpected notification: %@",notification);
     }
 }

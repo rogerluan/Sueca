@@ -16,6 +16,7 @@
 #import "CardView.h"
 #import "SoundManager.h"
 #import "GameManager.h"
+#import "Constants.h"
 
 @interface GameViewController () <UIGestureRecognizerDelegate, CustomIOS7AlertViewDelegate>
 
@@ -232,7 +233,7 @@
 #pragma mark - Notification Center -
 
 - (void)registerForNotification {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:@"updateDeck" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUpdateDeck object:nil];
 }
 
 - (void)unregisterForNotification {
@@ -240,7 +241,7 @@
 }
 
 - (void)didReceiveNotification:(NSNotification *)notification {
-	if ([notification.name isEqualToString:@"updateDeck"]) {
+	if ([notification.name isEqualToString:SuecaNotificationUpdateDeck]) {
 		self.shouldUpdateDeck = YES;
 	}
 }

@@ -23,6 +23,7 @@
 		C57CDAEF18217D1A006920A6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C57CDAEE18217D1A006920A6 /* QuartzCore.framework */; };
 		C57F9FAB1B216EE200C50D0C /* CardDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FA81B216EE200C50D0C /* CardDescriptionView.m */; };
 		C57F9FAC1B216EE200C50D0C /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */; };
+		C588D25F1D2C5814004B6CB8 /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C588D25E1D2C5814004B6CB8 /* NotificationManager.m */; };
 		C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
@@ -105,6 +106,8 @@
 		C57F9FA81B216EE200C50D0C /* CardDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDescriptionView.m; sourceTree = "<group>"; };
 		C57F9FA91B216EE200C50D0C /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
 		C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
+		C588D25D1D2C5814004B6CB8 /* NotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationManager.h; sourceTree = "<group>"; };
+		C588D25E1D2C5814004B6CB8 /* NotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationManager.m; sourceTree = "<group>"; };
 		C58A6C6E1CDE44A40054613C /* SuecaViewAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuecaViewAnimator.h; sourceTree = "<group>"; };
 		C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuecaViewAnimator.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -257,6 +260,18 @@
 			name = "Card Rules Cell";
 			sourceTree = "<group>";
 		};
+		C588D2601D2C5976004B6CB8 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				C5BA12311C7195B5004BFF52 /* AppearanceManager.h */,
+				C5BA12321C7195B5004BFF52 /* AppearanceManager.m */,
+				C5BA12271C7191CC004BFF52 /* SoundManager.h */,
+				C5BA12281C7191CC004BFF52 /* SoundManager.m */,
+				C5CC40961D25D4AB00F6DCC6 /* Constants.h */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		C58A6C711CDE45580054613C /* SwipeableCard */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,14 +300,12 @@
 		C5B4ED1F1D262DEE0086D35D /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA12311C7195B5004BFF52 /* AppearanceManager.h */,
-				C5BA12321C7195B5004BFF52 /* AppearanceManager.m */,
-				C5BA12271C7191CC004BFF52 /* SoundManager.h */,
-				C5BA12281C7191CC004BFF52 /* SoundManager.m */,
 				C5BA12341C72A4CD004BFF52 /* GameManager.h */,
 				C5BA12351C72A4CD004BFF52 /* GameManager.m */,
 				C5BA12371C72A581004BFF52 /* AnalyticsManager.h */,
 				C5BA12381C72A581004BFF52 /* AnalyticsManager.m */,
+				C588D25D1D2C5814004B6CB8 /* NotificationManager.h */,
+				C588D25E1D2C5814004B6CB8 /* NotificationManager.m */,
 			);
 			name = Business;
 			sourceTree = "<group>";
@@ -372,6 +385,7 @@
 				C5C5AAC51818483F005A9625 /* Controller */,
 				C5B4ED1F1D262DEE0086D35D /* Business */,
 				C5C5AAC61818484C005A9625 /* Model */,
+				C588D2601D2C5976004B6CB8 /* Helper */,
 				C5C5AAA418184814005A9625 /* a20AppDelegate.h */,
 				C5C5AAA518184814005A9625 /* a20AppDelegate.m */,
 				C5B4ED201D262F330086D35D /* Frameworks */,
@@ -446,7 +460,6 @@
 				C5E9B6781A3238A600D0171A /* Deck.h */,
 				C5E9B6791A3238A600D0171A /* Deck.m */,
 				C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */,
-				C5CC40961D25D4AB00F6DCC6 /* Constants.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -665,6 +678,7 @@
 				C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */,
 				C5E9B67A1A3238A600D0171A /* Deck.m in Sources */,
 				C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */,
+				C588D25F1D2C5814004B6CB8 /* NotificationManager.m in Sources */,
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */,
 				C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */,

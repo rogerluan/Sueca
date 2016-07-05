@@ -7,6 +7,7 @@
 //
 
 #import "iVersionCoordinator.h"
+#import "Constants.h"
 
 @implementation iVersionCoordinator
 
@@ -23,7 +24,7 @@
 
 - (void)iVersionDidDetectNewVersion:(NSString *)version details:(NSString *)versionDetails {
 	NSLog(@"New version detected!");
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"newVersionAvailable" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationNewVersionAvailable object:nil];
 }
 
 - (void)iVersionDidNotDetectNewVersion {

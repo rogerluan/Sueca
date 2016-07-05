@@ -7,8 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Card.h"
-#import "Deck.h"
 #import "EditDeckTableViewController.h"
 
 @interface DecksTableViewController : UITableViewController
