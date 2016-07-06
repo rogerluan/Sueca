@@ -17,6 +17,13 @@ static NSString * const DecksNavigationControllerIdentifier = @"DecksNavigationC
 static NSString * const GameViewControllerIdentifier = @"GameViewController";
 static NSString * const EditDeckTableViewControllerIdentifier = @"EditDeckTableViewController";
 
+
+
+
+static NSString * const SuecaNotificationDidReceiveRemoteNotification = @"DidReceiveRemoteNotification";
+
+typedef void(^DidRegisterForPromotions)(NSError *error);
+
 typedef NS_ENUM(NSUInteger, ShuffleDeckWarning) {
 	ShuffleDeckWarningNeverDecided = 0,
 	ShuffleDeckWarningDisplay,

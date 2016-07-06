@@ -13,7 +13,6 @@
 		C50829EB1A92904800081C5D /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829EA1A92904800081C5D /* CoreLocation.framework */; };
 		C50829ED1A92905100081C5D /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829EC1A92905100081C5D /* MobileCoreServices.framework */; };
 		C50829EF1A92906400081C5D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829EE1A92906400081C5D /* Security.framework */; };
-		C50829F11A92906900081C5D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829F01A92906900081C5D /* StoreKit.framework */; };
 		C50829F31A92907100081C5D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829F21A92907100081C5D /* SystemConfiguration.framework */; };
 		C50829F51A92907C00081C5D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829F41A92907C00081C5D /* libz.dylib */; };
 		C50829F71A92908500081C5D /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C50829F61A92908500081C5D /* libsqlite3.dylib */; };
@@ -23,6 +22,9 @@
 		C57CDAEF18217D1A006920A6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C57CDAEE18217D1A006920A6 /* QuartzCore.framework */; };
 		C57F9FAB1B216EE200C50D0C /* CardDescriptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FA81B216EE200C50D0C /* CardDescriptionView.m */; };
 		C57F9FAC1B216EE200C50D0C /* CustomIOS7AlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */; };
+		C588D2631D2C5C70004B6CB8 /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C588D2621D2C5C70004B6CB8 /* NotificationManager.m */; };
+		C588D2671D2C5CFB004B6CB8 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C588D2661D2C5CFB004B6CB8 /* CloudKit.framework */; };
+		C588D26A1D2C8028004B6CB8 /* CloudKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C588D2691D2C8028004B6CB8 /* CloudKitManager.m */; };
 		C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
@@ -92,7 +94,6 @@
 		C50829EA1A92904800081C5D /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C50829EC1A92905100081C5D /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		C50829EE1A92906400081C5D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		C50829F01A92906900081C5D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		C50829F21A92907100081C5D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C50829F41A92907C00081C5D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C50829F61A92908500081C5D /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -105,6 +106,12 @@
 		C57F9FA81B216EE200C50D0C /* CardDescriptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardDescriptionView.m; sourceTree = "<group>"; };
 		C57F9FA91B216EE200C50D0C /* CustomIOS7AlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomIOS7AlertView.h; sourceTree = "<group>"; };
 		C57F9FAA1B216EE200C50D0C /* CustomIOS7AlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomIOS7AlertView.m; sourceTree = "<group>"; };
+		C588D2611D2C5C70004B6CB8 /* NotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationManager.h; sourceTree = "<group>"; };
+		C588D2621D2C5C70004B6CB8 /* NotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationManager.m; sourceTree = "<group>"; };
+		C588D2651D2C5CB7004B6CB8 /* Sueca.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Sueca.entitlements; sourceTree = "<group>"; };
+		C588D2661D2C5CFB004B6CB8 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		C588D2681D2C8028004B6CB8 /* CloudKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudKitManager.h; sourceTree = "<group>"; };
+		C588D2691D2C8028004B6CB8 /* CloudKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudKitManager.m; sourceTree = "<group>"; };
 		C58A6C6E1CDE44A40054613C /* SuecaViewAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuecaViewAnimator.h; sourceTree = "<group>"; };
 		C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuecaViewAnimator.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -195,12 +202,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5D5294E1B2916CD003542CD /* Accounts.framework in Frameworks */,
+				C588D2671D2C5CFB004B6CB8 /* CloudKit.framework in Frameworks */,
 				C5D5294C1B2916C6003542CD /* Social.framework in Frameworks */,
 				C50829F91A9BA6F700081C5D /* libstdc++.6.dylib in Frameworks */,
 				C50829F71A92908500081C5D /* libsqlite3.dylib in Frameworks */,
 				C50829F51A92907C00081C5D /* libz.dylib in Frameworks */,
 				C50829F31A92907100081C5D /* SystemConfiguration.framework in Frameworks */,
-				C50829F11A92906900081C5D /* StoreKit.framework in Frameworks */,
 				C50829EF1A92906400081C5D /* Security.framework in Frameworks */,
 				C57CDAEF18217D1A006920A6 /* QuartzCore.framework in Frameworks */,
 				C50829ED1A92905100081C5D /* MobileCoreServices.framework in Frameworks */,
@@ -257,6 +264,18 @@
 			name = "Card Rules Cell";
 			sourceTree = "<group>";
 		};
+		C588D2641D2C5C81004B6CB8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C5BA12311C7195B5004BFF52 /* AppearanceManager.h */,
+				C5BA12321C7195B5004BFF52 /* AppearanceManager.m */,
+				C5BA12271C7191CC004BFF52 /* SoundManager.h */,
+				C5BA12281C7191CC004BFF52 /* SoundManager.m */,
+				C5CC40961D25D4AB00F6DCC6 /* Constants.h */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		C58A6C711CDE45580054613C /* SwipeableCard */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,14 +304,14 @@
 		C5B4ED1F1D262DEE0086D35D /* Business */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA12311C7195B5004BFF52 /* AppearanceManager.h */,
-				C5BA12321C7195B5004BFF52 /* AppearanceManager.m */,
-				C5BA12271C7191CC004BFF52 /* SoundManager.h */,
-				C5BA12281C7191CC004BFF52 /* SoundManager.m */,
 				C5BA12341C72A4CD004BFF52 /* GameManager.h */,
 				C5BA12351C72A4CD004BFF52 /* GameManager.m */,
 				C5BA12371C72A581004BFF52 /* AnalyticsManager.h */,
 				C5BA12381C72A581004BFF52 /* AnalyticsManager.m */,
+				C588D2611D2C5C70004B6CB8 /* NotificationManager.h */,
+				C588D2621D2C5C70004B6CB8 /* NotificationManager.m */,
+				C588D2681D2C8028004B6CB8 /* CloudKitManager.h */,
+				C588D2691D2C8028004B6CB8 /* CloudKitManager.m */,
 			);
 			name = Business;
 			sourceTree = "<group>";
@@ -339,13 +358,13 @@
 		C5C5AA9418184814005A9625 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C588D2661D2C5CFB004B6CB8 /* CloudKit.framework */,
 				C5D5294D1B2916CD003542CD /* Accounts.framework */,
 				C5D5294B1B2916C6003542CD /* Social.framework */,
 				C50829F81A9BA6F700081C5D /* libstdc++.6.dylib */,
 				C50829F61A92908500081C5D /* libsqlite3.dylib */,
 				C50829F41A92907C00081C5D /* libz.dylib */,
 				C50829F21A92907100081C5D /* SystemConfiguration.framework */,
-				C50829F01A92906900081C5D /* StoreKit.framework */,
 				C50829EE1A92906400081C5D /* Security.framework */,
 				C50829EC1A92905100081C5D /* MobileCoreServices.framework */,
 				C50829EA1A92904800081C5D /* CoreLocation.framework */,
@@ -365,6 +384,7 @@
 		C5C5AA9B18184814005A9625 /* Sueca */ = {
 			isa = PBXGroup;
 			children = (
+				C588D2651D2C5CB7004B6CB8 /* Sueca.entitlements */,
 				C5F3B51619B54481006D6257 /* Storyboard.storyboard */,
 				C5C5AAA718184814005A9625 /* Images.xcassets */,
 				C5E1A3881CE0A5C000C89C21 /* Launch Screen.storyboard */,
@@ -372,6 +392,7 @@
 				C5C5AAC51818483F005A9625 /* Controller */,
 				C5B4ED1F1D262DEE0086D35D /* Business */,
 				C5C5AAC61818484C005A9625 /* Model */,
+				C588D2641D2C5C81004B6CB8 /* Helpers */,
 				C5C5AAA418184814005A9625 /* a20AppDelegate.h */,
 				C5C5AAA518184814005A9625 /* a20AppDelegate.m */,
 				C5B4ED201D262F330086D35D /* Frameworks */,
@@ -446,7 +467,6 @@
 				C5E9B6781A3238A600D0171A /* Deck.h */,
 				C5E9B6791A3238A600D0171A /* Deck.m */,
 				C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */,
-				C5CC40961D25D4AB00F6DCC6 /* Constants.h */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -533,6 +553,17 @@
 				TargetAttributes = {
 					C5C5AA9118184814005A9625 = {
 						DevelopmentTeam = 9M39ENBSMH;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					C5C5AAAC18184814005A9625 = {
 						TestTargetID = C5C5AA9118184814005A9625;
@@ -661,10 +692,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C588D26A1D2C8028004B6CB8 /* CloudKitManager.m in Sources */,
 				C57F9FAC1B216EE200C50D0C /* CustomIOS7AlertView.m in Sources */,
 				C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */,
 				C5E9B67A1A3238A600D0171A /* Deck.m in Sources */,
 				C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */,
+				C588D2631D2C5C70004B6CB8 /* NotificationManager.m in Sources */,
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */,
 				C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */,
@@ -833,6 +866,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Sueca/Sueca.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -857,6 +891,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = Sueca/Sueca.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (

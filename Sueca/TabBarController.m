@@ -14,6 +14,7 @@
 #import "Constants.h"
 #import "GameManager.h"
 #import "TSBlurView.h"
+#import "CloudKitManager.h"
 
 #import <TSMessages/TSMessageView.h>
 
@@ -46,6 +47,14 @@
     } else {
         [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
     }
+	
+//	[CloudKitManager registerForPromotionsWithCompletion:^(NSError *error) {
+//		if (!error) {
+//			NSLog(@"Woohoo!");
+//		} else {
+//			NSLog(@"Did error! Error: %@", error);
+//		}
+//	}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,6 +124,7 @@
 - (void)registerForNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:@"deckShuffled" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:@"newVersionAvailable" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDidReceiveRemoteNotification object:nil];
 }
 
 - (void)unregisterForNotification {
@@ -157,6 +167,12 @@
     } else {
         NSLog(@"Unexpected notification: %@",notification);
     }
+	
+	
+	
+	if ([notification.name isEqualToString:SuecaNotificationDidReceiveRemoteNotification]) {
+		NSLog(@"Notification receiveid: %@", notification.userInfo);
+	}
 }
 
 #pragma mark - Customize TSMessage View

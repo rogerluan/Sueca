@@ -11,7 +11,7 @@
 @implementation NotificationManager
 
 + (void)registerForRemoteNotifications {
-	UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert categories:nil];
+	UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
 	[[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
 	[[UIApplication sharedApplication] registerForRemoteNotifications];
 }
