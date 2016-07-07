@@ -25,6 +25,8 @@
 		C588D2631D2C5C70004B6CB8 /* NotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C588D2621D2C5C70004B6CB8 /* NotificationManager.m */; };
 		C588D2671D2C5CFB004B6CB8 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C588D2661D2C5CFB004B6CB8 /* CloudKit.framework */; };
 		C588D26A1D2C8028004B6CB8 /* CloudKitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C588D2691D2C8028004B6CB8 /* CloudKitManager.m */; };
+		C588D26C1D2D057C004B6CB8 /* CardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C588D26B1D2D057C004B6CB8 /* CardView.xib */; };
+		C588D26F1D2D0916004B6CB8 /* PromotionCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = C588D26E1D2D0916004B6CB8 /* PromotionCardView.m */; };
 		C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
@@ -34,11 +36,12 @@
 		C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7819F0037000088FB8 /* CardRulesCell.m */; };
 		C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12281C7191CC004BFF52 /* SoundManager.m */; };
 		C5BA122C1C719463004BFF52 /* iRateCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA122B1C719463004BFF52 /* iRateCoordinator.m */; };
-		C5BA12331C7195B5004BFF52 /* AppearanceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12321C7195B5004BFF52 /* AppearanceManager.m */; };
+		C5BA12331C7195B5004BFF52 /* AppearanceHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12321C7195B5004BFF52 /* AppearanceHelper.m */; };
 		C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12351C72A4CD004BFF52 /* GameManager.m */; };
 		C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12381C72A581004BFF52 /* AnalyticsManager.m */; };
 		C5BA8F771CCE579B0027F2B1 /* UIView+Rounded.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA8F761CCE579B0027F2B1 /* UIView+Rounded.m */; };
 		C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */; };
+		C5BE5C0A1D2E5600005CFC08 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C091D2E5600005CFC08 /* ShareViewController.m */; };
 		C5C5AA9618184814005A9625 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9518184814005A9625 /* Foundation.framework */; };
 		C5C5AA9818184814005A9625 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9718184814005A9625 /* CoreGraphics.framework */; };
 		C5C5AA9A18184814005A9625 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9918184814005A9625 /* UIKit.framework */; };
@@ -112,6 +115,9 @@
 		C588D2661D2C5CFB004B6CB8 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		C588D2681D2C8028004B6CB8 /* CloudKitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CloudKitManager.h; sourceTree = "<group>"; };
 		C588D2691D2C8028004B6CB8 /* CloudKitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CloudKitManager.m; sourceTree = "<group>"; };
+		C588D26B1D2D057C004B6CB8 /* CardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CardView.xib; sourceTree = "<group>"; };
+		C588D26D1D2D0916004B6CB8 /* PromotionCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionCardView.h; sourceTree = "<group>"; };
+		C588D26E1D2D0916004B6CB8 /* PromotionCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionCardView.m; sourceTree = "<group>"; };
 		C58A6C6E1CDE44A40054613C /* SuecaViewAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuecaViewAnimator.h; sourceTree = "<group>"; };
 		C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuecaViewAnimator.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -128,8 +134,8 @@
 		C5BA12281C7191CC004BFF52 /* SoundManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundManager.m; sourceTree = "<group>"; };
 		C5BA122A1C719463004BFF52 /* iRateCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRateCoordinator.h; sourceTree = "<group>"; };
 		C5BA122B1C719463004BFF52 /* iRateCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRateCoordinator.m; sourceTree = "<group>"; };
-		C5BA12311C7195B5004BFF52 /* AppearanceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppearanceManager.h; sourceTree = "<group>"; };
-		C5BA12321C7195B5004BFF52 /* AppearanceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppearanceManager.m; sourceTree = "<group>"; };
+		C5BA12311C7195B5004BFF52 /* AppearanceHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppearanceHelper.h; sourceTree = "<group>"; };
+		C5BA12321C7195B5004BFF52 /* AppearanceHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppearanceHelper.m; sourceTree = "<group>"; };
 		C5BA12341C72A4CD004BFF52 /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		C5BA12351C72A4CD004BFF52 /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		C5BA12371C72A581004BFF52 /* AnalyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalyticsManager.h; sourceTree = "<group>"; };
@@ -138,6 +144,8 @@
 		C5BA8F761CCE579B0027F2B1 /* UIView+Rounded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Rounded.m"; sourceTree = "<group>"; };
 		C5BA8F7A1CCE855D0027F2B1 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
+		C5BE5C081D2E5600005CFC08 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
+		C5BE5C091D2E5600005CFC08 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
 		C5C5AA9218184814005A9625 /* Sueca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sueca.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C5AA9518184814005A9625 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5C5AA9718184814005A9625 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -267,8 +275,8 @@
 		C588D2641D2C5C81004B6CB8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA12311C7195B5004BFF52 /* AppearanceManager.h */,
-				C5BA12321C7195B5004BFF52 /* AppearanceManager.m */,
+				C5BA12311C7195B5004BFF52 /* AppearanceHelper.h */,
+				C5BA12321C7195B5004BFF52 /* AppearanceHelper.m */,
 				C5BA12271C7191CC004BFF52 /* SoundManager.h */,
 				C5BA12281C7191CC004BFF52 /* SoundManager.m */,
 				C5CC40961D25D4AB00F6DCC6 /* Constants.h */,
@@ -285,6 +293,9 @@
 				C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */,
 				C5F5E7441CCF2B1A00BE8C8F /* CardView.h */,
 				C5F5E7451CCF2B1A00BE8C8F /* CardView.m */,
+				C588D26B1D2D057C004B6CB8 /* CardView.xib */,
+				C588D26D1D2D0916004B6CB8 /* PromotionCardView.h */,
+				C588D26E1D2D0916004B6CB8 /* PromotionCardView.m */,
 			);
 			name = SwipeableCard;
 			sourceTree = "<group>";
@@ -455,6 +466,8 @@
 				C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */,
 				C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */,
 				C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */,
+				C5BE5C081D2E5600005CFC08 /* ShareViewController.h */,
+				C5BE5C091D2E5600005CFC08 /* ShareViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -604,6 +617,7 @@
 				C5E9B6981A3C86E300D0171A /* cardSlide6.wav in Resources */,
 				C5C5AAA018184814005A9625 /* InfoPlist.strings in Resources */,
 				C5E9B6961A3C86E300D0171A /* cardSlide4.wav in Resources */,
+				C588D26C1D2D057C004B6CB8 /* CardView.xib in Resources */,
 				C5D5295A1B29CFAE003542CD /* iVersion.bundle in Resources */,
 				C5E9B6951A3C86E300D0171A /* cardSlide3.wav in Resources */,
 				C5E9B69A1A3C86E300D0171A /* cardSlide0.wav in Resources */,
@@ -700,6 +714,7 @@
 				C588D2631D2C5C70004B6CB8 /* NotificationManager.m in Sources */,
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */,
+				C588D26F1D2D0916004B6CB8 /* PromotionCardView.m in Sources */,
 				C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */,
@@ -709,6 +724,7 @@
 				C5615E67181E82430033FEB3 /* GameViewController.m in Sources */,
 				C5B1FB7619EFFC1D00088FB8 /* EditDeckTableViewController.m in Sources */,
 				C5BA8F771CCE579B0027F2B1 /* UIView+Rounded.m in Sources */,
+				C5BE5C0A1D2E5600005CFC08 /* ShareViewController.m in Sources */,
 				C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */,
 				C5C5AAA218184814005A9625 /* main.m in Sources */,
 				C5BA122C1C719463004BFF52 /* iRateCoordinator.m in Sources */,
@@ -716,7 +732,7 @@
 				C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */,
 				C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */,
 				C5D5295B1B29CFAE003542CD /* iVersion.m in Sources */,
-				C5BA12331C7195B5004BFF52 /* AppearanceManager.m in Sources */,
+				C5BA12331C7195B5004BFF52 /* AppearanceHelper.m in Sources */,
 				C5B1FB5E19EEA57000088FB8 /* DecksTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

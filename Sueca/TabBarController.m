@@ -33,16 +33,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.gameManager = [GameManager new];
+    self.gameManager = [GameManager sharedInstance];
     [self registerForNotification];
 	
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningNeverDecided) {
         [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningDisplay forKey:@"showShuffledDeckWarning"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         [Deck createDefaultDeck];
     } else {
         [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
@@ -143,7 +141,6 @@
                                         buttonTitle:NSLocalizedString(@"Got It",nil)
                                      buttonCallback:^{
                                          [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningSilence forKey:@"showShuffledDeckWarning"];
-										 [[NSUserDefaults standardUserDefaults] synchronize];
 										 [AnalyticsManager logEvent:AnalyticsEventOptedOutShuffleWarning withAttributes:notification.userInfo];
                                      }
                                          atPosition:TSMessageNotificationPositionTop
@@ -167,6 +164,7 @@
     } else {
         NSLog(@"Unexpected notification: %@",notification);
     }
+	
 	
 	
 	
