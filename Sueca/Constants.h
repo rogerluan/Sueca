@@ -17,10 +17,31 @@ static NSString * const DecksNavigationControllerIdentifier = @"DecksNavigationC
 static NSString * const GameViewControllerIdentifier = @"GameViewController";
 static NSString * const EditDeckTableViewControllerIdentifier = @"EditDeckTableViewController";
 
+#pragma mark - Notification Center
+static NSString * const SuecaNotificationUserDidDeclineAppRating = @"UserDidDeclineAppRating";
+static NSString * const SuecaNotificationUpdateDeck = @"updateDeck";
+static NSString * const SuecaNotificationDeckShuffled = @"deckShuffled";
+static NSString * const SuecaNotificationNewVersionAvailable = @"newVersionAvailable";
+static NSString * const SuecaNotificationDidReceiveRemoteNotification = @"DidReceiveRemoteNotification";
+
+typedef void(^DidRegisterForPromotions)(NSError *error);
+typedef void(^RemoteNotificationCompletionHandler)(NSError *error);
+
 typedef NS_ENUM(NSUInteger, ShuffleDeckWarning) {
 	ShuffleDeckWarningNeverDecided = 0,
 	ShuffleDeckWarningDisplay,
 	ShuffleDeckWarningSilence
 };
+
+#pragma mark - Deprecated Constants -
+
+/*!
+ *  BOOL key in NSUserDefaults to determine if should show message with key:
+ *  "You can now edit the name of your decks by tapping Edit and selecting the deck. Enjoy!"
+ */
+//static NSString * const NewFeatureNotification = @"showNewFeatureNotification";
+
+//NSLocalizedString(@"Customizable!", @"TSMessage Customizable Notification Title")
+//NSLocalizedString(@"You can now edit the name of your decks by tapping Edit and selecting the deck. Enjoy!", @"TSMessage Customizable Notification Subtitle")
 
 #endif /* Constants_h */

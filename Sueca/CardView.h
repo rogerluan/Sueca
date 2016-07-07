@@ -12,5 +12,6 @@
 @interface CardView : UIView
 
 @property (nonatomic, strong) Card *card;
+@property (strong, nonatomic) UIProgressView *progressBar;
 
 @end

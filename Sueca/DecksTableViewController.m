@@ -9,8 +9,8 @@
 #import "DecksTableViewController.h"
 #import "GameManager.h"
 #import "AnalyticsManager.h"
-
-#import <TSMessages/TSMessageView.h>
+#import "Deck.h"
+#import "Constants.h"
 
 @interface DecksTableViewController () <NSFetchedResultsControllerDelegate>
 
@@ -32,28 +32,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.gameManager = [GameManager new];
+	self.gameManager = [GameManager sharedInstance];
 	[self setupLayout];
 	
 	NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-    }
-
-    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"showNewFeatureNotification"]) {
-        [TSMessage showNotificationInViewController:self
-                                              title:NSLocalizedString(@"Customizable!", @"TSMessage Customizable Notification Title")
-                                           subtitle:NSLocalizedString(@"You can now edit the name of your decks by tapping Edit and selecting the deck. Enjoy!", @"TSMessage Customizable Notification Subtitle")
-                                              image:[UIImage imageNamed:@"notification-arrow"]
-                                               type:TSMessageNotificationTypeMessage
-                                           duration:TSMessageNotificationDurationEndless
-                                           callback:nil
-                                        buttonTitle:nil
-                                     buttonCallback:nil
-                                         atPosition:TSMessageNotificationPositionTop
-                               canBeDismissedByUser:YES];
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNewFeatureNotification"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -179,7 +163,7 @@
                 NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
 			} else { //everything went fine
 				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
-				[[NSNotificationCenter defaultCenter] postNotificationName:@"updateDeck" object:self userInfo:nil];
+				[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateDeck object:self userInfo:nil];
 				
 				NSMutableDictionary *attributes;
 				if (deselectedDeck.deckName) {
@@ -343,7 +327,6 @@
 			
 			deckNumber++;
 			[[NSUserDefaults standardUserDefaults] setInteger:deckNumber forKey:@"DeckNumber"];
-			[[NSUserDefaults standardUserDefaults] synchronize];
 			
 			self.creatingDeckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		}

@@ -14,6 +14,7 @@ static NSString * const AnalyticsEventWelcomeBackInteraction = @"WelcomeBackInte
 static NSString * const AnalyticsEventTapCardGesture = @"TapCardGesture";
 static NSString * const AnalyticsEventDidSwipeCard = @"DidSwipeCard";
 static NSString * const AnalyticsEventDidShakeDevice = @"DidShakeDevice";
+static NSString * const AnalyticseventDidInteractWithMailCompose = @"DidInteractWithMailCompose";
 
 #pragma mark - Buttons
 static NSString * const AnalyticsEventReviewedViaButton = @"ReviewedViaButton";
@@ -47,6 +48,7 @@ static NSString * const AnalyticsEventDidSelectDeck = @"Selected Deck";
 static NSString * const AnalyticsEventViewGameVC = @"ViewGameVC";
 static NSString * const AnalyticsEventViewDecksVC = @"ViewDecksVC";
 static NSString * const AnalyticsEventViewEditDeckVC = @"ViewEditDeckVC";
+static NSString * const AnalyticsEventMailComposeVC = @"MailComposeVC";
 
 static NSString * const AnalyticsEventDeckCreationView = @"DeckCreationView";
 static NSString * const AnalyticsEventDeckEditView = @"DeckEditView";

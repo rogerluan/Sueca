@@ -9,6 +9,7 @@
 #import "iRateCoordinator.h"
 #import "iVersion.h"
 #import "AnalyticsManager.h"
+#import "Constants.h"
 
 @implementation iRateCoordinator
 
@@ -23,6 +24,7 @@
     [iRate sharedInstance].promptAtLaunch = NO;
     [iRate sharedInstance].eventsUntilPrompt = 80;
     [iRate sharedInstance].promptForNewVersionIfUserRated = YES;
+	[iVersion sharedInstance].useUIAlertControllerIfAvailable = YES;
     [iVersion sharedInstance].checkAtLaunch = NO;
 }
 
@@ -37,6 +39,7 @@
 }
 
 - (void)iRateUserDidDeclineToRateApp {
+	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUserDidDeclineAppRating object:self];
 	[AnalyticsManager logEvent:AnalyticsEventiRateUserDidDeclineToRateApp];
 }
 
