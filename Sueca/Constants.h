@@ -22,7 +22,10 @@ static NSString * const SuecaNotificationUserDidDeclineAppRating = @"UserDidDecl
 static NSString * const SuecaNotificationUpdateDeck = @"updateDeck";
 static NSString * const SuecaNotificationDeckShuffled = @"deckShuffled";
 static NSString * const SuecaNotificationNewVersionAvailable = @"newVersionAvailable";
+static NSString * const SuecaNotificationDidReceiveRemoteNotification = @"DidReceiveRemoteNotification";
 
+typedef void(^DidRegisterForPromotions)(NSError *error);
+typedef void(^RemoteNotificationCompletionHandler)(NSError *error);
 
 typedef NS_ENUM(NSUInteger, ShuffleDeckWarning) {
 	ShuffleDeckWarningNeverDecided = 0,

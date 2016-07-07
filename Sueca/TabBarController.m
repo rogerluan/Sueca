@@ -15,7 +15,8 @@
 #import "GameManager.h"
 #import "TSBlurView.h"
 #import "MailComposeViewController.h"
-#import "AppearanceManager.h"
+#import "AppearanceHelper.h"
+#import "CloudKitManager.h"
 
 #import <TSMessages/TSMessageView.h>
 
@@ -34,20 +35,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.gameManager = [GameManager new];
+    self.gameManager = [GameManager sharedInstance];
     [self registerForNotification];
 	
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningNeverDecided) {
         [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningDisplay forKey:@"showShuffledDeckWarning"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
         [Deck createDefaultDeck];
     } else {
         [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
     }
+	
+//	[CloudKitManager registerForPromotionsWithCompletion:^(NSError *error) {
+//		if (!error) {
+//			NSLog(@"Woohoo!");
+//		} else {
+//			NSLog(@"Did error! Error: %@", error);
+//		}
+//	}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -117,6 +124,7 @@
 - (void)registerForNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDeckShuffled object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationNewVersionAvailable object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDidReceiveRemoteNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUserDidDeclineAppRating object:nil];
 }
 
@@ -137,7 +145,6 @@
                                         buttonTitle:NSLocalizedString(@"Got It",nil)
                                      buttonCallback:^{
                                          [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningSilence forKey:@"showShuffledDeckWarning"];
-										 [[NSUserDefaults standardUserDefaults] synchronize];
 										 [AnalyticsManager logEvent:AnalyticsEventOptedOutShuffleWarning withAttributes:notification.userInfo];
                                      }
                                          atPosition:TSMessageNotificationPositionTop
@@ -175,6 +182,13 @@
 	} else {
         NSLog(@"Unexpected notification: %@",notification);
     }
+	
+	
+	
+	
+	if ([notification.name isEqualToString:SuecaNotificationDidReceiveRemoteNotification]) {
+		NSLog(@"Notification receiveid: %@", notification.userInfo);
+	}
 }
 
 #pragma mark - Customize TSMessage View -
@@ -206,12 +220,12 @@
 
 - (void)didContactUs {
 	if ([MailComposeViewController canSendMail]) {
-		[AppearanceManager defaultBarTintColor];
+		[AppearanceHelper defaultBarTintColor];
 		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@YES}];
 		MailComposeViewController *mailComposeViewController = [MailComposeViewController new];
 		mailComposeViewController.mailComposeDelegate = self;
 		[self presentViewController:mailComposeViewController animated:YES completion:^{
-			[AppearanceManager customBarTintColor];
+			[AppearanceHelper customBarTintColor];
 		}];
 	} else {
 		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@NO}];

@@ -7,14 +7,14 @@
 //
 
 #import "CardRulesCell.h"
-#import "AppearanceManager.h"
+#import "AppearanceHelper.h"
 
 @implementation CardRulesCell
 
 @synthesize delegate;
 
 - (void)awakeFromNib {
-    [AppearanceManager addShadowToLayer:self.cardImageView.layer opacity:0.5 radius:3.0];
+    [AppearanceHelper addShadowToLayer:self.cardImageView.layer opacity:0.5 radius:3.0];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

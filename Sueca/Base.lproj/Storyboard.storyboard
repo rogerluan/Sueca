@@ -153,7 +153,7 @@
                                     <constraint firstAttribute="height" constant="80" id="wFS-cg-cFT"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="25"/>
-                                <state key="normal" title="Long enough card description here">
+                                <state key="normal" title="Long enough card description here.">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>

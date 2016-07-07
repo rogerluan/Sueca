@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.gameManager = [GameManager new];
+	self.gameManager = [GameManager sharedInstance];
 	[self setupLayout];
 	
 	NSError *error;
@@ -327,7 +327,6 @@
 			
 			deckNumber++;
 			[[NSUserDefaults standardUserDefaults] setInteger:deckNumber forKey:@"DeckNumber"];
-			[[NSUserDefaults standardUserDefaults] synchronize];
 			
 			self.creatingDeckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		}

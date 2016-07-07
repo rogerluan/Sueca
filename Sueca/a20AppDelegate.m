@@ -9,11 +9,14 @@
 #import "a20AppDelegate.h"
 #import "iRateCoordinator.h"
 #import "AnalyticsManager.h"
-#import "AppearanceManager.h"
+#import "AppearanceHelper.h"
+#import "Constants.h"
+#import "CloudKitManager.h"
 
 #import <TSMessages/TSMessageView.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <CloudKit/CloudKit.h>
 
 @implementation a20AppDelegate
 
@@ -26,12 +29,11 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [AppearanceManager setup];
+    [AppearanceHelper setup];
     [iRateCoordinator resetEventCount];
 	[Fabric with:@[CrashlyticsKit]];
-	
     [TSMessageView addNotificationDesignFromFile:@"SuecaNotificationDesign.json"];
-	
+	[CloudKitManager clearBadges];
     return YES;
 }
 
@@ -144,6 +146,38 @@
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+#pragma mark - Remote Notifications 
+
+/*
+ *  Used when receiving silent push notifications from background mode
+ *
+ */
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+	UIBackgroundTaskIdentifier taskIdentifier = [application beginBackgroundTaskWithName:@"Task" expirationHandler:^{
+		NSLog(@"Task exceeded time limit.");
+	}];
+	
+	NSLog(@"Notification with user info: %@", userInfo);
+	if (userInfo[@"aps"][@"content-available"] || userInfo[@"aps"][@"alert"]) {
+		[CloudKitManager handleRemoteNotificationWithUserInfo:userInfo withCompletionHandler:^(NSError *error) {
+			[application endBackgroundTask:taskIdentifier];
+			if (error) {
+				completionHandler(UIBackgroundFetchResultFailed);
+			} else {
+				completionHandler(UIBackgroundFetchResultNewData);
+			}
+		}];
+	} else {
+		NSLog(@"Not relevant push notification");
+		[application endBackgroundTask:taskIdentifier];
+		completionHandler(UIBackgroundFetchResultNoData);
+	}
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+	[CloudKitManager handleLocalNotificationWithUserInfo:notification.userInfo];
 }
 
 @end

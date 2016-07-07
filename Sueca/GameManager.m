@@ -9,6 +9,7 @@
 #import "GameManager.h"
 #import "Deck.h"
 #import "Constants.h"
+#import "iRate.h"
 
 @interface GameManager ()
 
@@ -20,9 +21,17 @@
 
 #pragma mark - Public Methods -
 
++ (instancetype)sharedInstance {
+	static GameManager *sharedGameManager = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		sharedGameManager = [[self alloc] init];
+	});
+	return sharedGameManager;
+}
+
 - (instancetype)init {
-    if(!(self = [super init])) return nil;
-	
+    if (!(self = [super init])) return nil;
 	self.deck = [self deck];
 	[self refreshDeckArray];
     return self;
@@ -30,18 +39,33 @@
 
 - (Card *)newCard {
     if ([self isCardAvailable]) {
-        Card *displayCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-        
-        /* Randomly picks a card from the deck */
-        NSUInteger randomIndex = arc4random() % [self.deckArray count];
-        displayCard = [self.deckArray objectAtIndex:randomIndex];
-        [self.deckArray removeObjectAtIndex:randomIndex];
-        return displayCard;
+		Card *displayCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+		if ([self shouldDisplaySpecialCard]) {
+			displayCard.cardName = @"promoCard";
+			
+			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) { //have already requested, and needs display
+				displayCard.cardRule = NSLocalizedString(@"Tap here to re-enable promotions before you miss any!", nil);
+				displayCard.cardDescription = NSLocalizedString(@"I can't believe you disabled the promotions. Who denies drinking for free? Tap below to be warned of our future giveaways!", nil);
+			} else {
+				displayCard.cardRule = NSLocalizedString(@"Tap here to enable promotions before you miss any!", nil);
+				displayCard.cardDescription = NSLocalizedString(@"Running low on drinks? You just won an invite to receive drinking promotions! Tap below to be warned of our future giveaways!", nil);
+			}
+			
+			return displayCard;
+		} else {
+			/* Randomly picks a card from the deck */
+			NSUInteger randomIndex = arc4random() % [self.deckArray count];
+			displayCard = [self.deckArray objectAtIndex:randomIndex];
+			[self.deckArray removeObjectAtIndex:randomIndex];
+			return displayCard;
+		}
     } else {
         [self refreshDeckArray];
         return [self newCard];
     }
 }
+
+
 
 /**
  *  Getter method for the current deck.
@@ -99,15 +123,13 @@
 
 - (BOOL)isCardAvailable {
     /* If there're no more cards in the deck, it reshuffles and warns the user */
-    NSLog(@"card count: %ld",(long)self.deckArray.count);
+    NSLog(@"card count: %ld", (long)self.deckArray.count);
     if (self.deckArray.count == 0) {
         /* Warns the user that the deck was reshuffled */
         if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningDisplay) {
             NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noShuffleDeckWarningCount"];
             warningCount++;
             [[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noShuffleDeckWarningCount"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
             [[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationDeckShuffled object:nil userInfo:@{@"noShuffleDeckWarningCount":[NSNumber numberWithInteger:warningCount]}];
         } else {
             NSLog(@"showShuffledDeckWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"]);
@@ -115,6 +137,33 @@
         return NO;
     }
     return YES;
+}
+
+- (BOOL)shouldDisplaySpecialCard {
+
+	BOOL shouldDisplaySpecialCard = NO;
+	NSInteger desiredNumber;
+
+	if ([[UIApplication sharedApplication] currentUserNotificationSettings].types != UIUserNotificationTypeNone) { //user is registered
+		return NO;
+	} else if ([[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) { //user denied permission
+		desiredNumber = 100;
+	} else { //user never decided
+		desiredNumber = 50;
+	}
+	
+	NSInteger notificationPermissionCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"notificationPermissionCount"];
+	notificationPermissionCount++;
+	NSLog(@"Notification Permission Count = %ld/%ld", (long)notificationPermissionCount, (long)desiredNumber);
+	
+	if (notificationPermissionCount >= desiredNumber) {
+		notificationPermissionCount = 0;
+		shouldDisplaySpecialCard = YES;
+	}
+	
+	[[NSUserDefaults standardUserDefaults] setInteger:notificationPermissionCount forKey:@"notificationPermissionCount"];
+	
+	return shouldDisplaySpecialCard;
 }
 
 /**
