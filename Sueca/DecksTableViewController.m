@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	self.gameManager = [GameManager new];
+	self.gameManager = [GameManager sharedInstance];
 	[self setupLayout];
 	
 	NSError *error;
@@ -53,7 +53,6 @@
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"showNewFeatureNotification"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -343,7 +342,6 @@
 			
 			deckNumber++;
 			[[NSUserDefaults standardUserDefaults] setInteger:deckNumber forKey:@"DeckNumber"];
-			[[NSUserDefaults standardUserDefaults] synchronize];
 			
 			self.creatingDeckName = [NSString stringWithFormat:NSLocalizedString(@"Custom Deck %ld", nil),(long)deckNumber];
 		}
