@@ -14,5 +14,7 @@
 
 + (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion;
 + (void)clearBadges;
-
++ (void)handleRemoteNotificationWithUserInfo:(NSDictionary *)userInfo withCompletionHandler:(RemoteNotificationCompletionHandler)completion;
++ (void)handleLocalNotificationWithUserInfo:(NSDictionary *)userInfo;
+	
 @end

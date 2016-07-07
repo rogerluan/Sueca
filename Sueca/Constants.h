@@ -23,6 +23,7 @@ static NSString * const EditDeckTableViewControllerIdentifier = @"EditDeckTableV
 static NSString * const SuecaNotificationDidReceiveRemoteNotification = @"DidReceiveRemoteNotification";
 
 typedef void(^DidRegisterForPromotions)(NSError *error);
+typedef void(^RemoteNotificationCompletionHandler)(NSError *error);
 
 typedef NS_ENUM(NSUInteger, ShuffleDeckWarning) {
 	ShuffleDeckWarningNeverDecided = 0,
