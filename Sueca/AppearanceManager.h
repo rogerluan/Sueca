@@ -13,4 +13,7 @@
 + (void)setup;
 + (void)addShadowToLayer:(CALayer*)layer opacity:(CGFloat)opacity radius:(CGFloat)radius;
 
++ (void)defaultBarTintColor;
++ (void)customBarTintColor;
+
 @end

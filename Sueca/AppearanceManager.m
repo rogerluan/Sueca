@@ -18,7 +18,6 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];
 	[[UITabBar appearance] setBarTintColor:[UIColor colorWithRed:0.035 green:0.224 blue:0.129 alpha:1.000]];
 	[[UITabBar appearance] setTintColor:[UIColor whiteColor]];
-	
 }
 
 #pragma mark - Shadowing Method
@@ -36,6 +35,16 @@
     layer.shadowRadius = radius;
     layer.shadowOffset = CGSizeZero;
     layer.masksToBounds = NO;
+}
+
+#pragma mark - Bar Tint Color
+
++ (void)defaultBarTintColor {
+	[[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+}
+
++ (void)customBarTintColor {
+	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.039 green:0.128 blue:0.048 alpha:1.000]];
 }
 
 @end

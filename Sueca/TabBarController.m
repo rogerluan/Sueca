@@ -14,10 +14,12 @@
 #import "Constants.h"
 #import "GameManager.h"
 #import "TSBlurView.h"
+#import "MailComposeViewController.h"
+#import "AppearanceManager.h"
 
 #import <TSMessages/TSMessageView.h>
 
-@interface TabBarController () <TSMessageViewProtocol>
+@interface TabBarController () <TSMessageViewProtocol, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) GameManager *gameManager;
 @property (strong, nonatomic) IBOutlet iRateCoordinator *ratingCoordinator;
@@ -124,6 +126,7 @@
 
 - (void)didReceiveNotification:(NSNotification *)notification {
     if ([notification.name isEqualToString:SuecaNotificationDeckShuffled]) {
+		
         [TSMessage showNotificationInViewController:self
                                               title:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")
                                            subtitle:NSLocalizedString(@"There're no more cards to be drawn. We shuffled the deck for you.", @"Deck shuffled warning message")
@@ -139,7 +142,9 @@
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
+		
     } else if ([notification.name isEqualToString:SuecaNotificationNewVersionAvailable]) {
+		
         [TSMessage showNotificationInViewController:self
                                               title:NSLocalizedString(@"Update Available", @"Update available warning title")
                                            subtitle:NSLocalizedString(@"You're using an outdated version of Sueca. Update to have the most awesome new features!", @"Update available warning subtitle")
@@ -155,14 +160,24 @@
                                      }
                                          atPosition:TSMessageNotificationPositionTop
                                canBeDismissedByUser:YES];
+		
 	} else if ([notification.name isEqualToString:SuecaNotificationUserDidDeclineAppRating]) {
-#warning to-do: implement and handle mail composing here.
+		
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"You don't drink!?",nil) message:NSLocalizedString(@"Okay, it seems that something really strange is happening. Would you like to drop us a letter?",nil) preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Contact us",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+			[self didContactUs];
+		}];
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No thanks", nil) style:UIAlertActionStyleCancel handler:nil];
+		[alert addAction:action];
+		[alert addAction:cancelAction];
+		[self presentViewController:alert animated:YES completion:nil];
+		
 	} else {
         NSLog(@"Unexpected notification: %@",notification);
     }
 }
 
-#pragma mark - Customize TSMessage View
+#pragma mark - Customize TSMessage View -
 
 - (void)customizeMessageView:(TSMessageView *)messageView {
 	if (![messageView.title isEqualToString:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")] &&
@@ -185,6 +200,44 @@
 			}
 		}
 	}
+}
+
+#pragma mark - Mail Compose Methods - 
+
+- (void)didContactUs {
+	if ([MailComposeViewController canSendMail]) {
+		[AppearanceManager defaultBarTintColor];
+		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@YES}];
+		MailComposeViewController *mailComposeViewController = [MailComposeViewController new];
+		mailComposeViewController.mailComposeDelegate = self;
+		[self presentViewController:mailComposeViewController animated:YES completion:^{
+			[AppearanceManager customBarTintColor];
+		}];
+	} else {
+		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@NO}];
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Mail Unavailable", nil) message:NSLocalizedString(@"Your device isn't configured to send emails. Please contact us at rogerluan.oba@gmail.com",nil) preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK") style:UIAlertActionStyleCancel handler:nil];
+		[alert addAction:cancelAction];
+		[self presentViewController:alert animated:YES completion:nil];
+	}
+}
+
+#pragma mark - Mail Compose Delegate Method -
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	[attributes addEntriesFromDictionary:@{@"result":[NSNumber numberWithInteger:result]}];
+	if (error.localizedDescription) {
+		[attributes addEntriesFromDictionary:@{@"error.description":error.localizedDescription}];
+	}
+	if (error.domain) {
+		[attributes addEntriesFromDictionary:@{@"error.domain":error.domain}];
+	}
+	if (error.code) {
+		[attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:error.code]}];
+	}
+	[AnalyticsManager logEvent:AnalyticseventDidInteractWithMailCompose withAttributes:[attributes copy]];
+	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
