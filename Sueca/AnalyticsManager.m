@@ -40,7 +40,6 @@
     NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"];
     globalSortCount++;
     [[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:@"globalSortCount"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (void)logEvent:(NSString *)eventName {
