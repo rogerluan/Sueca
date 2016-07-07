@@ -11,9 +11,13 @@
 @implementation NotificationManager
 
 + (void)registerForRemoteNotifications {
-	UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
-	[[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
-	[[UIApplication sharedApplication] registerForRemoteNotifications];
+	if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
+		[[UIApplication sharedApplication] registerForRemoteNotifications];
+		[[UIApplication sharedApplication] registerUserNotificationSettings:settings];
+	} else {
+		[[UIApplication sharedApplication] registerForRemoteNotificationTypes: UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
+	}
 }
 
 @end
