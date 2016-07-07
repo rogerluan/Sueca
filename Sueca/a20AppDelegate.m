@@ -9,8 +9,7 @@
 #import "a20AppDelegate.h"
 #import "iRateCoordinator.h"
 #import "AnalyticsManager.h"
-#import "AppearanceManager.h"
-#import "NotificationManager.h"
+#import "AppearanceHelper.h"
 #import "Constants.h"
 #import "CloudKitManager.h"
 
@@ -30,12 +29,10 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [AppearanceManager setup];
+    [AppearanceHelper setup];
     [iRateCoordinator resetEventCount];
 	[Fabric with:@[CrashlyticsKit]];
     [TSMessageView addNotificationDesignFromFile:@"SuecaNotificationDesign.json"];
-#warning to-do: remove this from App Delegate and implement the custom notification card.
-	[NotificationManager registerForRemoteNotifications];
 	[CloudKitManager clearBadges];
     return YES;
 }
@@ -154,16 +151,6 @@
 #pragma mark - Remote Notifications 
 
 /*
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
-	NSString *alertBody = cloudKitNotification.alertBody;
-	NSLog(@"Received Push Notification! Alert body: %@", alertBody);
-	if (cloudKitNotification.notificationType == CKNotificationTypeQuery) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationDidReceiveRemoteNotification object:nil userInfo:[(CKQueryNotification *)cloudKitNotification recordFields]];
-	}
-}*/
-
-/*
  *  Used when receiving silent push notifications from background mode
  *
  */
@@ -171,69 +158,26 @@
 	UIBackgroundTaskIdentifier taskIdentifier = [application beginBackgroundTaskWithName:@"Task" expirationHandler:^{
 		NSLog(@"Task exceeded time limit.");
 	}];
+	
 	NSLog(@"Notification with user info: %@", userInfo);
 	if (userInfo[@"aps"][@"content-available"] || userInfo[@"aps"][@"alert"]) {
-		if (application.applicationState == UIApplicationStateBackground) {
-			NSLog(@"Inactive or Background");
-			
-			CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
-			CKRecordID *promotionID = [(CKQueryNotification *)cloudKitNotification recordID];
-			
-			if (userInfo[@"aps"][@"content-available"]) {
-				NSLog(@"Content available = YES");
-				
-				[[[CKContainer defaultContainer] publicCloudDatabase] fetchRecordWithID:promotionID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
-					NSLog(@"record: %@, error: %@", record, error);
-					
-					UILocalNotification *notification = [UILocalNotification new];
-					notification.alertBody = record[@"push_message"];
-					notification.soundName = record[@"push_soundName"];
-					if ([record[@"push_shouldIncrementBadge"] intValue] == 1) {
-						NSInteger iconBadgeNumber = [application applicationIconBadgeNumber];
-						notification.applicationIconBadgeNumber = ++iconBadgeNumber;
-					}
-					notification.fireDate = [NSDate dateWithTimeIntervalSinceNow:[record[@"push_fireDelayInSeconds"] doubleValue]];
-					notification.userInfo = @{@"recordName":promotionID.recordName};
-					
-					[[UIApplication sharedApplication] scheduleLocalNotification:notification];
-					
-					[application endBackgroundTask:taskIdentifier];
-					completionHandler(UIBackgroundFetchResultNewData);
-				}];
+		[CloudKitManager handleRemoteNotificationWithUserInfo:userInfo withCompletionHandler:^(NSError *error) {
+			[application endBackgroundTask:taskIdentifier];
+			if (error) {
+				completionHandler(UIBackgroundFetchResultFailed);
 			} else {
-				NSLog(@"Content available = NO");
-				
-				[[[CKContainer defaultContainer] publicCloudDatabase] fetchRecordWithID:promotionID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
-					NSLog(@"record: %@, error: %@", record, error);
-					
-					[application endBackgroundTask:taskIdentifier];
-					completionHandler(UIBackgroundFetchResultNewData);
-				}];
+				completionHandler(UIBackgroundFetchResultNewData);
 			}
-		} else {
-			NSLog(@"Active");
-			[CloudKitManager clearBadges];
-			
-			//To-do: Show an in-app banner
-			
-			completionHandler(UIBackgroundFetchResultNewData);
-		}
+		}];
 	} else {
 		NSLog(@"Not relevant push notification");
-		completionHandler(UIBackgroundFetchResultNewData);
+		[application endBackgroundTask:taskIdentifier];
+		completionHandler(UIBackgroundFetchResultNoData);
 	}
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-	if (application.applicationState == UIApplicationStateInactive || application.applicationState == UIApplicationStateBackground) {
-		NSLog(@"Opened local notification from background");
-		NSString *recordName = [notification.userInfo objectForKey:@"recordName"];
-		NSLog(@"RecordName: %@", recordName);
-	} else {
-		NSLog(@"Opened local notification in foreground");
-		//To-do: show an in-app banner
-	}
-	[CloudKitManager clearBadges];
+	[CloudKitManager handleLocalNotificationWithUserInfo:notification.userInfo];
 }
 
 @end
