@@ -123,7 +123,7 @@
 
 - (BOOL)isCardAvailable {
     /* If there're no more cards in the deck, it reshuffles and warns the user */
-    NSLog(@"card count: %ld", (long)self.deckArray.count);
+//    NSLog(@"card count: %ld", (long)self.deckArray.count);
     if (self.deckArray.count == 0) {
         /* Warns the user that the deck was reshuffled */
         if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningDisplay) {

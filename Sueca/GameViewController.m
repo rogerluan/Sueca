@@ -30,6 +30,7 @@
 
 @property (strong, nonatomic) SoundManager *soundManager;
 @property (strong, nonatomic) GameManager *gameManager;
+@property (strong, nonatomic) NotificationManager *notificationManager;
 
 @property (assign) BOOL shouldSwipe;
 
@@ -48,6 +49,7 @@
 - (void)setup {
 	self.soundManager = [SoundManager new];
 	self.gameManager = [GameManager sharedInstance];
+	self.notificationManager = [NotificationManager new];
 	self.swipeableView.numberOfActiveViews = 10;
 	self.swipeableView.numberOfHistoryItem = 1;
 	self.swipeableView.viewAnimator = [SuecaViewAnimator new];
@@ -87,8 +89,14 @@
     if (self.swipeableView.topView) {
 		if ([self.displayCard.cardName isEqualToString:@"promoCard"]) {
 			if (![[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) {
-				[NotificationManager registerForRemoteNotifications];
-				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"requestedNotificationPermission"];
+				[self.notificationManager registerForPromotionsWithCompletion:^(NSError *error) {
+					if (!error) {
+						NSLog(@"Successfully registered for promotions (in CloudKit).");
+					} else {
+#warning treat all the possible CloudKit errors here
+						NSLog(@"Error when trying to register for promotions. Error: %@", error);
+					}
+				}];
 			} else {
 				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 			}
