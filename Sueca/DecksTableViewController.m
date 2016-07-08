@@ -11,6 +11,7 @@
 #import "AnalyticsManager.h"
 #import "Deck.h"
 #import "Constants.h"
+#import "NotificationManager.h"
 
 @interface DecksTableViewController () <NSFetchedResultsControllerDelegate>
 
@@ -45,6 +46,7 @@
 	[super viewDidAppear:animated];
 	[self.tableView reloadData];
 	[AnalyticsManager logContentViewEvent:AnalyticsEventViewDecksVC contentType:@"UIViewController"];
+	[NotificationManager resetPendingNotificationCount];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,7 +58,6 @@
 	tempImageView.frame = self.view.frame;
 	self.tableView.backgroundView = tempImageView;
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-	
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
