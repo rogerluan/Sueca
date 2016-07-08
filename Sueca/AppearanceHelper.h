@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <TSMessages/TSMessageView.h>
 
 @interface AppearanceHelper : NSObject
 
@@ -16,5 +17,6 @@
 
 + (void)defaultBarTintColor;
 + (void)customBarTintColor;
++ (void)customizeMessageView:(TSMessageView *)messageView;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "AppearanceHelper.h"
+#import "TSBlurView.h"
 
 @implementation AppearanceHelper
 
@@ -69,5 +70,31 @@
 	animation.duration = 0.7;
 	return animation;
 }
+
+#pragma mark - TSMessage
+
++ (void)customizeMessageView:(TSMessageView *)messageView {
+	if (![messageView.title isEqualToString:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")] &&
+		![messageView.title isEqualToString:NSLocalizedString(@"Update Available", @"Update available warning title")]) {
+		
+		for (UIView *view in messageView.subviews) {
+			if ([view isKindOfClass:[TSBlurView class]]) {
+				if (NSClassFromString(@"UIVisualEffectView") != nil) {
+					//UIViewVisualEffectView is available, so add it.
+					
+					UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+					UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithFrame:view.frame];
+					effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+					effectView.effect = blurEffect;
+					[messageView insertSubview:effectView aboveSubview:view];
+					[view removeFromSuperview];
+				} else { //UIViewVisualEffectView is available, so don't do anything.
+					view.alpha = 0.85;
+				}
+			}
+		}
+	}
+}
+
 
 @end
