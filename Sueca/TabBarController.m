@@ -13,16 +13,17 @@
 #import "GameViewController.h"
 #import "Constants.h"
 #import "GameManager.h"
-#import "TSBlurView.h"
 #import "MailComposeViewController.h"
 #import "AppearanceHelper.h"
 #import "CloudKitManager.h"
+#import "NotificationManager.h"
 
 #import <TSMessages/TSMessageView.h>
 
 @interface TabBarController () <TSMessageViewProtocol, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) GameManager *gameManager;
+@property (strong, nonatomic) CloudKitManager *CKManager;
 @property (strong, nonatomic) IBOutlet iRateCoordinator *ratingCoordinator;
 @property (strong, nonatomic) IBOutlet iVersionCoordinator *versioningCoordinator;
 
@@ -36,6 +37,7 @@
     [super viewDidLoad];
     
     self.gameManager = [GameManager sharedInstance];
+	self.CKManager = [CloudKitManager new];
     [self registerForNotification];
 	
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningNeverDecided) {
@@ -47,14 +49,6 @@
     } else {
         [self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
     }
-	
-//	[CloudKitManager registerForPromotionsWithCompletion:^(NSError *error) {
-//		if (!error) {
-//			NSLog(@"Woohoo!");
-//		} else {
-//			NSLog(@"Did error! Error: %@", error);
-//		}
-//	}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,7 +73,7 @@
     [TSMessage showNotificationInViewController:self
                                           title:NSLocalizedString(@"Welcome Back!", @"TSMessage Welcome Back Title")
                                        subtitle:welcomeBackMessage
-                                          image:nil
+                                          image:[UIImage imageNamed:@"suecaLogo"]
                                            type:TSMessageNotificationTypeMessage
                                        duration:TSMessageNotificationDurationAutomatic
 									   callback:^{
@@ -124,8 +118,10 @@
 - (void)registerForNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDeckShuffled object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationNewVersionAvailable object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDidReceiveRemoteNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUserDidDeclineAppRating object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationActiveRemoteNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationActiveLocalNotification object:nil];
 }
 
 - (void)unregisterForNotification {
@@ -170,7 +166,7 @@
 		
 	} else if ([notification.name isEqualToString:SuecaNotificationUserDidDeclineAppRating]) {
 		
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"You don't drink!?",nil) message:NSLocalizedString(@"Okay, it seems that something really strange is happening. Would you like to drop us a letter?",nil) preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"You don't drink?!",nil) message:NSLocalizedString(@"Okay, something really strange is going on. Would you like to drop us a letter?",nil) preferredStyle:UIAlertControllerStyleAlert];
 		UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Contact us",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 			[self didContactUs];
 		}];
@@ -178,42 +174,45 @@
 		[alert addAction:action];
 		[alert addAction:cancelAction];
 		[self presentViewController:alert animated:YES completion:nil];
-		
+	
+	} else if ([notification.name isEqualToString:SuecaNotificationActiveRemoteNotification] ||
+			   [notification.name isEqualToString:SuecaNotificationActiveLocalNotification]) {
+		[self.CKManager fetchLatestPromotionWithCompletion:^(NSError *error, Promotion *promotion) {
+			if (!error) {
+				[TSMessage showNotificationInViewController:self
+													  title:NSLocalizedString(promotion.title, nil)
+												   subtitle:NSLocalizedString(promotion.shortDescription, nil)
+													  image:[UIImage imageNamed:@"suecaLogo"]
+													   type:TSMessageNotificationTypeMessage
+												   duration:TSMessageNotificationDurationAutomatic
+												   callback:nil
+												buttonTitle:nil
+											 buttonCallback:nil
+												 atPosition:TSMessageNotificationPositionTop
+									   canBeDismissedByUser:YES];
+			} else {
+#warning handle error
+				NSLog(@"error: %@", error);
+			}
+		}];
 	} else {
-        NSLog(@"Unexpected notification: %@",notification);
-    }
-	
-	
-	
-	
-	if ([notification.name isEqualToString:SuecaNotificationDidReceiveRemoteNotification]) {
-		NSLog(@"Notification receiveid: %@", notification.userInfo);
+		NSLog(@"Unexpected notification: %@", notification);
+	}
+}
+
+- (void)showNotificationIfNeeded {
+	NSInteger pendingNotifications = [NotificationManager pendingNotificationCount];
+	if (pendingNotifications > 0) {
+		[[self.tabBar.items lastObject] setBadgeValue:[NSString stringWithFormat:@"%ld", (long)pendingNotifications]];
+	} else {
+		[[self.tabBar.items lastObject] setBadgeValue:nil];
 	}
 }
 
 #pragma mark - Customize TSMessage View -
 
 - (void)customizeMessageView:(TSMessageView *)messageView {
-	if (![messageView.title isEqualToString:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")] &&
-		![messageView.title isEqualToString:NSLocalizedString(@"Update Available", @"Update available warning title")]) {
-		
-		for (UIView *view in messageView.subviews) {
-			if ([view isKindOfClass:[TSBlurView class]]) {
-				if (NSClassFromString(@"UIVisualEffectView") != nil) {
-					//UIViewVisualEffectView is available, so add it.
-					
-					UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-					UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithFrame:view.frame];
-					effectView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-					effectView.effect = blurEffect;
-					[messageView insertSubview:effectView aboveSubview:view];
-					[view removeFromSuperview];
-				} else { //UIViewVisualEffectView is available, so don't do anything.
-					view.alpha = 0.85;
-				}
-			}
-		}
-	}
+	[AppearanceHelper customizeMessageView:messageView];
 }
 
 #pragma mark - Mail Compose Methods - 
