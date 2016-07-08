@@ -9,12 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CloudKit/CloudKit.h>
 #import "Constants.h"
+#import "Promotion.h"
 
 @interface CloudKitManager : NSObject
 
-+ (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion;
-+ (void)clearBadges;
-+ (void)handleRemoteNotificationWithUserInfo:(NSDictionary *)userInfo withCompletionHandler:(RemoteNotificationCompletionHandler)completion;
-+ (void)handleLocalNotificationWithUserInfo:(NSDictionary *)userInfo;
-	
+- (void)fetchPromotionsWithCompletion:(PromotionsCompletionHandler)completion;
+- (void)fetchLatestPromotionWithCompletion:(PromotionCompletionHandler)completion;
+
 @end
