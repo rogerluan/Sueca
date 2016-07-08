@@ -41,8 +41,9 @@
 		C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12381C72A581004BFF52 /* AnalyticsManager.m */; };
 		C5BA8F771CCE579B0027F2B1 /* UIView+Rounded.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA8F761CCE579B0027F2B1 /* UIView+Rounded.m */; };
 		C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */; };
-		C5BE5C0D1D2E641E005CFC08 /* MailComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */; };
 		C5BE5C0A1D2E5600005CFC08 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C091D2E5600005CFC08 /* ShareViewController.m */; };
+		C5BE5C0D1D2E641E005CFC08 /* MailComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */; };
+		C5BE5C131D2F9A41005CFC08 /* Promotion.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C121D2F9A41005CFC08 /* Promotion.m */; };
 		C5C5AA9618184814005A9625 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9518184814005A9625 /* Foundation.framework */; };
 		C5C5AA9818184814005A9625 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9718184814005A9625 /* CoreGraphics.framework */; };
 		C5C5AA9A18184814005A9625 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9918184814005A9625 /* UIKit.framework */; };
@@ -145,10 +146,12 @@
 		C5BA8F761CCE579B0027F2B1 /* UIView+Rounded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Rounded.m"; sourceTree = "<group>"; };
 		C5BA8F7A1CCE855D0027F2B1 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
-		C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailComposeViewController.h; sourceTree = "<group>"; };
-		C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailComposeViewController.m; sourceTree = "<group>"; };
 		C5BE5C081D2E5600005CFC08 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		C5BE5C091D2E5600005CFC08 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailComposeViewController.h; sourceTree = "<group>"; };
+		C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailComposeViewController.m; sourceTree = "<group>"; };
+		C5BE5C111D2F9A41005CFC08 /* Promotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Promotion.h; sourceTree = "<group>"; };
+		C5BE5C121D2F9A41005CFC08 /* Promotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Promotion.m; sourceTree = "<group>"; };
 		C5C5AA9218184814005A9625 /* Sueca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sueca.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C5AA9518184814005A9625 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5C5AA9718184814005A9625 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -348,6 +351,39 @@
 			name = IBInspectables;
 			sourceTree = "<group>";
 		};
+		C5BE5C0E1D2E8245005CFC08 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C5BA8F7A1CCE855D0027F2B1 /* TabBarController.h */,
+				C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		C5BE5C0F1D2E824A005CFC08 /* Primary */ = {
+			isa = PBXGroup;
+			children = (
+				C5615E60181E82430033FEB3 /* GameViewController.h */,
+				C5615E61181E82430033FEB3 /* GameViewController.m */,
+				C5B1FB5C19EEA57000088FB8 /* DecksTableViewController.h */,
+				C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */,
+				C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */,
+				C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */,
+			);
+			name = Primary;
+			sourceTree = "<group>";
+		};
+		C5BE5C101D2E8253005CFC08 /* Secondary */ = {
+			isa = PBXGroup;
+			children = (
+				C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */,
+				C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */,
+				C5BE5C081D2E5600005CFC08 /* ShareViewController.h */,
+				C5BE5C091D2E5600005CFC08 /* ShareViewController.m */,
+			);
+			name = Secondary;
+			sourceTree = "<group>";
+		};
 		C5C5AA8918184813005A9625 = {
 			isa = PBXGroup;
 			children = (
@@ -461,18 +497,9 @@
 		C5C5AAC51818483F005A9625 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA8F7A1CCE855D0027F2B1 /* TabBarController.h */,
-				C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */,
-				C5615E60181E82430033FEB3 /* GameViewController.h */,
-				C5615E61181E82430033FEB3 /* GameViewController.m */,
-				C5B1FB5C19EEA57000088FB8 /* DecksTableViewController.h */,
-				C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */,
-				C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */,
-				C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */,
-				C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */,
-				C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */,
-				C5BE5C081D2E5600005CFC08 /* ShareViewController.h */,
-				C5BE5C091D2E5600005CFC08 /* ShareViewController.m */,
+				C5BE5C0E1D2E8245005CFC08 /* Base */,
+				C5BE5C0F1D2E824A005CFC08 /* Primary */,
+				C5BE5C101D2E8253005CFC08 /* Secondary */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -484,6 +511,8 @@
 				C5B1FB6F19EEC2D200088FB8 /* Card.m */,
 				C5E9B6781A3238A600D0171A /* Deck.h */,
 				C5E9B6791A3238A600D0171A /* Deck.m */,
+				C5BE5C111D2F9A41005CFC08 /* Promotion.h */,
+				C5BE5C121D2F9A41005CFC08 /* Promotion.m */,
 				C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */,
 			);
 			name = Model;
@@ -720,6 +749,7 @@
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */,
 				C588D26F1D2D0916004B6CB8 /* PromotionCardView.m in Sources */,
+				C5BE5C131D2F9A41005CFC08 /* Promotion.m in Sources */,
 				C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */,

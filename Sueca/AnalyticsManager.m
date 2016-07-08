@@ -14,29 +14,19 @@
  *  Places to add analytics
  */
 
-//card description alert view
-//card label edition
-//direction of the card swipe/flip
-//interaction with TSMessages
-//interaction with iRate
-//detect most engaging card(s) by calculating time of exposure
-//----tap on the card 
-
+//to-do: detect most engaging card(s) by calculating time of exposure
 
 @implementation AnalyticsManager
 
 + (void)trackGlobalSortCount {
 	NSNumber *globalSortCount = [NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"]];
-	NSLog(@"\n\nGlobal Sort Count: %@\n",globalSortCount);
-	
+	NSLog(@"\n\nGlobal Sort Count: %@\n", globalSortCount);
     NSDictionary *attributes = @{@"globalSortCount":globalSortCount};
-	
 	[self logEvent:@"globalSortCount" withAttributes:attributes];
 }
 
 + (void)increaseGlobalSortCount {
     [[iRate sharedInstance] logEvent:NO];
-    
     NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"];
     globalSortCount++;
     [[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:@"globalSortCount"];

@@ -11,6 +11,8 @@
 
 #define NUMBER_OF_CARDS 13
 
+#import "Promotion.h"
+
 static NSString * const MainStoryboard = @"Storyboard";
 static NSString * const TabBarControllerIdentifier = @"TabBarController";
 static NSString * const DecksNavigationControllerIdentifier = @"DecksNavigationController";
@@ -22,10 +24,13 @@ static NSString * const SuecaNotificationUserDidDeclineAppRating = @"UserDidDecl
 static NSString * const SuecaNotificationUpdateDeck = @"updateDeck";
 static NSString * const SuecaNotificationDeckShuffled = @"deckShuffled";
 static NSString * const SuecaNotificationNewVersionAvailable = @"newVersionAvailable";
-static NSString * const SuecaNotificationDidReceiveRemoteNotification = @"DidReceiveRemoteNotification";
+static NSString * const SuecaNotificationActiveRemoteNotification = @"ActiveRemoteNotification";
+static NSString * const SuecaNotificationActiveLocalNotification = @"ActiveLocalNotification";
 
 typedef void(^DidRegisterForPromotions)(NSError *error);
 typedef void(^RemoteNotificationCompletionHandler)(NSError *error);
+typedef void(^PromotionsCompletionHandler)(NSError *error, NSArray <Promotion *> *promotions);
+typedef void(^PromotionCompletionHandler)(NSError *error, Promotion *promotion);
 
 typedef NS_ENUM(NSUInteger, ShuffleDeckWarning) {
 	ShuffleDeckWarningNeverDecided = 0,
