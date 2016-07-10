@@ -18,9 +18,10 @@
 #import "CloudKitManager.h"
 #import "NotificationManager.h"
 
+#import <SafariServices/SafariServices.h>
 #import <TSMessages/TSMessageView.h>
 
-@interface TabBarController () <TSMessageViewProtocol, MFMailComposeViewControllerDelegate>
+@interface TabBarController () <TSMessageViewProtocol, MFMailComposeViewControllerDelegate, SFSafariViewControllerDelegate>
 
 @property (strong, nonatomic) GameManager *gameManager;
 @property (strong, nonatomic) CloudKitManager *CKManager;
@@ -56,7 +57,7 @@
 }
 
 - (void)dealloc {
-	[self unregisterForNotification];
+	[self unregisterFromNotification];
 }
 
 #pragma mark - Welcome Back Message -
@@ -77,6 +78,7 @@
                                            type:TSMessageNotificationTypeMessage
                                        duration:TSMessageNotificationDurationAutomatic
 									   callback:^{
+										   [TSMessage dismissActiveNotification];
 										   NSMutableDictionary *attributes = [NSMutableDictionary new];
 										   if (welcomeBackMessage) {
 											   [attributes addEntriesFromDictionary:@{@"Notification Message":welcomeBackMessage}];
@@ -94,7 +96,7 @@
                                  }
                                      atPosition:TSMessageNotificationPositionTop
                            canBeDismissedByUser:YES];
-    
+	
 }
 
 - (NSString *)randomWelcomeBackMessage {
@@ -117,14 +119,15 @@
 
 - (void)registerForNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDeckShuffled object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationNewVersionAvailable object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationNewVersionAvailable object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUserDidDeclineAppRating object:nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationActiveRemoteNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationActiveLocalNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationOpenURL object:nil];
 }
 
-- (void)unregisterForNotification {
+- (void)unregisterFromNotification {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -177,24 +180,43 @@
 	
 	} else if ([notification.name isEqualToString:SuecaNotificationActiveRemoteNotification] ||
 			   [notification.name isEqualToString:SuecaNotificationActiveLocalNotification]) {
+		__block __weak typeof(self) weakSelf = self;
 		[self.CKManager fetchLatestPromotionWithCompletion:^(NSError *error, Promotion *promotion) {
 			if (!error) {
-				[TSMessage showNotificationInViewController:self
-													  title:NSLocalizedString(promotion.title, nil)
-												   subtitle:NSLocalizedString(promotion.shortDescription, nil)
-													  image:[UIImage imageNamed:@"suecaLogo"]
-													   type:TSMessageNotificationTypeMessage
-												   duration:TSMessageNotificationDurationAutomatic
-												   callback:nil
-												buttonTitle:nil
-											 buttonCallback:nil
-												 atPosition:TSMessageNotificationPositionTop
-									   canBeDismissedByUser:YES];
+				dispatch_async(dispatch_get_main_queue(), ^(void) {
+					[TSMessage showNotificationInViewController:weakSelf
+														  title:NSLocalizedString(promotion.title, nil)
+													   subtitle:NSLocalizedString(promotion.shortDescription, nil)
+														  image:[UIImage imageNamed:@"suecaLogo"]
+														   type:TSMessageNotificationTypeMessage
+													   duration:TSMessageNotificationDurationEndless
+													   callback:nil //to-do: add analytics
+													buttonTitle:NSLocalizedString(@"View", nil)
+												 buttonCallback:^{
+													 NSLog(@"View Promotion was pressed!");
+													 [weakSelf setSelectedIndex:1];
+												 }
+													 atPosition:TSMessageNotificationPositionTop
+										   canBeDismissedByUser:YES];
+				});
 			} else {
 #warning handle error
 				NSLog(@"error: %@", error);
 			}
 		}];
+	} else if ([notification.name isEqualToString:SuecaNotificationOpenURL]){
+		NSURL *url = [notification.userInfo objectForKey:@"url"];
+		if (url) {
+			if ([SFSafariViewController class] != nil) { //Safari View Controller is available
+				SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:url];
+				safariVC.delegate = self;
+				[self presentViewController:safariVC animated:YES completion:nil];
+			} else { //Safari View Controller is not available
+				[[UIApplication sharedApplication] openURL:url];
+			}
+		} else {
+#warning handle error
+		}
 	} else {
 		NSLog(@"Unexpected notification: %@", notification);
 	}
@@ -251,6 +273,12 @@
 	}
 	[AnalyticsManager logEvent:AnalyticseventDidInteractWithMailCompose withAttributes:[attributes copy]];
 	[controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Safari View Controller Delegate Method -
+
+- (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully {
+	//to-do: add analytics here
 }
 
 @end
