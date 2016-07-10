@@ -112,9 +112,19 @@
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.subtype == UIEventSubtypeMotionShake) {
-		[self.swipeableView rewind];
-		[self updateRuleLabel];
-		[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:[self currentCardAttributes]];
+		//to-do: add analytics here to content view
+		if (self.swipeableView.history.count > 0) {
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Undo Action", @"UIAlertController title") message:NSLocalizedString(@"You shaked your device, so the previous card will be rewinded. Only the last card can be rewinded. Are you sure you want to do this?", nil) preferredStyle:UIAlertControllerStyleAlert];
+			UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Rewind Card", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+				[self.swipeableView rewind];
+				[self updateRuleLabel];
+				[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:[self currentCardAttributes]];
+			}];
+			UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+			[alert addAction:action];
+			[alert addAction:cancelAction];
+			[self presentViewController:alert animated:YES completion:nil];
+		}
 	}
 	if ([super respondsToSelector:@selector(motionEnded:withEvent:)]) {
 		[super motionEnded:motion withEvent:event];
