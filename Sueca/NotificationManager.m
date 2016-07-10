@@ -61,7 +61,7 @@
 + (void)handleRemoteNotificationWithUserInfo:(NSDictionary *)userInfo withCompletionHandler:(RemoteNotificationCompletionHandler)completion {
 	UIApplication *application = [UIApplication sharedApplication];
 	if (application.applicationState == UIApplicationStateBackground) {
-		NSLog(@"Inactive or Background");
+		NSLog(@"Background");
 		
 		CKNotification *cloudKitNotification = [CKNotification notificationFromRemoteNotificationDictionary:userInfo];
 		CKRecordID *promotionID = [(CKQueryNotification *)cloudKitNotification recordID];
@@ -70,7 +70,6 @@
 			NSLog(@"Content available = YES");
 			[[[CKContainer defaultContainer] publicCloudDatabase] fetchRecordWithID:promotionID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
 				NSLog(@"record: %@, error: %@", record, error);
-				
 				if (!error) {
 					Promotion *promotion = [Promotion promotionWithRecord:record];
 					[[UIApplication sharedApplication] scheduleLocalNotification:promotion.notification];
@@ -86,6 +85,7 @@
 		if (userInfo[@"aps"][@"content-available"]) {
 			NSLog(@"Active");
 			[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationActiveRemoteNotification object:nil userInfo:userInfo];
+			[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateLatestPromotion object:nil userInfo:userInfo];
 		}
 		[NotificationManager clearBadges];
 		completion(nil);
