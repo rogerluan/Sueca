@@ -9,6 +9,7 @@
 #import "NotificationManager.h"
 #import "ErrorManager.h"
 #import "CloudKitManager.h"
+#import "AnalyticsManager.h"
 
 @implementation NotificationManager
 
@@ -19,16 +20,6 @@
 		[application registerForRemoteNotifications];
 		[application registerUserNotificationSettings:settings];
 	}
-}
-
-- (void)testPromoRegister:(DidRegisterForPromotions)completion {
-//	[[[CKContainer defaultContainer] publicCloudDatabase] fetchAllSubscriptionsWithCompletionHandler:^(NSArray<CKSubscription *> * _Nullable subscriptions, NSError * _Nullable error) {
-//		if (!error) {
-//			
-//		} else {
-//			
-//		}
-//	}];
 }
 
 - (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion {
@@ -75,6 +66,7 @@
 				break;
 			}
 		}
+		[AnalyticsManager logEvent:AnalyticsEventCKAccountStatus withAttributes:@{@"status":[NSNumber numberWithInteger:accountStatus]}];
 	}];
 }
 
@@ -87,7 +79,17 @@
 				CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
 				clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
 					if (operationError) {
-						//to-do: analytics
+						NSMutableDictionary *attributes = [NSMutableDictionary new];
+						if (operationError.localizedDescription) {
+							[attributes addEntriesFromDictionary:@{@"error.description":operationError.localizedDescription}];
+						}
+						if (operationError.domain) {
+							[attributes addEntriesFromDictionary:@{@"error.domain":operationError.domain}];
+						}
+						if (operationError.code) {
+							[attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:operationError.code]}];
+						}
+						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges withAttributes:[attributes copy]];
 						NSLog(@"Clear badge operation failed with operation error: %@", operationError);
 					}
 				};

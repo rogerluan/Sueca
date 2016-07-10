@@ -17,6 +17,7 @@ static NSString * const AnalyticsEventPromoNotificationInteraction = @"PromoNoti
 static NSString * const AnalyticsEventPromoErrorInteraction = @"PromoErrorInteraction";
 
 static NSString * const AnalyticsEventTapCardGesture = @"TapCardGesture";
+static NSString * const AnalyticsEventTapCardDuringTimer = @"TapCardDuringTimer";
 static NSString * const AnalyticsEventDidSwipeCard = @"DidSwipeCard";
 static NSString * const AnalyticsEventDidShakeDevice = @"DidShakeDevice";
 static NSString * const AnalyticseventDidInteractWithMailCompose = @"DidInteractWithMailCompose";
@@ -26,6 +27,9 @@ static NSString * const AnalyticsEventReviewedViaButton = @"ReviewedViaButton";
 static NSString * const AnalyticsEventUpdatedViaButton = @"UpdatedViaButton";
 static NSString * const AnalyticsEventPromoNotificationButton = @"PromoNotificationButton";
 static NSString * const AnalyticsEventPromoErrorButton = @"PromoErrorButton";
+static NSString * const AnalyticsEventShakeCancelButton = @"ShakeCancelButton";
+static NSString * const AnalyticsEventShakeAcceptButton = @"ShakeAcceptButton";
+static NSString * const AnalyticsEventPushRegistrationButton = @"PushRegistrationButton";
 
 #pragma mark - iRate
 static NSString * const AnalyticsEventiRateUserDidAttemptToRateApp = @"iRate UserDidAttemptToRateApp";
@@ -67,12 +71,18 @@ static NSString * const AnalyticsEventErrorAlert = @"ErrorAlert";
 static NSString * const AnalyticsEventOpenURL = @"OpenURL";
 static NSString * const AnalyticsEventDidLoadURL = @"DidLoadURL";
 
+static NSString * const AnalyticsEventViewPromoCard = @"ViewPromoCard";
+
 #pragma mark - Share
 static NSString * const AnalyticsEventDidShareCard = @"DidShareCard";
 
 #pragma mark - Error
 static NSString * const AnalyticsErrorReceivedPushWithZeroPromo = @"ReceivedPushWithZeroPromo";
 static NSString * const AnalyticsErrorReceivedPushWithUnknownError = @"ReceivedPushWithUnknownError";
+static NSString * const AnalyticsErrorFailedClearBadges = @"FailedClearBadges";
+
+#pragma mark - User Info
+static NSString * const AnalyticsEventCKAccountStatus = @"CKAccountStatus";
 
 @interface AnalyticsManager : NSObject
 
