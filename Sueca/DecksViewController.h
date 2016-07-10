@@ -1,5 +1,5 @@
 //
-//  DecksTableViewController.h
+//  DecksViewController.h
 //  Sueca
 //
 //  Created by Roger Oba on 10/15/14.
@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "EditDeckTableViewController.h"
 
-@interface DecksTableViewController : UIViewController
+@interface DecksViewController : UIViewController
 
 @end

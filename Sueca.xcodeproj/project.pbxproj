@@ -30,7 +30,7 @@
 		C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
-		C5B1FB5E19EEA57000088FB8 /* DecksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */; };
+		C5B1FB5E19EEA57000088FB8 /* DecksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksViewController.m */; };
 		C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB6F19EEC2D200088FB8 /* Card.m */; };
 		C5B1FB7619EFFC1D00088FB8 /* EditDeckTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */; };
 		C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7819F0037000088FB8 /* CardRulesCell.m */; };
@@ -127,8 +127,8 @@
 		C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuecaViewAnimator.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C5B1FB5A19EEA21B00088FB8 /* Sueca Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model.xcdatamodel"; sourceTree = "<group>"; };
-		C5B1FB5C19EEA57000088FB8 /* DecksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksTableViewController.h; sourceTree = "<group>"; };
-		C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecksTableViewController.m; sourceTree = "<group>"; };
+		C5B1FB5C19EEA57000088FB8 /* DecksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksViewController.h; sourceTree = "<group>"; };
+		C5B1FB5D19EEA57000088FB8 /* DecksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecksViewController.m; sourceTree = "<group>"; };
 		C5B1FB6E19EEC2D200088FB8 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
 		C5B1FB6F19EEC2D200088FB8 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 		C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDeckTableViewController.h; sourceTree = "<group>"; };
@@ -375,8 +375,8 @@
 			children = (
 				C5615E60181E82430033FEB3 /* GameViewController.h */,
 				C5615E61181E82430033FEB3 /* GameViewController.m */,
-				C5B1FB5C19EEA57000088FB8 /* DecksTableViewController.h */,
-				C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */,
+				C5B1FB5C19EEA57000088FB8 /* DecksViewController.h */,
+				C5B1FB5D19EEA57000088FB8 /* DecksViewController.m */,
 				C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */,
 				C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */,
 			);
@@ -793,7 +793,7 @@
 				C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */,
 				C5D5295B1B29CFAE003542CD /* iVersion.m in Sources */,
 				C5BA12331C7195B5004BFF52 /* AppearanceHelper.m in Sources */,
-				C5B1FB5E19EEA57000088FB8 /* DecksTableViewController.m in Sources */,
+				C5B1FB5E19EEA57000088FB8 /* DecksViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

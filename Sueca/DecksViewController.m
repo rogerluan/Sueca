@@ -1,12 +1,12 @@
 //
-//  DecksTableViewController.m
+//  DecksViewController.m
 //  Sueca
 //
 //  Created by Roger Oba on 10/15/14.
 //  Copyright (c) 2014 Roger Oba. All rights reserved.
 //
 
-#import "DecksTableViewController.h"
+#import "DecksViewController.h"
 #import "GameManager.h"
 #import "AnalyticsManager.h"
 #import "Deck.h"
@@ -16,7 +16,7 @@
 #import "CloudKitManager.h"
 #import "PromotionView.h"
 
-@interface DecksTableViewController () <NSFetchedResultsControllerDelegate>
+@interface DecksViewController () <NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
@@ -34,7 +34,7 @@
 
 @end
 
-@implementation DecksTableViewController
+@implementation DecksViewController
 
 @synthesize fetchedResultsController = _fetchedResultsController;
 
