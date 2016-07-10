@@ -107,7 +107,7 @@
 		defaultDeck.isEditable = [NSNumber numberWithBool:NO];
 		defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
 		
-		for (int i = 0 ; i < NUMBER_OF_CARDS ; i++) {
+		for (int i = 0 ; i < DEFAULT_NUMBER_OF_CARDS ; i++) {
 			Card *defaultDeckCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 			defaultDeckCard.cardName = [cardImages objectAtIndex:i];
 			defaultDeckCard.cardRule = [cardRules objectAtIndex:i];
