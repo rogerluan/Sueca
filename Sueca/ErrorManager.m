@@ -19,55 +19,14 @@
 }
 
 + (UIAlertController *)alertFromError:(NSError *)error {
-    NSMutableDictionary *attributes = [NSMutableDictionary new];
-    if (error.localizedDescription) {
-        [attributes addEntriesFromDictionary:@{@"error.description":error.localizedDescription}];
-    }
-    if (error.domain) {
-        [attributes addEntriesFromDictionary:@{@"error.domain":error.domain}];
-    }
-    if (error.code) {
-        [attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:error.code]}];
-    }
-	[AnalyticsManager logEvent:AnalyticsEventErrorAlert withAttributes:[attributes copy]];
-    
+	[self sendAnalyticsForError:error];
     NSLog(@"An error occured. Error description: %@ Possible failure reason: %@ Possible recovery suggestion: %@", error.localizedDescription, error.localizedFailureReason, error.localizedRecoverySuggestion);
     
-    NSString *alertTitle;
-    NSString *alertMessage;
+	NSString *alertTitle = error.localizedDescription;
+	NSString *alertMessage = [NSString stringWithFormat:@"%@ %@", error.localizedFailureReason, error.localizedRecoverySuggestion];
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK") style:UIAlertActionStyleDefault handler:nil];
-
-    if ([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]]) {
-        switch (error.code) {
-            case PPErrorNetworkUnavailable: {
-                [alert setTitle:NSLocalizedString(@"Network Unavailable", nil)];
-                [alert setMessage:NSLocalizedString(@"This application requires internet connection in order to function properly. Please ensure that you have an active internet connection, and refresh the page.", nil)];
-                break;
-            }
-        }
-    } else {
-//        [alert setTitle:NSLocalizedString(@"Network Issues", nil)];
-//        [alert setMessage:NSLocalizedString(@"A connection problem occured. Please try again later.", nil)];
-//        UIAlertAction *reportAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", @"Contact Us Alert Button") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            if ([PPMailComposeViewController canSendMail]) {
-//                PPMailComposeViewController *mailComposeViewController = [[PPMailComposeViewController alloc] initWithError:error];
-//                [Answers logCustomEventWithName:@"Present Mail Compose View Controller" customAttributes:@{}];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:kMailComposeNotification object:self userInfo:@{@"viewController":mailComposeViewController}];
-//            } else {
-//                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Mail Unavailable", nil) message:NSLocalizedString(@"Your device isn't configured to send emails. Please contact us at contato@pagpouco.com",nil) preferredStyle:UIAlertControllerStyleAlert];
-//                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK") style:UIAlertActionStyleCancel handler:nil];
-//                [alert addAction:cancelAction];
-//                [Answers logCustomEventWithName:@"Cannot Present Mail Compose View Controller" customAttributes:@{}];
-//                [[NSNotificationCenter defaultCenter] postNotificationName:kMailComposeNotification object:self userInfo:@{@"viewController":alert}];
-//            }
-//        }];
-//        [alert addAction:reportAction];
-//        NSString *possibleFailureReason = error.localizedFailureReason ? [NSString stringWithFormat:@"Possible reason: %@", error.localizedFailureReason] : @" ";
-//        NSString *possibleRecoverySuggestion = error.localizedRecoverySuggestion ? [NSString stringWithFormat:@"\nPossible recovery suggestion: %@",error.localizedRecoverySuggestion] : @" ";
-//        alertTitle = error.localizedDescription;
-//        alertMessage = [NSString stringWithFormat:@"%@ %@", possibleFailureReason, possibleRecoverySuggestion];
-    }
+	
     [alert addAction:cancelAction];
     return alert;
 }
@@ -80,17 +39,50 @@
 
 + (NSDictionary*)userInfoForErrorIdentifier:(NSInteger)error {
     switch (error) {
-        case PPErrorNetworkUnavailable:
-            return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Network Unavailable", nil),
-                     NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The device isn't connected to the internet.", nil),
-                     NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Provide internet connection to the device, either using cellular data or Wifi.", nil),
-                     NSLocalizedRecoveryOptionsErrorKey: @[NSLocalizedString(@"OK", nil)]
+        case SuecaErrorNoValidPromotionsFound:
+            return @{NSLocalizedDescriptionKey: NSLocalizedString(@"No Promotions Found", nil),
+                     NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Currently, there isn't a valid promotion.", nil),
+                     NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Come back later and check for our promotions.", nil)
                      };
+		case SuecaErrorFailedToEmail:
+			return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Failed To Send Email", nil),
+					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Something unexpected hapenned and we weren't able to process the email.", nil),
+					 NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please try again later.", nil)
+					 };
+		case SuecaErrorInvalidURL:
+			return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid URL", nil),
+					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"We're very sorry for this error.", nil),
+					 NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"We'll work harder to get this fixed asap.", nil)
+					 };
+		case CKAccountStatusNoAccount:
+			return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Login Required", nil),
+					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"In order to register to promotions, you need to be logged with an iCloud account.", nil),
+					 NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please go to your device's settings and login to iCloud.", nil)
+					 };
+		case CKAccountStatusRestricted:
+			return @{NSLocalizedDescriptionKey: NSLocalizedString(@"iCloud Account Restricted", nil),
+					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"It seems that your iCloud account has parental control or device management restrictions.", nil),
+					 NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Unfortunately, you won't be able to register to promotions using this iCloud account.", nil)
+					 };
         default:
-            return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid error", nil),
+            return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid Error", nil),
                      NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The action generated an unexpected error.", nil)
                      };
     }
+}
+
++ (void)sendAnalyticsForError:(NSError *)error {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (error.localizedDescription) {
+		[attributes addEntriesFromDictionary:@{@"error.description":error.localizedDescription}];
+	}
+	if (error.domain) {
+		[attributes addEntriesFromDictionary:@{@"error.domain":error.domain}];
+	}
+	if (error.code) {
+		[attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:error.code]}];
+	}
+	[AnalyticsManager logEvent:AnalyticsEventErrorAlert withAttributes:[attributes copy]];
 }
 
 

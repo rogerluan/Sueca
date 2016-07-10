@@ -8,9 +8,21 @@
 
 #import "CloudKitManager.h"
 #import "NotificationManager.h"
-#import "Promotion.h"
+#import "ErrorManager.h"
 
 @implementation CloudKitManager
+
+#pragma mark - Class Methods - 
+
++ (void)isUserLoggedIn:(AccountAvailability)completion {
+	[[CKContainer defaultContainer] accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError * _Nullable error) {
+		if (accountStatus == CKAccountStatusAvailable) {
+			completion(YES);
+		} else {
+			completion(NO);
+		}
+	}];
+}
 
 #pragma mark - Instance Methods - 
 
@@ -39,7 +51,11 @@
 			completion(error, [promotions firstObject]);
 		} else {
 			NSLog(@"Returned no Promotions");
-#warning create error here. Maybe if there isn't promotions, link the button to facebook fanpage.
+			if (error) {
+				completion(error, nil);
+			} else {
+				completion([ErrorManager errorForErrorIdentifier:SuecaErrorNoValidPromotionsFound], nil);
+			}
 		}
 	}];
 }

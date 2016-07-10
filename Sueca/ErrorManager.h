@@ -9,8 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, PPErrorIdentifier) {
-    PPErrorNetworkUnavailable = -1,
+typedef NS_ENUM(NSInteger, SuecaErrorIdentifier) {
+    SuecaErrorNoValidPromotionsFound = 1001,
+	SuecaErrorFailedToEmail = 1002,
+	SuecaErrorInvalidURL = 1003
 };
 
 @interface ErrorManager : NSObject

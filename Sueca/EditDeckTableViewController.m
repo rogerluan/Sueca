@@ -61,21 +61,8 @@
 	}
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[super viewDidAppear:animated];
-#warning test this
-	NSDictionary *attributes;
-	if (![self.thisDeck.deckName isEqualToString:@""]) {
-		attributes = @{@"Deck Name":self.thisDeck.deckName};
-	} else if (![self.deckLabel isEqualToString:@""]){
-		attributes = @{@"Deck Name":self.deckLabel};
-	}
-	[AnalyticsManager logContentViewEvent:AnalyticsEventViewEditDeckVC contentType:@"UIViewController" customAttributes:attributes];
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     NSError *error = nil;
     if(![self.moc save: &error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -89,7 +76,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.thisDeck) {
-        return NUMBER_OF_CARDS;
+        return DEFAULT_NUMBER_OF_CARDS;
     } else {
         return [_fetchedResultsController.fetchedObjects count];
     }
@@ -107,35 +94,36 @@
 }
 
 - (void)configureCell:(CardRulesCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    Card *reusableCard = nil;
-    //Validate fetchedResultsController
-    if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:[indexPath section]];
-        if ([sectionInfo numberOfObjects] >= [indexPath row]){
-            reusableCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        }
-    }
-    if (reusableCard) {
+	Card *reusableCard = nil;
+	//Validate fetchedResultsController
+	if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
+		id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:[indexPath section]];
+		if ([sectionInfo numberOfObjects] >= [indexPath row]){
+			reusableCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		}
+	}
+	
+	if (reusableCard) {
 		NSString *tableOptimizedImagePath = [reusableCard.cardName stringByAppendingString:@"-TableOptimized"];
 		cell.cardImageView.image = [UIImage imageNamed:tableOptimizedImagePath];
-        cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule, nil);
-        
-        if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription == nil) {
-            cell.cardDescriptionTextView.textColor = [UIColor lightGrayColor];
-            cell.cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
-        } else {
-            cell.cardDescriptionTextView.textColor = [UIColor whiteColor];
-            cell.cardDescriptionTextView.text = NSLocalizedString(reusableCard.cardDescription, nil);
-        }
-        cell.delegate = self;
-        cell.cardRuleTextField.tag = indexPath.row;
-        cell.cardDescriptionTextView.tag = indexPath.row;
-    }
-    
-    if ([self.thisDeck.isEditable isEqualToNumber:@0]) {
-        cell.cardRuleTextField.userInteractionEnabled = NO;
-        [cell.cardDescriptionTextView setEditable:NO];
-    }
+		cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule, nil);
+		
+		if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription == nil) {
+			cell.cardDescriptionTextView.textColor = [UIColor lightGrayColor];
+			cell.cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
+		} else {
+			cell.cardDescriptionTextView.textColor = [UIColor whiteColor];
+			cell.cardDescriptionTextView.text = NSLocalizedString(reusableCard.cardDescription, nil);
+		}
+		cell.delegate = self;
+		cell.cardRuleTextField.tag = indexPath.row;
+		cell.cardDescriptionTextView.tag = indexPath.row;
+	}
+	
+	if ([self.thisDeck.isEditable isEqualToNumber:@0]) {
+		cell.cardRuleTextField.userInteractionEnabled = NO;
+		[cell.cardDescriptionTextView setEditable:NO];
+	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -151,7 +139,6 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self.moc deleteObject:cardToBeDeleted];
-		
 		
 		NSMutableDictionary *attributes;
 		if (cardToBeDeleted.cardName) {

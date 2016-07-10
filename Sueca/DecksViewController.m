@@ -15,6 +15,7 @@
 #import "AppearanceHelper.h"
 #import "CloudKitManager.h"
 #import "PromotionView.h"
+#import "ErrorManager.h"
 
 @interface DecksViewController () <NSFetchedResultsControllerDelegate>
 
@@ -103,30 +104,30 @@
  *  @param indexPath the indexPath of the given cell
  */
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    Deck *reusableDeck  = nil;
-    if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:[indexPath section]];
-        if ([sectionInfo numberOfObjects] >= [indexPath row]){
-            reusableDeck = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        }
-    }
-    if (reusableDeck) {
-        if (reusableDeck.isDefault) {
-            cell.textLabel.text = NSLocalizedString(reusableDeck.deckName, nil);
-        } else {
-            cell.textLabel.text = reusableDeck.deckName;
-        }
-        cell.textLabel.textColor = [UIColor whiteColor];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.accessoryType = UITableViewCellAccessoryDetailButton;
-        
-        if ([reusableDeck.isBeingUsed isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-            self.indexPathForSelectedDeck = indexPath;
-            cell.imageView.image = [UIImage imageNamed:@"check"];
-        } else {
-            cell.imageView.image = [UIImage imageNamed:@"empty"];
-        }
-    }
+	Deck *reusableDeck  = nil;
+	if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
+		id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:[indexPath section]];
+		if ([sectionInfo numberOfObjects] >= [indexPath row]){
+			reusableDeck = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		}
+	}
+	if (reusableDeck) {
+		if (reusableDeck.isDefault) {
+			cell.textLabel.text = NSLocalizedString(reusableDeck.deckName, nil);
+		} else {
+			cell.textLabel.text = reusableDeck.deckName;
+		}
+		cell.textLabel.textColor = [UIColor whiteColor];
+		cell.backgroundColor = [UIColor clearColor];
+		cell.accessoryType = UITableViewCellAccessoryDetailButton;
+		
+		if ([reusableDeck.isBeingUsed isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+			self.indexPathForSelectedDeck = indexPath;
+			cell.imageView.image = [UIImage imageNamed:@"check"];
+		} else {
+			cell.imageView.image = [UIImage imageNamed:@"empty"];
+		}
+	}
 	if (self.tableView.editing) {
 		if (indexPath.row > 0) {
 			for (UIView *subview in cell.subviews) {
@@ -175,7 +176,13 @@
 #pragma mark - UITableView Delegate Methods -
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    [self.navigationController pushViewController:[EditDeckTableViewController viewControllerWithDeck:[self.fetchedResultsController objectAtIndexPath:indexPath]] animated:YES];
+	Deck *selectedDeck = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    [self.navigationController pushViewController:[EditDeckTableViewController viewControllerWithDeck:selectedDeck] animated:YES];
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (selectedDeck.deckName) {
+		[attributes addEntriesFromDictionary:@{@"Deck Name":selectedDeck.deckName}];
+	}
+	[AnalyticsManager logContentViewEvent:AnalyticsEventViewEditDeckVC contentType:@"UIViewController" customAttributes:[attributes copy]];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -360,8 +367,13 @@
 				[self.view addSubview:self.promotionView];
 			});
 		} else {
-			NSLog(@"promotion with error: %@", error);
-#warning treat error accordingly
+			NSLog(@"Fetch latest promotion returned error: %@", error);
+			if ([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) {
+				//to-do: show button to link to our facebook page anyway.
+			} else {
+				//to-do: analytics
+				NSLog(@"Silent error when trying to fetch latest promotions: %@", error);
+			}
 		}
 	}];
 }

@@ -7,6 +7,8 @@
 //
 
 #import "NotificationManager.h"
+#import "ErrorManager.h"
+#import "CloudKitManager.h"
 
 @implementation NotificationManager
 
@@ -19,42 +21,80 @@
 	}
 }
 
+- (void)testPromoRegister:(DidRegisterForPromotions)completion {
+//	[[[CKContainer defaultContainer] publicCloudDatabase] fetchAllSubscriptionsWithCompletionHandler:^(NSArray<CKSubscription *> * _Nullable subscriptions, NSError * _Nullable error) {
+//		if (!error) {
+//			
+//		} else {
+//			
+//		}
+//	}];
+}
+
 - (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion {
-	[self registerForRemoteNotifications];
-	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"requestedNotificationPermission"];
 	
-	
-	NSPredicate *truePredicate = [NSPredicate predicateWithValue:YES];
-	CKSubscription *promotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation | CKSubscriptionOptionsFiresOnRecordUpdate];
-	CKSubscription *contentPromotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation | CKSubscriptionOptionsFiresOnRecordUpdate];
-	
-	CKNotificationInfo *notificationInfo = [CKNotificationInfo new];
-	notificationInfo.shouldSendContentAvailable = YES;
-	contentPromotion.notificationInfo = notificationInfo;
-	
-	notificationInfo.shouldSendContentAvailable = NO;
-	notificationInfo.alertLocalizationKey = @"There's a new promotion going on! Open Sueca to check the prizes!";
-	notificationInfo.shouldBadge = YES;
-	notificationInfo.soundName = UILocalNotificationDefaultSoundName;
-	promotion.notificationInfo = notificationInfo;
-	
-	CKModifySubscriptionsOperation *operation = [[CKModifySubscriptionsOperation alloc] initWithSubscriptionsToSave:@[promotion, contentPromotion] subscriptionIDsToDelete:nil];
-	
-	operation.modifySubscriptionsCompletionBlock = ^(NSArray <CKSubscription *> * __nullable savedSubscriptions, NSArray <NSString *> * __nullable deletedSubscriptionIDs, NSError * __nullable operationError) {
-		completion(operationError);
-	};
-	[[[CKContainer defaultContainer] publicCloudDatabase] addOperation:operation];
+	[[CKContainer defaultContainer] accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError * _Nullable error) {
+		
+		switch (accountStatus) {
+			case CKAccountStatusAvailable: {
+				[self registerForRemoteNotifications];
+				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"requestedNotificationPermission"];
+				
+				NSPredicate *truePredicate = [NSPredicate predicateWithValue:YES];
+				CKSubscription *promotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation | CKSubscriptionOptionsFiresOnRecordUpdate];
+				CKSubscription *contentPromotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation | CKSubscriptionOptionsFiresOnRecordUpdate];
+				
+				CKNotificationInfo *notificationInfo = [CKNotificationInfo new];
+				notificationInfo.shouldSendContentAvailable = YES;
+				contentPromotion.notificationInfo = notificationInfo;
+				
+				notificationInfo.shouldSendContentAvailable = NO;
+				notificationInfo.alertLocalizationKey = @"There's a new promotion going on! Open Sueca to check the prizes!";
+				notificationInfo.shouldBadge = YES;
+				notificationInfo.soundName = UILocalNotificationDefaultSoundName;
+				promotion.notificationInfo = notificationInfo;
+				
+				CKModifySubscriptionsOperation *operation = [[CKModifySubscriptionsOperation alloc] initWithSubscriptionsToSave:@[promotion, contentPromotion] subscriptionIDsToDelete:nil];
+				
+				operation.modifySubscriptionsCompletionBlock = ^(NSArray <CKSubscription *> * __nullable savedSubscriptions, NSArray <NSString *> * __nullable deletedSubscriptionIDs, NSError * __nullable operationError) {
+					completion(operationError);
+				};
+				[[[CKContainer defaultContainer] publicCloudDatabase] addOperation:operation];
+				break;
+			}
+			case CKAccountStatusNoAccount: {
+				completion([ErrorManager errorForErrorIdentifier:CKAccountStatusNoAccount]);
+				break;
+			}
+			case CKAccountStatusRestricted: {
+				completion([ErrorManager errorForErrorIdentifier:CKAccountStatusRestricted]);
+				break;
+			}
+			case CKAccountStatusCouldNotDetermine: {
+				completion(error);
+				break;
+			}
+		}
+	}];
 }
 
 + (void)clearBadges {
-	[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-	CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
-	clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
-		if (operationError) {
-			NSLog(@"Clear badge operation failed with operation error: %@", operationError);
-		}
-	};
-	[[CKContainer defaultContainer] addOperation:clearOperation];
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+		[CloudKitManager isUserLoggedIn:^(BOOL isUserLoggedIn) {
+			
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+				CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
+				clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
+					if (operationError) {
+						//to-do: analytics
+						NSLog(@"Clear badge operation failed with operation error: %@", operationError);
+					}
+				};
+				[[CKContainer defaultContainer] addOperation:clearOperation];
+			});
+		}];
+	});
 }
 
 + (void)handleRemoteNotificationWithUserInfo:(NSDictionary *)userInfo withCompletionHandler:(RemoteNotificationCompletionHandler)completion {

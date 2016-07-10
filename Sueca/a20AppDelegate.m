@@ -12,6 +12,7 @@
 #import "AppearanceHelper.h"
 #import "Constants.h"
 #import "NotificationManager.h"
+#import "CloudKitManager.h"
 
 #import <TSMessages/TSMessageView.h>
 #import <Fabric/Fabric.h>
@@ -163,7 +164,8 @@
 		[NotificationManager handleRemoteNotificationWithUserInfo:userInfo withCompletionHandler:^(NSError *error) {
 			[application endBackgroundTask:taskIdentifier];
 			if (error) {
-#warning treat error here (send the error somewhere to be treated)
+				NSLog(@"Handle remote notification with user info error: %@", error);
+				//to-do: analytics
 				completionHandler(UIBackgroundFetchResultFailed);
 			} else {
 				completionHandler(UIBackgroundFetchResultNewData);

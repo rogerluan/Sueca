@@ -19,6 +19,7 @@
 #import "Constants.h"
 #import "NotificationManager.h"
 #import "ShareViewController.h"
+#import "ErrorManager.h"
 
 @interface GameViewController () <UIGestureRecognizerDelegate, CustomIOS7AlertViewDelegate>
 
@@ -89,12 +90,15 @@
     if (self.swipeableView.topView) {
 		if ([self.displayCard.cardName isEqualToString:@"promoCard"]) {
 			if (![[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) {
+				__weak typeof(self) weakSelf = self;
 				[self.notificationManager registerForPromotionsWithCompletion:^(NSError *error) {
 					if (!error) {
 						NSLog(@"Successfully registered for promotions (in CloudKit).");
 					} else {
-#warning treat all the possible CloudKit errors here
 						NSLog(@"Error when trying to register for promotions. Error: %@", error);
+						dispatch_async(dispatch_get_main_queue(), ^(void) {
+							[weakSelf presentViewController:[ErrorManager alertFromError:error] animated:YES completion:nil];
+						});
 					}
 				}];
 			} else {

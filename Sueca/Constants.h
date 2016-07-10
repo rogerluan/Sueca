@@ -31,6 +31,7 @@ static NSString * const SuecaNotificationOpenURL = @"openURLnotification";
 
 //static NSString * const StatusBarDidChangeRect = @"StatusBarDidChangeRect";
 
+typedef void(^AccountAvailability)(BOOL isUserLoggedIn);
 typedef void(^DidRegisterForPromotions)(NSError *error);
 typedef void(^RemoteNotificationCompletionHandler)(NSError *error);
 typedef void(^PromotionsCompletionHandler)(NSError *error, NSArray <Promotion *> *promotions);
