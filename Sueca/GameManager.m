@@ -10,6 +10,7 @@
 #import "Deck.h"
 #import "Constants.h"
 #import "iRate.h"
+#import "AnalyticsManager.h"
 
 @interface GameManager ()
 
@@ -119,6 +120,31 @@
     }
 }
 
+- (BOOL)switchToDeck:(Deck *)selectedDeck {
+	
+	Deck *deselectedDeck = self.deck;
+	
+	selectedDeck.isBeingUsed = [NSNumber numberWithBool:YES];
+	deselectedDeck.isBeingUsed = [NSNumber numberWithBool:NO];
+	
+	NSError *coreDataError = nil;
+	if (![self.moc save:&coreDataError]) { //error
+		NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
+		return NO;
+	} else { //everything went fine
+		[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateDeck object:self userInfo:nil];
+		NSMutableDictionary *attributes;
+		if (deselectedDeck.deckName) {
+			[attributes addEntriesFromDictionary:@{@"From Deck":deselectedDeck.deckName}];
+		}
+		if (selectedDeck.deckName) {
+			[attributes addEntriesFromDictionary:@{@"To Deck":selectedDeck.deckName}];
+		}
+		[AnalyticsManager logEvent:AnalyticsEventDidSelectDeck withAttributes:[attributes copy]];
+		return YES;
+	}
+}
+
 #pragma mark - Private Methods -
 
 - (BOOL)isCardAvailable {
@@ -182,29 +208,40 @@
         }
     } else { /* Else if it's a custom deck, create cards accordingly with the suit */
         for (Card *card in self.deck.cards) {
-            Card *c_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-            c_tempCard.cardRule = card.cardRule;
-            c_tempCard.cardDescription = card.cardDescription;
-            c_tempCard.cardName = [NSString stringWithFormat:@"%@C",[card.cardName substringToIndex:3]];
-            [fullDeck addObject:c_tempCard];
-            
-            Card *d_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-            d_tempCard.cardRule = card.cardRule;
-            d_tempCard.cardDescription = card.cardDescription;
-            d_tempCard.cardName = [NSString stringWithFormat:@"%@D",[card.cardName substringToIndex:3]];
-            [fullDeck addObject:d_tempCard];
-            
-            Card *h_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-            h_tempCard.cardRule = card.cardRule;
-            h_tempCard.cardDescription = card.cardDescription;
-            h_tempCard.cardName = [NSString stringWithFormat:@"%@H",[card.cardName substringToIndex:3]];
-            [fullDeck addObject:h_tempCard];
-            
-            Card *s_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
-            s_tempCard.cardRule = card.cardRule;
-            s_tempCard.cardDescription = card.cardDescription;
-            s_tempCard.cardName = [NSString stringWithFormat:@"%@S",[card.cardName substringToIndex:3]];
-            [fullDeck addObject:s_tempCard];
+			if ([card.cardName isEqualToString:@"14-C"]) {
+				NSInteger i = 0;
+				for (; i < 4; i++) {
+					Card *jokerTempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+					jokerTempCard.cardRule = card.cardRule;
+					jokerTempCard.cardDescription = card.cardDescription;
+					jokerTempCard.cardName = card.cardName;
+					[fullDeck addObject:jokerTempCard];
+				}
+			} else {
+				Card *c_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				c_tempCard.cardRule = card.cardRule;
+				c_tempCard.cardDescription = card.cardDescription;
+				c_tempCard.cardName = [NSString stringWithFormat:@"%@C", [card.cardName substringToIndex:3]];
+				[fullDeck addObject:c_tempCard];
+				
+				Card *d_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				d_tempCard.cardRule = card.cardRule;
+				d_tempCard.cardDescription = card.cardDescription;
+				d_tempCard.cardName = [NSString stringWithFormat:@"%@D", [card.cardName substringToIndex:3]];
+				[fullDeck addObject:d_tempCard];
+				
+				Card *h_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				h_tempCard.cardRule = card.cardRule;
+				h_tempCard.cardDescription = card.cardDescription;
+				h_tempCard.cardName = [NSString stringWithFormat:@"%@H", [card.cardName substringToIndex:3]];
+				[fullDeck addObject:h_tempCard];
+				
+				Card *s_tempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
+				s_tempCard.cardRule = card.cardRule;
+				s_tempCard.cardDescription = card.cardDescription;
+				s_tempCard.cardName = [NSString stringWithFormat:@"%@S", [card.cardName substringToIndex:3]];
+				[fullDeck addObject:s_tempCard];
+			}
         }
     }
     return fullDeck;

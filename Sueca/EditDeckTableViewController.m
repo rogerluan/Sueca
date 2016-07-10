@@ -9,6 +9,7 @@
 #import "EditDeckTableViewController.h"
 #import "Constants.h"
 #import "AnalyticsManager.h"
+#import "GameManager.h"
 
 @interface EditDeckTableViewController () <NSFetchedResultsControllerDelegate,CardRuleCellDelegate>
 
@@ -48,6 +49,7 @@
 	} else { //it's a new deck
 		self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
 		self.thisDeck = [Deck newDeckWithLabel:self.deckLabel];
+		[[GameManager sharedInstance] switchToDeck:self.thisDeck];
 		NSError *error;
 		if (![[self fetchedResultsController] performFetch:&error]) {
 			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);

@@ -185,26 +185,10 @@
         self.indexPathForSelectedDeck = indexPath;
         
         if (![oldSelectedCellIndex isEqual:self.indexPathForSelectedDeck]) {
-            Deck *selectedDeck = [self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedDeck];
-            selectedDeck.isBeingUsed = [NSNumber numberWithBool:YES];
-            Deck *deselectedDeck = [self.fetchedResultsController objectAtIndexPath:oldSelectedCellIndex];
-            deselectedDeck.isBeingUsed = [NSNumber numberWithBool:NO];
-            
-            NSError *coreDataError = nil;
-            if (![self.moc save:&coreDataError]) { //error
-                NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
-			} else { //everything went fine
-				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
-				[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateDeck object:self userInfo:nil];
-				
-				NSMutableDictionary *attributes;
-				if (deselectedDeck.deckName) {
-					[attributes addEntriesFromDictionary:@{@"From Deck":deselectedDeck.deckName}];
-				}
-				if (selectedDeck.deckName) {
-					[attributes addEntriesFromDictionary:@{@"To Deck":selectedDeck.deckName}];
-				}
-				[AnalyticsManager logEvent:AnalyticsEventDidSelectDeck withAttributes:[attributes copy]];
+			if ([self.gameManager switchToDeck:[self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedDeck]]) {
+				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section], [NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
+			} else {
+				//to-do: treat core data error here. This was never been treated before and have never failed.
 			}
         }
     } else {
