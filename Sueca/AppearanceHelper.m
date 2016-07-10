@@ -9,6 +9,15 @@
 #import "AppearanceHelper.h"
 #import "TSBlurView.h"
 
+#define kWiggleBounceY 1.0f
+#define kWiggleBounceX 1.5f
+#define kWiggleBounceDuration 0.3
+#define kWiggleBounceDurationVariance 0.025
+
+#define kWiggleRotateAngle 0.01f
+#define kWiggleRotateDuration 0.3
+#define kWiggleRotateDurationVariance 0.025
+
 @implementation AppearanceHelper
 
 + (void)setup {
@@ -71,6 +80,69 @@
 	return animation;
 }
 
++ (CAAnimation *)wiggleAnimation {
+	CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+	
+	CGFloat wobbleAngle = 0.06f;
+	NSValue *valLeft = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(wobbleAngle, 0.0f, 0.0f, 1.0f)];
+	NSValue *valRight = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(-wobbleAngle, 0.0f, 0.0f, 1.0f)];
+
+	animation.values = @[valLeft, valRight];
+	animation.duration = 0.1;
+	animation.autoreverses = YES;
+	animation.repeatCount = HUGE_VALF;
+	return animation;
+}
+
++ (CAAnimation *)rotationAnimation {
+	CAKeyframeAnimation* animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+	animation.values = @[@(-kWiggleRotateAngle), @(kWiggleRotateAngle)];
+	
+	animation.autoreverses = YES;
+	animation.duration = [self randomizeInterval:kWiggleRotateDuration
+									withVariance:kWiggleRotateDurationVariance];
+	animation.repeatCount = HUGE_VALF;
+	
+	return animation;
+}
+
++ (CAAnimation *)bounceVerticallyAnimation {
+	CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.y"];
+	animation.values = @[@(kWiggleBounceY), @(0.0)];
+	
+	animation.autoreverses = YES;
+	animation.duration = [self randomizeInterval:kWiggleBounceDuration
+									withVariance:kWiggleBounceDurationVariance];
+	animation.repeatCount = HUGE_VALF;
+	
+	return animation;
+}
+
++ (CAAnimation *)bounceHorizontallyAnimation {
+	CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
+	animation.values = @[@(kWiggleBounceX), @(0.0)];
+	
+	animation.autoreverses = YES;
+	animation.duration = [self randomizeInterval:kWiggleBounceDuration
+									withVariance:kWiggleBounceDurationVariance];
+	animation.repeatCount = HUGE_VALF;
+	
+	return animation;
+}
+
++ (NSTimeInterval)randomizeInterval:(NSTimeInterval)interval withVariance:(double)variance {
+	double random = (arc4random_uniform(1000) - 500.0) / 500.0;
+	return interval + variance * random;
+}
+
++ (CATransition *)pushFromBottom {
+	CATransition *transition = [CATransition animation];
+	transition.duration = 0.5;
+	transition.type = kCATransitionPush;
+	transition.subtype = kCATransitionFromTop;
+	return transition;
+}
+
 #pragma mark - TSMessage
 
 + (void)customizeMessageView:(TSMessageView *)messageView {
@@ -95,6 +167,5 @@
 		}
 	}
 }
-
 
 @end

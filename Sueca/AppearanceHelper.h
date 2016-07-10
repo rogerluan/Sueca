@@ -14,6 +14,14 @@
 + (void)setup;
 + (void)addShadowToLayer:(CALayer*)layer opacity:(CGFloat)opacity radius:(CGFloat)radius;
 + (CAAnimation *)shakeAnimation;
++ (CAAnimation *)wiggleAnimation;
+
++ (CAAnimation *)bounceHorizontallyAnimation;
++ (CAAnimation *)bounceVerticallyAnimation;
+
++ (CAAnimation *)rotationAnimation;
+
++ (CATransition *)pushFromBottom;
 
 + (void)defaultBarTintColor;
 + (void)customBarTintColor;
