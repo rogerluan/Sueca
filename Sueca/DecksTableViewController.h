@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "EditDeckTableViewController.h"
 
-@interface DecksTableViewController : UITableViewController
+@interface DecksTableViewController : UIViewController
 
 @end
