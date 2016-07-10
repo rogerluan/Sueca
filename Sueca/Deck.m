@@ -42,16 +42,17 @@
 						  @"Card Rule 10",
 						  @"Card Rule 11",
 						  @"Card Rule 12",
-						  @"Card Rule 13", nil];
+						  @"Card Rule 13",
+						  @"Card Rule 14", nil];
 	
-	NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-C",@"02-C",@"03-C",@"04-C",@"05-C",@"06-C",@"07-C",@"08-C",@"09-C",@"10-C",@"11-C",@"12-C",@"13-C", nil];
+	NSArray *cardImages = [[NSArray alloc] initWithObjects:@"01-C", @"02-C", @"03-C", @"04-C", @"05-C", @"06-C", @"07-C", @"08-C", @"09-C", @"10-C", @"11-C", @"12-C", @"13-C", @"14-C", nil];
 	
 	NSManagedObjectContext *moc = [self managedObjectContext];
 	Deck *deck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
 	deck.deckName = deckLabel;
 	deck.isEditable = [NSNumber numberWithBool:YES];
 	
-	for (int i = 0 ; i < NUMBER_OF_CARDS ; i++) {
+	for (int i = 0 ; i < DEFAULT_NUMBER_OF_CARDS ; i++) {
 		Card *newCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 		newCard.cardName = [cardImages objectAtIndex:i];
 		newCard.cardRule = [cardRules objectAtIndex:i];

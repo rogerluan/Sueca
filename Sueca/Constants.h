@@ -9,7 +9,7 @@
 #ifndef Constants_h
 #define Constants_h
 
-#define NUMBER_OF_CARDS 13
+#define DEFAULT_NUMBER_OF_CARDS 14
 
 #import "Promotion.h"
 
