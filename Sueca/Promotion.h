@@ -16,6 +16,8 @@
 @property (strong, nonatomic) NSString *identifier;
 @property (strong, nonatomic) NSString *prize;
 @property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *buttonTitle;
+@property (strong, nonatomic) NSURL *buttonURL;
 @property (strong, nonatomic) NSString *shortDescription;
 @property (strong, nonatomic) NSString *fullDescription;
 @property (strong, nonatomic) UILocalNotification *notification;

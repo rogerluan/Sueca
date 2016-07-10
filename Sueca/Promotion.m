@@ -17,7 +17,9 @@
 	promotion.endDate = record[@"endDate"];
 	promotion.identifier = record[@"identifier"];
 	promotion.prize = record[@"prize"];
-	promotion.prize = record[@"title"];
+	promotion.title = record[@"title"];
+	promotion.buttonTitle = record[@"buttonTitle"];
+	promotion.buttonURL = [NSURL URLWithString:record[@"buttonURL"]];
 	promotion.shortDescription = record[@"shortDescription"];
 	promotion.fullDescription = record[@"fullDescription"];
 	
