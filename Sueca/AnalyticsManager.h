@@ -55,6 +55,7 @@ static NSString * const AnalyticsEventDeckEditView = @"DeckEditView";
 static NSString * const AnalyticsEventCardDescriptionView = @"CardDescriptionView";
 
 static NSString * const AnalyticsEventShareActivityView = @"ShareActivityView";
+static NSString * const AnalyticsEventErrorAlert = @"ErrorAlert";
 
 #pragma mark - Share
 static NSString * const AnalyticsEventDidShareCard = @"DidShareCard";

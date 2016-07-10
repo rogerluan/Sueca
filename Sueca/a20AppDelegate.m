@@ -61,6 +61,10 @@
     }
 }
 
+//- (void)application:(UIApplication *)application willChangeStatusBarFrame:(CGRect)newStatusBarFrame {
+//	[[NSNotificationCenter defaultCenter] postNotificationName:StatusBarDidChangeRect object:self userInfo:@{@"current status bar frame": [NSValue valueWithCGRect:newStatusBarFrame]}];
+//}
+
 #pragma mark - Core Data stack
 
 // Returns the managed object context for the application.

@@ -26,6 +26,10 @@ static NSString * const SuecaNotificationDeckShuffled = @"deckShuffled";
 static NSString * const SuecaNotificationNewVersionAvailable = @"newVersionAvailable";
 static NSString * const SuecaNotificationActiveRemoteNotification = @"ActiveRemoteNotification";
 static NSString * const SuecaNotificationActiveLocalNotification = @"ActiveLocalNotification";
+static NSString * const SuecaNotificationUpdateLatestPromotion = @"UpdateLatestPromotion";
+static NSString * const SuecaNotificationOpenURL = @"openURLnotification";
+
+//static NSString * const StatusBarDidChangeRect = @"StatusBarDidChangeRect";
 
 typedef void(^DidRegisterForPromotions)(NSError *error);
 typedef void(^RemoteNotificationCompletionHandler)(NSError *error);
