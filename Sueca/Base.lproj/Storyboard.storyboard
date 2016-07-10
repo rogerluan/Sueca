@@ -15,45 +15,6 @@
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--Decks-->
-        <scene sceneID="vAi-am-QM7">
-            <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="Ymb-wB-Rge" customClass="DecksTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xEj-NU-2st">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="deckCell" id="Z21-WE-FIo">
-                                <rect key="frame" x="0.0" y="86" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z21-WE-FIo" id="Scq-uN-jtP">
-                                    <rect key="frame" x="0.0" y="0.0" width="553" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.29803921570000003" green="0.85098039219999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Ymb-wB-Rge" id="vNi-nJ-y5z"/>
-                            <outlet property="delegate" destination="Ymb-wB-Rge" id="JsY-wc-UR0"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Decks" id="FnG-FK-QSo">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Do-Hz-Oht">
-                            <connections>
-                                <action selector="newDeck:" destination="Ymb-wB-Rge" id="FbR-vz-aqr"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <segue destination="Ayl-X3-1dY" kind="show" identifier="newDeck" id="Xo1-g4-6lH"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Zgb-gi-8D3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1944.375" y="1190.4929577464789"/>
-        </scene>
         <!--Edit Deck Table View Controller-->
         <scene sceneID="9sa-w3-SHC">
             <objects>
@@ -130,7 +91,79 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HYi-vt-02E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2724.375" y="1190.4929577464789"/>
+            <point key="canvasLocation" x="2623" y="1190"/>
+        </scene>
+        <!--Decks-->
+        <scene sceneID="CRi-Uz-CZi">
+            <objects>
+                <viewController id="bCl-s1-MV5" customClass="DecksViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cBi-V3-os0"/>
+                        <viewControllerLayoutGuide type="bottom" id="XPT-jo-5uv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qaR-e0-zn7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kwe-hF-jeh">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="deckCell" id="38f-i9-NEy">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="38f-i9-NEy" id="za4-YZ-3l3">
+                                            <rect key="frame" x="0.0" y="0.0" width="553" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.29803921570000003" green="0.85098039219999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="bCl-s1-MV5" id="hV2-kT-qUR"/>
+                                    <outlet property="delegate" destination="bCl-s1-MV5" id="EYC-0i-tfW"/>
+                                </connections>
+                            </tableView>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLu-ZK-BxP" customClass="PromotionView">
+                                <rect key="frame" x="0.0" y="551" width="600" height="0.0"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" placeholder="YES" id="hMX-yz-Fje"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kwe-hF-jeh" firstAttribute="centerX" secondItem="qaR-e0-zn7" secondAttribute="centerX" id="1Xj-yf-G2u"/>
+                            <constraint firstItem="XPT-jo-5uv" firstAttribute="top" secondItem="kwe-hF-jeh" secondAttribute="bottom" id="EAb-sM-jXB"/>
+                            <constraint firstItem="kwe-hF-jeh" firstAttribute="top" secondItem="cBi-V3-os0" secondAttribute="bottom" constant="-64" id="LWi-j5-nax"/>
+                            <constraint firstItem="kwe-hF-jeh" firstAttribute="width" secondItem="qaR-e0-zn7" secondAttribute="width" id="PxH-kc-OCT"/>
+                            <constraint firstItem="TLu-ZK-BxP" firstAttribute="width" secondItem="qaR-e0-zn7" secondAttribute="width" id="bqV-Ce-Wxk"/>
+                            <constraint firstItem="XPT-jo-5uv" firstAttribute="top" secondItem="TLu-ZK-BxP" secondAttribute="bottom" id="pBd-el-MHC"/>
+                            <constraint firstItem="TLu-ZK-BxP" firstAttribute="centerX" secondItem="qaR-e0-zn7" secondAttribute="centerX" id="tEs-O1-cXQ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Decks" id="Y1T-XM-V8v">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="0Be-24-XKX">
+                            <connections>
+                                <action selector="editButtonPress:" destination="bCl-s1-MV5" id="hgD-Uv-f2P"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="A4c-Cs-H8O">
+                            <connections>
+                                <action selector="newDeck:" destination="bCl-s1-MV5" id="gLG-li-8cL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="editButton" destination="0Be-24-XKX" id="0mK-j5-E6E"/>
+                        <outlet property="tableView" destination="kwe-hF-jeh" id="oGH-72-G4C"/>
+                        <segue destination="Ayl-X3-1dY" kind="show" identifier="newDeck" id="SFR-IK-uD7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z5I-qO-TYs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1893" y="1190"/>
         </scene>
         <!--Data Source-->
         <scene sceneID="vy6-Ae-quP">
@@ -243,7 +276,7 @@
                         <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
                     </toolbar>
                     <connections>
-                        <segue destination="Ymb-wB-Rge" kind="relationship" relationship="rootViewController" id="VfD-Qr-AAc"/>
+                        <segue destination="bCl-s1-MV5" kind="relationship" relationship="rootViewController" id="zqq-Gp-mfF"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8hU-pO-3Kf" userLabel="First Responder" sceneMemberID="firstResponder"/>

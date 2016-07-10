@@ -18,5 +18,6 @@
 + (instancetype)sharedInstance;
 - (Card *)newCard;
 - (void)refreshDeckArray;
+- (BOOL)switchToDeck:(Deck *)selectedDeck;
 
 @end

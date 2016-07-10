@@ -1,29 +1,40 @@
 //
-//  DecksTableViewController.m
+//  DecksViewController.m
 //  Sueca
 //
 //  Created by Roger Oba on 10/15/14.
 //  Copyright (c) 2014 Roger Oba. All rights reserved.
 //
 
-#import "DecksTableViewController.h"
+#import "DecksViewController.h"
 #import "GameManager.h"
 #import "AnalyticsManager.h"
 #import "Deck.h"
 #import "Constants.h"
+#import "NotificationManager.h"
+#import "AppearanceHelper.h"
+#import "CloudKitManager.h"
+#import "PromotionView.h"
 
-@interface DecksTableViewController () <NSFetchedResultsControllerDelegate>
+@interface DecksViewController () <NSFetchedResultsControllerDelegate>
 
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
+
+
+@property (strong, nonatomic) PromotionView *promotionView;
+@property (strong, nonatomic) Promotion *latestPromotion;
 @property (strong, nonatomic) NSManagedObjectContext *moc;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) GameManager *gameManager;
+@property (strong, nonatomic) CloudKitManager *CKManager;
 
 @property (strong, nonatomic) NSIndexPath *indexPathForSelectedDeck;
 @property (strong, nonatomic) NSString *creatingDeckName; //can't use "newDeckName"
 
 @end
 
-@implementation DecksTableViewController
+@implementation DecksViewController
 
 @synthesize fetchedResultsController = _fetchedResultsController;
 
@@ -33,37 +44,43 @@
     [super viewDidLoad];
 	
 	self.gameManager = [GameManager sharedInstance];
+	self.CKManager = [CloudKitManager new];
 	[self setupLayout];
 	
 	NSError *error;
     if (![[self fetchedResultsController] performFetch:&error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+	[self updatePromotionAnimated:YES];
+	[self registerForNotification];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self.tableView reloadData];
 	[AnalyticsManager logContentViewEvent:AnalyticsEventViewDecksVC contentType:@"UIViewController"];
+	[NotificationManager resetPendingNotificationCount];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+- (void)dealloc {
+	[self unregisterFromNotification];
+}
+
 - (void)setupLayout {
 	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
 	tempImageView.frame = self.view.frame;
 	self.tableView.backgroundView = tempImageView;
-	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-	
-	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_fetchedResultsController.fetchedObjects count];
+	id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController.sections objectAtIndex:section];
+	return sectionInfo.numberOfObjects;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -110,11 +127,26 @@
             cell.imageView.image = [UIImage imageNamed:@"empty"];
         }
     }
+	if (self.tableView.editing) {
+		if (indexPath.row > 0) {
+			for (UIView *subview in cell.subviews) {
+				for (UIView *deeperSubview in subview.subviews) {
+					[deeperSubview.layer addAnimation:[AppearanceHelper bounceHorizontallyAnimation] forKey:@"bounceHorizontally"];
+					[deeperSubview.layer addAnimation:[AppearanceHelper bounceVerticallyAnimation] forKey:@"bounceVertically"];
+				}
+				[subview.layer addAnimation:[AppearanceHelper bounceHorizontallyAnimation] forKey:@"bounceHorizontally"];
+				[subview.layer addAnimation:[AppearanceHelper bounceVerticallyAnimation] forKey:@"bounceVertically"];
+			}
+		}
+	} else {
+		[cell.layer removeAllAnimations];
+		cell.transform = CGAffineTransformIdentity;
+	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     Deck *deckBeingEdited = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if ([deckBeingEdited.isEditable isEqualToNumber:@1] && [deckBeingEdited.isBeingUsed isEqualToNumber:@0]) {
+    if ([deckBeingEdited.isBeingUsed isEqualToNumber:@0] && [deckBeingEdited.isEditable isEqualToNumber:@1]) {
         return YES;
     } else {
         return NO;
@@ -153,26 +185,10 @@
         self.indexPathForSelectedDeck = indexPath;
         
         if (![oldSelectedCellIndex isEqual:self.indexPathForSelectedDeck]) {
-            Deck *selectedDeck = [self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedDeck];
-            selectedDeck.isBeingUsed = [NSNumber numberWithBool:YES];
-            Deck *deselectedDeck = [self.fetchedResultsController objectAtIndexPath:oldSelectedCellIndex];
-            deselectedDeck.isBeingUsed = [NSNumber numberWithBool:NO];
-            
-            NSError *coreDataError = nil;
-            if (![self.moc save:&coreDataError]) { //error
-                NSLog(@"Unresolved error %@, %@", coreDataError, [coreDataError userInfo]);
-			} else { //everything went fine
-				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section],[NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
-				[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateDeck object:self userInfo:nil];
-				
-				NSMutableDictionary *attributes;
-				if (deselectedDeck.deckName) {
-					[attributes addEntriesFromDictionary:@{@"From Deck":deselectedDeck.deckName}];
-				}
-				if (selectedDeck.deckName) {
-					[attributes addEntriesFromDictionary:@{@"To Deck":selectedDeck.deckName}];
-				}
-				[AnalyticsManager logEvent:AnalyticsEventDidSelectDeck withAttributes:[attributes copy]];
+			if ([self.gameManager switchToDeck:[self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedDeck]]) {
+				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section], [NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
+			} else {
+				//to-do: treat core data error here. This was never been treated before and have never failed.
 			}
         }
     } else {
@@ -213,8 +229,9 @@
 			[alert addAction:action];
 			[alert addAction:cancelAction];
 			
-			[self presentViewController:alert animated:YES completion:nil];
-			
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				[self presentViewController:alert animated:YES completion:nil];
+			});
 			
 			NSMutableDictionary *attributes;
 			if (deckToEditName.deckName) {
@@ -234,7 +251,7 @@
     }
     
     self.moc = [self managedObjectContext];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSFetchRequest *fetchRequest = [NSFetchRequest new];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Deck" inManagedObjectContext:self.moc];
     [fetchRequest setEntity:entity];
     NSSortDescriptor *sortDescriptor1 = [[NSSortDescriptor alloc] initWithKey:@"isEditable" ascending:YES];
@@ -301,7 +318,7 @@
     [self.tableView endUpdates];
 }
 
-#pragma mark - Core Data Method
+#pragma mark - Core Data Method -
 
 - (NSManagedObjectContext *)managedObjectContext {
     NSManagedObjectContext *context = nil;
@@ -312,7 +329,62 @@
     return context;
 }
 
-#pragma mark - Navigation
+#pragma mark - Notification Center -
+
+- (void)registerForNotification {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUpdateLatestPromotion object:nil];
+}
+
+- (void)unregisterFromNotification {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didReceiveNotification:(NSNotification *)notification {
+	if ([notification.name isEqualToString:SuecaNotificationUpdateLatestPromotion]) {
+		[self updatePromotionAnimated:NO];
+	}
+}
+
+- (void)updatePromotionAnimated:(BOOL)animated {
+	[self.CKManager fetchLatestPromotionWithCompletion:^(NSError *error, Promotion *promotion) {
+		if (!error) {
+			self.latestPromotion = promotion;
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
+				if (self.promotionView) {
+					[self.promotionView removeFromSuperview];
+				}
+				self.promotionView = [PromotionView viewWithPromotion:self.latestPromotion];
+				if (animated) {
+					[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
+				}
+				[self.view addSubview:self.promotionView];
+			});
+		} else {
+			NSLog(@"promotion with error: %@", error);
+#warning treat error accordingly
+		}
+	}];
+}
+
+#pragma mark - Actions -
+
+- (IBAction)editButtonPress:(UIBarButtonItem *)button {
+	if (self.tableView.editing) {
+		UIBarButtonItem *editButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Edit", @"Edit navigation bar button item") style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPress:)];
+		self.navigationItem.leftBarButtonItem = editButton;
+		[CATransaction setCompletionBlock:^{
+			[self.tableView reloadData];
+		}];
+		[self.tableView setEditing:NO animated:YES];
+	} else {
+		UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", @"Done navigation bar button item") style:UIBarButtonItemStylePlain target:self action:@selector(editButtonPress:)];
+		self.navigationItem.leftBarButtonItem = doneButton;
+		[CATransaction setCompletionBlock:^{
+			[self.tableView reloadData];
+		}];
+		[self.tableView setEditing:YES animated:YES];
+	}
+}
 
 - (IBAction)newDeck:(id)sender {
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"New Deck", @"newDeckAlert Title") message:NSLocalizedString(@"Please name your custom deck.", @"newDeckAlert Message") preferredStyle:UIAlertControllerStyleAlert];
@@ -345,6 +417,8 @@
 	[self presentViewController:alert animated:YES completion:nil];
 	[AnalyticsManager logContentViewEvent:AnalyticsEventDeckCreationView contentType:@"UIAlertController"];
 }
+
+#pragma mark - Navigation - 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"newDeck"]) {

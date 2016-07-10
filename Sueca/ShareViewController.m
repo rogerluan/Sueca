@@ -37,32 +37,19 @@
 	/**
 	 * Analytics
 	 */
-	if ([viewController respondsToSelector:@selector(setCompletionWithItemsHandler:)]) {
-		[viewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
-			
-			NSMutableDictionary *attributes;
-			if (activityType) {
-				[attributes addEntriesFromDictionary:@{@"Activity Type":activityType}];
-			}
-			[attributes addEntriesFromDictionary:@{@"Completed":[NSNumber numberWithBool:completed]}];
-			if (activityError.description) {
-				[attributes addEntriesFromDictionary:@{@"Error":activityError.description}];
-			}
-			[attributes addEntriesFromDictionary:[self attributesForCard:card]];
-			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:[attributes copy]];
-		}];
-	} else {
-		[viewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
-			
-			NSMutableDictionary *attributes;
-			if (activityType) {
-				[attributes addEntriesFromDictionary:@{@"Activity Type":activityType}];
-			}
-			[attributes addEntriesFromDictionary:@{@"Completed":[NSNumber numberWithBool:completed]}];
-			[attributes addEntriesFromDictionary:[self attributesForCard:card]];
-			[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:[attributes copy]];
-		}];
-	}
+	[viewController setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray *returnedItems, NSError *activityError) {
+		
+		NSMutableDictionary *attributes;
+		if (activityType) {
+			[attributes addEntriesFromDictionary:@{@"Activity Type":activityType}];
+		}
+		[attributes addEntriesFromDictionary:@{@"Completed":[NSNumber numberWithBool:completed]}];
+		if (activityError.description) {
+			[attributes addEntriesFromDictionary:@{@"Error":activityError.description}];
+		}
+		[attributes addEntriesFromDictionary:[self attributesForCard:card]];
+		[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:[attributes copy]];
+	}];
 	return viewController;
 }
 

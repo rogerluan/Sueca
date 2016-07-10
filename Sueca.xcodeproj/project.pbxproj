@@ -30,7 +30,7 @@
 		C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */; };
 		C5B1FB5819EEA1DF00088FB8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */; };
 		C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */; };
-		C5B1FB5E19EEA57000088FB8 /* DecksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */; };
+		C5B1FB5E19EEA57000088FB8 /* DecksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB5D19EEA57000088FB8 /* DecksViewController.m */; };
 		C5B1FB7019EEC2D200088FB8 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB6F19EEC2D200088FB8 /* Card.m */; };
 		C5B1FB7619EFFC1D00088FB8 /* EditDeckTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */; };
 		C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C5B1FB7819F0037000088FB8 /* CardRulesCell.m */; };
@@ -41,8 +41,12 @@
 		C5BA12391C72A581004BFF52 /* AnalyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA12381C72A581004BFF52 /* AnalyticsManager.m */; };
 		C5BA8F771CCE579B0027F2B1 /* UIView+Rounded.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA8F761CCE579B0027F2B1 /* UIView+Rounded.m */; };
 		C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */; };
-		C5BE5C0D1D2E641E005CFC08 /* MailComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */; };
 		C5BE5C0A1D2E5600005CFC08 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C091D2E5600005CFC08 /* ShareViewController.m */; };
+		C5BE5C0D1D2E641E005CFC08 /* MailComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */; };
+		C5BE5C131D2F9A41005CFC08 /* Promotion.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C121D2F9A41005CFC08 /* Promotion.m */; };
+		C5BE5C151D30A9ED005CFC08 /* PromotionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5BE5C141D30A9ED005CFC08 /* PromotionView.xib */; };
+		C5BE5C1C1D30AC71005CFC08 /* PromotionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C1B1D30AC71005CFC08 /* PromotionView.m */; };
+		C5BE5C1F1D321848005CFC08 /* ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C1E1D321848005CFC08 /* ErrorManager.m */; };
 		C5C5AA9618184814005A9625 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9518184814005A9625 /* Foundation.framework */; };
 		C5C5AA9818184814005A9625 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9718184814005A9625 /* CoreGraphics.framework */; };
 		C5C5AA9A18184814005A9625 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9918184814005A9625 /* UIKit.framework */; };
@@ -123,8 +127,8 @@
 		C58A6C6F1CDE44A40054613C /* SuecaViewAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuecaViewAnimator.m; sourceTree = "<group>"; };
 		C5B1FB5719EEA1DF00088FB8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		C5B1FB5A19EEA21B00088FB8 /* Sueca Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model.xcdatamodel"; sourceTree = "<group>"; };
-		C5B1FB5C19EEA57000088FB8 /* DecksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksTableViewController.h; sourceTree = "<group>"; };
-		C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecksTableViewController.m; sourceTree = "<group>"; };
+		C5B1FB5C19EEA57000088FB8 /* DecksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecksViewController.h; sourceTree = "<group>"; };
+		C5B1FB5D19EEA57000088FB8 /* DecksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecksViewController.m; sourceTree = "<group>"; };
 		C5B1FB6E19EEC2D200088FB8 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
 		C5B1FB6F19EEC2D200088FB8 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
 		C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditDeckTableViewController.h; sourceTree = "<group>"; };
@@ -145,10 +149,17 @@
 		C5BA8F761CCE579B0027F2B1 /* UIView+Rounded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Rounded.m"; sourceTree = "<group>"; };
 		C5BA8F7A1CCE855D0027F2B1 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
 		C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
-		C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailComposeViewController.h; sourceTree = "<group>"; };
-		C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailComposeViewController.m; sourceTree = "<group>"; };
 		C5BE5C081D2E5600005CFC08 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareViewController.h; sourceTree = "<group>"; };
 		C5BE5C091D2E5600005CFC08 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareViewController.m; sourceTree = "<group>"; };
+		C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MailComposeViewController.h; sourceTree = "<group>"; };
+		C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailComposeViewController.m; sourceTree = "<group>"; };
+		C5BE5C111D2F9A41005CFC08 /* Promotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Promotion.h; sourceTree = "<group>"; };
+		C5BE5C121D2F9A41005CFC08 /* Promotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Promotion.m; sourceTree = "<group>"; };
+		C5BE5C141D30A9ED005CFC08 /* PromotionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PromotionView.xib; sourceTree = "<group>"; };
+		C5BE5C1A1D30AC71005CFC08 /* PromotionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionView.h; sourceTree = "<group>"; };
+		C5BE5C1B1D30AC71005CFC08 /* PromotionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionView.m; sourceTree = "<group>"; };
+		C5BE5C1D1D321848005CFC08 /* ErrorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorManager.h; sourceTree = "<group>"; };
+		C5BE5C1E1D321848005CFC08 /* ErrorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorManager.m; sourceTree = "<group>"; };
 		C5C5AA9218184814005A9625 /* Sueca.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sueca.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5C5AA9518184814005A9625 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C5C5AA9718184814005A9625 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -282,6 +293,8 @@
 				C5BA12321C7195B5004BFF52 /* AppearanceHelper.m */,
 				C5BA12271C7191CC004BFF52 /* SoundManager.h */,
 				C5BA12281C7191CC004BFF52 /* SoundManager.m */,
+				C5BE5C1D1D321848005CFC08 /* ErrorManager.h */,
+				C5BE5C1E1D321848005CFC08 /* ErrorManager.m */,
 				C5CC40961D25D4AB00F6DCC6 /* Constants.h */,
 			);
 			name = Helpers;
@@ -346,6 +359,49 @@
 				C5BA8F761CCE579B0027F2B1 /* UIView+Rounded.m */,
 			);
 			name = IBInspectables;
+			sourceTree = "<group>";
+		};
+		C5BE5C0E1D2E8245005CFC08 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				C5BA8F7A1CCE855D0027F2B1 /* TabBarController.h */,
+				C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		C5BE5C0F1D2E824A005CFC08 /* Primary */ = {
+			isa = PBXGroup;
+			children = (
+				C5615E60181E82430033FEB3 /* GameViewController.h */,
+				C5615E61181E82430033FEB3 /* GameViewController.m */,
+				C5B1FB5C19EEA57000088FB8 /* DecksViewController.h */,
+				C5B1FB5D19EEA57000088FB8 /* DecksViewController.m */,
+				C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */,
+				C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */,
+			);
+			name = Primary;
+			sourceTree = "<group>";
+		};
+		C5BE5C101D2E8253005CFC08 /* Secondary */ = {
+			isa = PBXGroup;
+			children = (
+				C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */,
+				C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */,
+				C5BE5C081D2E5600005CFC08 /* ShareViewController.h */,
+				C5BE5C091D2E5600005CFC08 /* ShareViewController.m */,
+			);
+			name = Secondary;
+			sourceTree = "<group>";
+		};
+		C5BE5C191D30A9FE005CFC08 /* Promotion View */ = {
+			isa = PBXGroup;
+			children = (
+				C5BE5C141D30A9ED005CFC08 /* PromotionView.xib */,
+				C5BE5C1A1D30AC71005CFC08 /* PromotionView.h */,
+				C5BE5C1B1D30AC71005CFC08 /* PromotionView.m */,
+			);
+			name = "Promotion View";
 			sourceTree = "<group>";
 		};
 		C5C5AA8918184813005A9625 = {
@@ -454,6 +510,7 @@
 				C57F9FAE1B216F3E00C50D0C /* Card Rules Cell */,
 				C58A6C711CDE45580054613C /* SwipeableCard */,
 				C57F9FAD1B216EF100C50D0C /* Card Description View */,
+				C5BE5C191D30A9FE005CFC08 /* Promotion View */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -461,18 +518,9 @@
 		C5C5AAC51818483F005A9625 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C5BA8F7A1CCE855D0027F2B1 /* TabBarController.h */,
-				C5BA8F7B1CCE855D0027F2B1 /* TabBarController.m */,
-				C5615E60181E82430033FEB3 /* GameViewController.h */,
-				C5615E61181E82430033FEB3 /* GameViewController.m */,
-				C5B1FB5C19EEA57000088FB8 /* DecksTableViewController.h */,
-				C5B1FB5D19EEA57000088FB8 /* DecksTableViewController.m */,
-				C5B1FB7419EFFC1D00088FB8 /* EditDeckTableViewController.h */,
-				C5B1FB7519EFFC1D00088FB8 /* EditDeckTableViewController.m */,
-				C5BE5C0B1D2E641E005CFC08 /* MailComposeViewController.h */,
-				C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */,
-				C5BE5C081D2E5600005CFC08 /* ShareViewController.h */,
-				C5BE5C091D2E5600005CFC08 /* ShareViewController.m */,
+				C5BE5C0E1D2E8245005CFC08 /* Base */,
+				C5BE5C0F1D2E824A005CFC08 /* Primary */,
+				C5BE5C101D2E8253005CFC08 /* Secondary */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -484,6 +532,8 @@
 				C5B1FB6F19EEC2D200088FB8 /* Card.m */,
 				C5E9B6781A3238A600D0171A /* Deck.h */,
 				C5E9B6791A3238A600D0171A /* Deck.m */,
+				C5BE5C111D2F9A41005CFC08 /* Promotion.h */,
+				C5BE5C121D2F9A41005CFC08 /* Promotion.m */,
 				C5B1FB5919EEA21B00088FB8 /* Sueca Model.xcdatamodeld */,
 			);
 			name = Model;
@@ -632,6 +682,7 @@
 				C5E9B6921A3C86E300D0171A /* cardShuffle.wav in Resources */,
 				C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */,
 				C5E9B6941A3C86E300D0171A /* cardSlide2.wav in Resources */,
+				C5BE5C151D30A9ED005CFC08 /* PromotionView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -716,13 +767,16 @@
 				C58A6C701CDE44A40054613C /* SuecaViewAnimator.m in Sources */,
 				C5E9B67A1A3238A600D0171A /* Deck.m in Sources */,
 				C5B1FB5B19EEA21B00088FB8 /* Sueca Model.xcdatamodeld in Sources */,
+				C5BE5C1C1D30AC71005CFC08 /* PromotionView.m in Sources */,
 				C588D2631D2C5C70004B6CB8 /* NotificationManager.m in Sources */,
 				C5F3B51119B53F2C006D6257 /* iRate.m in Sources */,
 				C5BA8F7C1CCE855D0027F2B1 /* TabBarController.m in Sources */,
 				C588D26F1D2D0916004B6CB8 /* PromotionCardView.m in Sources */,
+				C5BE5C131D2F9A41005CFC08 /* Promotion.m in Sources */,
 				C5BA12361C72A4CD004BFF52 /* GameManager.m in Sources */,
 				C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */,
 				C5B1FB7919F0037000088FB8 /* CardRulesCell.m in Sources */,
+				C5BE5C1F1D321848005CFC08 /* ErrorManager.m in Sources */,
 				C5BE5C0D1D2E641E005CFC08 /* MailComposeViewController.m in Sources */,
 				C5CC40991D26053D00F6DCC6 /* iVersionCoordinator.m in Sources */,
 				C5F5E7431CCF1CAE00BE8C8F /* SuecaSwipeDeterminator.m in Sources */,
@@ -739,7 +793,7 @@
 				C5BA12291C7191CC004BFF52 /* SoundManager.m in Sources */,
 				C5D5295B1B29CFAE003542CD /* iVersion.m in Sources */,
 				C5BA12331C7195B5004BFF52 /* AppearanceHelper.m in Sources */,
-				C5B1FB5E19EEA57000088FB8 /* DecksTableViewController.m in Sources */,
+				C5B1FB5E19EEA57000088FB8 /* DecksViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,7 +952,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sueca/Sueca-Prefix.pch";
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Cupula-Mobile.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -923,7 +977,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sueca/Sueca-Prefix.pch";
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Cupula-Mobile.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

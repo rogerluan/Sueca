@@ -11,12 +11,11 @@
 #import "AnalyticsManager.h"
 #import "AppearanceHelper.h"
 #import "Constants.h"
-#import "CloudKitManager.h"
+#import "NotificationManager.h"
 
 #import <TSMessages/TSMessageView.h>
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-#import <CloudKit/CloudKit.h>
 
 @implementation a20AppDelegate
 
@@ -33,7 +32,7 @@
     [iRateCoordinator resetEventCount];
 	[Fabric with:@[CrashlyticsKit]];
     [TSMessageView addNotificationDesignFromFile:@"SuecaNotificationDesign.json"];
-	[CloudKitManager clearBadges];
+	[NotificationManager clearBadges];
     return YES;
 }
 
@@ -47,12 +46,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
+- (void)applicationWillTerminate:(UIApplication *)application {}
 
-- (void)saveContext
-{
+- (void)saveContext {
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
@@ -64,6 +60,10 @@
         }
     }
 }
+
+//- (void)application:(UIApplication *)application willChangeStatusBarFrame:(CGRect)newStatusBarFrame {
+//	[[NSNotificationCenter defaultCenter] postNotificationName:StatusBarDidChangeRect object:self userInfo:@{@"current status bar frame": [NSValue valueWithCGRect:newStatusBarFrame]}];
+//}
 
 #pragma mark - Core Data stack
 
@@ -159,11 +159,11 @@
 		NSLog(@"Task exceeded time limit.");
 	}];
 	
-	NSLog(@"Notification with user info: %@", userInfo);
 	if (userInfo[@"aps"][@"content-available"] || userInfo[@"aps"][@"alert"]) {
-		[CloudKitManager handleRemoteNotificationWithUserInfo:userInfo withCompletionHandler:^(NSError *error) {
+		[NotificationManager handleRemoteNotificationWithUserInfo:userInfo withCompletionHandler:^(NSError *error) {
 			[application endBackgroundTask:taskIdentifier];
 			if (error) {
+#warning treat error here (send the error somewhere to be treated)
 				completionHandler(UIBackgroundFetchResultFailed);
 			} else {
 				completionHandler(UIBackgroundFetchResultNewData);
@@ -177,7 +177,7 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-	[CloudKitManager handleLocalNotificationWithUserInfo:notification.userInfo];
+	[NotificationManager handleLocalNotificationWithUserInfo:notification.userInfo];
 }
 
 @end

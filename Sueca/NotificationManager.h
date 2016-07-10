@@ -7,9 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Constants.h"
 
 @interface NotificationManager : NSObject
 
-+ (void)registerForRemoteNotifications;
+- (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion;
++ (void)clearBadges;
++ (void)handleRemoteNotificationWithUserInfo:(NSDictionary *)userInfo withCompletionHandler:(RemoteNotificationCompletionHandler)completion;
++ (void)handleLocalNotificationWithUserInfo:(NSDictionary *)userInfo;
+
++ (NSInteger)pendingNotificationCount;
++ (void)incrementPendingNotificationCount;
++ (void)resetPendingNotificationCount;
 
 @end
