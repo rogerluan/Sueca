@@ -109,7 +109,7 @@
 			NSString *imagePath = [NSString stringWithFormat:@"%@-TableOptimized", self.displayCard.cardName];
 			[descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:imagePath] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
 			descriptionView.delegate = self;
-			[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:[self currentCardAttributes]];
+			[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:self.displayCard.attributes];
 		}
     }
 }
@@ -122,7 +122,7 @@
 			UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Rewind Card", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 				[self.swipeableView rewind];
 				[self updateRuleLabel];
-				[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:[self currentCardAttributes]];
+				[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:self.displayCard.attributes];
 			}];
 			UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
 			[alert addAction:action];
@@ -164,7 +164,7 @@
 			swipeDirection++;
 		}
 		[[NSUserDefaults standardUserDefaults] setInteger:swipeDirection forKey:@"swipeDirection"];
-		[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:[self currentCardAttributes]];
+		[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:self.displayCard.attributes];
 	} else {
 		[self.swipeableView.topView.layer addAnimation:[AppearanceHelper shakeAnimation] forKey:@""];
 		self.swipeableView.topView.transform = CGAffineTransformIdentity;
@@ -211,7 +211,7 @@
     [alertView close];
 	ShareViewController *activityViewController = [ShareViewController initWithCard:self.displayCard];
     [self presentViewController:activityViewController animated:YES completion:nil];
-	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:[self currentCardAttributes]];
+	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:self.displayCard.attributes];
 }
 
 #pragma mark - ZLSwipeableView Methods
@@ -233,22 +233,6 @@
 	[self updateRuleLabel];
 	NSDictionary *attributes = @{@"Direction":[NSNumber numberWithInteger:direction]};
 	[AnalyticsManager logEvent:AnalyticsEventDidSwipeCard withAttributes:attributes];
-}
-
-#pragma mark - Helpers -
-
-- (NSDictionary *)currentCardAttributes {
-	NSMutableDictionary *attributes = [NSMutableDictionary new];
-	if (self.displayCard.cardName) {
-		[attributes addEntriesFromDictionary:@{@"Card Name":self.displayCard.cardName}];
-	}
-	if (self.displayCard.cardRule) {
-		[attributes addEntriesFromDictionary:@{@"Card Rule":self.displayCard.cardRule}];
-	}
-	if (self.displayCard.cardDescription) {
-		[attributes addEntriesFromDictionary:@{@"Card Description":self.displayCard.cardDescription}];
-	}
-	return [attributes copy];
 }
 
 #pragma mark - Notification Center -

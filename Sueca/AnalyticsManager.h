@@ -11,6 +11,11 @@
 
 #pragma mark - Interactions & Gestures
 static NSString * const AnalyticsEventWelcomeBackInteraction = @"WelcomeBackInteraction";
+static NSString * const AnalyticsEventDeckShuffledInteraction = @"DeckShuffledInteraction";
+static NSString * const AnalyticsEventUpdatedViaNotificationInteraction = @"UpdatedViaNotificationInteraction";
+static NSString * const AnalyticsEventPromoNotificationInteraction = @"PromoNotificationInteraction";
+static NSString * const AnalyticsEventPromoErrorInteraction = @"PromoErrorInteraction";
+
 static NSString * const AnalyticsEventTapCardGesture = @"TapCardGesture";
 static NSString * const AnalyticsEventDidSwipeCard = @"DidSwipeCard";
 static NSString * const AnalyticsEventDidShakeDevice = @"DidShakeDevice";
@@ -19,6 +24,8 @@ static NSString * const AnalyticseventDidInteractWithMailCompose = @"DidInteract
 #pragma mark - Buttons
 static NSString * const AnalyticsEventReviewedViaButton = @"ReviewedViaButton";
 static NSString * const AnalyticsEventUpdatedViaButton = @"UpdatedViaButton";
+static NSString * const AnalyticsEventPromoNotificationButton = @"PromoNotificationButton";
+static NSString * const AnalyticsEventPromoErrorButton = @"PromoErrorButton";
 
 #pragma mark - iRate
 static NSString * const AnalyticsEventiRateUserDidAttemptToRateApp = @"iRate UserDidAttemptToRateApp";
@@ -57,8 +64,15 @@ static NSString * const AnalyticsEventCardDescriptionView = @"CardDescriptionVie
 static NSString * const AnalyticsEventShareActivityView = @"ShareActivityView";
 static NSString * const AnalyticsEventErrorAlert = @"ErrorAlert";
 
+static NSString * const AnalyticsEventOpenURL = @"OpenURL";
+static NSString * const AnalyticsEventDidLoadURL = @"DidLoadURL";
+
 #pragma mark - Share
 static NSString * const AnalyticsEventDidShareCard = @"DidShareCard";
+
+#pragma mark - Error
+static NSString * const AnalyticsErrorReceivedPushWithZeroPromo = @"ReceivedPushWithZeroPromo";
+static NSString * const AnalyticsErrorReceivedPushWithUnknownError = @"ReceivedPushWithUnknownError";
 
 @interface AnalyticsManager : NSObject
 

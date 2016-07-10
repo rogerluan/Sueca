@@ -7,6 +7,7 @@
 //
 
 #import "DecksViewController.h"
+#import "EditDeckTableViewController.h"
 #import "GameManager.h"
 #import "AnalyticsManager.h"
 #import "Deck.h"
@@ -164,12 +165,7 @@
         if(![self.moc save: &error]) {
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         }
-		
-		NSMutableDictionary *attributes;
-		if (deckToBeDeleted.deckName) {
-			[attributes addEntriesFromDictionary:@{@"Deck Name":deckToBeDeleted.deckName}];
-		}
-		[AnalyticsManager logEvent:AnalyticsEventDidDeleteDeck withAttributes:[attributes copy]];
+		[AnalyticsManager logEvent:AnalyticsEventDidDeleteDeck withAttributes:deckToBeDeleted.attributes];
     }
 }
 
@@ -178,11 +174,7 @@
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
 	Deck *selectedDeck = [self.fetchedResultsController objectAtIndexPath:indexPath];
     [self.navigationController pushViewController:[EditDeckTableViewController viewControllerWithDeck:selectedDeck] animated:YES];
-	NSMutableDictionary *attributes = [NSMutableDictionary new];
-	if (selectedDeck.deckName) {
-		[attributes addEntriesFromDictionary:@{@"Deck Name":selectedDeck.deckName}];
-	}
-	[AnalyticsManager logContentViewEvent:AnalyticsEventViewEditDeckVC contentType:@"UIViewController" customAttributes:[attributes copy]];
+	[AnalyticsManager logContentViewEvent:AnalyticsEventViewEditDeckVC contentType:@"UIViewController" customAttributes:selectedDeck.attributes];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -217,11 +209,7 @@
 						NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 					}
 					
-					NSMutableDictionary *attributes;
-					if (deckToEditName.deckName) {
-						[attributes addEntriesFromDictionary:@{@"Deck Name":deckToEditName.deckName}];
-					}
-					[AnalyticsManager logEvent:AnalyticsEventDidRenameDeck withAttributes:[attributes copy]];
+					[AnalyticsManager logEvent:AnalyticsEventDidRenameDeck withAttributes:deckToEditName.attributes];
 				} else {
 					NSLog(@"Handle error: invalid deckToEditName");
 				}
@@ -240,11 +228,7 @@
 				[self presentViewController:alert animated:YES completion:nil];
 			});
 			
-			NSMutableDictionary *attributes;
-			if (deckToEditName.deckName) {
-				[attributes addEntriesFromDictionary:@{@"Deck Name":deckToEditName.deckName}];
-			}
-			[AnalyticsManager logContentViewEvent:AnalyticsEventDeckEditView contentType:@"UIAlertController" customAttributes:[attributes copy]];
+			[AnalyticsManager logContentViewEvent:AnalyticsEventDeckEditView contentType:@"UIAlertController" customAttributes:deckToEditName.attributes];
         }
     }
 }
