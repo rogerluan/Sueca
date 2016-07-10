@@ -15,8 +15,11 @@
 #pragma mark - Instance Methods - 
 
 - (void)fetchPromotionsWithCompletion:(PromotionsCompletionHandler)completion {
-	CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Promotion" predicate:[NSPredicate predicateWithValue:YES]];
-	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:NO];
+
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(startDate <= %@) AND (endDate > %@)", [NSDate date], [NSDate date]];
+	
+	CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Promotion" predicate:predicate];
+	NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO];
 	[query setSortDescriptors:@[sortDescriptor]];
 	[[[CKContainer defaultContainer] publicCloudDatabase] performQuery:query inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
 		NSMutableArray *promotions = [NSMutableArray new];
@@ -32,7 +35,12 @@
 
 - (void)fetchLatestPromotionWithCompletion:(PromotionCompletionHandler)completion {
 	[self fetchPromotionsWithCompletion:^(NSError *error, NSArray<Promotion *> *promotions) {
-		completion(error, [promotions firstObject]);
+		if (promotions.count > 0) {
+			completion(error, [promotions firstObject]);
+		} else {
+			NSLog(@"Returned no Promotions");
+#warning create error here. Maybe if there isn't promotions, link the button to facebook fanpage.
+		}
 	}];
 }
 

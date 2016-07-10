@@ -11,6 +11,9 @@
 #import "Constants.h"
 #import "Promotion.h"
 
+#warning possible erros already generated
+//when user is not logged in iCloud: Not Authenticated when clearing badges, and "internal error" when fetching promotions
+
 @interface CloudKitManager : NSObject
 
 - (void)fetchPromotionsWithCompletion:(PromotionsCompletionHandler)completion;
