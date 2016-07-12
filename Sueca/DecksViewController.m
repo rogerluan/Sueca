@@ -25,7 +25,6 @@
 
 
 @property (strong, nonatomic) PromotionView *promotionView;
-@property (strong, nonatomic) Promotion *latestPromotion;
 @property (strong, nonatomic) NSManagedObjectContext *moc;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) GameManager *gameManager;
@@ -62,6 +61,7 @@
 	[self.tableView reloadData];
 	[AnalyticsManager logContentViewEvent:AnalyticsEventViewDecksVC contentType:@"UIViewController"];
 	[NotificationManager resetPendingNotificationCount];
+	[self.tabBarItem setBadgeValue:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -186,8 +186,6 @@
         if (![oldSelectedCellIndex isEqual:self.indexPathForSelectedDeck]) {
 			if ([self.gameManager switchToDeck:[self.fetchedResultsController objectAtIndexPath:self.indexPathForSelectedDeck]]) {
 				[tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:oldSelectedCellIndex.row inSection:oldSelectedCellIndex.section], [NSIndexPath indexPathForRow:self.indexPathForSelectedDeck.row inSection:self.indexPathForSelectedDeck.section]] withRowAnimation:UITableViewRowAnimationNone];
-			} else {
-				//to-do: treat core data error here. This was never been treated before and have never failed.
 			}
         }
     } else {
@@ -202,7 +200,7 @@
 				NSLog(@"alertViewtext: %@",alertViewText);
 				if (!alertViewText || !(alertViewText.length>0)) {
 					return;
-				} else if (deckToEditName) {
+				} else {
 					deckToEditName.deckName = alertViewText;
 					NSError *error = nil;
 					if(![self.moc save: &error]) {
@@ -210,8 +208,6 @@
 					}
 					
 					[AnalyticsManager logEvent:AnalyticsEventDidRenameDeck withAttributes:deckToEditName.attributes];
-				} else {
-					NSLog(@"Handle error: invalid deckToEditName");
 				}
 			}];
 			
@@ -339,23 +335,33 @@
 - (void)updatePromotionAnimated:(BOOL)animated {
 	[self.CKManager fetchLatestPromotionWithCompletion:^(NSError *error, Promotion *promotion) {
 		if (!error) {
-			self.latestPromotion = promotion;
 			dispatch_async(dispatch_get_main_queue(), ^(void) {
 				if (self.promotionView) {
 					[self.promotionView removeFromSuperview];
 				}
-				self.promotionView = [PromotionView viewWithPromotion:self.latestPromotion];
+				self.promotionView = [PromotionView viewWithPromotion:promotion];
 				if (animated) {
 					[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
 				}
 				[self.view addSubview:self.promotionView];
+				[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@NO}];
 			});
 		} else {
-			NSLog(@"Fetch latest promotion returned error: %@", error);
 			if ([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) {
-				//to-do: show button to link to our facebook page anyway.
+				dispatch_async(dispatch_get_main_queue(), ^(void) {
+					if (self.promotionView) {
+						[self.promotionView removeFromSuperview];
+					} else {
+						self.promotionView = [[[NSBundle mainBundle] loadNibNamed:@"PromotionView" owner:self options:nil] firstObject];
+					}
+					if (animated) {
+						[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
+					}
+					[self.view addSubview:self.promotionView];
+					[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@YES}];
+				});
 			} else {
-				//to-do: analytics
+				[AnalyticsManager logEvent:AnalyticsErrorFailedLoadingPromotionsSilently withAttributes:error.userInfo];
 				NSLog(@"Silent error when trying to fetch latest promotions: %@", error);
 			}
 		}
@@ -379,6 +385,7 @@
 			[self.tableView reloadData];
 		}];
 		[self.tableView setEditing:YES animated:YES];
+		[AnalyticsManager logEvent:AnalyticsEventEditDecksButton];
 	}
 }
 

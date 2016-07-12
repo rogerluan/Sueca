@@ -165,7 +165,7 @@
 			[application endBackgroundTask:taskIdentifier];
 			if (error) {
 				NSLog(@"Handle remote notification with user info error: %@", error);
-				//to-do: analytics
+				[AnalyticsManager logEvent:AnalyticsErrorHandleRemoteNotificationError withAttributes:error.userInfo];
 				completionHandler(UIBackgroundFetchResultFailed);
 			} else {
 				completionHandler(UIBackgroundFetchResultNewData);

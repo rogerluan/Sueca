@@ -19,6 +19,7 @@
 		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
 		[application registerForRemoteNotifications];
 		[application registerUserNotificationSettings:settings];
+		[AnalyticsManager logEvent:AnalyticsEventNotificationPermissionView];
 	}
 }
 
@@ -48,6 +49,11 @@
 				CKModifySubscriptionsOperation *operation = [[CKModifySubscriptionsOperation alloc] initWithSubscriptionsToSave:@[promotion, contentPromotion] subscriptionIDsToDelete:nil];
 				
 				operation.modifySubscriptionsCompletionBlock = ^(NSArray <CKSubscription *> * __nullable savedSubscriptions, NSArray <NSString *> * __nullable deletedSubscriptionIDs, NSError * __nullable operationError) {
+					if (operationError) {
+						[AnalyticsManager logEvent:AnalyticsErrorFailedSubscriptionRegistration withAttributes:operationError.userInfo];
+					} else {
+						[AnalyticsManager logEvent:AnalyticsEventSuccessfullyRegisteredSubscription];
+					}
 					completion(operationError);
 				};
 				[[[CKContainer defaultContainer] publicCloudDatabase] addOperation:operation];
@@ -79,17 +85,7 @@
 				CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
 				clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
 					if (operationError) {
-						NSMutableDictionary *attributes = [NSMutableDictionary new];
-						if (operationError.localizedDescription) {
-							[attributes addEntriesFromDictionary:@{@"error.description":operationError.localizedDescription}];
-						}
-						if (operationError.domain) {
-							[attributes addEntriesFromDictionary:@{@"error.domain":operationError.domain}];
-						}
-						if (operationError.code) {
-							[attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:operationError.code]}];
-						}
-						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges withAttributes:[attributes copy]];
+						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges withAttributes:operationError.userInfo];
 						NSLog(@"Clear badge operation failed with operation error: %@", operationError);
 					}
 				};
@@ -109,11 +105,13 @@
 		
 		if (userInfo[@"aps"][@"content-available"]) {
 			NSLog(@"Content available = YES");
+			[AnalyticsManager logEvent:AnalyticsEventDidReceivePushInBackground];
 			[[[CKContainer defaultContainer] publicCloudDatabase] fetchRecordWithID:promotionID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
 				NSLog(@"record: %@, error: %@", record, error);
 				if (!error) {
 					Promotion *promotion = [Promotion promotionWithRecord:record];
 					[[UIApplication sharedApplication] scheduleLocalNotification:promotion.notification];
+					[AnalyticsManager logEvent:AnalyticsEventDidRegisterLocalNotification withAttributes:promotion.attributes];
 				}
 				completion(error);
 			}];

@@ -209,7 +209,6 @@
 				[self showNotificationIfNeeded];
 			} else {
 				if ([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) {
-					//to-do: show button to link to our facebook page anyway.
 					[AnalyticsManager logEvent:AnalyticsErrorReceivedPushWithZeroPromo];
 				} else {
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -274,14 +273,14 @@
 - (void)didContactUs {
 	if ([MailComposeViewController canSendMail]) {
 		[AppearanceHelper defaultBarTintColor];
-		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@YES}];
+		[AnalyticsManager logEvent:AnalyticsEventViewMailComposeVC withAttributes:@{@"canDisplayMailCompose":@YES}];
 		MailComposeViewController *mailComposeViewController = [MailComposeViewController new];
 		mailComposeViewController.mailComposeDelegate = self;
 		[self presentViewController:mailComposeViewController animated:YES completion:^{
 			[AppearanceHelper customBarTintColor];
 		}];
 	} else {
-		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@NO}];
+		[AnalyticsManager logEvent:AnalyticsEventViewMailComposeVC withAttributes:@{@"canDisplayMailCompose":@NO}];
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Mail Unavailable", nil) message:NSLocalizedString(@"Your device isn't configured to send emails. Please contact us at rogerluan.oba@gmail.com",nil) preferredStyle:UIAlertControllerStyleAlert];
 		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK") style:UIAlertActionStyleCancel handler:nil];
 		[alert addAction:cancelAction];

@@ -23,6 +23,8 @@ static NSString * const AnalyticsEventDidShakeDevice = @"DidShakeDevice";
 static NSString * const AnalyticseventDidInteractWithMailCompose = @"DidInteractWithMailCompose";
 
 #pragma mark - Buttons
+static NSString * const AnalyticsEventDidPressReturnKeyFromTextField = @"ReturnKey on UITextField";
+static NSString * const AnalyticsEventDidPressReturnKeyFromTextView = @"ReturnKey on UITextView";
 static NSString * const AnalyticsEventReviewedViaButton = @"ReviewedViaButton";
 static NSString * const AnalyticsEventUpdatedViaButton = @"UpdatedViaButton";
 static NSString * const AnalyticsEventPromoNotificationButton = @"PromoNotificationButton";
@@ -30,6 +32,17 @@ static NSString * const AnalyticsEventPromoErrorButton = @"PromoErrorButton";
 static NSString * const AnalyticsEventShakeCancelButton = @"ShakeCancelButton";
 static NSString * const AnalyticsEventShakeAcceptButton = @"ShakeAcceptButton";
 static NSString * const AnalyticsEventPushRegistrationButton = @"PushRegistrationButton";
+static NSString * const AnalyticsEventEditDecksButton = @"EditDecksButton";
+
+#pragma mark - General Events
+static NSString * const AnalyticsEventOpenURL = @"OpenURL";
+static NSString * const AnalyticsEventDidLoadURL = @"DidLoadURL";
+static NSString * const AnalyticsEventDidReceivePushInBackground = @"DidReceivePushInBackground";
+static NSString * const AnalyticsEventDidUpdatePromotionView = @"DidUpdatePromotionView";
+static NSString * const AnalyticsEventDidRegisterLocalNotification = @"DidRegisterLocalNotification";
+static NSString * const AnalyticsEventDidShareCard = @"DidShareCard";
+static NSString * const AnalyticsEventTrackGlobalSortCount = @"GlobalSortCount";
+static NSString * const AnalyticsEventSuccessfullyRegisteredSubscription = @"SuccessfullyRegisteredSubscription";
 
 #pragma mark - iRate
 static NSString * const AnalyticsEventiRateUserDidAttemptToRateApp = @"iRate UserDidAttemptToRateApp";
@@ -37,12 +50,9 @@ static NSString * const AnalyticsEventiRateUserDidDeclineToRateApp = @"iRate Use
 static NSString * const AnalyticsEventiRateUserDidRequestReminderToRateApp = @"iRate UserDidRequestReminderToRateApp";
 static NSString * const AnalyticsEventiRateDidOpenAppStore = @"iRate DidOpenAppStore";
 
-#pragma mark - Opt Out
+#pragma mark - User Info
 static NSString * const AnalyticsEventOptedOutShuffleWarning = @"OptedOutShuffleWarning";
-
-#pragma mark - Card Rule Cell
-static NSString * const AnalyticsEventDidPressReturnKeyFromTextField = @"ReturnKey on UITextField";
-static NSString * const AnalyticsEventDidPressReturnKeyFromTextView = @"ReturnKey on UITextView";
+static NSString * const AnalyticsEventCKAccountStatus = @"CKAccountStatus";
 
 #pragma mark - Card Manipulation
 static NSString * const AnalyticsEventDidDeleteCard = @"Deleted Card";
@@ -59,30 +69,23 @@ static NSString * const AnalyticsEventDidSelectDeck = @"Selected Deck";
 static NSString * const AnalyticsEventViewGameVC = @"ViewGameVC";
 static NSString * const AnalyticsEventViewDecksVC = @"ViewDecksVC";
 static NSString * const AnalyticsEventViewEditDeckVC = @"ViewEditDeckVC";
-static NSString * const AnalyticsEventMailComposeVC = @"MailComposeVC";
+static NSString * const AnalyticsEventViewMailComposeVC = @"ViewMailComposeVC";
+static NSString * const AnalyticsEventViewPromoCard = @"ViewPromoCard";
 
 static NSString * const AnalyticsEventDeckCreationView = @"DeckCreationView";
 static NSString * const AnalyticsEventDeckEditView = @"DeckEditView";
 static NSString * const AnalyticsEventCardDescriptionView = @"CardDescriptionView";
-
 static NSString * const AnalyticsEventShareActivityView = @"ShareActivityView";
-static NSString * const AnalyticsEventErrorAlert = @"ErrorAlert";
-
-static NSString * const AnalyticsEventOpenURL = @"OpenURL";
-static NSString * const AnalyticsEventDidLoadURL = @"DidLoadURL";
-
-static NSString * const AnalyticsEventViewPromoCard = @"ViewPromoCard";
-
-#pragma mark - Share
-static NSString * const AnalyticsEventDidShareCard = @"DidShareCard";
+static NSString * const AnalyticsEventErrorAlertView = @"ErrorAlertView";
+static NSString * const AnalyticsEventNotificationPermissionView = @"NotificationPermissionView";
 
 #pragma mark - Error
 static NSString * const AnalyticsErrorReceivedPushWithZeroPromo = @"ReceivedPushWithZeroPromo";
 static NSString * const AnalyticsErrorReceivedPushWithUnknownError = @"ReceivedPushWithUnknownError";
 static NSString * const AnalyticsErrorFailedClearBadges = @"FailedClearBadges";
-
-#pragma mark - User Info
-static NSString * const AnalyticsEventCKAccountStatus = @"CKAccountStatus";
+static NSString * const AnalyticsErrorFailedLoadingPromotionsSilently = @"FailedLoadingPromotionsSilently";
+static NSString * const AnalyticsErrorHandleRemoteNotificationError = @"HandleRemoteNotificationError";
+static NSString * const AnalyticsErrorFailedSubscriptionRegistration = @"FailedSubscriptionRegistration";
 
 @interface AnalyticsManager : NSObject
 

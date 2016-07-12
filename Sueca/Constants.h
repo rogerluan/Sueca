@@ -18,6 +18,7 @@ static NSString * const TabBarControllerIdentifier = @"TabBarController";
 static NSString * const DecksNavigationControllerIdentifier = @"DecksNavigationController";
 static NSString * const GameViewControllerIdentifier = @"GameViewController";
 static NSString * const EditDeckTableViewControllerIdentifier = @"EditDeckTableViewController";
+static NSString * const CardCellIdentifier = @"cardCell";
 
 #pragma mark - Notification Center
 static NSString * const SuecaNotificationUserDidDeclineAppRating = @"UserDidDeclineAppRating";

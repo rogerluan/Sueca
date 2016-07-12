@@ -7,6 +7,7 @@
 //
 
 #import "EditDeckTableViewController.h"
+#import "CardRulesCell.h"
 #import "Constants.h"
 #import "AnalyticsManager.h"
 #import "GameManager.h"
@@ -38,7 +39,6 @@
 	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
 	[tempImageView setFrame:self.tableView.frame];
 	self.tableView.backgroundView = tempImageView;
-	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	
 	if (self.thisDeck) { //editting deck
 		NSError *error;
@@ -52,7 +52,7 @@
 		[[GameManager sharedInstance] switchToDeck:self.thisDeck];
 		NSError *error;
 		if (![[self fetchedResultsController] performFetch:&error]) {
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			NSLog(@"Unresolved error %@, %@", error, error.userInfo);
 		}
 	}
 	
@@ -72,7 +72,7 @@
     }
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Data Source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.thisDeck) {
@@ -83,10 +83,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cardCellIdentifier = @"cardCell";
-    CardRulesCell *cell = [tableView dequeueReusableCellWithIdentifier:cardCellIdentifier forIndexPath:indexPath];
+    CardRulesCell *cell = [tableView dequeueReusableCellWithIdentifier:CardCellIdentifier forIndexPath:indexPath];
     if (!cell) {
-        cell = [[CardRulesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cardCellIdentifier];
+        cell = [[CardRulesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CardCellIdentifier];
     }
     
     [self configureCell:cell atIndexPath:indexPath];

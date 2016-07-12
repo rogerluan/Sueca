@@ -66,8 +66,6 @@
     }
 }
 
-
-
 /**
  *  Getter method for the current deck.
  *  @return Deck containing the cards that should be used, or nil if any error occurs.
@@ -118,6 +116,16 @@
     } else {
         return [deckBeingUsedFetchedObjects firstObject];
     }
+}
+
+- (void)refreshDeckArray {
+	if (self.deck) {
+		[self.deckArray removeAllObjects];
+		self.deckArray = [self fullDeck];
+	} else {
+		self.deck = [self deck];
+		//here we should call refreshDeckArray again, but could enter cycle.
+	}
 }
 
 - (BOOL)switchToDeck:(Deck *)selectedDeck {
@@ -193,7 +201,7 @@
 }
 
 /**
- *  Creates a full deck with 52 cards
+ *  Creates a full deck with 54 cards
  *  @return NSMutableArray containing the full deck
  */
 - (NSMutableArray *)fullDeck {
@@ -208,9 +216,10 @@
         }
     } else { /* Else if it's a custom deck, create cards accordingly with the suit */
         for (Card *card in self.deck.cards) {
+//			NSLog(@"");
 			if ([card.cardName isEqualToString:@"14-C"]) {
 				NSInteger i = 0;
-				for (; i < 4; i++) {
+				for (; i < 2; i++) {
 					Card *jokerTempCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:self.moc];
 					jokerTempCard.cardRule = card.cardRule;
 					jokerTempCard.cardDescription = card.cardDescription;
@@ -245,18 +254,6 @@
         }
     }
     return fullDeck;
-}
-
-#pragma mark - Helpers -
-
-- (void)refreshDeckArray {
-    if (self.deck) {
-        [self.deckArray removeAllObjects];
-        self.deckArray = [self fullDeck];
-    } else {
-		self.deck = [self deck];
-		//here we should call refreshDeckArray again, but could enter cycle.
-    }
 }
 
 #pragma mark - Core Data -
