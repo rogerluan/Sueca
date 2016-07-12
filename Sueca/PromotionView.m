@@ -12,13 +12,14 @@
 #define SMALL_PADDING 8
 #define MEDIUM_PADDING 12
 #define LARGE_PADDING 20
+#warning to-do: update this url
+static NSString * const kFacebookURL = @"https://www.facebook.com/suecadrinkinggame/";
 
 @implementation PromotionView
 
 + (instancetype)viewWithPromotion:(Promotion *)promotion {
 	PromotionView *promotionView = [[[NSBundle mainBundle] loadNibNamed:@"PromotionView" owner:self options:nil] firstObject];
 	promotionView.promotion = promotion;
-//	promotionView.button setTitle
 	return promotionView;
 }
 
@@ -31,10 +32,13 @@
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
+	self.title.text = NSLocalizedString(@"Do you like drinking with friends?", nil);
+	self.instructions.text = NSLocalizedString(@"Don't answer! It doesn't matter - we know you are a Sueca fan. Like our page on facebook to show your love!", nil);
+	[self.button setTitle:NSLocalizedString(@"Sueca Facebook Fanpage", nil) forState:UIControlStateNormal];
 }
 
 - (IBAction)didPressCTAbutton:(UIButton *)sender {
-	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationOpenURL object:self userInfo:@{@"url":self.promotion.buttonURL?self.promotion.buttonURL:[NSNull null]}];
+	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationOpenURL object:self userInfo:@{@"url":self.promotion.buttonURL?self.promotion.buttonURL:[NSURL URLWithString:kFacebookURL]}];
 }
 
 - (void)layoutSubviews {

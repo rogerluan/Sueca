@@ -9,6 +9,7 @@
 #import "NotificationManager.h"
 #import "ErrorManager.h"
 #import "CloudKitManager.h"
+#import "AnalyticsManager.h"
 
 @implementation NotificationManager
 
@@ -18,17 +19,8 @@
 		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
 		[application registerForRemoteNotifications];
 		[application registerUserNotificationSettings:settings];
+		[AnalyticsManager logEvent:AnalyticsEventNotificationPermissionView];
 	}
-}
-
-- (void)testPromoRegister:(DidRegisterForPromotions)completion {
-//	[[[CKContainer defaultContainer] publicCloudDatabase] fetchAllSubscriptionsWithCompletionHandler:^(NSArray<CKSubscription *> * _Nullable subscriptions, NSError * _Nullable error) {
-//		if (!error) {
-//			
-//		} else {
-//			
-//		}
-//	}];
 }
 
 - (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion {
@@ -57,6 +49,11 @@
 				CKModifySubscriptionsOperation *operation = [[CKModifySubscriptionsOperation alloc] initWithSubscriptionsToSave:@[promotion, contentPromotion] subscriptionIDsToDelete:nil];
 				
 				operation.modifySubscriptionsCompletionBlock = ^(NSArray <CKSubscription *> * __nullable savedSubscriptions, NSArray <NSString *> * __nullable deletedSubscriptionIDs, NSError * __nullable operationError) {
+					if (operationError) {
+						[AnalyticsManager logEvent:AnalyticsErrorFailedSubscriptionRegistration withAttributes:operationError.userInfo];
+					} else {
+						[AnalyticsManager logEvent:AnalyticsEventSuccessfullyRegisteredSubscription];
+					}
 					completion(operationError);
 				};
 				[[[CKContainer defaultContainer] publicCloudDatabase] addOperation:operation];
@@ -75,6 +72,7 @@
 				break;
 			}
 		}
+		[AnalyticsManager logEvent:AnalyticsEventCKAccountStatus withAttributes:@{@"status":[NSNumber numberWithInteger:accountStatus]}];
 	}];
 }
 
@@ -87,7 +85,7 @@
 				CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
 				clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
 					if (operationError) {
-						//to-do: analytics
+						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges withAttributes:operationError.userInfo];
 						NSLog(@"Clear badge operation failed with operation error: %@", operationError);
 					}
 				};
@@ -107,11 +105,13 @@
 		
 		if (userInfo[@"aps"][@"content-available"]) {
 			NSLog(@"Content available = YES");
+			[AnalyticsManager logEvent:AnalyticsEventDidReceivePushInBackground];
 			[[[CKContainer defaultContainer] publicCloudDatabase] fetchRecordWithID:promotionID completionHandler:^(CKRecord * _Nullable record, NSError * _Nullable error) {
 				NSLog(@"record: %@, error: %@", record, error);
 				if (!error) {
 					Promotion *promotion = [Promotion promotionWithRecord:record];
 					[[UIApplication sharedApplication] scheduleLocalNotification:promotion.notification];
+					[AnalyticsManager logEvent:AnalyticsEventDidRegisterLocalNotification withAttributes:promotion.attributes];
 				}
 				completion(error);
 			}];

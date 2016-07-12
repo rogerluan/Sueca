@@ -10,7 +10,6 @@
 #import "iRateCoordinator.h"
 #import "iVersionCoordinator.h"
 #import "AnalyticsManager.h"
-#import "GameViewController.h"
 #import "Constants.h"
 #import "GameManager.h"
 #import "MailComposeViewController.h"
@@ -141,7 +140,10 @@
 											  image:nil
 											   type:TSMessageNotificationTypeWarning
 										   duration:TSMessageNotificationDurationAutomatic
-										   callback:nil
+										   callback:^{
+											   [TSMessage dismissActiveNotification];
+											   [AnalyticsManager logEvent:AnalyticsEventDeckShuffledInteraction];
+										   }
 										buttonTitle:NSLocalizedString(@"Got It",nil)
 									 buttonCallback:^{
 										 [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningSilence forKey:@"showShuffledDeckWarning"];
@@ -158,11 +160,13 @@
 											  image:nil
 											   type:TSMessageNotificationTypeWarning
 										   duration:TSMessageNotificationDurationEndless
-										   callback:nil
+										   callback:^{
+											   [AnalyticsManager logEvent:AnalyticsEventUpdatedViaNotificationInteraction];
+											   [self.versioningCoordinator openAppPageInAppStore];
+										   }
 										buttonTitle:NSLocalizedString(@"Update", @"Update app button")
 									 buttonCallback:^{
-										 NSDictionary *attributes = @{@"Notification Title Key":@"Update Available", @"Notification Message Key":@"You're using an outdated version of Sueca. Update to have the most awesome new features!"};
-										 [AnalyticsManager logEvent:AnalyticsEventUpdatedViaButton withAttributes:attributes];
+										 [AnalyticsManager logEvent:AnalyticsEventUpdatedViaButton];
 										 [self.versioningCoordinator openAppPageInAppStore];
 									 }
 										 atPosition:TSMessageNotificationPositionTop
@@ -170,8 +174,8 @@
 		
 	} else if ([notification.name isEqualToString:SuecaNotificationUserDidDeclineAppRating]) {
 		
-		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"You don't drink?!",nil) message:NSLocalizedString(@"Okay, something really strange is going on. Would you like to drop us a letter?",nil) preferredStyle:UIAlertControllerStyleAlert];
-		UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Contact us",nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"You don't drink?!", nil) message:NSLocalizedString(@"Okay, there's something really strange going on. Would you like to drop us a letter?", nil) preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Contact us", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 			[self didContactUs];
 		}];
 		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No thanks", nil) style:UIAlertActionStyleCancel handler:nil];
@@ -191,20 +195,21 @@
 														  image:[UIImage imageNamed:@"suecaLogo"]
 														   type:TSMessageNotificationTypeMessage
 													   duration:TSMessageNotificationDurationEndless
-													   callback:nil //to-do: add analytics
+													   callback:^{
+														   [AnalyticsManager logEvent:AnalyticsEventPromoNotificationInteraction withAttributes:promotion.attributes];
+													   }
 													buttonTitle:NSLocalizedString(@"View", nil)
 												 buttonCallback:^{
-													 NSLog(@"`View Promotion` notification button was pressed!");
-													 //to-do: analytics
+													 [AnalyticsManager logEvent:AnalyticsEventPromoNotificationButton withAttributes:promotion.attributes];
 													 [weakSelf setSelectedIndex:1];
 												 }
 													 atPosition:TSMessageNotificationPositionTop
 										   canBeDismissedByUser:YES];
 				});
+				[self showNotificationIfNeeded];
 			} else {
 				if ([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) {
-					//to-do: show button to link to our facebook page anyway.
-					//to-do: add to analytics that received notification, but no promotion was found!
+					[AnalyticsManager logEvent:AnalyticsErrorReceivedPushWithZeroPromo];
 				} else {
 					dispatch_async(dispatch_get_main_queue(), ^(void) {
 						[TSMessage showNotificationInViewController:weakSelf
@@ -214,18 +219,17 @@
 															   type:TSMessageNotificationTypeWarning
 														   duration:TSMessageNotificationDurationEndless
 														   callback:^{
-															   //to-do: add analytics
+															   [AnalyticsManager logEvent:AnalyticsEventPromoErrorInteraction];
 														   }
 														buttonTitle:NSLocalizedString(@"View", nil)
 													 buttonCallback:^{
-														 NSLog(@"`View Promotion` notification button was pressed!");
-														 //to-do: analytics
+														 [AnalyticsManager logEvent:AnalyticsEventPromoErrorButton];
 														 [weakSelf setSelectedIndex:1];
 													 }
 														 atPosition:TSMessageNotificationPositionTop
 											   canBeDismissedByUser:YES];
 					});
-					//to-do: analytics
+					[AnalyticsManager logEvent:AnalyticsErrorReceivedPushWithUnknownError withAttributes:error.userInfo];
 				}
 			}
 		}];
@@ -236,8 +240,10 @@
 				SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:url];
 				safariVC.delegate = self;
 				[self presentViewController:safariVC animated:YES completion:nil];
+				[AnalyticsManager logEvent:AnalyticsEventOpenURL withAttributes:@{@"SafariVC":@YES, @"url":url.absoluteString}];
 			} else { //Safari View Controller is not available
 				[[UIApplication sharedApplication] openURL:url];
+				[AnalyticsManager logEvent:AnalyticsEventOpenURL withAttributes:@{@"SafariVC":@NO, @"url":url.absoluteString}];
 			}
 		} else {
 			[self presentViewController:[ErrorManager alertFromErrorIdentifier:SuecaErrorInvalidURL] animated:YES completion:nil];
@@ -267,14 +273,14 @@
 - (void)didContactUs {
 	if ([MailComposeViewController canSendMail]) {
 		[AppearanceHelper defaultBarTintColor];
-		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@YES}];
+		[AnalyticsManager logEvent:AnalyticsEventViewMailComposeVC withAttributes:@{@"canDisplayMailCompose":@YES}];
 		MailComposeViewController *mailComposeViewController = [MailComposeViewController new];
 		mailComposeViewController.mailComposeDelegate = self;
 		[self presentViewController:mailComposeViewController animated:YES completion:^{
 			[AppearanceHelper customBarTintColor];
 		}];
 	} else {
-		[AnalyticsManager logEvent:AnalyticsEventMailComposeVC withAttributes:@{@"canDisplayMailCompose":@NO}];
+		[AnalyticsManager logEvent:AnalyticsEventViewMailComposeVC withAttributes:@{@"canDisplayMailCompose":@NO}];
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Mail Unavailable", nil) message:NSLocalizedString(@"Your device isn't configured to send emails. Please contact us at rogerluan.oba@gmail.com",nil) preferredStyle:UIAlertControllerStyleAlert];
 		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK") style:UIAlertActionStyleCancel handler:nil];
 		[alert addAction:cancelAction];
@@ -285,33 +291,22 @@
 #pragma mark - Mail Compose Delegate Method -
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-	NSMutableDictionary *attributes = [NSMutableDictionary new];
-	[attributes addEntriesFromDictionary:@{@"result":[NSNumber numberWithInteger:result]}];
-	if (error.localizedDescription) {
-		[attributes addEntriesFromDictionary:@{@"error.description":error.localizedDescription}];
-	}
-	if (error.domain) {
-		[attributes addEntriesFromDictionary:@{@"error.domain":error.domain}];
-	}
-	if (error.code) {
-		[attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:error.code]}];
-	}
-	[AnalyticsManager logEvent:AnalyticseventDidInteractWithMailCompose withAttributes:[attributes copy]];
+	[AnalyticsManager logEvent:AnalyticseventDidInteractWithMailCompose withAttributes:@{@"result":[NSNumber numberWithInteger:result]}];
 	
 	__weak typeof(self) weakSelf = self;
 	[controller dismissViewControllerAnimated:YES completion:^{
-		dispatch_async(dispatch_get_main_queue(), ^(void) {
-			if (error) {
+		if (error) {
+			dispatch_async(dispatch_get_main_queue(), ^(void) {
 				[weakSelf presentViewController:[ErrorManager alertFromErrorIdentifier:SuecaErrorFailedToEmail] animated:YES completion:nil];
-			}
-		});
+			});
+		}
 	}];
 }
 
 #pragma mark - Safari View Controller Delegate Method -
 
 - (void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully {
-	//to-do: add analytics here
+	[AnalyticsManager logEvent:AnalyticsEventDidLoadURL withAttributes:@{@"didLoadSuccessfully":[NSNumber numberWithBool:didLoadSuccessfully]}];
 }
 
 @end

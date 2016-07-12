@@ -7,16 +7,11 @@
 //
 
 #import "GameViewController.h"
-
 #import "CardDescriptionView.h"
 #import "AppearanceHelper.h"
 #import "AnalyticsManager.h"
-#import "SuecaSwipeDeterminator.h"
-#import "SuecaViewAnimator.h"
-#import "CardView.h"
 #import "SoundManager.h"
 #import "GameManager.h"
-#import "Constants.h"
 #import "NotificationManager.h"
 #import "ShareViewController.h"
 #import "ErrorManager.h"
@@ -104,31 +99,34 @@
 			} else {
 				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 			}
+			[AnalyticsManager logEvent:AnalyticsEventPushRegistrationButton];
 		} else {
 			CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
 			NSString *imagePath = [NSString stringWithFormat:@"%@-TableOptimized", self.displayCard.cardName];
 			[descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:imagePath] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
 			descriptionView.delegate = self;
-			[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:[self currentCardAttributes]];
+			[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:self.displayCard.attributes];
 		}
     }
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.subtype == UIEventSubtypeMotionShake) {
-		//to-do: add analytics here to content view
 		if (self.swipeableView.history.count > 0) {
 			UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Undo Action", @"UIAlertController title") message:NSLocalizedString(@"You shaked your device, so the previous card will be rewinded. Only the last card can be rewinded. Are you sure you want to do this?", nil) preferredStyle:UIAlertControllerStyleAlert];
 			UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Rewind Card", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 				[self.swipeableView rewind];
 				[self updateRuleLabel];
-				[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:[self currentCardAttributes]];
+				[AnalyticsManager logEvent:AnalyticsEventShakeAcceptButton withAttributes:self.displayCard.attributes];
 			}];
-			UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:nil];
+			UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+				[AnalyticsManager logEvent:AnalyticsEventShakeCancelButton withAttributes:self.displayCard.attributes];
+			}];
 			[alert addAction:action];
 			[alert addAction:cancelAction];
 			[self presentViewController:alert animated:YES completion:nil];
 		}
+		[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:self.displayCard.attributes];
 	}
 	if ([super respondsToSelector:@selector(motionEnded:withEvent:)]) {
 		[super motionEnded:motion withEvent:event];
@@ -164,10 +162,11 @@
 			swipeDirection++;
 		}
 		[[NSUserDefaults standardUserDefaults] setInteger:swipeDirection forKey:@"swipeDirection"];
-		[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:[self currentCardAttributes]];
+		[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:self.displayCard.attributes];
 	} else {
 		[self.swipeableView.topView.layer addAnimation:[AppearanceHelper shakeAnimation] forKey:@""];
 		self.swipeableView.topView.transform = CGAffineTransformIdentity;
+		[AnalyticsManager logEvent:AnalyticsEventTapCardDuringTimer withAttributes:self.displayCard.attributes];
 	}
 }
 
@@ -200,6 +199,7 @@
 							 }];
 							 [cardView.progressBar setProgress:1 animated:YES];
 						 } completion:nil];
+		[AnalyticsManager logContentViewEvent:AnalyticsEventViewPromoCard contentType:@"Custom Card"];
 	}
 	//to-do: the line below may cause unexpected strings if the user set a text that represents localized string accidentally.
 	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule, nil) forState:UIControlStateNormal];
@@ -211,7 +211,7 @@
     [alertView close];
 	ShareViewController *activityViewController = [ShareViewController initWithCard:self.displayCard];
     [self presentViewController:activityViewController animated:YES completion:nil];
-	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:[self currentCardAttributes]];
+	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:self.displayCard.attributes];
 }
 
 #pragma mark - ZLSwipeableView Methods
@@ -233,22 +233,6 @@
 	[self updateRuleLabel];
 	NSDictionary *attributes = @{@"Direction":[NSNumber numberWithInteger:direction]};
 	[AnalyticsManager logEvent:AnalyticsEventDidSwipeCard withAttributes:attributes];
-}
-
-#pragma mark - Helpers -
-
-- (NSDictionary *)currentCardAttributes {
-	NSMutableDictionary *attributes = [NSMutableDictionary new];
-	if (self.displayCard.cardName) {
-		[attributes addEntriesFromDictionary:@{@"Card Name":self.displayCard.cardName}];
-	}
-	if (self.displayCard.cardRule) {
-		[attributes addEntriesFromDictionary:@{@"Card Rule":self.displayCard.cardRule}];
-	}
-	if (self.displayCard.cardDescription) {
-		[attributes addEntriesFromDictionary:@{@"Card Description":self.displayCard.cardDescription}];
-	}
-	return [attributes copy];
 }
 
 #pragma mark - Notification Center -

@@ -29,6 +29,14 @@
 	return [self isDefault];
 }
 
+- (NSDictionary *)attributes {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (self.deckName) {
+		[attributes addEntriesFromDictionary:@{@"Deck Name":self.deckName}];
+	}
+	return [attributes copy];
+}
+
 + (Deck *)newDeckWithLabel:(NSString *)deckLabel {
 	NSArray *cardRules = [[NSArray alloc] initWithObjects:@"Card Rule 1",
 						  @"Card Rule 2",
@@ -107,7 +115,8 @@
 		defaultDeck.isEditable = [NSNumber numberWithBool:NO];
 		defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
 		
-		for (int i = 0 ; i < DEFAULT_NUMBER_OF_CARDS ; i++) {
+		NSInteger i = 0;
+		for (; i < DEFAULT_NUMBER_OF_CARDS ; i++) {
 			Card *defaultDeckCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 			defaultDeckCard.cardName = [cardImages objectAtIndex:i];
 			defaultDeckCard.cardRule = [cardRules objectAtIndex:i];
@@ -142,7 +151,7 @@
 	NSArray *defaultDeckFetchedObjects = [moc executeFetchRequest:fetchRequest error:&error];
 	
 	NSLog(@"defaultDeckExist response: %ld",(long)defaultDeckFetchedObjects.count);
-	return defaultDeckFetchedObjects.count ? [defaultDeckFetchedObjects objectAtIndex:0] : nil;
+	return defaultDeckFetchedObjects.count > 0 ? [defaultDeckFetchedObjects firstObject] : nil;
 }
 
 #pragma mark - Core Data Method

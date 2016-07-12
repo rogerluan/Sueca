@@ -17,5 +17,8 @@
 @property (nonatomic, retain) NSString *cardRule; //card brief description (title)
 @property (nonatomic, retain) NSString *cardDescription; //card description
 @property (nonatomic, retain) Deck *deck;
+@property (assign, readonly, getter=attributes) NSDictionary *attributes;
+
+- (NSDictionary *)attributes;
 
 @end

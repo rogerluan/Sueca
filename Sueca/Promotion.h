@@ -21,7 +21,9 @@
 @property (strong, nonatomic) NSString *shortDescription;
 @property (strong, nonatomic) NSString *fullDescription;
 @property (strong, nonatomic) UILocalNotification *notification;
+@property (assign, readonly, getter=attributes) NSDictionary *attributes;
 
 + (instancetype)promotionWithRecord:(CKRecord *)record;
+- (NSDictionary *)attributes;
 
 @end

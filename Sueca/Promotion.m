@@ -35,4 +35,13 @@
 	return promotion;
 }
 
+- (NSDictionary *)attributes {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (self.identifier) {
+		[attributes addEntriesFromDictionary:@{@"identifier":self.identifier}];
+	}
+	return [attributes copy];
+}
+
+
 @end

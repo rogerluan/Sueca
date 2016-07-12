@@ -7,6 +7,7 @@
 //
 
 #import "EditDeckTableViewController.h"
+#import "CardRulesCell.h"
 #import "Constants.h"
 #import "AnalyticsManager.h"
 #import "GameManager.h"
@@ -38,7 +39,6 @@
 	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
 	[tempImageView setFrame:self.tableView.frame];
 	self.tableView.backgroundView = tempImageView;
-	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	
 	if (self.thisDeck) { //editting deck
 		NSError *error;
@@ -52,7 +52,7 @@
 		[[GameManager sharedInstance] switchToDeck:self.thisDeck];
 		NSError *error;
 		if (![[self fetchedResultsController] performFetch:&error]) {
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+			NSLog(@"Unresolved error %@, %@", error, error.userInfo);
 		}
 	}
 	
@@ -72,7 +72,7 @@
     }
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Data Source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.thisDeck) {
@@ -83,10 +83,9 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cardCellIdentifier = @"cardCell";
-    CardRulesCell *cell = [tableView dequeueReusableCellWithIdentifier:cardCellIdentifier forIndexPath:indexPath];
+    CardRulesCell *cell = [tableView dequeueReusableCellWithIdentifier:CardCellIdentifier forIndexPath:indexPath];
     if (!cell) {
-        cell = [[CardRulesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cardCellIdentifier];
+        cell = [[CardRulesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CardCellIdentifier];
     }
     
     [self configureCell:cell atIndexPath:indexPath];
@@ -140,17 +139,7 @@
         Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self.moc deleteObject:cardToBeDeleted];
 		
-		NSMutableDictionary *attributes;
-		if (cardToBeDeleted.cardName) {
-			[attributes addEntriesFromDictionary:@{@"Card Name":cardToBeDeleted.cardName}];
-		}
-		if (cardToBeDeleted.cardRule) {
-			[attributes addEntriesFromDictionary:@{@"Card Rule":cardToBeDeleted.cardRule}];
-		}
-		if (cardToBeDeleted.cardDescription) {
-			[attributes addEntriesFromDictionary:@{@"Card Description":cardToBeDeleted.cardDescription}];
-		}
-		[AnalyticsManager logEvent:AnalyticsEventDidDeleteCard withAttributes:[attributes copy]];
+		[AnalyticsManager logEvent:AnalyticsEventDidDeleteCard withAttributes:cardToBeDeleted.attributes];
 		
         for (NSInteger i = indexPath.row ; i < ([tableView numberOfRowsInSection:0]-1) ; i++) {
             [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -286,17 +275,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
 	
-	NSMutableDictionary *attributes;
-	if (editedCard.cardName) {
-		[attributes addEntriesFromDictionary:@{@"Card Name":editedCard.cardName}];
-	}
-	if (editedCard.cardRule) {
-		[attributes addEntriesFromDictionary:@{@"Card Rule":editedCard.cardRule}];
-	}
-	if (editedCard.cardDescription) {
-		[attributes addEntriesFromDictionary:@{@"Card Description":editedCard.cardDescription}];
-	}
-	[AnalyticsManager logEvent:AnalyticsEventDidEditCardRule withAttributes:[attributes copy]];
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardRule withAttributes:editedCard.attributes];
 }
 
 - (void)cardRuleCell:(UITableViewCell *)cell textViewDidEndEditingWithContent:(UITextView *)cardDescriptionTextView {
@@ -308,18 +287,8 @@
     if(![self.moc save: &error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
-	
-	NSMutableDictionary *attributes;
-	if (editedCard.cardName) {
-		[attributes addEntriesFromDictionary:@{@"Card Name":editedCard.cardName}];
-	}
-	if (editedCard.cardRule) {
-		[attributes addEntriesFromDictionary:@{@"Card Rule":editedCard.cardRule}];
-	}
-	if (editedCard.cardDescription) {
-		[attributes addEntriesFromDictionary:@{@"Card Description":editedCard.cardDescription}];
-	}
-	[AnalyticsManager logEvent:AnalyticsEventDidEditCardDescription withAttributes:[attributes copy]];
+
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardDescription withAttributes:editedCard.attributes];
 }
 
 @end

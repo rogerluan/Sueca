@@ -16,20 +16,22 @@
 
 //to-do: detect most engaging card(s) by calculating time of exposure
 
+static NSString * const kGlobalSortCount = @"globalSortCount";
+
 @implementation AnalyticsManager
 
 + (void)trackGlobalSortCount {
-	NSNumber *globalSortCount = [NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"]];
+	NSNumber *globalSortCount = [NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:kGlobalSortCount]];
 	NSLog(@"\n\nGlobal Sort Count: %@\n", globalSortCount);
-    NSDictionary *attributes = @{@"globalSortCount":globalSortCount};
-	[self logEvent:@"globalSortCount" withAttributes:attributes];
+    NSDictionary *attributes = @{kGlobalSortCount:globalSortCount};
+	[self logEvent:AnalyticsEventTrackGlobalSortCount withAttributes:attributes];
 }
 
 + (void)increaseGlobalSortCount {
     [[iRate sharedInstance] logEvent:NO];
-    NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"];
+    NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:kGlobalSortCount];
     globalSortCount++;
-    [[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:@"globalSortCount"];
+    [[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:kGlobalSortCount];
 }
 
 + (void)logEvent:(NSString *)eventName {

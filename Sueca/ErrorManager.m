@@ -73,16 +73,16 @@
 
 + (void)sendAnalyticsForError:(NSError *)error {
 	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (error.code) {
+		[attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:error.code]}];
+	}
 	if (error.localizedDescription) {
 		[attributes addEntriesFromDictionary:@{@"error.description":error.localizedDescription}];
 	}
 	if (error.domain) {
 		[attributes addEntriesFromDictionary:@{@"error.domain":error.domain}];
 	}
-	if (error.code) {
-		[attributes addEntriesFromDictionary:@{@"error.code":[NSNumber numberWithInteger:error.code]}];
-	}
-	[AnalyticsManager logEvent:AnalyticsEventErrorAlert withAttributes:[attributes copy]];
+	[AnalyticsManager logEvent:AnalyticsEventErrorAlertView withAttributes:[attributes copy]];
 }
 
 
