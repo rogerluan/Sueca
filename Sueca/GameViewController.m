@@ -9,12 +9,10 @@
 #import "GameViewController.h"
 #import "CardDescriptionView.h"
 #import "AppearanceHelper.h"
-#import "AnalyticsManager.h"
 #import "SoundManager.h"
 #import "GameManager.h"
 #import "NotificationManager.h"
 #import "ShareViewController.h"
-#import "ErrorManager.h"
 
 @interface GameViewController () <UIGestureRecognizerDelegate, CustomIOS7AlertViewDelegate>
 

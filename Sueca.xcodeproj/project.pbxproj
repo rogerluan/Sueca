@@ -44,13 +44,11 @@
 		C5BE5C0A1D2E5600005CFC08 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C091D2E5600005CFC08 /* ShareViewController.m */; };
 		C5BE5C0D1D2E641E005CFC08 /* MailComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */; };
 		C5BE5C131D2F9A41005CFC08 /* Promotion.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C121D2F9A41005CFC08 /* Promotion.m */; };
-		C5BE5C151D30A9ED005CFC08 /* PromotionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5BE5C141D30A9ED005CFC08 /* PromotionView.xib */; };
 		C5BE5C1C1D30AC71005CFC08 /* PromotionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C1B1D30AC71005CFC08 /* PromotionView.m */; };
 		C5BE5C1F1D321848005CFC08 /* ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C5BE5C1E1D321848005CFC08 /* ErrorManager.m */; };
 		C5C5AA9618184814005A9625 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9518184814005A9625 /* Foundation.framework */; };
 		C5C5AA9818184814005A9625 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9718184814005A9625 /* CoreGraphics.framework */; };
 		C5C5AA9A18184814005A9625 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C5AA9918184814005A9625 /* UIKit.framework */; };
-		C5C5AAA018184814005A9625 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5C5AA9E18184814005A9625 /* InfoPlist.strings */; };
 		C5C5AAA218184814005A9625 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AAA118184814005A9625 /* main.m */; };
 		C5C5AAA618184814005A9625 /* a20AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AAA518184814005A9625 /* a20AppDelegate.m */; };
 		C5C5AAA818184814005A9625 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5C5AAA718184814005A9625 /* Images.xcassets */; };
@@ -59,6 +57,7 @@
 		C5C5AAB918184814005A9625 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C5C5AAB718184814005A9625 /* InfoPlist.strings */; };
 		C5C5AABB18184814005A9625 /* SuecaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C5C5AABA18184814005A9625 /* SuecaTests.m */; };
 		C5CC40991D26053D00F6DCC6 /* iVersionCoordinator.m in Sources */ = {isa = PBXBuildFile; fileRef = C5CC40981D26053D00F6DCC6 /* iVersionCoordinator.m */; };
+		C5D30BCC1D34E9C400734F66 /* PromotionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C5D30BCE1D34E9C400734F66 /* PromotionView.xib */; };
 		C5D5294C1B2916C6003542CD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D5294B1B2916C6003542CD /* Social.framework */; };
 		C5D5294E1B2916CD003542CD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5D5294D1B2916CD003542CD /* Accounts.framework */; };
 		C5D5295A1B29CFAE003542CD /* iVersion.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C5D529571B29CFAE003542CD /* iVersion.bundle */; };
@@ -155,7 +154,6 @@
 		C5BE5C0C1D2E641E005CFC08 /* MailComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailComposeViewController.m; sourceTree = "<group>"; };
 		C5BE5C111D2F9A41005CFC08 /* Promotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Promotion.h; sourceTree = "<group>"; };
 		C5BE5C121D2F9A41005CFC08 /* Promotion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Promotion.m; sourceTree = "<group>"; };
-		C5BE5C141D30A9ED005CFC08 /* PromotionView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PromotionView.xib; sourceTree = "<group>"; };
 		C5BE5C1A1D30AC71005CFC08 /* PromotionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PromotionView.h; sourceTree = "<group>"; };
 		C5BE5C1B1D30AC71005CFC08 /* PromotionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PromotionView.m; sourceTree = "<group>"; };
 		C5BE5C1D1D321848005CFC08 /* ErrorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorManager.h; sourceTree = "<group>"; };
@@ -165,7 +163,6 @@
 		C5C5AA9718184814005A9625 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C5C5AA9918184814005A9625 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		C5C5AA9D18184814005A9625 /* Sueca-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sueca-Info.plist"; sourceTree = "<group>"; };
-		C5C5AA9F18184814005A9625 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5C5AAA118184814005A9625 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C5C5AAA318184814005A9625 /* Sueca-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sueca-Prefix.pch"; sourceTree = "<group>"; };
 		C5C5AAA418184814005A9625 /* a20AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = a20AppDelegate.h; sourceTree = "<group>"; };
@@ -178,6 +175,10 @@
 		C5CC40961D25D4AB00F6DCC6 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C5CC40971D26053D00F6DCC6 /* iVersionCoordinator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iVersionCoordinator.h; sourceTree = "<group>"; };
 		C5CC40981D26053D00F6DCC6 /* iVersionCoordinator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersionCoordinator.m; sourceTree = "<group>"; };
+		C5D30BC71D34E9A700734F66 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Storyboard.strings; sourceTree = "<group>"; };
+		C5D30BC91D34E9AA00734F66 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Storyboard.strings; sourceTree = "<group>"; };
+		C5D30BCB1D34E9AE00734F66 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Storyboard.strings; sourceTree = "<group>"; };
+		C5D30BCD1D34E9C400734F66 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PromotionView.xib; sourceTree = "<group>"; };
 		C5D5294B1B2916C6003542CD /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		C5D5294D1B2916CD003542CD /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		C5D529571B29CFAE003542CD /* iVersion.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iVersion.bundle; sourceTree = "<group>"; };
@@ -185,15 +186,11 @@
 		C5D529591B29CFAE003542CD /* iVersion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iVersion.m; sourceTree = "<group>"; };
 		C5E1A3881CE0A5C000C89C21 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C5E59F851B39512600DB76BB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C5E6FE301B2121CC005D70C0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Storyboard.strings; sourceTree = "<group>"; };
 		C5E6FE311B2121CC005D70C0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		C5E6FE321B2121CC005D70C0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5E6FE331B2121CC005D70C0 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5E9B6771A3237C100D0171A /* Sueca Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Sueca Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		C5E9B6781A3238A600D0171A /* Deck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Deck.h; sourceTree = "<group>"; };
 		C5E9B6791A3238A600D0171A /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
-		C5E9B6851A3B2AD900D0171A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Storyboard.strings; sourceTree = "<group>"; };
-		C5E9B6871A3B2ADB00D0171A /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Storyboard.strings; sourceTree = "<group>"; };
 		C5E9B6891A3C86E300D0171A /* cardShuffle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardShuffle.wav; sourceTree = "<group>"; };
 		C5E9B68A1A3C86E300D0171A /* cardSlide1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide1.wav; sourceTree = "<group>"; };
 		C5E9B68B1A3C86E300D0171A /* cardSlide2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = cardSlide2.wav; sourceTree = "<group>"; };
@@ -206,7 +203,6 @@
 		C5F3B50D19B53F2C006D6257 /* iRate.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = iRate.bundle; sourceTree = "<group>"; };
 		C5F3B50E19B53F2C006D6257 /* iRate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iRate.h; sourceTree = "<group>"; };
 		C5F3B50F19B53F2C006D6257 /* iRate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iRate.m; sourceTree = "<group>"; };
-		C5F3B51219B54409006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5F3B51319B54409006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C5F3B51C19B54603006D6257 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C5F3B51E19B5460F006D6257 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -397,7 +393,7 @@
 		C5BE5C191D30A9FE005CFC08 /* Promotion View */ = {
 			isa = PBXGroup;
 			children = (
-				C5BE5C141D30A9ED005CFC08 /* PromotionView.xib */,
+				C5D30BCE1D34E9C400734F66 /* PromotionView.xib */,
 				C5BE5C1A1D30AC71005CFC08 /* PromotionView.h */,
 				C5BE5C1B1D30AC71005CFC08 /* PromotionView.m */,
 			);
@@ -477,7 +473,6 @@
 				C5E9B6881A3C86C200D0171A /* Sound FX */,
 				C5F3B51B19B54603006D6257 /* Localizable.strings */,
 				C5C5AA9D18184814005A9625 /* Sueca-Info.plist */,
-				C5C5AA9E18184814005A9625 /* InfoPlist.strings */,
 				C5FCFE661B88EC740034892D /* SuecaNotificationDesign.json */,
 				C5C5AAA118184814005A9625 /* main.m */,
 				C5C5AAA318184814005A9625 /* Sueca-Prefix.pch */,
@@ -670,7 +665,6 @@
 				C5FCFE671B88EC740034892D /* SuecaNotificationDesign.json in Resources */,
 				C5F3B51D19B54603006D6257 /* Localizable.strings in Resources */,
 				C5E9B6981A3C86E300D0171A /* cardSlide6.wav in Resources */,
-				C5C5AAA018184814005A9625 /* InfoPlist.strings in Resources */,
 				C5E9B6961A3C86E300D0171A /* cardSlide4.wav in Resources */,
 				C588D26C1D2D057C004B6CB8 /* CardView.xib in Resources */,
 				C5D5295A1B29CFAE003542CD /* iVersion.bundle in Resources */,
@@ -682,7 +676,7 @@
 				C5E9B6921A3C86E300D0171A /* cardShuffle.wav in Resources */,
 				C5F3B51419B54481006D6257 /* Storyboard.storyboard in Resources */,
 				C5E9B6941A3C86E300D0171A /* cardSlide2.wav in Resources */,
-				C5BE5C151D30A9ED005CFC08 /* PromotionView.xib in Resources */,
+				C5D30BCC1D34E9C400734F66 /* PromotionView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -816,16 +810,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		C5C5AA9E18184814005A9625 /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C5C5AA9F18184814005A9625 /* en */,
-				C5F3B51219B54409006D6257 /* pt */,
-				C5E6FE321B2121CC005D70C0 /* de */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		C5C5AAB718184814005A9625 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -836,13 +820,21 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		C5D30BCE1D34E9C400734F66 /* PromotionView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C5D30BCD1D34E9C400734F66 /* Base */,
+			);
+			name = PromotionView.xib;
+			sourceTree = "<group>";
+		};
 		C5F3B51619B54481006D6257 /* Storyboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				C5F3B52019B551AF006D6257 /* Base */,
-				C5E9B6851A3B2AD900D0171A /* en */,
-				C5E9B6871A3B2ADB00D0171A /* pt */,
-				C5E6FE301B2121CC005D70C0 /* de */,
+				C5D30BC71D34E9A700734F66 /* en */,
+				C5D30BC91D34E9AA00734F66 /* pt */,
+				C5D30BCB1D34E9AE00734F66 /* de */,
 			);
 			name = Storyboard.storyboard;
 			sourceTree = "<group>";

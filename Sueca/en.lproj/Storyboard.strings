@@ -1,33 +1,21 @@
 
-/* Class = "IBUINavigationItem"; title = "Decks"; ObjectID = "FnG-FK-QSo"; */
-"FnG-FK-QSo.title" = "Decks";
+/* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "0Be-24-XKX"; */
+"0Be-24-XKX.title" = "Edit";
 
-/* Class = "IBUITabBarItem"; title = "Rules"; ObjectID = "R9w-nP-c0V"; */
+/* Class = "UITabBarItem"; title = "Decks"; ObjectID = "R9w-nP-c0V"; */
 "R9w-nP-c0V.title" = "Decks";
 
-/* Class = "IBUIButton"; highlightedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
-"YYI-LG-EaA.highlightedTitle" = "Draw";
+/* Class = "UINavigationItem"; title = "Decks"; ObjectID = "Y1T-XM-V8v"; */
+"Y1T-XM-V8v.title" = "Decks";
 
-/* Class = "IBUIButton"; normalTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
-"YYI-LG-EaA.normalTitle" = "Draw";
-
-/* Class = "IBUIButton"; selectedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
-"YYI-LG-EaA.selectedTitle" = "Draw";
-
-/* Class = "IBUITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
+/* Class = "UITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
 "afF-zT-taB.text" = "Tap to edit card description";
 
-/* Class = "IBUITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
+/* Class = "UITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
 "tP5-AK-7Cl.placeholder" = "Card Rule";
 
-/* Class = "IBUITabBarItem"; title = "Sueca"; ObjectID = "tuM-HQ-LNS"; */
+/* Class = "UITabBarItem"; title = "Sueca"; ObjectID = "tuM-HQ-LNS"; */
 "tuM-HQ-LNS.title" = "Sueca";
 
-/* Class = "IBUIButton"; highlightedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.highlightedTitle" = "Shuffle Deck";
-
-/* Class = "IBUIButton"; normalTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.normalTitle" = "Shuffle Deck";
-
-/* Class = "IBUIButton"; selectedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.selectedTitle" = "Shuffle Deck";
+/* Class = "UIButton"; normalTitle = "Long enough card description here."; ObjectID = "ulm-zI-B6S"; */
+"ulm-zI-B6S.normalTitle" = "Long enough card description here.";

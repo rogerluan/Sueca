@@ -8,8 +8,6 @@
 
 #import "EditDeckTableViewController.h"
 #import "CardRulesCell.h"
-#import "Constants.h"
-#import "AnalyticsManager.h"
 #import "GameManager.h"
 
 @interface EditDeckTableViewController () <NSFetchedResultsControllerDelegate,CardRuleCellDelegate>

@@ -8,7 +8,6 @@
 
 #import "ShareViewController.h"
 #import "Deck.h"
-#import "AnalyticsManager.h"
 
 @interface ShareViewController ()
 

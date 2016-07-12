@@ -8,8 +8,6 @@
 
 #import "iRateCoordinator.h"
 #import "iVersion.h"
-#import "AnalyticsManager.h"
-#import "Constants.h"
 
 @implementation iRateCoordinator
 

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <CloudKit/CloudKit.h>
-#import "Constants.h"
 #import "Promotion.h"
 
 @interface CloudKitManager : NSObject

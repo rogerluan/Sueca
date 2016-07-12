@@ -33,6 +33,7 @@ static NSString * const AnalyticsEventShakeCancelButton = @"ShakeCancelButton";
 static NSString * const AnalyticsEventShakeAcceptButton = @"ShakeAcceptButton";
 static NSString * const AnalyticsEventPushRegistrationButton = @"PushRegistrationButton";
 static NSString * const AnalyticsEventEditDecksButton = @"EditDecksButton";
+static NSString * const AnalyticsEventCTAButton = @"CTAButton";
 
 #pragma mark - General Events
 static NSString * const AnalyticsEventOpenURL = @"OpenURL";

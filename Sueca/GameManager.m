@@ -8,9 +8,6 @@
 
 #import "GameManager.h"
 #import "Deck.h"
-#import "Constants.h"
-#import "iRate.h"
-#import "AnalyticsManager.h"
 
 @interface GameManager ()
 

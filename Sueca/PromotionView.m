@@ -7,12 +7,11 @@
 //
 
 #import "PromotionView.h"
-#import "Constants.h"
 
 #define SMALL_PADDING 8
 #define MEDIUM_PADDING 12
 #define LARGE_PADDING 20
-#warning to-do: update this url
+
 static NSString * const kFacebookURL = @"https://www.facebook.com/suecadrinkinggame/";
 
 @implementation PromotionView
@@ -38,7 +37,9 @@ static NSString * const kFacebookURL = @"https://www.facebook.com/suecadrinkingg
 }
 
 - (IBAction)didPressCTAbutton:(UIButton *)sender {
-	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationOpenURL object:self userInfo:@{@"url":self.promotion.buttonURL?self.promotion.buttonURL:[NSURL URLWithString:kFacebookURL]}];
+	NSURL *url = self.promotion.buttonURL?self.promotion.buttonURL:[NSURL URLWithString:kFacebookURL];
+	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationOpenURL object:self userInfo:@{@"url":url}];
+	[AnalyticsManager logEvent:AnalyticsEventCTAButton withAttributes:@{@"url":url, @"buttonTitle":self.button.titleLabel}];
 }
 
 - (void)layoutSubviews {

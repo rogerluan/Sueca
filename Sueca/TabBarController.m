@@ -9,14 +9,11 @@
 #import "TabBarController.h"
 #import "iRateCoordinator.h"
 #import "iVersionCoordinator.h"
-#import "AnalyticsManager.h"
-#import "Constants.h"
 #import "GameManager.h"
 #import "MailComposeViewController.h"
 #import "AppearanceHelper.h"
 #import "CloudKitManager.h"
 #import "NotificationManager.h"
-#import "ErrorManager.h"
 
 #import <SafariServices/SafariServices.h>
 #import <TSMessages/TSMessageView.h>
