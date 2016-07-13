@@ -32,12 +32,12 @@
 
 @implementation GameViewController
 
-#pragma mark - Lifecycle - 
+#pragma mark - Lifecycle -
 
 - (void)viewDidLoad {
 	[self setup];
-    [super viewDidLoad];
-    [self setupViewsLayout];	
+	[super viewDidLoad];
+	[self setupViewsLayout];
 }
 
 - (void)setup {
@@ -61,7 +61,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 	[self updateRuleLabel];
-
+	
 	if (self.shouldUpdateDeck) {
 		[self updateDeck];
 	}
@@ -80,23 +80,17 @@
 #pragma mark - IBActions -
 
 - (IBAction)displayCardDescription:(id)sender {
-    if (self.swipeableView.topView) {
+	if (self.swipeableView.topView) {
 		if ([self.displayCard.cardName isEqualToString:@"promoCard"]) {
-			if (![[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) {
-				__weak typeof(self) weakSelf = self;
-				[self.notificationManager registerForPromotionsWithCompletion:^(NSError *error) {
-					if (!error) {
-						NSLog(@"Successfully registered for promotions (in CloudKit).");
-					} else {
-						NSLog(@"Error when trying to register for promotions. Error: %@", error);
-						dispatch_async(dispatch_get_main_queue(), ^(void) {
-							[weakSelf presentViewController:[ErrorManager alertFromError:error] animated:YES completion:nil];
-						});
-					}
-				}];
+			if (![[NSUserDefaults standardUserDefaults] boolForKey:AnalyticsEventSuccessfullyRegisteredSubscription]) {
+//				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) {
+					[self.notificationManager registerForPromotionsWithCompletion:^(NSError *error) {
+						[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationRegisterForPromotions object:self userInfo:error.userInfo];
+					}];
 			} else {
 				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 			}
+			
 			[AnalyticsManager logEvent:AnalyticsEventPushRegistrationButton];
 		} else {
 			CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
@@ -105,13 +99,13 @@
 			descriptionView.delegate = self;
 			[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:self.displayCard.attributes];
 		}
-    }
+	}
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
 	if (event.subtype == UIEventSubtypeMotionShake) {
 		if (self.swipeableView.history.count > 0) {
-			UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Undo Action", @"UIAlertController title") message:NSLocalizedString(@"You shaked your device, so the previous card will be rewinded. Only the last card can be rewinded. Are you sure you want to do this?", nil) preferredStyle:UIAlertControllerStyleAlert];
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Undo Action", @"UIAlertController title") message:NSLocalizedString(@"You shook your device, so the previous card will be rewinded. Only the last card can be rewinded. Are you sure you want to do this?", nil) preferredStyle:UIAlertControllerStyleAlert];
 			UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Rewind Card", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 				[self.swipeableView rewind];
 				[self updateRuleLabel];
@@ -171,11 +165,11 @@
 #pragma mark - Appearance -
 
 - (void)setupViewsLayout {
-    [self.ruleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.ruleButton.titleLabel setNumberOfLines:2];
+	[self.ruleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+	[self.ruleButton.titleLabel setNumberOfLines:2];
 	[self.ruleButton.titleLabel setAdjustsFontSizeToFitWidth:YES];
 	[self.ruleButton.titleLabel setMinimumScaleFactor:15/25];
-    [AppearanceHelper addShadowToLayer:self.ruleButton.layer opacity:0.9 radius:10.0];
+	[AppearanceHelper addShadowToLayer:self.ruleButton.layer opacity:0.9 radius:10.0];
 }
 
 - (void)updateRuleLabel {
@@ -206,9 +200,9 @@
 #pragma mark - CustomIOS7dialogButton Delegate Method
 
 - (void)customIOS7dialogButtonTouchUpInside:(id)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    [alertView close];
+	[alertView close];
 	ShareViewController *activityViewController = [ShareViewController initWithCard:self.displayCard];
-    [self presentViewController:activityViewController animated:YES completion:nil];
+	[self presentViewController:activityViewController animated:YES completion:nil];
 	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:self.displayCard.attributes];
 }
 

@@ -44,6 +44,7 @@ static NSString * const AnalyticsEventDidRegisterLocalNotification = @"DidRegist
 static NSString * const AnalyticsEventDidShareCard = @"DidShareCard";
 static NSString * const AnalyticsEventTrackGlobalSortCount = @"GlobalSortCount";
 static NSString * const AnalyticsEventSuccessfullyRegisteredSubscription = @"SuccessfullyRegisteredSubscription";
+static NSString * const AnalyticsEventShouldDisplayPromoCard = @"ShouldDisplayPromoCard";
 
 #pragma mark - iRate
 static NSString * const AnalyticsEventiRateUserDidAttemptToRateApp = @"iRate UserDidAttemptToRateApp";

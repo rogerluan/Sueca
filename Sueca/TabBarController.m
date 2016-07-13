@@ -118,10 +118,10 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDeckShuffled object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationNewVersionAvailable object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUserDidDeclineAppRating object:nil];
-	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationActiveRemoteNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationActiveLocalNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationOpenURL object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationRegisterForPromotions object:nil];
 }
 
 - (void)unregisterFromNotification {
@@ -172,10 +172,10 @@
 	} else if ([notification.name isEqualToString:SuecaNotificationUserDidDeclineAppRating]) {
 		
 		UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"You don't drink?!", nil) message:NSLocalizedString(@"Okay, there's something really strange going on. Would you like to drop us a letter?", nil) preferredStyle:UIAlertControllerStyleAlert];
-		UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Contact us", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+		UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Contact Us", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
 			[self didContactUs];
 		}];
-		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No thanks", nil) style:UIAlertActionStyleCancel handler:nil];
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"No Thanks", nil) style:UIAlertActionStyleCancel handler:nil];
 		[alert addAction:action];
 		[alert addAction:cancelAction];
 		[self presentViewController:alert animated:YES completion:nil];
@@ -245,6 +245,42 @@
 		} else {
 			[self presentViewController:[ErrorManager alertFromErrorIdentifier:SuecaErrorInvalidURL] animated:YES completion:nil];
 		}
+	} else if ([notification.name isEqualToString:SuecaNotificationRegisterForPromotions]) {
+		
+		dispatch_async(dispatch_get_main_queue(), ^(void) {
+			if (notification.userInfo) { //didError
+				
+				[TSMessage showNotificationInViewController:self
+													  title:NSLocalizedString(@"An error occurred when trying to register for promotions.", nil)
+												   subtitle:NSLocalizedString(@"Please play Sueca and wait for another invitation. We're sorry for the inconvenience.", nil)
+													  image:nil
+													   type:TSMessageNotificationTypeError
+												   duration:TSMessageNotificationDurationEndless
+												   callback:^{
+													   [AnalyticsManager logEvent:AnalyticsEventUpdatedViaNotificationInteraction];
+													   [TSMessage dismissActiveNotification];
+												   }
+												buttonTitle:nil
+											 buttonCallback:nil
+												 atPosition:TSMessageNotificationPositionTop
+									   canBeDismissedByUser:YES];
+			} else { //didSucceed
+				[TSMessage showNotificationInViewController:self
+													  title:NSLocalizedString(@"Successfully registered for promotions!", nil)
+												   subtitle:NSLocalizedString(@"Note that the giveaway prizes are only distributed within Brazil region.", nil)
+													  image:nil
+													   type:TSMessageNotificationTypeSuccess
+												   duration:TSMessageNotificationDurationEndless
+												   callback:^{
+													   [AnalyticsManager logEvent:AnalyticsEventUpdatedViaNotificationInteraction];
+													   [TSMessage dismissActiveNotification];
+												   }
+												buttonTitle:nil
+											 buttonCallback:nil
+												 atPosition:TSMessageNotificationPositionTop
+									   canBeDismissedByUser:YES];
+			}
+		});
 	} else {
 		NSLog(@"Unexpected notification: %@", notification);
 	}

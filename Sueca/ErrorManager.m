@@ -44,7 +44,7 @@
                      };
 		case SuecaErrorFailedToEmail:
 			return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Failed To Send Email", nil),
-					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Something unexpected hapenned and we weren't able to process the email.", nil),
+					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Something unexpected happened and we weren't able to process the email.", nil),
 					 NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Please try again later.", nil)
 					 };
 		case SuecaErrorInvalidURL:

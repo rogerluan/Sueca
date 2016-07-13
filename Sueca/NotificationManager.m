@@ -17,6 +17,7 @@
 		UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
 		[application registerForRemoteNotifications];
 		[application registerUserNotificationSettings:settings];
+		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"requestedNotificationPermission"];
 		[AnalyticsManager logEvent:AnalyticsEventNotificationPermissionView];
 	}
 }
@@ -24,11 +25,10 @@
 - (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion {
 	
 	[[CKContainer defaultContainer] accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError * _Nullable error) {
-		
+		[AnalyticsManager logEvent:AnalyticsEventCKAccountStatus withAttributes:@{@"status":[NSNumber numberWithInteger:accountStatus]}];
 		switch (accountStatus) {
 			case CKAccountStatusAvailable: {
 				[self registerForRemoteNotifications];
-				[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"requestedNotificationPermission"];
 				
 				NSPredicate *truePredicate = [NSPredicate predicateWithValue:YES];
 				CKSubscription *promotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation | CKSubscriptionOptionsFiresOnRecordUpdate];
@@ -39,7 +39,8 @@
 				contentPromotion.notificationInfo = notificationInfo;
 				
 				notificationInfo.shouldSendContentAvailable = NO;
-				notificationInfo.alertLocalizationKey = @"There's a new promotion going on! Open Sueca to check the prizes!";
+				notificationInfo.alertLocalizationKey = NSLocalizedString(@"There's a new promotion going on! Open Sueca to check the prizes!", nil);
+//				notificationInfo.alertLocalizationKey = NSLocalizedString(@"One of our promotions were updated. Open Sueca to check the news!", nil);
 				notificationInfo.shouldBadge = YES;
 				notificationInfo.soundName = UILocalNotificationDefaultSoundName;
 				promotion.notificationInfo = notificationInfo;
@@ -51,6 +52,7 @@
 						[AnalyticsManager logEvent:AnalyticsErrorFailedSubscriptionRegistration withAttributes:operationError.userInfo];
 					} else {
 						[AnalyticsManager logEvent:AnalyticsEventSuccessfullyRegisteredSubscription];
+						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:AnalyticsEventSuccessfullyRegisteredSubscription];
 					}
 					completion(operationError);
 				};
@@ -70,7 +72,6 @@
 				break;
 			}
 		}
-		[AnalyticsManager logEvent:AnalyticsEventCKAccountStatus withAttributes:@{@"status":[NSNumber numberWithInteger:accountStatus]}];
 	}];
 }
 
@@ -138,6 +139,7 @@
 		[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationActiveLocalNotification object:nil userInfo:userInfo];
 	}
 	[NotificationManager clearBadges];
+	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateLatestPromotion object:nil userInfo:userInfo];
 }
 
 + (NSInteger)pendingNotificationCount {

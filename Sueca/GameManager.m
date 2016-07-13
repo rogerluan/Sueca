@@ -32,7 +32,7 @@
     if (!(self = [super init])) return nil;
 	self.deck = [self deck];
 	[self refreshDeckArray];
-    return self;
+    return self;	
 }
 
 - (Card *)newCard {
@@ -44,9 +44,11 @@
 			if ([[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) { //have already requested, and needs display
 				displayCard.cardRule = NSLocalizedString(@"Tap here to re-enable promotions before you miss any!", nil);
 				displayCard.cardDescription = NSLocalizedString(@"I can't believe you disabled the promotions. Who denies drinking for free? Tap below to be warned of our future giveaways!", nil);
+				[AnalyticsManager logEvent:AnalyticsEventShouldDisplayPromoCard withAttributes:@{@"firstTimeDisplay":@NO}];
 			} else {
 				displayCard.cardRule = NSLocalizedString(@"Tap here to enable promotions before you miss any!", nil);
 				displayCard.cardDescription = NSLocalizedString(@"Running low on drinks? You just won an invite to receive drinking promotions! Tap below to be warned of our future giveaways!", nil);
+				[AnalyticsManager logEvent:AnalyticsEventShouldDisplayPromoCard withAttributes:@{@"firstTimeDisplay":@YES}];
 			}
 			
 			return displayCard;

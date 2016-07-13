@@ -29,6 +29,7 @@ static NSString * const SuecaNotificationActiveRemoteNotification = @"ActiveRemo
 static NSString * const SuecaNotificationActiveLocalNotification = @"ActiveLocalNotification";
 static NSString * const SuecaNotificationUpdateLatestPromotion = @"UpdateLatestPromotion";
 static NSString * const SuecaNotificationOpenURL = @"openURLnotification";
+static NSString * const SuecaNotificationRegisterForPromotions = @"RegisterForPromotion";
 
 //static NSString * const StatusBarDidChangeRect = @"StatusBarDidChangeRect";
 
