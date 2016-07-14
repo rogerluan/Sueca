@@ -11,6 +11,7 @@
 @implementation iVersionCoordinator
 
 - (void)awakeFromNib {
+	[super awakeFromNib];
 	[[iVersion sharedInstance] checkForNewVersion];
 	[[iVersion sharedInstance] setDelegate:self];
 }

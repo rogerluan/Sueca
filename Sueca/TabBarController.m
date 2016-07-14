@@ -38,9 +38,6 @@
 	self.CKManager = [CloudKitManager new];
 	[self registerForNotification];
 	
-	if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningNeverDecided) {
-		[[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningDisplay forKey:@"showShuffledDeckWarning"];
-	}
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
 		[Deck createDefaultDeck];
@@ -115,7 +112,6 @@
 #pragma mark - Notification Center -
 
 - (void)registerForNotification {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationDeckShuffled object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationNewVersionAvailable object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUserDidDeclineAppRating object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationActiveRemoteNotification object:nil];
@@ -129,27 +125,7 @@
 }
 
 - (void)didReceiveNotification:(NSNotification *)notification {
-	if ([notification.name isEqualToString:SuecaNotificationDeckShuffled]) {
-		
-		[TSMessage showNotificationInViewController:self
-											  title:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")
-										   subtitle:NSLocalizedString(@"There're no more cards to be drawn. We shuffled the deck for you.", @"Deck shuffled warning message")
-											  image:nil
-											   type:TSMessageNotificationTypeWarning
-										   duration:TSMessageNotificationDurationAutomatic
-										   callback:^{
-											   [TSMessage dismissActiveNotification];
-											   [AnalyticsManager logEvent:AnalyticsEventDeckShuffledInteraction];
-										   }
-										buttonTitle:NSLocalizedString(@"Got It",nil)
-									 buttonCallback:^{
-										 [[NSUserDefaults standardUserDefaults] setInteger:ShuffleDeckWarningSilence forKey:@"showShuffledDeckWarning"];
-										 [AnalyticsManager logEvent:AnalyticsEventOptedOutShuffleWarning withAttributes:notification.userInfo];
-									 }
-										 atPosition:TSMessageNotificationPositionTop
-							   canBeDismissedByUser:YES];
-		
-	} else if ([notification.name isEqualToString:SuecaNotificationNewVersionAvailable]) {
+	if ([notification.name isEqualToString:SuecaNotificationNewVersionAvailable]) {
 		
 		[TSMessage showNotificationInViewController:self
 											  title:NSLocalizedString(@"Update Available", @"Update available warning title")
@@ -205,6 +181,7 @@
 				});
 				[self showNotificationIfNeeded];
 			} else {
+				[[Crashlytics sharedInstance] recordError:error];
 				if ([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) {
 					[AnalyticsManager logEvent:AnalyticsErrorReceivedPushWithZeroPromo];
 				} else {
@@ -226,7 +203,7 @@
 														 atPosition:TSMessageNotificationPositionTop
 											   canBeDismissedByUser:YES];
 					});
-					[AnalyticsManager logEvent:AnalyticsErrorReceivedPushWithUnknownError withAttributes:error.userInfo];
+					[AnalyticsManager logEvent:AnalyticsErrorReceivedPushWithUnknownError];
 				}
 			}
 		}];
@@ -249,15 +226,37 @@
 		
 		dispatch_async(dispatch_get_main_queue(), ^(void) {
 			if (notification.userInfo) { //didError
-				
+				NSArray *subscriptionIDs = [[NSUserDefaults standardUserDefaults] objectForKey:@"PromotionSubscriptionIDs"];
+				for (NSString *subscriptionID in subscriptionIDs) {
+					NSError *partialError = [[notification.userInfo objectForKey:@"CKPartialErrors"] objectForKey:subscriptionID];
+					if (partialError.code == CKErrorServerRejectedRequest) {
+						[TSMessage showNotificationInViewController:self
+															  title:NSLocalizedString(@"You have already registered for promotions", nil)
+														   subtitle:NSLocalizedString(@"The current iCloud account has already registered for promotions, on this device or another one. Just wait patiently until we open more promotions!", nil)
+															  image:nil
+															   type:TSMessageNotificationTypeSuccess
+														   duration:TSMessageNotificationDurationEndless
+														   callback:^{
+															   [AnalyticsManager logEvent:AnalyticsEventPromoRegisterDuplicatedInteraction];
+															   [TSMessage dismissActiveNotification];
+														   }
+														buttonTitle:nil
+													 buttonCallback:nil
+														 atPosition:TSMessageNotificationPositionTop
+											   canBeDismissedByUser:YES];
+						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:RegisteredDuplicatedSubscription];
+						[[Crashlytics sharedInstance] recordError:partialError withAdditionalUserInfo:@{@"DidShowDuplicatedNotification":@YES}];
+						return;
+					}
+				}
 				[TSMessage showNotificationInViewController:self
-													  title:NSLocalizedString(@"An error occurred when trying to register for promotions.", nil)
+													  title:NSLocalizedString(@"An error occurred when trying to register for promotions", nil)
 												   subtitle:NSLocalizedString(@"Please play Sueca and wait for another invitation. We're sorry for the inconvenience.", nil)
 													  image:nil
 													   type:TSMessageNotificationTypeError
 												   duration:TSMessageNotificationDurationEndless
 												   callback:^{
-													   [AnalyticsManager logEvent:AnalyticsEventUpdatedViaNotificationInteraction];
+													   [AnalyticsManager logEvent:AnalyticsEventPromoRegisterErrorInteraction];
 													   [TSMessage dismissActiveNotification];
 												   }
 												buttonTitle:nil
@@ -272,7 +271,7 @@
 													   type:TSMessageNotificationTypeSuccess
 												   duration:TSMessageNotificationDurationEndless
 												   callback:^{
-													   [AnalyticsManager logEvent:AnalyticsEventUpdatedViaNotificationInteraction];
+													   [AnalyticsManager logEvent:AnalyticsEventPromoRegisterSuccessfulInteraction];
 													   [TSMessage dismissActiveNotification];
 												   }
 												buttonTitle:nil

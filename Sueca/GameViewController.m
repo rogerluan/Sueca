@@ -82,11 +82,13 @@
 - (IBAction)displayCardDescription:(id)sender {
 	if (self.swipeableView.topView) {
 		if ([self.displayCard.cardName isEqualToString:@"promoCard"]) {
-			if (![[NSUserDefaults standardUserDefaults] boolForKey:AnalyticsEventSuccessfullyRegisteredSubscription]) {
+			if (![[NSUserDefaults standardUserDefaults] boolForKey:SuccessfullyRegisteredSubscription] &&
+				![[NSUserDefaults standardUserDefaults] boolForKey:RegisteredDuplicatedSubscription]) {
 //				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) {
-					[self.notificationManager registerForPromotionsWithCompletion:^(NSError *error) {
-						[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationRegisterForPromotions object:self userInfo:error.userInfo];
-					}];
+				[self.notificationManager registerForPromotionsWithCompletion:^(NSError *error) {
+					[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationRegisterForPromotions object:self userInfo:error.userInfo];
+				}];
+				[self.swipeableView swipeTopViewToRight];
 			} else {
 				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 			}

@@ -14,6 +14,7 @@
 @synthesize delegate;
 
 - (void)awakeFromNib {
+	[super awakeFromNib];
     [AppearanceHelper addShadowToLayer:self.cardImageView.layer opacity:0.5 radius:3.0];
 }
 

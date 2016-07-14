@@ -26,7 +26,7 @@
 #pragma mark - Instance Methods - 
 
 - (void)fetchPromotionsWithCompletion:(PromotionsCompletionHandler)completion {
-
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(startDate <= %@) AND (endDate > %@)", [NSDate date], [NSDate date]];
 	
 	CKQuery *query = [[CKQuery alloc] initWithRecordType:@"Promotion" predicate:predicate];
@@ -40,12 +40,15 @@
 				[promotions addObject:promotion];
 			}
 		}
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 		completion(error, [promotions copy]);
 	}];
 }
 
 - (void)fetchLatestPromotionWithCompletion:(PromotionCompletionHandler)completion {
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	[self fetchPromotionsWithCompletion:^(NSError *error, NSArray<Promotion *> *promotions) {
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 		if (promotions.count > 0) {
 			completion(error, [promotions firstObject]);
 		} else {

@@ -11,10 +11,12 @@
 
 #pragma mark - Interactions & Gestures
 static NSString * const AnalyticsEventWelcomeBackInteraction = @"WelcomeBackInteraction";
-static NSString * const AnalyticsEventDeckShuffledInteraction = @"DeckShuffledInteraction";
 static NSString * const AnalyticsEventUpdatedViaNotificationInteraction = @"UpdatedViaNotificationInteraction";
 static NSString * const AnalyticsEventPromoNotificationInteraction = @"PromoNotificationInteraction";
 static NSString * const AnalyticsEventPromoErrorInteraction = @"PromoErrorInteraction";
+static NSString * const AnalyticsEventPromoRegisterSuccessfulInteraction = @"PromoRegisterSuccessfulInteraction";
+static NSString * const AnalyticsEventPromoRegisterErrorInteraction = @"PromoRegisterErrorInteraction";
+static NSString * const AnalyticsEventPromoRegisterDuplicatedInteraction = @"PromoRegisterDuplicatedInteraction";
 
 static NSString * const AnalyticsEventTapCardGesture = @"TapCardGesture";
 static NSString * const AnalyticsEventTapCardDuringTimer = @"TapCardDuringTimer";
@@ -53,7 +55,6 @@ static NSString * const AnalyticsEventiRateUserDidRequestReminderToRateApp = @"i
 static NSString * const AnalyticsEventiRateDidOpenAppStore = @"iRate DidOpenAppStore";
 
 #pragma mark - User Info
-static NSString * const AnalyticsEventOptedOutShuffleWarning = @"OptedOutShuffleWarning";
 static NSString * const AnalyticsEventCKAccountStatus = @"CKAccountStatus";
 
 #pragma mark - Card Manipulation

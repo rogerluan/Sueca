@@ -23,7 +23,7 @@
 }
 
 - (void)registerForPromotionsWithCompletion:(DidRegisterForPromotions)completion {
-	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	[[CKContainer defaultContainer] accountStatusWithCompletionHandler:^(CKAccountStatus accountStatus, NSError * _Nullable error) {
 		[AnalyticsManager logEvent:AnalyticsEventCKAccountStatus withAttributes:@{@"status":[NSNumber numberWithInteger:accountStatus]}];
 		switch (accountStatus) {
@@ -31,8 +31,9 @@
 				[self registerForRemoteNotifications];
 				
 				NSPredicate *truePredicate = [NSPredicate predicateWithValue:YES];
-				CKSubscription *promotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation | CKSubscriptionOptionsFiresOnRecordUpdate];
-				CKSubscription *contentPromotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation | CKSubscriptionOptionsFiresOnRecordUpdate];
+				CKSubscription *promotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation];
+				CKSubscription *contentPromotion = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordCreation];
+				CKSubscription *promotionEdit = [[CKSubscription alloc] initWithRecordType:@"Promotion" predicate:truePredicate options:CKSubscriptionOptionsFiresOnRecordUpdate];
 				
 				CKNotificationInfo *notificationInfo = [CKNotificationInfo new];
 				notificationInfo.shouldSendContentAvailable = YES;
@@ -40,19 +41,25 @@
 				
 				notificationInfo.shouldSendContentAvailable = NO;
 				notificationInfo.alertLocalizationKey = NSLocalizedString(@"There's a new promotion going on! Open Sueca to check the prizes!", nil);
-//				notificationInfo.alertLocalizationKey = NSLocalizedString(@"One of our promotions were updated. Open Sueca to check the news!", nil);
 				notificationInfo.shouldBadge = YES;
 				notificationInfo.soundName = UILocalNotificationDefaultSoundName;
 				promotion.notificationInfo = notificationInfo;
 				
-				CKModifySubscriptionsOperation *operation = [[CKModifySubscriptionsOperation alloc] initWithSubscriptionsToSave:@[promotion, contentPromotion] subscriptionIDsToDelete:nil];
+				notificationInfo.alertLocalizationKey = NSLocalizedString(@"One of our promotions were updated. Open Sueca to check the news!", nil);
+				promotionEdit.notificationInfo = notificationInfo;
+				
+				[[NSUserDefaults standardUserDefaults] setObject:@[promotion.subscriptionID, contentPromotion.subscriptionID, promotionEdit.subscriptionID] forKey:@"PromotionSubscriptionIDs"];
+				
+				CKModifySubscriptionsOperation *operation = [[CKModifySubscriptionsOperation alloc] initWithSubscriptionsToSave:@[promotion, promotionEdit, contentPromotion] subscriptionIDsToDelete:nil];
 				
 				operation.modifySubscriptionsCompletionBlock = ^(NSArray <CKSubscription *> * __nullable savedSubscriptions, NSArray <NSString *> * __nullable deletedSubscriptionIDs, NSError * __nullable operationError) {
+					[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 					if (operationError) {
-						[AnalyticsManager logEvent:AnalyticsErrorFailedSubscriptionRegistration withAttributes:operationError.userInfo];
+						[[Crashlytics sharedInstance] recordError:operationError];
+						[AnalyticsManager logEvent:AnalyticsErrorFailedSubscriptionRegistration];
 					} else {
 						[AnalyticsManager logEvent:AnalyticsEventSuccessfullyRegisteredSubscription];
-						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:AnalyticsEventSuccessfullyRegisteredSubscription];
+						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:SuccessfullyRegisteredSubscription];
 					}
 					completion(operationError);
 				};
@@ -76,6 +83,7 @@
 }
 
 + (void)clearBadges {
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
 		[CloudKitManager isUserLoggedIn:^(BOOL isUserLoggedIn) {
 			
@@ -83,8 +91,10 @@
 				[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
 				CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
 				clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
+					[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 					if (operationError) {
-						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges withAttributes:operationError.userInfo];
+						[[Crashlytics sharedInstance] recordError:operationError];
+						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges];
 						NSLog(@"Clear badge operation failed with operation error: %@", operationError);
 					}
 				};
@@ -120,7 +130,7 @@
 			completion(nil);
 		}
 	} else {
-		if (userInfo[@"aps"][@"content-available"]) {
+		if (!userInfo[@"aps"][@"content-available"]) { //a condition just to cross this only once 
 			NSLog(@"Active");
 			[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationActiveRemoteNotification object:nil userInfo:userInfo];
 			[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateLatestPromotion object:nil userInfo:userInfo];

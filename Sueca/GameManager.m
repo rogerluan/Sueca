@@ -155,18 +155,7 @@
 #pragma mark - Private Methods -
 
 - (BOOL)isCardAvailable {
-    /* If there're no more cards in the deck, it reshuffles and warns the user */
-//    NSLog(@"card count: %ld", (long)self.deckArray.count);
     if (self.deckArray.count == 0) {
-        /* Warns the user that the deck was reshuffled */
-        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"] == ShuffleDeckWarningDisplay) {
-            NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noShuffleDeckWarningCount"];
-            warningCount++;
-            [[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noShuffleDeckWarningCount"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationDeckShuffled object:nil userInfo:@{@"noShuffleDeckWarningCount":[NSNumber numberWithInteger:warningCount]}];
-        } else {
-            NSLog(@"showShuffledDeckWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showShuffledDeckWarning"]);
-        }
         return NO;
     }
     return YES;

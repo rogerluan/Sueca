@@ -23,13 +23,17 @@ static NSString * const CardCellIdentifier = @"cardCell";
 #pragma mark - Notification Center
 static NSString * const SuecaNotificationUserDidDeclineAppRating = @"UserDidDeclineAppRating";
 static NSString * const SuecaNotificationUpdateDeck = @"updateDeck";
-static NSString * const SuecaNotificationDeckShuffled = @"deckShuffled";
 static NSString * const SuecaNotificationNewVersionAvailable = @"newVersionAvailable";
 static NSString * const SuecaNotificationActiveRemoteNotification = @"ActiveRemoteNotification";
 static NSString * const SuecaNotificationActiveLocalNotification = @"ActiveLocalNotification";
 static NSString * const SuecaNotificationUpdateLatestPromotion = @"UpdateLatestPromotion";
 static NSString * const SuecaNotificationOpenURL = @"openURLnotification";
 static NSString * const SuecaNotificationRegisterForPromotions = @"RegisterForPromotion";
+
+#pragma mark - User Defaults
+
+static NSString * const SuccessfullyRegisteredSubscription = @"SuccessfullyRegisteredSubscription";
+static NSString * const RegisteredDuplicatedSubscription = @"RegisteredDuplicatedSubscription";
 
 //static NSString * const StatusBarDidChangeRect = @"StatusBarDidChangeRect";
 
@@ -38,12 +42,6 @@ typedef void(^DidRegisterForPromotions)(NSError *error);
 typedef void(^RemoteNotificationCompletionHandler)(NSError *error);
 typedef void(^PromotionsCompletionHandler)(NSError *error, NSArray <Promotion *> *promotions);
 typedef void(^PromotionCompletionHandler)(NSError *error, Promotion *promotion);
-
-typedef NS_ENUM(NSUInteger, ShuffleDeckWarning) {
-	ShuffleDeckWarningNeverDecided = 0,
-	ShuffleDeckWarningDisplay,
-	ShuffleDeckWarningSilence
-};
 
 #pragma mark - Deprecated Constants -
 

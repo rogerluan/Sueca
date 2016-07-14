@@ -157,13 +157,14 @@
 	UIBackgroundTaskIdentifier taskIdentifier = [application beginBackgroundTaskWithName:@"Task" expirationHandler:^{
 		NSLog(@"Task exceeded time limit.");
 	}];
-	
+
 	if (userInfo[@"aps"][@"content-available"] || userInfo[@"aps"][@"alert"]) {
 		[NotificationManager handleRemoteNotificationWithUserInfo:userInfo withCompletionHandler:^(NSError *error) {
 			[application endBackgroundTask:taskIdentifier];
 			if (error) {
 				NSLog(@"Handle remote notification with user info error: %@", error);
-				[AnalyticsManager logEvent:AnalyticsErrorHandleRemoteNotificationError withAttributes:error.userInfo];
+				[[Crashlytics sharedInstance] recordError:error];
+				[AnalyticsManager logEvent:AnalyticsErrorHandleRemoteNotificationError];
 				completionHandler(UIBackgroundFetchResultFailed);
 			} else {
 				completionHandler(UIBackgroundFetchResultNewData);

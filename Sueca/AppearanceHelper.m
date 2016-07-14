@@ -146,10 +146,10 @@
 #pragma mark - TSMessage
 
 + (void)customizeMessageView:(TSMessageView *)messageView {
-	if (![messageView.title isEqualToString:NSLocalizedString(@"Deck Shuffled", @"Deck shuffled warning title")] &&
-		![messageView.title isEqualToString:NSLocalizedString(@"Update Available", @"Update available warning title")] &&
+	if (![messageView.title isEqualToString:NSLocalizedString(@"Update Available", @"Update available warning title")] &&
 		![messageView.title isEqualToString:NSLocalizedString(@"Successfully registered for promotions!", nil)] &&
-		![messageView.title isEqualToString:NSLocalizedString(@"An error occurred when trying to register for promotions.", nil)]) {
+		![messageView.title isEqualToString:NSLocalizedString(@"An error occurred when trying to register for promotions", nil)] &&
+		![messageView.title isEqualToString:NSLocalizedString(@"You have already registered for promotions", nil)]) {
 		
 		for (UIView *view in messageView.subviews) {
 			if ([view isKindOfClass:[TSBlurView class]]) {
