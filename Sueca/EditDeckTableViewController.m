@@ -74,7 +74,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.thisDeck) {
-        return DEFAULT_NUMBER_OF_CARDS;
+        return CUSTOM_NUMBER_OF_CARDS;
     } else {
         return [_fetchedResultsController.fetchedObjects count];
     }

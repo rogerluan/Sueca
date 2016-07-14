@@ -96,6 +96,7 @@
                     NSLog(@"Successfully solved a potential crash! Identifier: There was no deck being used, so it selected default deck to be used.");
                 }
             } else {
+				
                 @throw [NSException exceptionWithName:@"noDefaultDeck" reason:@"For some reason, the default deck wasn't instantiated." userInfo:nil];
             }
         }
@@ -110,6 +111,7 @@
         }
         @finally {
             NSLog(@"Successfully solved a potential crash! Hell yeah!");
+			[AnalyticsManager logEvent:AnalyticsEventSolvedPotentialCrash];
             return self.deck;
         }
     } else {

@@ -89,6 +89,7 @@ static NSString * const AnalyticsErrorFailedClearBadges = @"FailedClearBadges";
 static NSString * const AnalyticsErrorFailedLoadingPromotionsSilently = @"FailedLoadingPromotionsSilently";
 static NSString * const AnalyticsErrorHandleRemoteNotificationError = @"HandleRemoteNotificationError";
 static NSString * const AnalyticsErrorFailedSubscriptionRegistration = @"FailedSubscriptionRegistration";
+static NSString * const AnalyticsEventSolvedPotentialCrash = @"SolvedPotentialCrash";
 
 @interface AnalyticsManager : NSObject
 

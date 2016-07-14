@@ -59,7 +59,7 @@
 	deck.deckName = deckLabel;
 	deck.isEditable = [NSNumber numberWithBool:YES];
 	
-	for (int i = 0 ; i < DEFAULT_NUMBER_OF_CARDS ; i++) {
+	for (int i = 0 ; i < CUSTOM_NUMBER_OF_CARDS ; i++) {
 		Card *newCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 		newCard.cardName = [cardImages objectAtIndex:i];
 		newCard.cardRule = [cardRules objectAtIndex:i];
@@ -115,7 +115,7 @@
 		defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
 		
 		NSInteger i = 0;
-		for (; i < DEFAULT_NUMBER_OF_CARDS ; i++) {
+		for (; i < DEFAULT_NUMBER_OF_CARDS ; i++) { 
 			Card *defaultDeckCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 			defaultDeckCard.cardName = [cardImages objectAtIndex:i];
 			defaultDeckCard.cardRule = [cardRules objectAtIndex:i];

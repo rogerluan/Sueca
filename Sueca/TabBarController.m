@@ -34,16 +34,17 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	
-	self.gameManager = [GameManager sharedInstance];
-	self.CKManager = [CloudKitManager new];
-	[self registerForNotification];
-	
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isFirstTimeRunning"]) {
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isFirstTimeRunning"];
 		[Deck createDefaultDeck];
 	} else {
 		[self performSelector:@selector(showWelcomeBackMessage) withObject:nil afterDelay:3.0];
 	}
+	
+	self.gameManager = [GameManager sharedInstance];
+	self.CKManager = [CloudKitManager new];
+	[self registerForNotification];
+	
 }
 
 - (void)didReceiveMemoryWarning {
