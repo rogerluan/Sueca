@@ -17,4 +17,18 @@
 @dynamic cardDescription;
 @dynamic deck;
 
+- (NSDictionary *)attributes {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (self.cardName) {
+		[attributes addEntriesFromDictionary:@{@"CardName":self.cardName}];
+	}
+	if (self.cardRule) {
+		[attributes addEntriesFromDictionary:@{@"CardRule":self.cardRule}];
+	}
+	if (self.cardDescription) {
+		[attributes addEntriesFromDictionary:@{@"CardDesc":self.cardDescription}];
+	}
+	return [attributes copy];
+}
+
 @end

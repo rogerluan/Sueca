@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Card.h"
-#import "Deck.h"
-#import "a20AppDelegate.h"
 
-@interface GameViewController : UIViewController
+#import "ZLSwipeableView.h"
+#import "SuecaSwipeDeterminator.h"
+#import "SuecaViewAnimator.h"
+#import "CardView.h"
+
+@interface GameViewController : UIViewController <ZLSwipeableViewDataSource, ZLSwipeableViewDelegate>
 
 @end

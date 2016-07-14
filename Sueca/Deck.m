@@ -8,9 +8,6 @@
 
 #import "Deck.h"
 #import "Card.h"
-#import "GameManager.h"
-
-#define NUMBER_OF_CARDS 13
 
 @implementation Deck
 
@@ -18,6 +15,26 @@
 @dynamic isBeingUsed;
 @dynamic isEditable;
 @dynamic cards;
+@dynamic defaultDeck;
+
+- (BOOL)isDefault {
+	if ([self.isEditable isEqualToNumber:@0] && ([self.deckName isEqualToString:@"Default"] || [self.deckName isEqualToString:@"Padrão"] || [self.deckName isEqualToString:@"Standard"])) {
+		return YES;
+	}
+	return NO;
+}
+
+- (BOOL)isDefaultDeck {
+	return [self isDefault];
+}
+
+- (NSDictionary *)attributes {
+	NSMutableDictionary *attributes = [NSMutableDictionary new];
+	if (self.deckName) {
+		[attributes addEntriesFromDictionary:@{@"Deck Name":self.deckName}];
+	}
+	return [attributes copy];
+}
 
 + (Deck *)newDeckWithLabel:(NSString *)deckLabel {
 	NSArray *cardRules = [[NSArray alloc] initWithObjects:@"Card Rule 1",
@@ -32,15 +49,17 @@
 						  @"Card Rule 10",
 						  @"Card Rule 11",
 						  @"Card Rule 12",
-						  @"Card Rule 13", nil];
+						  @"Card Rule 13",
+						  @"Card Rule 14", nil];
 	
-	NSArray *cardImages = [[NSArray alloc] initWithObjects: @"01-C",@"02-C",@"03-C",@"04-C",@"05-C",@"06-C",@"07-C",@"08-C",@"09-C",@"10-C",@"11-C",@"12-C",@"13-C", nil];
+	NSArray *cardImages = [[NSArray alloc] initWithObjects:@"01-C", @"02-C", @"03-C", @"04-C", @"05-C", @"06-C", @"07-C", @"08-C", @"09-C", @"10-C", @"11-C", @"12-C", @"13-C", @"14-C", nil];
 	
 	NSManagedObjectContext *moc = [self managedObjectContext];
 	Deck *deck = [NSEntityDescription insertNewObjectForEntityForName:@"Deck" inManagedObjectContext:moc];
 	deck.deckName = deckLabel;
+	deck.isEditable = [NSNumber numberWithBool:YES];
 	
-	for (int i = 0 ; i<NUMBER_OF_CARDS ; i++) {
+	for (int i = 0 ; i < CUSTOM_NUMBER_OF_CARDS ; i++) {
 		Card *newCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 		newCard.cardName = [cardImages objectAtIndex:i];
 		newCard.cardRule = [cardRules objectAtIndex:i];
@@ -52,7 +71,6 @@
 /**
  *  Method to initialize the default deck on the app first run.
  *  This will only be runned once.
- *  @author Roger Oba
  */
 + (void)createDefaultDeck {
 	if (![self defaultDeckExist]) {
@@ -96,7 +114,8 @@
 		defaultDeck.isEditable = [NSNumber numberWithBool:NO];
 		defaultDeck.isBeingUsed = [NSNumber numberWithBool:YES];
 		
-		for (int i = 0 ; i < NUMBER_OF_CARDS ; i++) {
+		NSInteger i = 0;
+		for (; i < DEFAULT_NUMBER_OF_CARDS ; i++) { 
 			Card *defaultDeckCard = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:moc];
 			defaultDeckCard.cardName = [cardImages objectAtIndex:i];
 			defaultDeckCard.cardRule = [cardRules objectAtIndex:i];
@@ -113,8 +132,6 @@
 
 
 /**
- *  @author Roger Oba
- *
  *  Verifies if the default deck already exists.
  *
  *  @return Returns the default deck if it exists, else nil.
@@ -133,7 +150,7 @@
 	NSArray *defaultDeckFetchedObjects = [moc executeFetchRequest:fetchRequest error:&error];
 	
 	NSLog(@"defaultDeckExist response: %ld",(long)defaultDeckFetchedObjects.count);
-	return defaultDeckFetchedObjects.count ? [defaultDeckFetchedObjects objectAtIndex:0] : nil;
+	return defaultDeckFetchedObjects.count > 0 ? [defaultDeckFetchedObjects firstObject] : nil;
 }
 
 #pragma mark - Core Data Method

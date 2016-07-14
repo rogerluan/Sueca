@@ -7,13 +7,14 @@
 //
 
 #import "a20AppDelegate.h"
-#import "iRateSetup.h"
-#import "FabricSetup.h"
-#import "AnalyticsManager.h"
-#import "AppearanceManager.h"
+#import "iRateCoordinator.h"
+#import "AppearanceHelper.h"
+#import "NotificationManager.h"
+#import "CloudKitManager.h"
 
-#import "TSMessage.h"
 #import <TSMessages/TSMessageView.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation a20AppDelegate
 
@@ -22,17 +23,15 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 + (void)initialize {
-    [iRateSetup setup];
+    [iRateCoordinator setup];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [AppearanceManager setup];
-    [FabricSetup setupWithLaunchOptions:launchOptions];
-    [iRateSetup resetEventCount];
-    
-    //TSMessages
+    [AppearanceHelper setup];
+    [iRateCoordinator resetEventCount];
+	[Fabric with:@[CrashlyticsKit]];
     [TSMessageView addNotificationDesignFromFile:@"SuecaNotificationDesign.json"];
-
+	[NotificationManager clearBadges];
     return YES;
 }
 
@@ -46,12 +45,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {}
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
+- (void)applicationWillTerminate:(UIApplication *)application {}
 
-- (void)saveContext
-{
+- (void)saveContext {
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
@@ -63,6 +59,10 @@
         }
     }
 }
+
+//- (void)application:(UIApplication *)application willChangeStatusBarFrame:(CGRect)newStatusBarFrame {
+//	[[NSNotificationCenter defaultCenter] postNotificationName:StatusBarDidChangeRect object:self userInfo:@{@"current status bar frame": [NSValue valueWithCGRect:newStatusBarFrame]}];
+//}
 
 #pragma mark - Core Data stack
 
@@ -145,6 +145,40 @@
 // Returns the URL to the application's Documents directory.
 - (NSURL *)applicationDocumentsDirectory {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+#pragma mark - Remote Notifications 
+
+/*
+ *  Used when receiving silent push notifications from background mode
+ *
+ */
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+	UIBackgroundTaskIdentifier taskIdentifier = [application beginBackgroundTaskWithName:@"Task" expirationHandler:^{
+		NSLog(@"Task exceeded time limit.");
+	}];
+
+	if (userInfo[@"aps"][@"content-available"] || userInfo[@"aps"][@"alert"]) {
+		[NotificationManager handleRemoteNotificationWithUserInfo:userInfo withCompletionHandler:^(NSError *error) {
+			[application endBackgroundTask:taskIdentifier];
+			if (error) {
+				NSLog(@"Handle remote notification with user info error: %@", error);
+				[[Crashlytics sharedInstance] recordError:error];
+				[AnalyticsManager logEvent:AnalyticsErrorHandleRemoteNotificationError];
+				completionHandler(UIBackgroundFetchResultFailed);
+			} else {
+				completionHandler(UIBackgroundFetchResultNewData);
+			}
+		}];
+	} else {
+		NSLog(@"Not relevant push notification");
+		[application endBackgroundTask:taskIdentifier];
+		completionHandler(UIBackgroundFetchResultNoData);
+	}
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+	[NotificationManager handleLocalNotificationWithUserInfo:notification.userInfo];
 }
 
 @end

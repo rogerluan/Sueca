@@ -7,123 +7,120 @@
 //
 
 #import "EditDeckTableViewController.h"
-
-#define NUMBER_OF_CARDS 13
+#import "CardRulesCell.h"
+#import "GameManager.h"
 
 @interface EditDeckTableViewController () <NSFetchedResultsControllerDelegate,CardRuleCellDelegate>
 
-@property (strong,nonatomic) NSManagedObjectContext *moc;
-@property (strong,nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSManagedObjectContext *moc;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
 @implementation EditDeckTableViewController
 
+#pragma mark - Lifecycle -
+
++ (instancetype)viewControllerWithDeck:(Deck *)deck {
+	UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MainStoryboard bundle:nil];
+	EditDeckTableViewController *instance = [storyboard instantiateViewControllerWithIdentifier:EditDeckTableViewControllerIdentifier];
+	instance.thisDeck = deck;
+	return instance;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    //register a gesture to dismiss keyboard when tapping away
-    [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self.view action:@selector(endEditing:)]];
-    
-    UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bg"]];
-    [tempImageView setFrame:self.tableView.frame];
-    self.tableView.backgroundView = tempImageView;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
-    if (self.thisDeck) { //editting deck
-        NSError *error;
-        if (![[self fetchedResultsController] performFetch:&error]) {
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
-        self.title = NSLocalizedString(self.thisDeck.deckName, nil);
-    } else { //it's a new deck
-        self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
-		self.thisDeck = [Deck newDeckWithLabel:self.deckLabel];
-        NSError *error;
-        if (![[self fetchedResultsController] performFetch:&error]) {
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        }
-    }
+	[self setupLayout];
+}
 
-    if ([self.thisDeck.isEditable isEqualToNumber:@1]) {
-        self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    }
+- (void)setupLayout {
+	UIImageView *tempImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
+	[tempImageView setFrame:self.tableView.frame];
+	self.tableView.backgroundView = tempImageView;
+	
+	if (self.thisDeck) { //editting deck
+		NSError *error;
+		if (![[self fetchedResultsController] performFetch:&error]) {
+			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+		}
+		self.title = NSLocalizedString(self.thisDeck.deckName, nil);
+	} else { //it's a new deck
+		self.title = NSLocalizedString(@"New Deck", @"Navigation bar title");
+		self.thisDeck = [Deck newDeckWithLabel:self.deckLabel];
+		[[GameManager sharedInstance] switchToDeck:self.thisDeck];
+		NSError *error;
+		if (![[self fetchedResultsController] performFetch:&error]) {
+			NSLog(@"Unresolved error %@, %@", error, error.userInfo);
+		}
+	}
+	
+	if ([self.thisDeck.isEditable isEqualToNumber:@YES]) {
+		self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	}
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
     NSError *error = nil;
     if(![self.moc save: &error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     } else {
         [self.navigationController popViewControllerAnimated:YES];
+		[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationUpdateDeck object:self userInfo:nil];
     }
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+#pragma mark - Table View Data Source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (!self.thisDeck) {
-        return NUMBER_OF_CARDS;
+        return CUSTOM_NUMBER_OF_CARDS;
     } else {
         return [_fetchedResultsController.fetchedObjects count];
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	
-    static NSString *cardCellIdentifier = @"cardCell";
-    CardRulesCell *cell = [tableView dequeueReusableCellWithIdentifier:cardCellIdentifier forIndexPath:indexPath];
+    CardRulesCell *cell = [tableView dequeueReusableCellWithIdentifier:CardCellIdentifier forIndexPath:indexPath];
     if (!cell) {
-        cell = [[CardRulesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cardCellIdentifier];
+        cell = [[CardRulesCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CardCellIdentifier];
     }
     
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
 
-/**
- *  @author Roger Oba
- *
- *  Method used to configure UITableViewCells
- *
- *  @param cell      the cell that is being configured
- *  @param indexPath the indexPath of the given cell
- */
 - (void)configureCell:(CardRulesCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    Card *reusableCard  = nil;
-    //Validate fetchedResultsController
-    if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:[indexPath section]];
-        if ([sectionInfo numberOfObjects] >= [indexPath row]){
-            reusableCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        }
-    }
-    if (reusableCard) {
-        cell.cardImageView.image = [UIImage imageNamed:reusableCard.cardName];
-        cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule,nil);
-        
-        if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription==nil) {
-            cell.cardDescriptionTextView.textColor = [UIColor lightGrayColor];
-            cell.cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
-        } else {
-            cell.cardDescriptionTextView.textColor = [UIColor whiteColor];
-            cell.cardDescriptionTextView.text = NSLocalizedString(reusableCard.cardDescription,nil);
-        }
-        cell.delegate = self;
-        cell.cardRuleTextField.tag = indexPath.row;
-        cell.cardDescriptionTextView.tag = indexPath.row;
-    }
-    
-    if ([self.thisDeck.isEditable isEqualToNumber:@0]) {
-        cell.cardRuleTextField.userInteractionEnabled = NO;
-        [cell.cardDescriptionTextView setEditable:NO];
-    }
+	Card *reusableCard = nil;
+	//Validate fetchedResultsController
+	if ([[self.fetchedResultsController sections] count] >= [indexPath section]){
+		id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:[indexPath section]];
+		if ([sectionInfo numberOfObjects] >= [indexPath row]){
+			reusableCard = [self.fetchedResultsController objectAtIndexPath:indexPath];
+		}
+	}
+	
+	if (reusableCard) {
+		NSString *tableOptimizedImagePath = [reusableCard.cardName stringByAppendingString:@"-TableOptimized"];
+		cell.cardImageView.image = [UIImage imageNamed:tableOptimizedImagePath];
+		cell.cardRuleTextField.text = NSLocalizedString(reusableCard.cardRule, nil);
+		
+		if ([reusableCard.cardDescription isEqualToString:@""] || reusableCard.cardDescription == nil) {
+			cell.cardDescriptionTextView.textColor = [UIColor lightGrayColor];
+			cell.cardDescriptionTextView.text = NSLocalizedString(@"Tap to add a description", nil);
+		} else {
+			cell.cardDescriptionTextView.textColor = [UIColor whiteColor];
+			cell.cardDescriptionTextView.text = NSLocalizedString(reusableCard.cardDescription, nil);
+		}
+		cell.delegate = self;
+		cell.cardRuleTextField.tag = indexPath.row;
+		cell.cardDescriptionTextView.tag = indexPath.row;
+	}
+	
+	if ([self.thisDeck.isEditable isEqualToNumber:@0]) {
+		cell.cardRuleTextField.userInteractionEnabled = NO;
+		[cell.cardDescriptionTextView setEditable:NO];
+	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -139,7 +136,9 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         Card *cardToBeDeleted = [self.fetchedResultsController objectAtIndexPath:indexPath];
         [self.moc deleteObject:cardToBeDeleted];
-        
+		
+		[AnalyticsManager logEvent:AnalyticsEventDidDeleteCard withAttributes:cardToBeDeleted.attributes];
+		
         for (NSInteger i = indexPath.row ; i < ([tableView numberOfRowsInSection:0]-1) ; i++) {
             [tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForItem:i inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         }
@@ -239,12 +238,14 @@
 
 #pragma mark - CardRuleCellDelegate Methods
 
-- (void) cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextField:(UITextField *)cardRuleTextField {
+- (void)cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextField:(UITextField *)cardRuleTextField {
     NSLog(@"Pressed return from text field.");
+	[AnalyticsManager logEvent:AnalyticsEventDidPressReturnKeyFromTextField];
     [[(CardRulesCell*)cell cardDescriptionTextView] becomeFirstResponder];
 }
 
-- (void)cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextView:(UITextView *)cardDescriptionTextView    {
+- (void)cardRuleCell:(UITableViewCell *)cell didPressReturnKeyFromTextView:(UITextView *)cardDescriptionTextView {
+	[AnalyticsManager logEvent:AnalyticsEventDidPressReturnKeyFromTextView];
     NSLog(@"Pressed return from text view.");
     
     NSIndexPath *currentIndexPath = [self.tableView indexPathForCell:cell];
@@ -271,6 +272,8 @@
     if(![self.moc save: &error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+	
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardRule withAttributes:editedCard.attributes];
 }
 
 - (void)cardRuleCell:(UITableViewCell *)cell textViewDidEndEditingWithContent:(UITextView *)cardDescriptionTextView {
@@ -282,6 +285,8 @@
     if(![self.moc save: &error]) {
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
+
+	[AnalyticsManager logEvent:AnalyticsEventDidEditCardDescription withAttributes:editedCard.attributes];
 }
 
 @end

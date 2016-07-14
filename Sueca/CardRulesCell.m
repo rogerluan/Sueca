@@ -7,24 +7,33 @@
 //
 
 #import "CardRulesCell.h"
-#import "AppearanceManager.h"
+#import "AppearanceHelper.h"
 
 @implementation CardRulesCell
 
 @synthesize delegate;
 
 - (void)awakeFromNib {
-    [AppearanceManager addShadowToLayer:self.cardImageView.layer opacity:0.5 radius:3.0];
+	[super awakeFromNib];
+    [AppearanceHelper addShadowToLayer:self.cardImageView.layer opacity:0.5 radius:3.0];
 }
 
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-//}
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+}
 
 #pragma mark - UITextFieldDelegate Methods
 
--(BOOL)textFieldShouldReturn:(nonnull UITextField *)textField {
-    [self.delegate cardRuleCell:self didPressReturnKeyFromTextField:textField];
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+	if ([self.delegate respondsToSelector:@selector(cardRuleCell:textFieldDidBeginEditingWithContent:)]) {
+		[self.delegate cardRuleCell:self textFieldDidBeginEditingWithContent:textField];
+	}
+}
+
+- (BOOL)textFieldShouldReturn:(nonnull UITextField *)textField {
+	if ([self.delegate respondsToSelector:@selector(cardRuleCell:didPressReturnKeyFromTextField:)]) {
+		[self.delegate cardRuleCell:self didPressReturnKeyFromTextField:textField];
+	}
     return YES;
 }
 
@@ -35,13 +44,18 @@
     } else {
         NSLog(@"Text field has content: %@",cardRuleTextField.text);
         cardRuleTextField.textColor = [UIColor whiteColor];
-        [self.delegate cardRuleCell:self textFieldDidEndEditingWithContent:cardRuleTextField];
+		if ([self.delegate respondsToSelector:@selector(cardRuleCell:textFieldDidEndEditingWithContent:)]) {
+			[self.delegate cardRuleCell:self textFieldDidEndEditingWithContent:cardRuleTextField];
+		}
     }
 }
 
 #pragma mark - UITextViewDelegate Methods
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+	if ([self.delegate respondsToSelector:@selector(cardRuleCell:textViewDidBeginEditingWithContent:)]) {
+		[self.delegate cardRuleCell:self textViewDidBeginEditingWithContent:textView];
+	}
     if ([textView.text isEqualToString:NSLocalizedString(@"Tap to add a description", nil)]) {
         [textView setText: nil];
     }
@@ -59,14 +73,18 @@
     } else {
         NSLog(@"Text view has content: %@",trimmedTextViewContent);
         cardDescriptionTextView.text = trimmedTextViewContent;
-        [self.delegate cardRuleCell:self textViewDidEndEditingWithContent:cardDescriptionTextView];
+		if ([self.delegate respondsToSelector:@selector(cardRuleCell:textViewDidEndEditingWithContent:)]) {
+			[self.delegate cardRuleCell:self textViewDidEndEditingWithContent:cardDescriptionTextView];
+		}
     }
 }
 
 - (BOOL)textView:(nonnull UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(nonnull NSString *)text {
     
     if ([text isEqualToString:@"\n"]) {
-        [self.delegate cardRuleCell:self didPressReturnKeyFromTextView:textView];
+		if ([self.delegate respondsToSelector:@selector(cardRuleCell:didPressReturnKeyFromTextView:)]) {
+			[self.delegate cardRuleCell:self didPressReturnKeyFromTextView:textView];
+		}
         return NO;
     } else {
         return YES;

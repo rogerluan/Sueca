@@ -8,42 +8,46 @@
 
 #import "AnalyticsManager.h"
 #import "iRate.h"
-#import <Parse/Parse.h>
+
+/**
+ *
+ *  Places to add analytics
+ */
+
+//to-do: detect most engaging card(s) by calculating time of exposure
+
+static NSString * const kGlobalSortCount = @"globalSortCount";
 
 @implementation AnalyticsManager
 
 + (void)trackGlobalSortCount {
-    NSLog(@"Global Sort Count: %ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"]);
-    NSLog(@"Global Shuffle Count: %ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalShuffleCount"]);
-    NSDictionary *dimensions = @{@"globalSortCount":[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"]],
-                                 @"globalShuffleCount":[NSString stringWithFormat:@"%ld",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"globalShuffleCount"]]};
-    
-    [PFAnalytics trackEventInBackground:@"globalSortCount"
-                             dimensions:dimensions
-                                  block:^(BOOL succeeded, NSError *error) {
-                                      if (!error) {
-                                          NSLog(@"Successfully logged the 'globalSortCount' event");
-                                      }
-                                  }];
+	NSNumber *globalSortCount = [NSNumber numberWithInteger:[[NSUserDefaults standardUserDefaults] integerForKey:kGlobalSortCount]];
+	NSLog(@"\n\nGlobal Sort Count: %@\n", globalSortCount);
+    NSDictionary *attributes = @{kGlobalSortCount:globalSortCount};
+	[self logEvent:AnalyticsEventTrackGlobalSortCount withAttributes:attributes];
 }
 
 + (void)increaseGlobalSortCount {
     [[iRate sharedInstance] logEvent:NO];
-    
-    NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalSortCount"];
+    NSInteger globalSortCount = [[NSUserDefaults standardUserDefaults] integerForKey:kGlobalSortCount];
     globalSortCount++;
-    [[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:@"globalSortCount"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
+    [[NSUserDefaults standardUserDefaults] setInteger:globalSortCount forKey:kGlobalSortCount];
 }
 
-+ (void)increaseGlobalShuffleCount {
-    [[iRate sharedInstance] logEvent:NO];
-    
-    NSInteger globalShuffleCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"globalShuffleCount"];
-    globalShuffleCount++;
-    [[NSUserDefaults standardUserDefaults] setInteger:globalShuffleCount forKey:@"globalShuffleCount"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
++ (void)logEvent:(NSString *)eventName {
+	[self logEvent:eventName withAttributes:@{}];
+}
+
++ (void)logEvent:(NSString *)eventName withAttributes:(NSDictionary *)attributes {
+	[Answers logCustomEventWithName:eventName customAttributes:attributes];
+}
+
++ (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType {
+	[self logContentViewEvent:eventName contentType:contentType customAttributes:nil];
+}
+
++ (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType customAttributes:(NSDictionary *)attributes {
+	[Answers logContentViewWithName:eventName contentType:contentType contentId:nil customAttributes:attributes];
 }
 
 @end

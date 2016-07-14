@@ -15,8 +15,9 @@
 @property (strong, nonatomic) Deck *deck;
 @property (strong, nonatomic) NSMutableArray *deckArray;
 
-- (instancetype)init;
++ (instancetype)sharedInstance;
 - (Card *)newCard;
 - (void)refreshDeckArray;
+- (BOOL)switchToDeck:(Deck *)selectedDeck;
 
 @end

@@ -1,33 +1,21 @@
 
-/* Class = "IBUINavigationItem"; title = "Decks"; ObjectID = "FnG-FK-QSo"; */
-"FnG-FK-QSo.title" = "Baralhos";
+/* Class = "UIBarButtonItem"; title = "Edit"; ObjectID = "0Be-24-XKX"; */
+"0Be-24-XKX.title" = "Editar";
 
-/* Class = "IBUITabBarItem"; title = "Rules"; ObjectID = "R9w-nP-c0V"; */
+/* Class = "UITabBarItem"; title = "Decks"; ObjectID = "R9w-nP-c0V"; */
 "R9w-nP-c0V.title" = "Baralhos";
 
-/* Class = "IBUIButton"; highlightedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
-"YYI-LG-EaA.highlightedTitle" = "Puxar Carta";
+/* Class = "UINavigationItem"; title = "Decks"; ObjectID = "Y1T-XM-V8v"; */
+"Y1T-XM-V8v.title" = "Baralhos";
 
-/* Class = "IBUIButton"; normalTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
-"YYI-LG-EaA.normalTitle" = "Puxar Carta";
-
-/* Class = "IBUIButton"; selectedTitle = "Draw"; ObjectID = "YYI-LG-EaA"; */
-"YYI-LG-EaA.selectedTitle" = "Puxar Carta";
-
-/* Class = "IBUITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
+/* Class = "UITextView"; text = "Tap to edit card description"; ObjectID = "afF-zT-taB"; */
 "afF-zT-taB.text" = "Clique para editar a descrição";
 
-/* Class = "IBUITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
+/* Class = "UITextField"; placeholder = "Card Rule"; ObjectID = "tP5-AK-7Cl"; */
 "tP5-AK-7Cl.placeholder" = "Regra da Carta";
 
-/* Class = "IBUITabBarItem"; title = "Sueca"; ObjectID = "tuM-HQ-LNS"; */
+/* Class = "UITabBarItem"; title = "Sueca"; ObjectID = "tuM-HQ-LNS"; */
 "tuM-HQ-LNS.title" = "Sueca";
 
-/* Class = "IBUIButton"; highlightedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.highlightedTitle" = "Reembaralhar";
-
-/* Class = "IBUIButton"; normalTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.normalTitle" = "Reembaralhar";
-
-/* Class = "IBUIButton"; selectedTitle = "Shuffle Deck"; ObjectID = "xCu-rm-9dN"; */
-"xCu-rm-9dN.selectedTitle" = "Reembaralhar";
+/* Class = "UIButton"; normalTitle = "Long enough card description here."; ObjectID = "ulm-zI-B6S"; */
+"ulm-zI-B6S.normalTitle" = "Descrição longa o suficiente.";

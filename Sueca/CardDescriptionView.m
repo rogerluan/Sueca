@@ -7,8 +7,6 @@
 //
 
 #import "CardDescriptionView.h"
-#import "TSMessage.h"
-#import "Parse.h"
 
 #define ALERT_WIDTH 290.0
 #define HEADER_HEIGHT 44.0
@@ -39,7 +37,8 @@
         
         
         self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, self.cardImage.frame.origin.y+self.cardImage.bounds.size.height+DEFAULT_SPACING, ALERT_WIDTH, 40.0)];
-        
+		
+		
         //CARD TITLE & DESCRIPTION
         self.cardTitle = [[UILabel alloc] initWithFrame:CGRectMake(DEFAULT_SPACING, 0.0, ALERT_WIDTH-(DEFAULT_SPACING*2), 20.0)];
         self.cardDescription = [[UILabel alloc] initWithFrame:CGRectMake(DEFAULT_SPACING, self.cardTitle.frame.origin.y+self.cardTitle.bounds.size.height+(DEFAULT_SPACING/2), ALERT_WIDTH-(DEFAULT_SPACING*2), 20.0)];
@@ -51,7 +50,8 @@
         self.cardDescription.textAlignment = NSTextAlignmentCenter;
         
         [self.cardTitle setFont:[UIFont boldSystemFontOfSize:18]];
-        
+		
+		
         //CLOSE BUTTON
         UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0, 0.0, 44.0, 44.0)];
         closeButton.tag = 1;
@@ -112,11 +112,8 @@
  *  @param image image that will be displayed on the center of the alert
  *  @param title title of the achievement, displayed below the image
  *  @param description description of the achievement, displayed below the title. May scroll if too long.
- *
- *  @author Roger Oba
- *
  */
-- (void) showAlertWithHeader:(NSString*)header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
+- (void)showAlertWithHeader:(NSString*)header image:(UIImage*)image title:(NSString*)title description:(NSString*)description sender:(id)sender{
     
     NSLog(@"image: %@, title: %@, description: >%@<",image,title,description);
     
@@ -129,8 +126,7 @@
         
         if ([description isEqualToString:@""] || !description) {
             self.cardDescription.text = NSLocalizedString(@"You haven't described your card. Please go to your deck and add a description to your cards!", @"cardDescription on CardDescriptionView Popup");
-        }
-        else {
+        } else {
             self.cardDescription.text = description;
         }
         
@@ -169,9 +165,7 @@
             //Determines the scrollable area (without extra bottom space)
             [self.scrollView setContentSize:CGSizeMake(ALERT_WIDTH,
                                                        self.cardDescription.frame.origin.y+self.cardDescription.frame.size.height+DEFAULT_SPACING)];
-        }
-        //else messages are too big
-        else {
+        } else { //else messages are too big
             //Updates the scrollView Frame
             self.scrollView.frame = CGRectMake(self.scrollView.frame.origin.x,
                                                self.scrollView.frame.origin.y,
@@ -189,45 +183,9 @@
             
         }
         [self show];
-    }
-    else {
+    } else {
         NSLog(@"Error with invalid image: %@ and title: %@",image,title);
-        /*
-        NSLog(@"Called method with invalid values: header: %@ image: %@ title: %@ description: %@",header,image,title,description);
-
-        NSInteger warningCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"noDescriptionWarningCount"];
-        
-        warningCount++;
-        [[NSUserDefaults standardUserDefaults] setInteger:warningCount forKey:@"noDescriptionWarningCount"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        if ([[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 1) {
-            UIViewController *senderViewController = sender;
-            [TSMessage showNotificationInViewController:senderViewController.tabBarController
-                                                  title:NSLocalizedString(@"Missing Description", @"No card description alert")
-                                               subtitle:NSLocalizedString(@"There's no detailed description for this card. Edit your custom deck to add some description to the cards.", @"No card description alert")
-                                                  image:nil
-                                                   type:TSMessageNotificationTypeWarning
-                                               duration:TSMessageNotificationDurationAutomatic
-                                               callback:nil
-                                            buttonTitle:NSLocalizedString(@"Never Show Again",nil)
-                                         buttonCallback:^{
-                                             [[NSUserDefaults standardUserDefaults] setInteger:2 forKey:@"showNoDescriptionWarning"];
-                                             [[NSUserDefaults standardUserDefaults] synchronize];
-                                             
-                                             [PFAnalytics trackEventInBackground:@"showNoDescriptionWarning" dimensions:@{ @"warningCount": [NSString stringWithFormat:@"%ld",(long)warningCount]} block:^(BOOL succeeded, NSError *error) {
-                                                 if (!error) {
-                                                     NSLog(@"Successfully logged the 'showNoDescriptionWarning' event");
-                                                 }
-                                             }];
-                                         }
-                                             atPosition:TSMessageNotificationPositionTop
-                                   canBeDismissedByUser:YES];
-        }
-        else {
-            NSLog(@"showNoDescriptionWarning = %ld\nIf it's 0, bug. Else if it's 2, user opted out.",(long)[[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"]);
-        }
-         */
+		
     }
 }
 

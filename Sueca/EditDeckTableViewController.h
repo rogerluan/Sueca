@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "Deck.h"
-#import "Card.h"
-#import "CardRulesCell.h"
 
 @interface EditDeckTableViewController : UITableViewController
 
 @property (strong,nonatomic) Deck *thisDeck;
 @property (strong,nonatomic) NSString *deckLabel;
+
++ (instancetype)viewControllerWithDeck:(Deck *)deck;
 
 @end

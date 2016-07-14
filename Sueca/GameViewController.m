@@ -7,225 +7,242 @@
 //
 
 #import "GameViewController.h"
-
 #import "CardDescriptionView.h"
-#import "JBWhatsAppActivity.h"
-#import "AppearanceManager.h"
+#import "AppearanceHelper.h"
 #import "SoundManager.h"
-#import "AnalyticsManager.h"
 #import "GameManager.h"
+#import "NotificationManager.h"
+#import "ShareViewController.h"
 
-#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+@interface GameViewController () <UIGestureRecognizerDelegate, CustomIOS7AlertViewDelegate>
 
-#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
-#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
-#define SCREEN_MAX_LENGTH (MAX(SCREEN_WIDTH, SCREEN_HEIGHT))
-#define SCREEN_MIN_LENGTH (MIN(SCREEN_WIDTH, SCREEN_HEIGHT))
+@property (strong, nonatomic) IBOutlet UIButton *ruleButton;
+@property (strong, nonatomic) IBOutlet ZLSwipeableView *swipeableView;
 
-#define IS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
-#define IS_IPHONE_5 (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
-#define IS_IPHONE_6 (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
-#define IS_IPHONE_6P (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
-
-@interface GameViewController () <UIGestureRecognizerDelegate,CustomIOS7AlertViewDelegate>
-
-@property (weak, nonatomic) IBOutlet UIButton *shuffleDeckButton;
-@property (weak, nonatomic) IBOutlet UIButton *drawCardButton;
-@property (weak, nonatomic) IBOutlet UIButton *ruleButton;
-@property (strong, nonatomic) IBOutlet UIView *cardContainerView;
-@property (strong, nonatomic) IBOutlet UIImageView *gameLogo;
-
-@property (strong,nonatomic) Card *displayCard;
-@property (strong,nonatomic) UIImageView *previousCard;
+@property (assign) BOOL shouldUpdateDeck;
+@property (strong, nonatomic) Card *displayCard;
 
 @property (strong, nonatomic) SoundManager *soundManager;
 @property (strong, nonatomic) GameManager *gameManager;
+@property (strong, nonatomic) NotificationManager *notificationManager;
+
+@property (assign) BOOL shouldSwipe;
 
 @end
 
 @implementation GameViewController
 
+#pragma mark - Lifecycle -
+
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    //to-do: update GameVC to use factoryVC
-    self.soundManager = [SoundManager new];
-    self.gameManager = [GameManager new];
-    
-    [self setupViewsLayout];
+	[self setup];
+	[super viewDidLoad];
+	[self setupViewsLayout];
 }
 
-- (IBAction)displayCardDescription:(id)sender {
-    if ([self.cardContainerView.subviews count]) {
-        CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
-        [descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:self.displayCard.cardName] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
-        descriptionView.delegate = self;
-    }
+- (void)setup {
+	self.soundManager = [SoundManager new];
+	self.gameManager = [GameManager sharedInstance];
+	self.notificationManager = [NotificationManager new];
+	self.swipeableView.numberOfActiveViews = 10;
+	self.swipeableView.numberOfHistoryItem = 1;
+	self.swipeableView.viewAnimator = [SuecaViewAnimator new];
+	self.swipeableView.swipingDeterminator = [SuecaSwipeDeterminator new];
+	[self.swipeableView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedSwipeableView:)]];
+	self.swipeableView.translatesAutoresizingMaskIntoConstraints = NO;
+	self.shouldSwipe = YES;
+	[self registerForNotification];
+}
+
+- (void)dealloc {
+	[self unregisterForNotification];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.gameManager refreshDeckArray];
+	[super viewDidAppear:animated];
+	[self updateRuleLabel];
+	
+	if (self.shouldUpdateDeck) {
+		[self updateDeck];
+	}
+	
+	[AnalyticsManager logContentViewEvent:AnalyticsEventViewGameVC contentType:@"UIViewController"];
 }
 
-- (IBAction)sortCard:(id)sender {
-    [AnalyticsManager increaseGlobalSortCount];
-    [self sortCard];
+- (void)viewDidLayoutSubviews {
+	[self.swipeableView loadViewsIfNeeded];
 }
 
-- (IBAction)shuffleButton:(id)sender {
-    [AnalyticsManager increaseGlobalShuffleCount];
-    [self shuffle];
+- (BOOL)canBecomeFirstResponder {
+	return YES;
 }
 
-/**
- *  Calls game manager to sort a new card, displays and animates it.
- *  @author Roger Oba
- */
-- (void)sortCard {
-    
-    [self.soundManager playRandomCardSlideSoundFX];
-    self.displayCard = [self.gameManager newCard];
-    
-    /* Animation initialization and execution */
-    int containerWidth = self.cardContainerView.frame.size.width;
-    int containerHeight = self.cardContainerView.frame.size.height;
-    int indexX = arc4random()%(containerWidth-119);
-    int indexY = arc4random()%(containerHeight-177);
-    
-    CGRect newFrame = CGRectMake(indexX,indexY,119,177);
-    UIImageView *cardImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.displayCard.cardName]];
-    cardImage.layer.anchorPoint = CGPointMake(0.5,0.5);
-    CGAffineTransform transform = CGAffineTransformMakeRotation(2*M_PI);
-    
-    //Setting the previousCard
-    if (self.previousCard) {
-        for (UIGestureRecognizer *recognizer in self.previousCard.gestureRecognizers) {
-            [self.previousCard removeGestureRecognizer:recognizer];
-        }
-    }
-    self.previousCard = cardImage;
-    
-    [UIView animateWithDuration:0.5
-                          delay:0
-                        options:UIViewAnimationOptionCurveEaseOut
-                     animations:^{
-                         cardImage.transform = transform;
-                         cardImage.frame = newFrame;
-                     }
-                     completion:nil];
-    
-    for (UIImageView *view in [self.cardContainerView subviews]) {
-        if (![view isEqual:self.gameLogo] ) {
-            view.alpha/=1.2;
-        }
-        if (view.alpha <= 0.012579) { //removes invisible images
-            [view removeFromSuperview];
-        }
-    }
-    
-    [self.cardContainerView addSubview:cardImage];
-    
-    /* Shows the rule on screen */
-    [self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule,nil) forState:UIControlStateNormal];
-    
-    if (!self.displayCard.cardDescription && [[NSUserDefaults standardUserDefaults] integerForKey:@"showNoDescriptionWarning"] == 2) {
-        //user opted-out warning message, so we disable the button
-        [self.ruleButton setUserInteractionEnabled:NO];
-    }
+#pragma mark - IBActions -
+
+- (IBAction)displayCardDescription:(id)sender {
+	if (self.swipeableView.topView) {
+		if ([self.displayCard.cardName isEqualToString:@"promoCard"]) {
+			if (![[NSUserDefaults standardUserDefaults] boolForKey:SuccessfullyRegisteredSubscription] &&
+				![[NSUserDefaults standardUserDefaults] boolForKey:RegisteredDuplicatedSubscription]) {
+//				if (![[NSUserDefaults standardUserDefaults] boolForKey:@"requestedNotificationPermission"]) {
+				[self.notificationManager registerForPromotionsWithCompletion:^(NSError *error) {
+					[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationRegisterForPromotions object:self userInfo:error.userInfo];
+				}];
+				[self.swipeableView swipeTopViewToRight];
+			} else {
+				[[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+			}
+			
+			[AnalyticsManager logEvent:AnalyticsEventPushRegistrationButton];
+		} else {
+			CardDescriptionView *descriptionView = [[CardDescriptionView alloc] init];
+			NSString *imagePath = [NSString stringWithFormat:@"%@-TableOptimized", self.displayCard.cardName];
+			[descriptionView showAlertWithHeader:NSLocalizedString(@"#Sueca", @"Card description popover header") image:[UIImage imageNamed:imagePath] title:NSLocalizedString(self.displayCard.cardRule,nil) description:NSLocalizedString(self.displayCard.cardDescription,nil) sender:self];
+			descriptionView.delegate = self;
+			[AnalyticsManager logContentViewEvent:AnalyticsEventCardDescriptionView contentType:@"CardDescriptionView" customAttributes:self.displayCard.attributes];
+		}
+	}
 }
 
-/**
- *  Remove all cards on the screen.
- *  @author Roger Oba
- */
-- (void)clearTable {
-    for (UIImageView *view in [self.cardContainerView subviews]) {
-        if (![view isEqual:self.gameLogo] ) {
-            [UIView animateWithDuration:0.5
-                                  delay:0
-                                options:UIViewAnimationOptionCurveEaseOut
-                             animations:^{
-                                 view.alpha = 0;
-                             }
-                             completion: ^(BOOL finished){
-                                 [view removeFromSuperview];
-                             }];
-        }
-    }
-    [self.ruleButton setTitle:@"" forState:UIControlStateNormal];
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+	if (event.subtype == UIEventSubtypeMotionShake) {
+		if (self.swipeableView.history.count > 0) {
+			UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Undo Action", @"UIAlertController title") message:NSLocalizedString(@"You shook your device, so the previous card will be rewinded. Only the last card can be rewinded. Are you sure you want to do this?", nil) preferredStyle:UIAlertControllerStyleAlert];
+			UIAlertAction *action = [UIAlertAction actionWithTitle:NSLocalizedString(@"Rewind Card", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+				[self.swipeableView rewind];
+				[self updateRuleLabel];
+				[AnalyticsManager logEvent:AnalyticsEventShakeAcceptButton withAttributes:self.displayCard.attributes];
+			}];
+			UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil) style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+				[AnalyticsManager logEvent:AnalyticsEventShakeCancelButton withAttributes:self.displayCard.attributes];
+			}];
+			[alert addAction:action];
+			[alert addAction:cancelAction];
+			[self presentViewController:alert animated:YES completion:nil];
+		}
+		[AnalyticsManager logEvent:AnalyticsEventDidShakeDevice withAttributes:self.displayCard.attributes];
+	}
+	if ([super respondsToSelector:@selector(motionEnded:withEvent:)]) {
+		[super motionEnded:motion withEvent:event];
+	}
 }
 
-/**
- *  Method that do all the stuff related with the shuffling
- *  @author Roger Oba
- */
-- (void)shuffle {
-    [self.soundManager playShuffleSoundFX];
-    [self clearTable];
-    [self.gameManager refreshDeckArray];
+- (void)updateDeck {
+	self.shouldUpdateDeck = NO;
+	[self.soundManager playShuffleSoundFX];
+	[self.gameManager refreshDeckArray];
+	[self.swipeableView discardAllViews];
+	[self.swipeableView loadViewsIfNeeded];
+	[self updateRuleLabel];
 }
 
-#pragma mark - Style
+- (void)tappedSwipeableView:(UITapGestureRecognizer *)tap {
+	if (self.shouldSwipe) {
+		NSInteger swipeDirection = [[NSUserDefaults standardUserDefaults] integerForKey:@"swipeDirection"];
+		switch (swipeDirection) {
+			case 0: [self.swipeableView swipeTopViewToLeft];
+				break;
+			case 1: [self.swipeableView swipeTopViewToUp];
+				break;
+			case 2: [self.swipeableView swipeTopViewToRight];
+				break;
+			case 3: [self.swipeableView swipeTopViewToDown];
+				break;
+			default: [self.swipeableView swipeTopViewToRight];
+		}
+		if (swipeDirection >= 3) {
+			swipeDirection = 0;
+		} else {
+			swipeDirection++;
+		}
+		[[NSUserDefaults standardUserDefaults] setInteger:swipeDirection forKey:@"swipeDirection"];
+		[AnalyticsManager logEvent:AnalyticsEventTapCardGesture withAttributes:self.displayCard.attributes];
+	} else {
+		[self.swipeableView.topView.layer addAnimation:[AppearanceHelper shakeAnimation] forKey:@""];
+		self.swipeableView.topView.transform = CGAffineTransformIdentity;
+		[AnalyticsManager logEvent:AnalyticsEventTapCardDuringTimer withAttributes:self.displayCard.attributes];
+	}
+}
 
-/**
- *  Layouts the buttons accordingly, setting corners and borders.
- *  @author Roger Oba
- */
+#pragma mark - Appearance -
+
 - (void)setupViewsLayout {
-    self.drawCardButton.layer.cornerRadius = self.drawCardButton.frame.size.width/10;
-    self.drawCardButton.clipsToBounds = YES;
-    
-    self.shuffleDeckButton.layer.cornerRadius = self.shuffleDeckButton.frame.size.width/10;
-    self.shuffleDeckButton.clipsToBounds = YES;
-    
-    [self.ruleButton setTitle:@"" forState:UIControlStateNormal];
-    [self.ruleButton.titleLabel setTextAlignment: NSTextAlignmentCenter];
-    [self.ruleButton.titleLabel setNumberOfLines: 2];
-    
-    self.tabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
-    self.tabBarController.tabBar.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]];
-    
-    [AppearanceManager addShadowToLayer:self.ruleButton.layer opacity:0.9 radius:10.0];
-    
-    //to-do: fix this later. Recreate the background images and Use bitcode.
-    if (IS_IPHONE_5 || IS_IPHONE_4_OR_LESS) {
-        [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bg"]]];
-    } else {
-        [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background"]]];
-    }
+	[self.ruleButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+	[self.ruleButton.titleLabel setNumberOfLines:2];
+	[self.ruleButton.titleLabel setAdjustsFontSizeToFitWidth:YES];
+	[self.ruleButton.titleLabel setMinimumScaleFactor:15/25];
+	[AppearanceHelper addShadowToLayer:self.ruleButton.layer opacity:0.9 radius:10.0];
 }
 
+- (void)updateRuleLabel {
+	CardView *cardView = (CardView *)[self.swipeableView topView];
+	self.displayCard = [cardView card];
+	if ([self.displayCard.cardName isEqualToString:@"promoCard"]) {
+		self.swipeableView.allowedDirection = ZLSwipeableViewDirectionNone;
+		self.shouldSwipe = NO;
+		[UIView animateWithDuration:5
+							  delay:0
+							options:UIViewAnimationOptionCurveLinear
+						 animations:^{
+							 [CATransaction setCompletionBlock:^{
+								 self.swipeableView.allowedDirection = ZLSwipeableViewDirectionAll;
+								 self.shouldSwipe = YES;
+								 [UIView animateWithDuration:1 animations:^{
+									 cardView.progressBar.alpha = 0;
+								 }];
+							 }];
+							 [cardView.progressBar setProgress:1 animated:YES];
+						 } completion:nil];
+		[AnalyticsManager logContentViewEvent:AnalyticsEventViewPromoCard contentType:@"Custom Card"];
+	}
+	//to-do: the line below may cause unexpected strings if the user set a text that represents localized string accidentally.
+	[self.ruleButton setTitle:NSLocalizedString(self.displayCard.cardRule, nil) forState:UIControlStateNormal];
+}
 
 #pragma mark - CustomIOS7dialogButton Delegate Method
 
 - (void)customIOS7dialogButtonTouchUpInside:(id)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    NSString *sharingString = [NSString stringWithFormat: NSLocalizedString(@"Everyone's drinking shots on Sueca Drinking Game. Come over to have some fun! #sueca", @"Activity View Sharing String")];
-    UIImage *sharingImage = nil;
-    
-    if ([self.displayCard.deck.isEditable isEqualToNumber:@NO]) {
-        sharingImage = [UIImage imageNamed:self.displayCard.cardName];
-    } else {
-        sharingImage = [UIImage imageNamed:@"sharingSuecaLogoImage"];
-    }
+	[alertView close];
+	ShareViewController *activityViewController = [ShareViewController initWithCard:self.displayCard];
+	[self presentViewController:activityViewController animated:YES completion:nil];
+	[AnalyticsManager logContentViewEvent:AnalyticsEventShareActivityView contentType:@"UIActivityController" customAttributes:self.displayCard.attributes];
+}
 
-    NSURL *sharingURL = [NSURL URLWithString:@"bit.ly/1JwDmry"];
-    NSString *fullSharingString = [NSString stringWithFormat:@"%@ %@",sharingString,sharingURL];
-    WhatsAppMessage *whatsappMsg = [[WhatsAppMessage alloc] initWithMessage:fullSharingString forABID:nil];
-    
-    UIActivityViewController *activityViewController =
-    [[UIActivityViewController alloc] initWithActivityItems:@[fullSharingString,sharingImage,sharingURL,whatsappMsg]
-                                      applicationActivities:@[[[JBWhatsAppActivity alloc] init]]];
-    activityViewController.excludedActivityTypes = @[UIActivityTypePrint,
-                                                     UIActivityTypeCopyToPasteboard,
-                                                     UIActivityTypeAssignToContact,
-                                                     UIActivityTypeSaveToCameraRoll,
-                                                     UIActivityTypeAddToReadingList,
-                                                     UIActivityTypePostToFlickr,
-                                                     UIActivityTypePostToVimeo,
-                                                     UIActivityTypeAirDrop];
-    [alertView close];
-    [self presentViewController:activityViewController animated:YES completion:nil];
+#pragma mark - ZLSwipeableView Methods
+
+#pragma mark - ZLSwipeableViewDataSource
+
+- (UIView *)nextViewForSwipeableView:(ZLSwipeableView *)swipeableView {
+	CardView *view = [[CardView alloc] initWithFrame:self.swipeableView.bounds];
+	Card *card = [self.gameManager newCard];
+	view.card = card;
+	return view;
+}
+
+#pragma mark - ZLSwipeableViewDelegate
+
+- (void)swipeableView:(ZLSwipeableView *)swipeableView didSwipeView:(UIView *)view inDirection:(ZLSwipeableViewDirection)direction {
+	[self.soundManager playRandomCardSlideSoundFX];
+	[AnalyticsManager increaseGlobalSortCount];
+	[self updateRuleLabel];
+	NSDictionary *attributes = @{@"Direction":[NSNumber numberWithInteger:direction]};
+	[AnalyticsManager logEvent:AnalyticsEventDidSwipeCard withAttributes:attributes];
+}
+
+#pragma mark - Notification Center -
+
+- (void)registerForNotification {
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveNotification:) name:SuecaNotificationUpdateDeck object:nil];
+}
+
+- (void)unregisterForNotification {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didReceiveNotification:(NSNotification *)notification {
+	if ([notification.name isEqualToString:SuecaNotificationUpdateDeck]) {
+		self.shouldUpdateDeck = YES;
+	}
 }
 
 @end

@@ -1,85 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Szt-cu-6vb">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Szt-cu-6vb">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="HelveticaNeue.ttc">
             <string>HelveticaNeue-Bold</string>
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue</string>
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
             <string>HelveticaNeue-Light</string>
         </mutableArray>
     </customFonts>
     <scenes>
-        <!--Decks-->
-        <scene sceneID="vAi-am-QM7">
-            <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="Ymb-wB-Rge" customClass="DecksTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xEj-NU-2st">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="deckCell" id="Z21-WE-FIo">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Z21-WE-FIo" id="Scq-uN-jtP">
-                                    <rect key="frame" x="0.0" y="0.0" width="273" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.29803921570000003" green="0.85098039219999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Ymb-wB-Rge" id="vNi-nJ-y5z"/>
-                            <outlet property="delegate" destination="Ymb-wB-Rge" id="JsY-wc-UR0"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Decks" id="FnG-FK-QSo">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Do-Hz-Oht">
-                            <connections>
-                                <action selector="newDeck:" destination="Ymb-wB-Rge" id="FbR-vz-aqr"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <segue destination="Ayl-X3-1dY" kind="push" identifier="newDeck" id="Xo1-g4-6lH"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Zgb-gi-8D3" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1037" y="1127"/>
-        </scene>
         <!--Edit Deck Table View Controller-->
         <scene sceneID="9sa-w3-SHC">
             <objects>
-                <tableViewController storyboardIdentifier="editDeckTVC" id="Ayl-X3-1dY" customClass="EditDeckTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="EditDeckTableViewController" hidesBottomBarWhenPushed="YES" id="Ayl-X3-1dY" customClass="EditDeckTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="140" sectionHeaderHeight="22" sectionFooterHeight="22" id="ujM-WT-RMI">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" rowHeight="140" id="ZOU-2D-E7w" customClass="CardRulesCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="140"/>
+                                <rect key="frame" x="0.0" y="86" width="600" height="140"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZOU-2D-E7w" id="7KE-p6-meN">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="140"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="140"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ceC-aW-nx9">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ceC-aW-nx9">
                                             <rect key="frame" x="8" y="7" width="91" height="126"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="91" id="MnP-84-vGE"/>
                                             </constraints>
                                         </imageView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" restorationIdentifier="editDeckTVC" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Tap to edit card description" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="afF-zT-taB">
-                                            <rect key="frame" x="106" y="44" width="206" height="88"/>
+                                            <rect key="frame" x="106" y="44" width="486" height="88"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
@@ -89,7 +48,7 @@
                                             </connections>
                                         </textView>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Card Rule" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="tP5-AK-7Cl">
-                                            <rect key="frame" x="106" y="20" width="206" height="23"/>
+                                            <rect key="frame" x="106" y="20" width="486" height="23"/>
                                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="23" id="DSg-jR-66T"/>
@@ -132,136 +91,153 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HYi-vt-02E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1453" y="1127"/>
+            <point key="canvasLocation" x="2623" y="1190"/>
         </scene>
-        <!--Sueca-->
+        <!--Decks-->
+        <scene sceneID="CRi-Uz-CZi">
+            <objects>
+                <viewController id="bCl-s1-MV5" customClass="DecksViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cBi-V3-os0"/>
+                        <viewControllerLayoutGuide type="bottom" id="XPT-jo-5uv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qaR-e0-zn7">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelectionDuringEditing="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kwe-hF-jeh">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="deckCell" id="38f-i9-NEy">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="38f-i9-NEy" id="za4-YZ-3l3">
+                                            <rect key="frame" x="0.0" y="0.0" width="553" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.29803921570000003" green="0.85098039219999999" blue="0.3921568627" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="bCl-s1-MV5" id="hV2-kT-qUR"/>
+                                    <outlet property="delegate" destination="bCl-s1-MV5" id="EYC-0i-tfW"/>
+                                </connections>
+                            </tableView>
+                            <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TLu-ZK-BxP" customClass="PromotionView">
+                                <rect key="frame" x="0.0" y="551" width="600" height="0.0"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" placeholder="YES" id="hMX-yz-Fje"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="kwe-hF-jeh" firstAttribute="centerX" secondItem="qaR-e0-zn7" secondAttribute="centerX" id="1Xj-yf-G2u"/>
+                            <constraint firstItem="XPT-jo-5uv" firstAttribute="top" secondItem="kwe-hF-jeh" secondAttribute="bottom" id="EAb-sM-jXB"/>
+                            <constraint firstItem="kwe-hF-jeh" firstAttribute="top" secondItem="cBi-V3-os0" secondAttribute="bottom" constant="-64" id="LWi-j5-nax"/>
+                            <constraint firstItem="kwe-hF-jeh" firstAttribute="width" secondItem="qaR-e0-zn7" secondAttribute="width" id="PxH-kc-OCT"/>
+                            <constraint firstItem="TLu-ZK-BxP" firstAttribute="width" secondItem="qaR-e0-zn7" secondAttribute="width" id="bqV-Ce-Wxk"/>
+                            <constraint firstItem="XPT-jo-5uv" firstAttribute="top" secondItem="TLu-ZK-BxP" secondAttribute="bottom" id="pBd-el-MHC"/>
+                            <constraint firstItem="TLu-ZK-BxP" firstAttribute="centerX" secondItem="qaR-e0-zn7" secondAttribute="centerX" id="tEs-O1-cXQ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Decks" id="Y1T-XM-V8v">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="0Be-24-XKX">
+                            <connections>
+                                <action selector="editButtonPress:" destination="bCl-s1-MV5" id="hgD-Uv-f2P"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="A4c-Cs-H8O">
+                            <connections>
+                                <action selector="newDeck:" destination="bCl-s1-MV5" id="gLG-li-8cL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="editButton" destination="0Be-24-XKX" id="0mK-j5-E6E"/>
+                        <outlet property="tableView" destination="kwe-hF-jeh" id="oGH-72-G4C"/>
+                        <segue destination="Ayl-X3-1dY" kind="show" identifier="newDeck" id="SFR-IK-uD7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z5I-qO-TYs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1893" y="1190"/>
+        </scene>
+        <!--Data Source-->
         <scene sceneID="vy6-Ae-quP">
             <objects>
-                <viewController id="e59-W6-SjI" customClass="GameViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GameViewController" id="e59-W6-SjI" customClass="GameViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RHI-A2-7HN"/>
                         <viewControllerLayoutGuide type="bottom" id="cAJ-Xo-c3e"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="30Y-IR-idc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sueca-Background-Logo" highlightedImage="Sueca-Background-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="8im-dj-mjR">
-                                <rect key="frame" x="41" y="170" width="240" height="180"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="bNn-Bz-2tP"/>
-                                    <constraint firstAttribute="height" constant="180" id="l9E-kC-VUI"/>
-                                </constraints>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="f1N-QI-yoo">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YYI-LG-EaA">
-                                <rect key="frame" x="176" y="465" width="128" height="34"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="c3I-Ve-LsU"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Draw">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" title="Draw" backgroundImage="sort-card-pressed">
-                                    <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="highlighted" title="Draw" backgroundImage="sort-card-pressed"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="sortCard:" destination="e59-W6-SjI" eventType="touchUpInside" id="L1M-Vz-jh2"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLJ-8K-8S2" userLabel="CardContainerView">
-                                <rect key="frame" x="10" y="34" width="300" height="355"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ulm-zI-B6S">
-                                <rect key="frame" x="16" y="387" width="288" height="80"/>
+                                <rect key="frame" x="20" y="463" width="560" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="80" id="wFS-cg-cFT"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="BradleyHandITCTT-Bold" family="Bradley Hand" pointSize="25"/>
-                                <state key="normal" title="Long enough card description here">
+                                <state key="normal" title="Long enough card description here.">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="displayCardDescription:" destination="e59-W6-SjI" eventType="touchUpInside" id="EJy-NB-1XS"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" reversesTitleShadowWhenHighlighted="YES" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xCu-rm-9dN">
-                                <rect key="frame" x="16" y="465" width="128" height="34"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aLJ-8K-8S2" userLabel="SwipeableView" customClass="ZLSwipeableView">
+                                <rect key="frame" x="175" y="89" width="250" height="374"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="DAt-Z0-sYf"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="750" constant="130" id="neY-Et-7D7"/>
+                                    <constraint firstAttribute="height" relation="lessThanOrEqual" constant="400" id="2SM-lR-fJ4"/>
+                                    <constraint firstAttribute="width" secondItem="aLJ-8K-8S2" secondAttribute="height" multiplier="400:600" id="YiQ-bb-h5k"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                                <state key="normal" title="Shuffle Deck">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="selected" title="Shuffle Deck" backgroundImage="shuffle-cards-pressed"/>
-                                <state key="highlighted" title="Shuffle Deck" backgroundImage="shuffle-cards-pressed"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                        <color key="value" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <action selector="shuffleButton:" destination="e59-W6-SjI" eventType="touchUpInside" id="zih-19-zdv"/>
+                                    <outlet property="dataSource" destination="e59-W6-SjI" id="EqA-EG-G42"/>
+                                    <outlet property="delegate" destination="e59-W6-SjI" id="8HM-pr-t7o"/>
                                 </connections>
-                            </button>
+                            </view>
                         </subviews>
-                        <color key="backgroundColor" red="0.0016788328069288487" green="0.44867921270718231" blue="0.0026050026818604747" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="8im-dj-mjR" secondAttribute="centerY" constant="-0.5" id="2nb-Gq-o3i"/>
-                            <constraint firstItem="YYI-LG-EaA" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="centerX" constant="16" id="5gU-pB-FrZ"/>
-                            <constraint firstItem="xCu-rm-9dN" firstAttribute="width" secondItem="YYI-LG-EaA" secondAttribute="width" id="6x8-6P-r0n"/>
-                            <constraint firstItem="xCu-rm-9dN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="30Y-IR-idc" secondAttribute="leadingMargin" id="Aya-aJ-z0F"/>
-                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="YYI-LG-EaA" secondAttribute="bottom" constant="20" id="DdC-cg-sq2"/>
-                            <constraint firstItem="aLJ-8K-8S2" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leading" constant="10" id="ECX-l2-fbE"/>
-                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="YYI-LG-EaA" secondAttribute="trailing" id="Erm-fq-gFx"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="f1N-QI-yoo" secondAttribute="trailing" constant="-20" id="8hS-ug-8u6"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="aLJ-8K-8S2" secondAttribute="trailing" priority="750" id="F4e-DD-vzo"/>
                             <constraint firstItem="ulm-zI-B6S" firstAttribute="trailing" secondItem="30Y-IR-idc" secondAttribute="trailingMargin" id="F8u-Xs-uRl"/>
-                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="xCu-rm-9dN" secondAttribute="bottom" constant="20" id="QVd-ch-xEP"/>
-                            <constraint firstAttribute="centerX" secondItem="8im-dj-mjR" secondAttribute="centerX" constant="-0.5" id="Vn5-cb-CEn"/>
+                            <constraint firstItem="f1N-QI-yoo" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leadingMargin" constant="-20" id="Kcn-Sl-bve"/>
+                            <constraint firstItem="f1N-QI-yoo" firstAttribute="top" secondItem="RHI-A2-7HN" secondAttribute="bottom" constant="-20" id="Qve-bz-elT"/>
+                            <constraint firstItem="aLJ-8K-8S2" firstAttribute="centerX" secondItem="30Y-IR-idc" secondAttribute="centerX" id="Udw-n7-E8b"/>
                             <constraint firstItem="ulm-zI-B6S" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leadingMargin" id="bhA-a5-Uw5"/>
-                            <constraint firstItem="ulm-zI-B6S" firstAttribute="top" secondItem="aLJ-8K-8S2" secondAttribute="bottom" constant="-2" id="h2e-dz-Ain"/>
-                            <constraint firstAttribute="trailing" secondItem="aLJ-8K-8S2" secondAttribute="trailing" constant="10" id="u8I-4a-5EP"/>
-                            <constraint firstItem="xCu-rm-9dN" firstAttribute="top" secondItem="ulm-zI-B6S" secondAttribute="bottom" constant="-2" id="upN-aL-Hhy"/>
-                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="ulm-zI-B6S" secondAttribute="bottom" constant="52" id="xnI-ME-TTb"/>
-                            <constraint firstItem="aLJ-8K-8S2" firstAttribute="top" secondItem="RHI-A2-7HN" secondAttribute="bottom" constant="14" id="yCk-dZ-OBy"/>
-                            <constraint firstItem="xCu-rm-9dN" firstAttribute="trailing" secondItem="30Y-IR-idc" secondAttribute="centerX" constant="-16" id="zOt-c9-YYi"/>
+                            <constraint firstItem="ulm-zI-B6S" firstAttribute="top" secondItem="aLJ-8K-8S2" secondAttribute="bottom" priority="999" id="h2e-dz-Ain"/>
+                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="f1N-QI-yoo" secondAttribute="bottom" constant="-49" id="lkY-cI-v7k"/>
+                            <constraint firstItem="aLJ-8K-8S2" firstAttribute="leading" secondItem="30Y-IR-idc" secondAttribute="leadingMargin" priority="750" id="qnG-8Z-E0J"/>
+                            <constraint firstItem="aLJ-8K-8S2" firstAttribute="centerY" secondItem="30Y-IR-idc" secondAttribute="centerY" id="xkg-Zv-dzr"/>
+                            <constraint firstItem="cAJ-Xo-c3e" firstAttribute="top" secondItem="ulm-zI-B6S" secondAttribute="bottom" constant="8" id="xnI-ME-TTb"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Sueca" image="Sueca-Tab-Bar-Icon" id="tuM-HQ-LNS"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <connections>
-                        <outlet property="cardContainerView" destination="aLJ-8K-8S2" id="FPs-uf-34D"/>
-                        <outlet property="drawCardButton" destination="YYI-LG-EaA" id="skg-Kf-qzb"/>
-                        <outlet property="gameLogo" destination="8im-dj-mjR" id="3uZ-rl-lPW"/>
                         <outlet property="ruleButton" destination="ulm-zI-B6S" id="wuS-Xl-GN5"/>
-                        <outlet property="shuffleDeckButton" destination="xCu-rm-9dN" id="IF9-HC-fgq"/>
+                        <outlet property="swipeableView" destination="aLJ-8K-8S2" id="scy-b1-CUe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8UZ-iM-SUk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="607" y="461"/>
+            <point key="canvasLocation" x="1138.125" y="486.97183098591546"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="a6M-u7-A44">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Szt-cu-6vb" customClass="TabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" automaticallyAdjustsScrollViewInsets="NO" id="Szt-cu-6vb" customClass="TabBarController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -271,18 +247,22 @@
                         <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="ratingCoordinator" destination="rZS-Yq-INU" id="8Xf-VA-129"/>
+                        <outlet property="versioningCoordinator" destination="GXx-4b-BsG" id="vmZ-cm-OHh"/>
                         <segue destination="e59-W6-SjI" kind="relationship" relationship="viewControllers" id="IY8-zn-9c7"/>
                         <segue destination="fNX-ih-5hQ" kind="relationship" relationship="viewControllers" id="QAp-0W-Qzw"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NFB-M2-4Zn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="GXx-4b-BsG" customClass="iVersionCoordinator"/>
+                <customObject id="rZS-Yq-INU" customClass="iRateCoordinator"/>
             </objects>
-            <point key="canvasLocation" x="196" y="744"/>
+            <point key="canvasLocation" x="367.5" y="785.91549295774644"/>
         </scene>
         <!--Decks-->
         <scene sceneID="cSD-iy-3bP">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fNX-ih-5hQ" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="DecksNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="fNX-ih-5hQ" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Decks" image="decks" id="R9w-nP-c0V"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ItR-bA-6O1">
@@ -290,21 +270,24 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="lCl-qO-7ow">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
+                    </toolbar>
                     <connections>
-                        <segue destination="Ymb-wB-Rge" kind="relationship" relationship="rootViewController" id="VfD-Qr-AAc"/>
+                        <segue destination="bCl-s1-MV5" kind="relationship" relationship="rootViewController" id="zqq-Gp-mfF"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8hU-pO-3Kf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="607" y="1127"/>
+            <point key="canvasLocation" x="1138.125" y="1190.4929577464789"/>
         </scene>
     </scenes>
     <resources>
-        <image name="Sueca-Background-Logo" width="511" height="675"/>
         <image name="Sueca-Tab-Bar-Icon" width="23" height="30"/>
+        <image name="background" width="375" height="667"/>
         <image name="decks" width="30" height="30"/>
-        <image name="shuffle-cards-pressed" width="130" height="34"/>
-        <image name="sort-card-pressed" width="130" height="34"/>
     </resources>
     <color key="tintColor" red="0.99607849120000003" green="0.99215692280000001" blue="0.99215692280000001" alpha="1" colorSpace="deviceRGB"/>
 </document>

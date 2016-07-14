@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="HelveticaNeue.ttc">
+            <string>HelveticaNeue-Bold</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PromotionView"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="PromotionView">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kfc-lF-7ej">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <subviews>
+                        <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tIf-NG-t51">
+                            <rect key="frame" x="8" y="8" width="584" height="584"/>
+                            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="CgO-0a-Hzx">
+                                <rect key="frame" x="0.0" y="0.0" width="584" height="584"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sDf-46-WbJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="584" height="584"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ArN-Mo-kwF">
+                                            <rect key="frame" x="0.0" y="0.0" width="584" height="584"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SdX-C6-jvA">
+                                                    <rect key="frame" x="0.0" y="0.0" width="584" height="584"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Promotion Title" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="RH6-6f-Jxb">
+                                                            <rect key="frame" x="20" y="467" width="544" height="21"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rka-jD-4gb" userLabel="CTA Button">
+                                                            <rect key="frame" x="0.0" y="540" width="584" height="44"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="44" id="vIW-AI-M7Z"/>
+                                                            </constraints>
+                                                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <state key="normal" title="Like &amp; Share Our Fanpage">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                                    <real key="value" value="0.0"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                                    <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="0.0"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
+                                                            <connections>
+                                                                <action selector="didPressCTAbutton:" destination="iN0-l3-epB" eventType="touchUpInside" id="iAs-Ga-VK8"/>
+                                                            </connections>
+                                                        </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To participate on this promotion, you must visit our fanpage fb.com/suecadrinkinggame, like and share our page." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="YmM-iV-Xlx">
+                                                            <rect key="frame" x="8" y="496" width="568" height="36"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="rka-jD-4gb" firstAttribute="width" secondItem="SdX-C6-jvA" secondAttribute="width" id="0uK-RU-CjD"/>
+                                                        <constraint firstItem="rka-jD-4gb" firstAttribute="top" secondItem="YmM-iV-Xlx" secondAttribute="bottom" constant="8" id="5gv-hd-WT8"/>
+                                                        <constraint firstAttribute="trailing" secondItem="YmM-iV-Xlx" secondAttribute="trailing" constant="8" id="6Ab-51-ZUN"/>
+                                                        <constraint firstAttribute="trailing" secondItem="RH6-6f-Jxb" secondAttribute="trailing" constant="20" id="I21-BW-grL"/>
+                                                        <constraint firstItem="rka-jD-4gb" firstAttribute="centerX" secondItem="SdX-C6-jvA" secondAttribute="centerX" id="S1Y-5R-1MU"/>
+                                                        <constraint firstAttribute="bottom" secondItem="rka-jD-4gb" secondAttribute="bottom" id="ULQ-lP-VEB"/>
+                                                        <constraint firstItem="YmM-iV-Xlx" firstAttribute="top" secondItem="RH6-6f-Jxb" secondAttribute="bottom" constant="8" id="YXE-Ii-mgR"/>
+                                                        <constraint firstItem="RH6-6f-Jxb" firstAttribute="leading" secondItem="SdX-C6-jvA" secondAttribute="leading" constant="20" id="dX0-IR-QzH"/>
+                                                        <constraint firstItem="RH6-6f-Jxb" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SdX-C6-jvA" secondAttribute="top" constant="12" id="uNj-3G-tpD"/>
+                                                        <constraint firstItem="YmM-iV-Xlx" firstAttribute="leading" secondItem="SdX-C6-jvA" secondAttribute="leading" constant="8" id="w8h-W0-x7E"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                            <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="SdX-C6-jvA" firstAttribute="centerX" secondItem="ArN-Mo-kwF" secondAttribute="centerX" id="4WH-OV-bEI"/>
+                                                <constraint firstItem="SdX-C6-jvA" firstAttribute="width" secondItem="ArN-Mo-kwF" secondAttribute="width" id="XcA-00-WIG"/>
+                                                <constraint firstItem="SdX-C6-jvA" firstAttribute="centerY" secondItem="ArN-Mo-kwF" secondAttribute="centerY" id="knb-VQ-0Ti"/>
+                                                <constraint firstItem="SdX-C6-jvA" firstAttribute="height" secondItem="ArN-Mo-kwF" secondAttribute="height" id="vlH-sJ-g7X"/>
+                                            </constraints>
+                                        </view>
+                                        <vibrancyEffect>
+                                            <blurEffect style="dark"/>
+                                        </vibrancyEffect>
+                                    </visualEffectView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="sDf-46-WbJ" firstAttribute="centerY" secondItem="CgO-0a-Hzx" secondAttribute="centerY" id="DJB-7q-uZY"/>
+                                    <constraint firstItem="sDf-46-WbJ" firstAttribute="centerX" secondItem="CgO-0a-Hzx" secondAttribute="centerX" id="NbL-ai-tAu"/>
+                                    <constraint firstItem="sDf-46-WbJ" firstAttribute="height" secondItem="CgO-0a-Hzx" secondAttribute="height" id="kwA-HI-0dU"/>
+                                    <constraint firstItem="sDf-46-WbJ" firstAttribute="width" secondItem="CgO-0a-Hzx" secondAttribute="width" id="mz4-m6-poV"/>
+                                </constraints>
+                            </view>
+                            <blurEffect style="dark"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="10"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                    <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </visualEffectView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="tIf-NG-t51" firstAttribute="width" secondItem="kfc-lF-7ej" secondAttribute="width" constant="-16" id="Au8-Sj-CJU"/>
+                        <constraint firstItem="tIf-NG-t51" firstAttribute="centerX" secondItem="kfc-lF-7ej" secondAttribute="centerX" id="Zfc-ZI-9hD"/>
+                        <constraint firstItem="tIf-NG-t51" firstAttribute="height" secondItem="kfc-lF-7ej" secondAttribute="height" constant="-16" id="pzC-sZ-Ebx"/>
+                        <constraint firstItem="tIf-NG-t51" firstAttribute="centerY" secondItem="kfc-lF-7ej" secondAttribute="centerY" id="v3a-pl-5ct"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="kfc-lF-7ej" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="UAe-mW-ojg"/>
+                <constraint firstItem="kfc-lF-7ej" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="YYk-NO-PZs"/>
+                <constraint firstItem="kfc-lF-7ej" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="goe-21-m3S"/>
+                <constraint firstItem="kfc-lF-7ej" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="tzt-T2-HJn"/>
+            </constraints>
+            <connections>
+                <outlet property="button" destination="rka-jD-4gb" id="r9A-NH-Ycf"/>
+                <outlet property="contentView" destination="SdX-C6-jvA" id="pxA-J7-Uki"/>
+                <outlet property="instructions" destination="YmM-iV-Xlx" id="h9E-by-MaB"/>
+                <outlet property="title" destination="RH6-6f-Jxb" id="MLZ-cd-hG7"/>
+            </connections>
+            <point key="canvasLocation" x="1643" y="635"/>
+        </view>
+    </objects>
+</document>
