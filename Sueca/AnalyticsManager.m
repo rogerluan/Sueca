@@ -50,4 +50,19 @@ static NSString * const kGlobalSortCount = @"globalSortCount";
 	[Answers logContentViewWithName:eventName contentType:contentType contentId:nil customAttributes:attributes];
 }
 
++ (void)logShare:(NSString *)activityType withAttributes:(NSDictionary *)attributes {
+	[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:attributes];
+}
+
++ (void)logError:(NSError *)error {
+	[self logError:error withAttributes:nil];
+}
+
++ (void)logError:(NSError *)error withAttributes:(NSDictionary *)attributes {
+	if (attributes) {
+		return [[Crashlytics sharedInstance] recordError:error withAdditionalUserInfo:attributes];
+	}
+	[[Crashlytics sharedInstance] recordError:error];
+}
+
 @end

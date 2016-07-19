@@ -55,7 +55,7 @@
 				operation.modifySubscriptionsCompletionBlock = ^(NSArray <CKSubscription *> * __nullable savedSubscriptions, NSArray <NSString *> * __nullable deletedSubscriptionIDs, NSError * __nullable operationError) {
 					[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 					if (operationError) {
-						[[Crashlytics sharedInstance] recordError:operationError];
+						[AnalyticsManager logError:operationError];
 						[AnalyticsManager logEvent:AnalyticsErrorFailedSubscriptionRegistration];
 					} else {
 						[AnalyticsManager logEvent:AnalyticsEventSuccessfullyRegisteredSubscription];
@@ -93,7 +93,7 @@
 				clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
 					[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 					if (operationError) {
-						[[Crashlytics sharedInstance] recordError:operationError];
+						[AnalyticsManager logError:operationError];
 						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges];
 						NSLog(@"Clear badge operation failed with operation error: %@", operationError);
 					}

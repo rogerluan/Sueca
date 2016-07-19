@@ -182,7 +182,7 @@
 				});
 				[self showNotificationIfNeeded];
 			} else {
-				[[Crashlytics sharedInstance] recordError:error];
+				[AnalyticsManager logError:error];
 				if ([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) {
 					[AnalyticsManager logEvent:AnalyticsErrorReceivedPushWithZeroPromo];
 				} else {
@@ -246,7 +246,7 @@
 														 atPosition:TSMessageNotificationPositionTop
 											   canBeDismissedByUser:YES];
 						[[NSUserDefaults standardUserDefaults] setBool:YES forKey:RegisteredDuplicatedSubscription];
-						[[Crashlytics sharedInstance] recordError:partialError withAdditionalUserInfo:@{@"DidShowDuplicatedNotification":@YES}];
+						[AnalyticsManager logError:partialError withAttributes:@{@"DidShowDuplicatedNotification":@YES}];
 						return;
 					}
 				}

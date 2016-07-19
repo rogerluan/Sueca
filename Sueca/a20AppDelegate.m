@@ -163,7 +163,7 @@
 			[application endBackgroundTask:taskIdentifier];
 			if (error) {
 				NSLog(@"Handle remote notification with user info error: %@", error);
-				[[Crashlytics sharedInstance] recordError:error];
+				[AnalyticsManager logError:error];
 				[AnalyticsManager logEvent:AnalyticsErrorHandleRemoteNotificationError];
 				completionHandler(UIBackgroundFetchResultFailed);
 			} else {

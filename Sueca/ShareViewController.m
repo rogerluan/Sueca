@@ -47,7 +47,7 @@
 			[attributes addEntriesFromDictionary:@{@"Error":activityError.description}];
 		}
 		[attributes addEntriesFromDictionary:[self attributesForCard:card]];
-		[Answers logShareWithMethod:activityType contentName:AnalyticsEventDidShareCard contentType:nil contentId:nil customAttributes:[attributes copy]];
+		[AnalyticsManager logShare:activityType withAttributes:[attributes copy]];
 	}];
 	return viewController;
 }

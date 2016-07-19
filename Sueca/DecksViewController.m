@@ -362,7 +362,7 @@
 					[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@YES}];
 				});
 			} else {
-				[[Crashlytics sharedInstance] recordError:error];
+				[AnalyticsManager logError:error];
 				[AnalyticsManager logEvent:AnalyticsErrorFailedLoadingPromotionsSilently];
 				NSLog(@"Silent error when trying to fetch latest promotions: %@", error);
 			}

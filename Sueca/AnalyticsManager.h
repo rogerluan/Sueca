@@ -99,4 +99,7 @@ static NSString * const AnalyticsEventSolvedPotentialCrash = @"SolvedPotentialCr
 + (void)logEvent:(NSString *)eventName withAttributes:(NSDictionary *)attributes;
 + (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType;
 + (void)logContentViewEvent:(NSString *)eventName contentType:(NSString *)contentType customAttributes:(NSDictionary *)attributes;
++ (void)logShare:(NSString *)activityType withAttributes:(NSDictionary *)attributes;
++ (void)logError:(NSError *)error;
++ (void)logError:(NSError *)error withAttributes:(NSDictionary *)attributes;
 @end
