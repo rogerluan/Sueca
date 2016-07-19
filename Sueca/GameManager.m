@@ -178,7 +178,7 @@
 	
 	NSInteger notificationPermissionCount = [[NSUserDefaults standardUserDefaults] integerForKey:@"notificationPermissionCount"];
 	notificationPermissionCount++;
-	NSLog(@"Notification Permission Count = %ld/%ld", (long)notificationPermissionCount, (long)desiredNumber);
+//	NSLog(@"Notification Permission Count = %ld/%ld", (long)notificationPermissionCount, (long)desiredNumber);
 	
 	if (notificationPermissionCount >= desiredNumber) {
 		notificationPermissionCount = 0;

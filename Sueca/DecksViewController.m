@@ -354,7 +354,11 @@
 					if (animated) {
 						[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
 					}
+					[CATransaction setCompletionBlock:^{ //used to layoutsubviews after addsubview animation has ended.
+						[self.promotionView layoutSubviews];
+					}];
 					[self.view addSubview:self.promotionView];
+					
 					[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@YES}];
 				});
 			} else {
