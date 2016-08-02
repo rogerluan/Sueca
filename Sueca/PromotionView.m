@@ -37,8 +37,6 @@ static NSString * const kFacebookURL = @"https://www.facebook.com/suecadrinkingg
 	[self layoutSubviews];
 }
 
-
-
 - (IBAction)didPressCTAbutton:(UIButton *)sender {
 	NSURL *url = self.promotion.buttonURL?self.promotion.buttonURL:[NSURL URLWithString:kFacebookURL];
 	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationOpenURL object:self userInfo:@{@"url":url}];
@@ -47,9 +45,9 @@ static NSString * const kFacebookURL = @"https://www.facebook.com/suecadrinkingg
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
-	[self.title sizeToFit];
-	[self.instructions sizeToFit];
-	[self.button sizeToFit];
+//	[self.title sizeToFit];
+//	[self.instructions sizeToFit];
+//	[self.button sizeToFit];
 
 	CGFloat height = SMALL_PADDING*2 + self.button.frame.size.height +
 					   SMALL_PADDING + self.instructions.frame.size.height +

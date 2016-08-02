@@ -62,6 +62,10 @@
 					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"It seems that your iCloud account has parental control or device management restrictions.", nil),
 					 NSLocalizedRecoverySuggestionErrorKey: NSLocalizedString(@"Unfortunately, you won't be able to register to promotions using this iCloud account.", nil)
 					 };
+		case SuecaErrorUserLoggedOut:
+			return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Login Required", nil),
+					 NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"Please go to your device's settings and login to iCloud.", nil)
+					 };
         default:
             return @{NSLocalizedDescriptionKey: NSLocalizedString(@"Invalid Error", nil),
                      NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"The action generated an unexpected error.", nil)

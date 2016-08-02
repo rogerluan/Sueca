@@ -12,7 +12,8 @@
 typedef NS_ENUM(NSInteger, SuecaErrorIdentifier) {
     SuecaErrorNoValidPromotionsFound = 1001,
 	SuecaErrorFailedToEmail = 1002,
-	SuecaErrorInvalidURL = 1003
+	SuecaErrorInvalidURL = 1003,
+	SuecaErrorUserLoggedOut = 1004
 };
 
 @interface ErrorManager : NSObject

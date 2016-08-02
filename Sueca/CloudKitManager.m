@@ -39,9 +39,28 @@
 				Promotion *promotion = [Promotion promotionWithRecord:promoRecord];
 				[promotions addObject:promotion];
 			}
+			completion(nil, [promotions copy]);
+		} else {
+			if ([error.domain isEqualToString:CKErrorDomain] && (error.code == CKErrorRequestRateLimited || error.code == CKErrorServiceUnavailable)) {
+				NSInteger retryAfter = [[error.userInfo objectForKey:CKErrorRetryAfterKey] integerValue];
+				dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(retryAfter * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+					[[[CKContainer defaultContainer] publicCloudDatabase] performQuery:query inZoneWithID:nil completionHandler:^(NSArray<CKRecord *> * _Nullable results, NSError * _Nullable error) {
+						NSMutableArray *promotions = [NSMutableArray new];
+						if (!error) {
+							for (CKRecord *promoRecord in results) {
+								Promotion *promotion = [Promotion promotionWithRecord:promoRecord];
+								[promotions addObject:promotion];
+							}
+						}
+						[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+						completion(error, [promotions copy]);
+					}];
+				});
+			} else {
+				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+				completion(error, [promotions copy]);
+			}
 		}
-		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-		completion(error, [promotions copy]);
 	}];
 }
 

@@ -83,25 +83,30 @@
 }
 
 + (void)clearBadges {
-	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-		[CloudKitManager isUserLoggedIn:^(BOOL isUserLoggedIn) {
-			
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-				CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
-				clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
-					[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-					if (operationError) {
-						[AnalyticsManager logError:operationError];
-						[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges];
-						NSLog(@"Clear badge operation failed with operation error: %@", operationError);
-					}
-				};
-				[[CKContainer defaultContainer] addOperation:clearOperation];
-			});
-		}];
-	});
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:SuccessfullyRegisteredSubscription]) {
+		[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+		dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+			[CloudKitManager isUserLoggedIn:^(BOOL isUserLoggedIn) {
+				if (isUserLoggedIn) {
+					dispatch_async(dispatch_get_main_queue(), ^(void) {
+						[UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+						CKModifyBadgeOperation *clearOperation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:0];
+						clearOperation.modifyBadgeCompletionBlock = ^(NSError * __nullable operationError) {
+							[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+							if (operationError) {
+								[AnalyticsManager logError:operationError];
+								[AnalyticsManager logEvent:AnalyticsErrorFailedClearBadges];
+								NSLog(@"Clear badge operation failed with operation error: %@", operationError);
+							}
+						};
+						[[CKContainer defaultContainer] addOperation:clearOperation];
+					});
+				} else {
+					[AnalyticsManager logError:[ErrorManager errorForErrorIdentifier:SuecaErrorUserLoggedOut]];
+				}
+			}];
+		});
+	}
 }
 
 + (void)handleRemoteNotificationWithUserInfo:(NSDictionary *)userInfo withCompletionHandler:(RemoteNotificationCompletionHandler)completion {
