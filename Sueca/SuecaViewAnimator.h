@@ -6,7 +6,6 @@
 //  Copyright © 2016 Roger Luan. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "ZLSwipeableView.h"
 
 @interface SuecaViewAnimator : NSObject <ZLSwipeableViewAnimator>

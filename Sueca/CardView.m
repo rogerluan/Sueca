@@ -8,7 +8,6 @@
 
 #import "CardView.h"
 #import "PromotionCardView.h"
-#import "GameManager.h"
 
 @implementation CardView
 
