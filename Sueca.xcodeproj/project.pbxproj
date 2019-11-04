@@ -985,6 +985,7 @@
 				GCC_PREFIX_HEADER = "Sueca/Sueca-Prefix.pch";
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Cupula-Mobile.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1010,6 +1011,7 @@
 				GCC_PREFIX_HEADER = "Sueca/Sueca-Prefix.pch";
 				INFOPLIST_FILE = "Sueca/Sueca-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Cupula-Mobile.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
