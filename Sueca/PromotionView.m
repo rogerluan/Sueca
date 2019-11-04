@@ -40,14 +40,14 @@ static NSString * const kFacebookURL = @"https://www.facebook.com/suecadrinkingg
 - (IBAction)didPressCTAbutton:(UIButton *)sender {
 	NSURL *url = self.promotion.buttonURL?self.promotion.buttonURL:[NSURL URLWithString:kFacebookURL];
 	[[NSNotificationCenter defaultCenter] postNotificationName:SuecaNotificationOpenURL object:self userInfo:@{@"url":url}];
-	[AnalyticsManager logEvent:AnalyticsEventCTAButton withAttributes:@{@"url":url, @"buttonTitle":self.button.titleLabel}];
+	[AnalyticsManager logEvent:AnalyticsEventCTAButton withAttributes:@{@"url":url.absoluteString, @"buttonTitle":self.button.titleLabel}];
 }
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
-//	[self.title sizeToFit];
-//	[self.instructions sizeToFit];
-//	[self.button sizeToFit];
+	[self.title sizeToFit];
+	[self.instructions sizeToFit];
+	
 
 	CGFloat height = SMALL_PADDING*2 + self.button.frame.size.height +
 					   SMALL_PADDING + self.instructions.frame.size.height +
@@ -57,7 +57,7 @@ static NSString * const kFacebookURL = @"https://www.facebook.com/suecadrinkingg
 	
 	CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
 	CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-	CGFloat maxHeight = floor(screenHeight/3);
+	CGFloat maxHeight = floor(screenHeight/2.75);
     if (height > maxHeight) {
         height = maxHeight;
     }
