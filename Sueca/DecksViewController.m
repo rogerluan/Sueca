@@ -21,7 +21,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
 
 
-@property (strong, nonatomic) PromotionView *promotionView;
+//@property (strong, nonatomic) PromotionView *promotionView;
 @property (strong, nonatomic) NSManagedObjectContext *moc;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) GameManager *gameManager;
@@ -330,44 +330,44 @@
 }
 
 - (void)updatePromotionAnimated:(BOOL)animated {
-	[self.CKManager fetchLatestPromotionWithCompletion:^(NSError *error, Promotion *promotion) {
-		if (!error) {
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				if (self.promotionView) {
-					[self.promotionView removeFromSuperview];
-				}
-				self.promotionView = [PromotionView viewWithPromotion:promotion];
-				if (animated) {
-					[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
-				}
-				[self.view addSubview:self.promotionView];
-				[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@NO}];
-			});
-		} else {
-			dispatch_async(dispatch_get_main_queue(), ^(void) {
-				if (self.promotionView) {
-					[self.promotionView removeFromSuperview];
-				} else {
-					self.promotionView = [[[NSBundle mainBundle] loadNibNamed:@"PromotionView" owner:self options:nil] firstObject];
-				}
-				if (animated) {
-					[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
-				}
-				[CATransaction setCompletionBlock:^{ //used to layoutsubviews after addsubview animation has ended.
-					[self.promotionView layoutSubviews];
-				}];
-				[self.view addSubview:self.promotionView];
-				
-				[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@YES}];
-			});
-			if (!([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) &&
-				!([error.domain isEqualToString:CKErrorDomain] && error.code == CKErrorNetworkUnavailable)) {
-				[AnalyticsManager logError:error];
-				[AnalyticsManager logEvent:AnalyticsErrorFailedLoadingPromotionsSilently];
-				NSLog(@"Silent error when trying to fetch latest promotions: %@", error);
-			}
-		}
-	}];
+//	[self.CKManager fetchLatestPromotionWithCompletion:^(NSError *error, Promotion *promotion) {
+//		if (!error) {
+//			dispatch_async(dispatch_get_main_queue(), ^(void) {
+//				if (self.promotionView) {
+//					[self.promotionView removeFromSuperview];
+//				}
+//				self.promotionView = [PromotionView viewWithPromotion:promotion];
+//				if (animated) {
+//					[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
+//				}
+//				[self.view addSubview:self.promotionView];
+//				[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@NO}];
+//			});
+//		} else {
+//			dispatch_async(dispatch_get_main_queue(), ^(void) {
+//				if (self.promotionView) {
+//					[self.promotionView removeFromSuperview];
+//				} else {
+//					self.promotionView = [[[NSBundle mainBundle] loadNibNamed:@"PromotionView" owner:self options:nil] firstObject];
+//				}
+//				if (animated) {
+//					[self.promotionView.layer addAnimation:[AppearanceHelper pushFromBottom] forKey:nil];
+//				}
+//				[CATransaction setCompletionBlock:^{ //used to layoutsubviews after addsubview animation has ended.
+//					[self.promotionView layoutSubviews];
+//				}];
+//				[self.view addSubview:self.promotionView];
+//
+//				[AnalyticsManager logEvent:AnalyticsEventDidUpdatePromotionView withAttributes:@{@"animated":[NSNumber numberWithBool:animated], @"isDefaultView":@YES}];
+//			});
+//			if (!([error.domain isEqualToString:[[NSBundle mainBundle] bundleIdentifier]] && error.code == SuecaErrorNoValidPromotionsFound) &&
+//				!([error.domain isEqualToString:CKErrorDomain] && error.code == CKErrorNetworkUnavailable)) {
+//				[AnalyticsManager logError:error];
+//				[AnalyticsManager logEvent:AnalyticsErrorFailedLoadingPromotionsSilently];
+//				NSLog(@"Silent error when trying to fetch latest promotions: %@", error);
+//			}
+//		}
+//	}];
 }
 
 #pragma mark - Actions -

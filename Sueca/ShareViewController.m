@@ -17,7 +17,7 @@
 
 + (instancetype)initWithCard:(Card *)card {
 	
-	NSString *sharingString = [NSString stringWithFormat: NSLocalizedString(@"Everyone's drinking shots on Sueca Drinking Game. Come over to have some fun! #sueca", @"Activity View Sharing String")];
+	NSString *sharingString = [NSString stringWithFormat: NSLocalizedString(@"", @"Activity View Sharing String")];
 	UIImage *sharingImage = nil;
 	
 	if (card.deck.isDefault) {

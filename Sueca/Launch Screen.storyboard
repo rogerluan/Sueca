@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" initialViewController="01J-lp-oVM">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -16,25 +16,25 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="cx7-e9-WSx">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sueca-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="LJt-Qv-vxJ">
-                                <rect key="frame" x="90" y="100" width="420" height="400"/>
+                                <rect key="frame" x="62" y="248" width="290" height="400"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="LJt-Qv-vxJ" firstAttribute="centerX" secondItem="cx7-e9-WSx" secondAttribute="centerX" id="8I0-eN-mFu"/>
                             <constraint firstItem="LJt-Qv-vxJ" firstAttribute="width" secondItem="cx7-e9-WSx" secondAttribute="width" multiplier="70%" id="FrL-AX-iln"/>
                             <constraint firstItem="LJt-Qv-vxJ" firstAttribute="centerY" secondItem="cx7-e9-WSx" secondAttribute="centerY" id="Ksv-76-cko"/>
                             <constraint firstItem="cx7-e9-WSx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="OmU-53-VZm"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="cx7-e9-WSx" secondAttribute="bottom" id="geu-j6-QLv"/>
+                            <constraint firstAttribute="bottom" secondItem="cx7-e9-WSx" secondAttribute="bottom" id="geu-j6-QLv"/>
                             <constraint firstAttribute="trailingMargin" secondItem="cx7-e9-WSx" secondAttribute="trailing" constant="-20" id="nzL-Fk-j6W"/>
-                            <constraint firstItem="cx7-e9-WSx" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="-20" id="ssv-iy-VR9"/>
+                            <constraint firstItem="cx7-e9-WSx" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="ssv-iy-VR9"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -44,7 +44,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Sueca-Logo" width="408" height="400"/>
+        <image name="Sueca-Logo" width="408" height="400.5"/>
         <image name="background" width="375" height="667"/>
     </resources>
 </document>
